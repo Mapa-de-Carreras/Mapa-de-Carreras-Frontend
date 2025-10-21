@@ -1,3 +1,15 @@
+# Comandos para GitHub
+
+- Ver ramas locales: git branch
+
+- Ver ramas locales y remotas: git branch -a
+
+- Moverse de una rama a otra.
+Forma moderna:  git switch rama
+Forma clásica: git checkout rama
+Ambos funcionan igual
+Git creara la rama local si no existe
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
