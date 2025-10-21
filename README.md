@@ -10,6 +10,19 @@ Forma clásica: git checkout rama
 Ambos funcionan igual
 Git creara la rama local si no existe
 
+# Comandos para docker
+- Crear ambiente de desarrollo:
+docker-compose -f docker-compose.dev.yml up --build
+
+Esto expone la url http://localhost:3000
+cualquier cambio que se haga en la aplicación se reflejará en el docker
+
+- Crear el build para producción y exponerlo
+docker compose up
+
+Esto expone la url http://localhost:3000
+Estático, no se recarga si se hacen cambios, es para producción.
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
