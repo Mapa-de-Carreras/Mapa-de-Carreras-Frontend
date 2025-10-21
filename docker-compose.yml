@@ -1,0 +1,10 @@
+services:
+  frontend:
+    image: mapa-front
+    container_name: mapa-front-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    restart: unless-stopped
