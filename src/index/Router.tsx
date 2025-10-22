@@ -4,6 +4,7 @@ import App from "../shared/components/App/App";
 import PageBase from "../shared/components/PageBase/PageBase";
 import InstitutePage from "../modules/academic/InstitutesPage/InstitutesPage";
 import DegreePage from "../modules/academic/DegreePage/DegreePage";
+import LoginPage from "../modules/users/LoginPage/LoginPage";
 
 export default function Router() {
     const router = createBrowserRouter([
@@ -24,6 +25,10 @@ export default function Router() {
                 {
                     path: "institutos",
                     Component: InstitutePage,
+                },
+                   {
+                    path: "usuarios",
+                    Component: LoginPage,
                 },
             ],
         },
