@@ -1,0 +1,28 @@
+@import "tailwindcss";
+@plugin "@iconify/tailwind4";
+
+/* COLORES */
+
+@theme {
+    --color-fondo: #222;
+    --color-nav: #333;
+
+    --color-titulo: #eee;
+    --color-cuerpo: #eee;
+    --color-texto: #eee;
+}
+
+/* CONFIGURACIÓN DEL LAYOUT */
+
+html, body, #root {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+}
+
+* {
+    box-sizing: border-box;
+}
