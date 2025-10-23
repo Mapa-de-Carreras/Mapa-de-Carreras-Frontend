@@ -5,6 +5,8 @@ import PageBase from "../shared/components/PageBase/PageBase";
 import InstitutePage from "../modules/academic/InstitutesPage/InstitutesPage";
 import DegreePage from "../modules/academic/DegreePage/DegreePage";
 import LoginPage from "../modules/users/LoginPage/LoginPage";
+import RecoverUsername1 from "../modules/users/RecoverUserName/RecoverUsername1";
+import RecoverUsername2 from "../modules/users/RecoverUserName/RecoverUsername2";
 
 export default function Router() {
     const router = createBrowserRouter([
@@ -29,6 +31,14 @@ export default function Router() {
                    {
                     path: "usuarios",
                     Component: LoginPage,
+                },
+                {
+                    path: "recuperar-nombre-usuario-1",
+                    Component:RecoverUsername1,
+                },
+                 {
+                    path: "recuperar-nombre-usuario-2",
+                    Component:RecoverUsername2,
                 },
             ],
         },
