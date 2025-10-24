@@ -7,6 +7,9 @@ import DegreePage from "../modules/academic/DegreePage/DegreePage";
 import LoginPage from "../modules/users/LoginPage/LoginPage";
 import RecoverUsername1 from "../modules/users/RecoverUserName/RecoverUsername1";
 import RecoverUsername2 from "../modules/users/RecoverUserName/RecoverUsername2";
+import RecoverPassword1 from "../modules/users/RecoverPassword/RecoverPassword1";
+import RecoverPassword2 from "../modules/users/RecoverPassword/RecoverPassword2";
+import RecoverPassword3 from "../modules/users/RecoverPassword/RecoverPassword3";
 
 export default function Router() {
     const router = createBrowserRouter([
@@ -39,6 +42,18 @@ export default function Router() {
                  {
                     path: "recuperar-nombre-usuario-2",
                     Component:RecoverUsername2,
+                },
+                 {
+                    path: "recuperar-contraseña-1",
+                    Component:RecoverPassword1,
+                },
+                {
+                    path: "recuperar-contraseña-2",
+                    Component:RecoverPassword2,
+                },
+                {
+                    path: "recuperar-contraseña-3",
+                    Component:RecoverPassword3,
                 },
             ],
         },

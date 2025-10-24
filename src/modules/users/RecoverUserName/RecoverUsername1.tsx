@@ -1,18 +1,39 @@
 import PageBase from "../../../shared/components/PageBase/PageBase";
 import { useState } from "react";
 import type { FormEvent } from "react";
+import { useNavigate } from "react-router";
 
 export default function RecoverUsername1() {
   const [email, setEmail] = useState<string>("");
+  const [error, setError] = useState<string>(""); 
+  const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Validar que el campo mail no este vacio
+    if (!email.trim()) {
+      setError("Por favor, ingrese su email.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Ingrese un email válido.");
+      return;
+    }
+
+    setError(""); 
     console.log("Email:", email);
-    // Logica para recuperar nombre de usuario
+
+
+    navigate("/recuperar-nombre-usuario-2");
   };
 
   const handleCancel = () => {
     setEmail("");
+    setError("");
+    navigate(-1);
   };
 
   return (
@@ -39,8 +60,10 @@ export default function RecoverUsername1() {
                 placeholder="ejemplo@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
               />
+              {error && (
+                <p className="text-red-600 text-sm mt-1">{error}</p>
+              )}
             </div>
 
             <div className="flex gap-4 mt-2">

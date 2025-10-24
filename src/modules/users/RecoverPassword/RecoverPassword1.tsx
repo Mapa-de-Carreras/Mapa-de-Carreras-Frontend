@@ -1,59 +1,65 @@
 import PageBase from "../../../shared/components/PageBase/PageBase";
 import { useState } from "react";
 import type { FormEvent } from "react";
+import { useNavigate } from "react-router";
 
-export default function RecoverUsername2() {
-  const [codigo, setCodigo] = useState<string>("");
+export default function RecoverPassword1() {
+  const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string>(""); 
+  const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!codigo.trim()) {
-      setError("Por favor, ingrese el código de verificación.");
+    // Validar que el campo mail no este vacio
+    if (!email.trim()) {
+      setError("Por favor, ingrese su email.");
       return;
     }
 
-    if (codigo.length !== 5) {
-      setError("El código debe tener 5 dígitos.");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Ingrese un email válido.");
       return;
     }
 
-    setError("");
-    console.log("Código:", codigo);
+    setError(""); 
+    console.log("Email:", email);
 
+
+    navigate("/recuperar-contraseña-2");
   };
 
   const handleCancel = () => {
-    setCodigo("");
+    setEmail("");
     setError("");
+    navigate(-1);
   };
 
   return (
     <PageBase>
-      <div className="flex justify-center items-start h-screen pt-60 bg-gray-50">
-        <div className="bg-white shadow-md rounded-lg p-4 w-full max-w-md border border-gray-200">
-          <h1 className="text-xl font-semibold text-center mb-6 text-black">
-            Ingrese código de verificación de 5 dígitos
+     <div className="flex justify-center items-start h-screen pt-60 bg-gray-50">
+        <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-sm border border-gray-200">
+          <h1 className="text-2xl font-semibold text-center mb-6 text-black">
+            Recuperar Contraseña
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Email */}
             <div>
               <label
-                htmlFor="codigo"
+                htmlFor="email"
                 className="block text-base font-semibold mb-1 text-gray-800"
               >
-                Código
+                Email
               </label>
               <input
-                type="text"
-                id="codigo"
-                className={`w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black text-gray-500 ${
-                  error ? "border-red-500" : "border-gray-300"
-                }`}
-                placeholder="12345"
-                value={codigo}
-                onChange={(e) => setCodigo(e.target.value)}
+                type="email"
+                id="email"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black text-gray-500"
+                placeholder="ejemplo@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               {error && (
                 <p className="text-red-600 text-sm mt-1">{error}</p>
@@ -61,6 +67,7 @@ export default function RecoverUsername2() {
             </div>
 
             <div className="flex gap-4 mt-2">
+              {/* Cancelar */}
               <button
                 type="button"
                 onClick={handleCancel}
@@ -69,6 +76,7 @@ export default function RecoverUsername2() {
                 Cancelar
               </button>
 
+              {/* Confirmar */}
               <button
                 type="submit"
                 className="flex-1 bg-black text-white rounded-lg py-2 hover:bg-gray-800 transition"

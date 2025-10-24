@@ -1,10 +1,12 @@
 import PageBase from "../../../shared/components/PageBase/PageBase";
 import { useState } from "react";
 import type { FormEvent } from "react";
+import { useNavigate } from "react-router";
 
-export default function RecoverUsername2() {
+export default function RecoverPassword2() {
   const [codigo, setCodigo] = useState<string>("");
   const [error, setError] = useState<string>(""); 
+  const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,6 +23,7 @@ export default function RecoverUsername2() {
 
     setError("");
     console.log("Código:", codigo);
+    navigate("/recuperar-contraseña-3");
 
   };
 
