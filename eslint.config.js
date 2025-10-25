@@ -1,23 +1,56 @@
 import js from '@eslint/js'
 import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
+import pluginReact from 'eslint-plugin-react'
+import pluginReactHooks from 'eslint-plugin-react-hooks'
+import pluginReactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import { defineConfig } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+
+  js.configs.recommended,
+
+  ...tseslint.configs.recommended,
+
   {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-    ],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+    files: ["src/**/*.{ts,tsx}"],
+    plugins:{
+      "react": pluginReact,
+      "react-hooks": pluginReactHooks,
+      "react-refresh": pluginReactRefresh
     },
+
+    languageOptions: {
+      globals: {
+        ...globals.browser
+      }
+    },
+
+    rules: {
+      ...pluginReact.configs.recommended.rules,
+      ...pluginReactHooks.configs.recommended.rules,
+
+      "react-refresh/only-export-components":"warn",
+      "react/react-in-jsx-scope":"off",
+      "react/jsx-uses-react":"off"
+    },
+
+    settings: {
+      react: {
+        version: "detect"
+      }
+    }
+
   },
-])
+
+  {
+    ignores: [
+      "dist/",
+      "node_modules/",
+      ".git/",
+      "docker-compose*.yml",
+      "eslint.config.js"
+    ]
+  }
+  
+]);
