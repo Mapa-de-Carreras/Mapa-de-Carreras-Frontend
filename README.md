@@ -96,3 +96,11 @@ export default defineConfig([
   },
 ])
 ```
+## Problema de Asociación de Tailwind CSS y VS Code
+Agregar en settings.json
+
+```json
+"files.associations": {
+  "*.css": "tailwindcss"
+}
+```
