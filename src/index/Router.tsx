@@ -8,6 +8,7 @@ import BotonSimple from "@components/Botones/BotonSimple";
 
 
 export default function Router() {
+    const num;
     const router = createBrowserRouter([
         {
             path: "/",
