@@ -1,4 +1,8 @@
-export default function PageBase({ children }) {
+type props = {
+    children: React.ReactNode
+}
+
+export default function PageBase({ children } : props) {
     return (
         <div>
             {children}
