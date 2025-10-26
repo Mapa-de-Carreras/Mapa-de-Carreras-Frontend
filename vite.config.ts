@@ -23,6 +23,8 @@ export default defineConfig({
       "@statistics": path.resolve(__dirname, "./src/modules/statistics"),
       "@teachers": path.resolve(__dirname, "./src/modules/teachers"),
       "@users": path.resolve(__dirname, "./src/modules/users"),
+
+      "@": path.resolve(__dirname, "./src"),
     },
   },
 })
