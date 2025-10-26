@@ -1,13 +1,14 @@
-import { createBrowserRouter } from "react-router";
-import { RouterProvider } from "react-router/dom";
-import App from "@/shared/components/App/App";
-import PageBase from "@/shared/components/PageBase/PageBase";
-import InstitutePage from "@/modules/academic/InstitutesPage/InstitutesPage";
-import DegreePage from "@/modules/academic/DegreePage/DegreePage";
-import LoginPage from "@/modules/management/LoginPage/LoginPage";
-import { Button } from "@/components/ui/button";
+import App from "@components/App/App";
+import PageBase from "@components/PageBase/PageBase";
+import DegreePage from "@academic/DegreePage/DegreePage";
+import InstitutePage from "@academic/InstitutesPage/InstitutesPage";
+import LoginPage from "@users/LoginPage/LoginPage";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import BotonSimple from "@components/Botones/BotonSimple";
+
 
 export default function Router() {
+    
     const router = createBrowserRouter([
         {
             path: "/",
@@ -18,7 +19,9 @@ export default function Router() {
                     element:
                         <PageBase>
                             <div className="flex min-h-svh flex-col items-center justify-center">
-                                <Button onClick={() => console.log(" Soy un botón de ui.shadcn")}>Click me</Button>
+
+                                <BotonSimple onClick={() => console.log(" Soy un botón de ui.shadcn")}>Click me</BotonSimple>
+
                             </div>
                         </PageBase>
                 },
@@ -32,7 +35,12 @@ export default function Router() {
                 },
                 {
                     path: "usuarios",
-                    Component: LoginPage,
+                    children: [
+                        {
+                            path: "login",
+                            Component: LoginPage,
+                        },
+                    ]
                 },
             ],
         },

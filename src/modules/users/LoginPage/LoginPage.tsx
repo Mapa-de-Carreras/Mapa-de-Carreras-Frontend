@@ -1,4 +1,4 @@
-import PageBase from "@/shared/components/PageBase/PageBase";
+import PageBase from "@components/PageBase/PageBase";
 import { useState } from "react";
 import type { FormEvent } from "react";
 

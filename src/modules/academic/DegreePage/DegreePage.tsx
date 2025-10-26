@@ -1,4 +1,4 @@
-import PageBase from "@/shared/components/PageBase/PageBase";
+import PageBase from "@components/PageBase/PageBase";
 
 export default function DegreePage() {
     return (
