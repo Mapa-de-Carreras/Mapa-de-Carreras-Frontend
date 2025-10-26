@@ -8,7 +8,6 @@ import BotonSimple from "@components/Botones/BotonSimple";
 
 
 export default function Router() {
-    
     const router = createBrowserRouter([
         {
             path: "/",
@@ -21,7 +20,7 @@ export default function Router() {
                             <div className="flex min-h-svh flex-col items-center justify-center">
 
                                 <BotonSimple onClick={() => console.log(" Soy un botón de ui.shadcn")}>Click me</BotonSimple>
-
+                                
                             </div>
                         </PageBase>
                 },
