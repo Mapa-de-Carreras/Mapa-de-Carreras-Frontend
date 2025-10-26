@@ -1,11 +1,12 @@
+import App from "@components/App/App";
+import PageBase from "@components/PageBase/PageBase";
+import DegreePage from "@academic/DegreePage/DegreePage";
+import InstitutePage from "@academic/InstitutesPage/InstitutesPage";
+import { Button } from "@components/Botones/Button";
+import LoginPage from "@management/LoginPage/LoginPage";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
-import App from "@/shared/components/App/App";
-import PageBase from "@/shared/components/PageBase/PageBase";
-import InstitutePage from "@/modules/academic/InstitutesPage/InstitutesPage";
-import DegreePage from "@/modules/academic/DegreePage/DegreePage";
-import LoginPage from "@/modules/management/LoginPage/LoginPage";
-import { Button } from "@/components/ui/button";
+
 
 export default function Router() {
     const router = createBrowserRouter([

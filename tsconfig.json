@@ -16,7 +16,18 @@
 
     "baseUrl":".",
     "paths": {
-      "@/*":["./src/*"]
+      // Shared
+      "@components/*":["./src/shared/components/*"],
+      "@apis/*":["./src/shared/apis/*"],
+      "@lib/*":["./src/shared/lib/*"],
+      
+      // Modules
+      "@academic/*":["./src/modules/academic/*"],
+      "@designations/*":["./src/modules/designations/*"],
+      "@management/*":["./src/modules/management/*"],
+      "@statistics/*":["./src/modules/statistics/*"],
+      "@teachers/*":["./src/modules/teachers/*"],
+      "@users/*":["./src/modules/users/*"],
     }
   },
   "include": ["src", "vite.config.ts"],
