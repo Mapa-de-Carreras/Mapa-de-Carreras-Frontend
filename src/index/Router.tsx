@@ -1,11 +1,10 @@
 
 import App from "@components/App/App";
-import PageBase from "@components/PageBase/PageBase";
 import DegreePage from "@academic/DegreePage/DegreePage";
 import InstitutePage from "@academic/InstitutesPage/InstitutesPage";
 import LoginPage from "@users/LoginPage/LoginPage";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import BotonSimple from "@components/Botones/BotonSimple";
+import Home from "./Home";
 
 
 import RecoverUsername1 from "../modules/users/RecoverUserName/RecoverUsername1";
@@ -24,12 +23,7 @@ export default function Router() {
             children: [
                 {
                     index: true,
-                    element:
-                        <PageBase>
-                            <div className="flex min-h-svh flex-col items-center justify-center">
-                                <BotonSimple onClick={() => console.log(" Soy un botón de ui.shadcn")}>Click me</BotonSimple>
-                            </div>
-                        </PageBase>
+                    Component: Home,
                 },
                 {
                     path: "carreras",
