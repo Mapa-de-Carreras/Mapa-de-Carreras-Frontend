@@ -14,14 +14,21 @@ import LogoutPage from "../modules/users/LogoutPage/LogoutPage";
 
 
 export default function Router() {
-    const rutas = [
+    const router = createBrowserRouter([
         {
             path: "/",
             Component: App,
             children: [
                 {
                     index: true,
-                    Component: Home,
+                    element:
+                        <PageBase>
+                            <div className="flex min-h-svh flex-col items-center justify-center">
+
+                                <BotonSimple onClick={() => console.log(" Soy un botón de ui.shadcn")}>Click me</BotonSimple>
+                                
+                            </div>
+                        </PageBase>
                 },
                 {
                     path: "carreras",
