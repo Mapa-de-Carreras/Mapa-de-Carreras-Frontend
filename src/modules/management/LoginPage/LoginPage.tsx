@@ -1,4 +1,4 @@
-import PageBase from "../../../shared/components/PageBase/PageBase";
+import PageBase from "@/shared/components/PageBase/PageBase";
 import { useState } from "react";
 import type { FormEvent } from "react";
 
@@ -77,15 +77,15 @@ export default function LoginPage() {
 
           {/* Links */}
           <div className="mt-4 text-sm text-left flex flex-col gap-2">
-        <a href="#" className="text-gray-900 underline hover:text-black">
-          ¿Olvidaste tu contraseña?
-        </a>
-        <a href="#" className="text-gray-900 underline hover:text-black">
-          ¿Olvidaste tu nombre de usuario?
-        </a>
+            <a href="#" className="text-gray-900 underline hover:text-black">
+              ¿Olvidaste tu contraseña?
+            </a>
+            <a href="#" className="text-gray-900 underline hover:text-black">
+              ¿Olvidaste tu nombre de usuario?
+            </a>
+          </div>
+        </div>  
       </div>
-      </div>  
-    </div>
     </PageBase>
   );
 }
