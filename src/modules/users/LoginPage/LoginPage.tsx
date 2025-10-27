@@ -4,17 +4,64 @@ import type { FormEvent } from "react";
 import { useNavigate } from "react-router";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>(""); 
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [error, setError] = useState<string>(""); 
   const navigate = useNavigate();
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
-    // Lógica de autenticación va acá
+
+    if (!username.trim() || !password.trim()) {
+      setError("Por favor, complete todos los campos.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/auth/login/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error en la autenticación");
+      }
+
+      const data: {
+        refresh: string;
+        access: string;
+        id: number;
+        is_staff: boolean;
+      } = await response.json();
+
+      // Guardar los tokens y datos del usuario
+      localStorage.setItem("access_token", data.access);
+      localStorage.setItem("refresh_token", data.refresh);
+      localStorage.setItem("user_id", String(data.id));
+      localStorage.setItem("is_staff", String(data.is_staff));
+
+      console.log("Login exitoso:", data);
+
+      // Redirigir después del login
+      navigate("/inicio");
+
+    } catch (error: unknown) {
+      console.error("Error durante el login:", error);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Error inesperado en el inicio de sesión.");
+      }
+    }
   };
+
 
   return (
     <PageBase>
@@ -25,21 +72,21 @@ export default function LoginPage() {
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Email */}
+            {/* Nombre de usuario */}
             <div>
               <label
-                htmlFor="email"
+                htmlFor="username"
                 className="block text-base font-semibold mb-1 text-gray-800"
               >
-                Email
+                Nombre de usuario
               </label>
               <input
-                type="email"
-                id="email"
+                type="text"
+                id="username"
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black text-gray-500"
-                placeholder="ejemplo@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Ingrese su nombre de usuario"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 required
               />
             </div>
@@ -75,6 +122,11 @@ export default function LoginPage() {
                 </button>
               </div>
             </div>
+
+            {/* Mensaje de error */}
+            {error && (
+              <p className="text-red-600 text-sm text-center mt-2">{error}</p>
+            )}
 
             {/* Botón */}
             <button

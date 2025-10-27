@@ -10,6 +10,7 @@ import RecoverUsername2 from "../modules/users/RecoverUserName/RecoverUsername2"
 import RecoverPassword1 from "../modules/users/RecoverPassword/RecoverPassword1";
 import RecoverPassword2 from "../modules/users/RecoverPassword/RecoverPassword2";
 import RecoverPassword3 from "../modules/users/RecoverPassword/RecoverPassword3";
+import LogoutPage from "../modules/users/LogoutPage/LogoutPage";
 
 export default function Router() {
     const router = createBrowserRouter([
@@ -31,10 +32,15 @@ export default function Router() {
                     path: "institutos",
                     Component: InstitutePage,
                 },
-                   {
+                {
                     path: "usuarios",
                     Component: LoginPage,
+                }, 
+                   {
+                    path: "inicio",
+                    Component: LogoutPage,
                 },
+
                 {
                     path: "recuperar-nombre-usuario-1",
                     Component:RecoverUsername1,
