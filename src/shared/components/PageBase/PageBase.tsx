@@ -4,7 +4,7 @@ type props = {
 
 export default function PageBase({ children } : props) {
     return (
-        <div>
+        <div className="p-2">
             {children}
         </div>
     );
