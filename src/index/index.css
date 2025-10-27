@@ -2,7 +2,10 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
-@plugin "@iconify/tailwind4";
+
+@plugin "@iconify/tailwind4" {
+  prefixes: mdi-light, carbon, ion, tabler, eos-icons; /* <--- Añade aquí las colecciones que necesitas */
+}
 
 /* COLORES */
 
@@ -16,7 +19,6 @@
 }
 
 /* CONFIGURACIÓN DEL LAYOUT */
-
 
 html, body, #root {
     padding: 0;
