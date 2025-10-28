@@ -50,7 +50,7 @@ export default function LoginPage() {
       console.log("Login exitoso:", data);
 
       // Redirigir después del login
-      navigate("/inicio");
+      navigate("/usuarios/inicio");
 
     } catch (error: unknown) {
       console.error("Error durante el login:", error);
