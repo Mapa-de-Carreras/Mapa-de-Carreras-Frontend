@@ -16,7 +16,7 @@ import LogoutPage from "../modules/users/LogoutPage/LogoutPage";
 
 
 export default function Router() {
-    const router = createBrowserRouter([
+    const rutas = [
         {
             path: "/",
             Component: App,
@@ -78,7 +78,8 @@ export default function Router() {
 
             ],
         },
-    ]);
+    ]
+    const router = createBrowserRouter(rutas);
 
     return <RouterProvider router={router} />;
 }
