@@ -73,6 +73,11 @@ export default function Router() {
                             Component: RecoverPassword3,
 
                         },
+                        {
+                            path: "inicio",
+                            Component: LogoutPage,
+
+                        },
 
                     ]
                 },
