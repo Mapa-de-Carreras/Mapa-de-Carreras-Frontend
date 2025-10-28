@@ -5,8 +5,6 @@ import InstitutePage from "@academic/InstitutesPage/InstitutesPage";
 import LoginPage from "@users/LoginPage/LoginPage";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import Home from "./Home";
-
-
 import RecoverUsername1 from "../modules/users/RecoverUserName/RecoverUsername1";
 import RecoverUsername2 from "../modules/users/RecoverUserName/RecoverUsername2";
 import RecoverPassword1 from "../modules/users/RecoverPassword/RecoverPassword1";
