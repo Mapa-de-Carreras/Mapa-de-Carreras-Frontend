@@ -11,13 +11,54 @@ import {
   MenubarContent,
   MenubarItem,
   MenubarMenu,
-
   MenubarSeparator,
-  MenubarSub,
   MenubarTrigger,
 } from "@components/ui/menubar"
 
-export default function Navbar() {
+
+type prop = {
+  subtitle : string
+}
+
+const SubItemAcordeon = ({subtitle} : prop) =>{
+  return (
+    <div className="flex items-centertext-sm rounded-sm hover:bg-accent">
+      <span className="iconify tabler--point-filled size-4" />
+      <span>{subtitle}</span>
+    </div>
+  );
+}
+
+type props = {
+  itemNumber : string
+  icon : string
+  title : string
+  children : React.ReactNode
+}
+
+
+const ElemAcordeon = ({itemNumber, icon, title, children}: props)=> {
+  return (
+      <AccordionItem value={itemNumber}  className="border-b-0">
+        <AccordionTrigger className="px-2 py-1.5 text-sm font-medium hover:bg-accent hover:no-underline rounded-sm" hideIcon={true}>
+          <div className="flex items-center text-sm rounded-sm hover:bg-accent gap-2">
+            <span className={`iconify ${icon} size-5`} />
+            <span>{title}</span>
+          </div>
+        </AccordionTrigger>
+
+        <AccordionContent className="pb-1 pl-3">
+          {children}
+          <MenubarSeparator/>
+        </AccordionContent>
+    </AccordionItem>
+  );
+}
+
+type concha = {
+  sitio: string
+}
+export default function Navbar({sitio} : concha) {
   return (
     <Menubar className="justify-between rounded-none h">
       <MenubarMenu>
@@ -25,60 +66,43 @@ export default function Navbar() {
           <span className="iconify ion--menu size-5 text-black" />
         </MenubarTrigger>
         <MenubarContent>
-          
+
           <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="item-1"  className="border-b-0">
-              <AccordionTrigger className="px-2 py-1.5 text-sm font-medium hover:bg-accent hover:no-underline rounded-sm" hideIcon={true}>
-                <div className="flex items-center text-sm rounded-sm hover:bg-accent gap-2">
-                  <span className="iconify eos-icons--admin-outlined  size-5" />
-                  <span>Administración</span>
-                </div>
-              </AccordionTrigger>
 
-              <AccordionContent className="pb-1 pl-7">
+            <ElemAcordeon itemNumber="item-1" icon="eos-icons--admin-outlined" title="Administración">
+              <SubItemAcordeon subtitle="Usuarios"/>
+              <SubItemAcordeon subtitle="Roles"/>
+            </ElemAcordeon>
 
-                                
-              <div className="flex items-centertext-sm rounded-sm hover:bg-accent">
-                <span className="iconify tabler--point-filled size-4" />
-                <span>Usuarios</span>
-              </div>
-                
-              <div className="flex items-center text-sm rounded-sm hover:bg-accent">
-                <span className="iconify tabler--point-filled size-4" />
-                <span>Roles</span>
-              </div>
+            <ElemAcordeon itemNumber="item-2" icon="cil--institution" title="Académica">
+              <SubItemAcordeon subtitle="Institutos"/>
+              <SubItemAcordeon subtitle="Carreras"/>
+              <SubItemAcordeon subtitle="Asignaturas"/>
+              <SubItemAcordeon subtitle="Planes de Estudio"/ >
+            </ElemAcordeon>
 
-              </AccordionContent>
-            </AccordionItem>
+            <ElemAcordeon itemNumber="item-3" icon="hugeicons--teacher" title="Docentes">
+              <SubItemAcordeon subtitle="Gestionar Docentes"/>
+              <SubItemAcordeon subtitle="Parámetros de Régimen"/>
+            </ElemAcordeon>
+
+            <ElemAcordeon itemNumber="item-4" icon="material-symbols--pending-actions" title="Designaciones">
+              <SubItemAcordeon subtitle="Gestionar Designaciones"/>    
+            </ElemAcordeon>
+
+            <ElemAcordeon itemNumber="item-5" icon="akar-icons--statistic-up" title="Estadísticas">
+              <SubItemAcordeon subtitle="Estadísticas"/>
+              <SubItemAcordeon subtitle="Reportes"/>
+            </ElemAcordeon>
+                            
           </Accordion>
-
-          <MenubarSeparator />
-          <MenubarItem>
-            Académica 
-          </MenubarItem>
-          <MenubarSeparator />
-          <MenubarItem>
-            Docentes 
-          </MenubarItem>
-          <MenubarSeparator />
-          <MenubarItem>
-            Designaciones 
-          </MenubarItem>
-          <MenubarSeparator />
-          <MenubarItem> 
-            Estadísticas 
-          </MenubarItem>
-
         </MenubarContent>
       </MenubarMenu>
       
-      <MenubarMenu>
-        <MenubarTrigger className= "text-black">Inicio</MenubarTrigger>
-      </MenubarMenu>
+      <h2 className="text-2xl text-black">{sitio}</h2>
 
       <MenubarMenu>
         <MenubarTrigger>
-          {/* Asegúrate de tener 'carbon' en tu index.css @plugin prefixes */}
           <span className="iconify carbon--user-avatar-filled size-5 text-black" />
         </MenubarTrigger>
         <MenubarContent>
@@ -88,5 +112,5 @@ export default function Navbar() {
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
-  )
+    )
 }

@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @plugin "@iconify/tailwind4" {
-  prefixes: mdi-light, carbon, ion, tabler, eos-icons; /* <--- Añade aquí las colecciones que necesitas */
+  prefixes: mdi-light, carbon, ion, tabler, eos-icons, cil, hugeicons, material-symbols,akar-icons; /* <--- Añade aquí las colecciones que necesitas */
 }
 
 /* COLORES */
