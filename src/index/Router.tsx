@@ -21,18 +21,7 @@ export default function Router() {
             children: [
                 {
                     index: true,
-<<<<<<< HEAD
-                    element:
-                        <PageBase>
-                            <div className="flex min-h-svh flex-col items-center justify-center">
-
-                                <BotonSimple onClick={() => console.log(" Soy un botón de ui.shadcn")}>Click me</BotonSimple>
-                                
-                            </div>
-                        </PageBase>
-=======
                     Component: Home,
->>>>>>> main
                 },
                 {
                     path: "carreras",

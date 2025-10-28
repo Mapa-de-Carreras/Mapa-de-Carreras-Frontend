@@ -139,16 +139,6 @@ export default function LoginPage() {
 
           {/* Links */}
           <div className="mt-4 text-sm text-left flex flex-col gap-2">
-<<<<<<< HEAD
-            <a href="#" className="text-gray-900 underline hover:text-black">
-              ¿Olvidaste tu contraseña?
-            </a>
-            <a href="#" className="text-gray-900 underline hover:text-black">
-              ¿Olvidaste tu nombre de usuario?
-            </a>
-          </div>
-        </div>  
-=======
             <button
               onClick={() => navigate("/recuperar-contraseña-1")}
               className="text-gray-900 underline hover:text-black text-left"
@@ -163,7 +153,6 @@ export default function LoginPage() {
             </button>
           </div>
         </div>
->>>>>>> main
       </div>
     </PageBase>
   );
