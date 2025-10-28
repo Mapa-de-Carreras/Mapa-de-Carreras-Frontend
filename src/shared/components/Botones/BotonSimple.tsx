@@ -1,5 +1,14 @@
 import { Button } from "@components/ui/button";
 
-export default function BotonSimple({ ...props }) {
-    return <Button {...props} />
+interface BotonSimpleProps {
+    title: string,
+    onClick: () => void,
+}
+
+export default function BotonSimple({ title, onClick}: BotonSimpleProps) {
+    return (
+        <Button onClick={onClick}>
+            {title}
+        </Button>
+    )
 }
