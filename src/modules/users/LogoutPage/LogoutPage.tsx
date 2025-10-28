@@ -1,7 +1,8 @@
 import { useState } from "react";
 import PageBase from "../../../shared/components/PageBase/PageBase";
 import { useNavigate } from "react-router";
-import TarjetaUsuario from "../../../shared/components/TarjetaUsuario"; 
+import TarjetaUsuario from "../../../shared/components/TarjetaUsuario";
+import BotonGenerico from "../../../shared/components/Botones/BotonGenerico";
 
 export default function LogoutPage() {
   const navigate = useNavigate();
@@ -11,8 +12,6 @@ export default function LogoutPage() {
     try {
       const refreshToken = localStorage.getItem("refresh_token");
       const accessToken = localStorage.getItem("access_token");
-      console.log("Refresh Token:", refreshToken);
-      console.log("Access Token:", accessToken);
 
       const response = await fetch("http://127.0.0.1:8000/api/auth/logout/", {
         method: "POST",
@@ -28,9 +27,7 @@ export default function LogoutPage() {
         throw new Error(errorData || "Error al cerrar sesión");
       }
 
-      console.log("Cierre de sesión exitoso");
-
-      localStorage.clear(); // limpia todo el localStorage
+      localStorage.clear();
       navigate("/usuarios/login");
     } catch (error: unknown) {
       console.error("Error al cerrar sesión:", error);
@@ -38,40 +35,57 @@ export default function LogoutPage() {
     }
   };
 
+  const handleAgregar = () => {
+    console.log("Botón Agregar clickeado");
+    
+  };
+
   return (
     <PageBase>
       <div className="flex flex-col justify-center items-center h-screen bg-gray-50 gap-4">
-        {/* Tarjeta del usuario */}
+
+        {/* Botón Agregar */}
+        <div className="w-full max-w-sm">
+          <BotonGenerico
+            texto="Agregar"
+            color="#3E9956" 
+            icono={
+               <span className="w-6 h-6 flex items-center justify-center rounded-full bg-white">
+                <span className="icon-[mdi--plus] text-[#3E9956] text-xl" aria-label="Agregar" />
+              </span>
+            }
+            onClick={() => handleAgregar()}
+          />
+        </div>
+
+        {/* Tarjetas de usuario */}
         <TarjetaUsuario
-        id={1}
-        nombre="Horacio"
-        apellido="Pendenti"
-        rol="Coordinador de carrera"
-        activo="Activo"
-        onClickFlecha={(id) => console.log("Flecha clickeada en usuario", id)}
-      />
+          id={1}
+          nombre="Horacio"
+          apellido="Pendenti"
+          rol="Coordinador de carrera"
+          activo="Activo"
+          onClickFlecha={(id) => console.log("Flecha clickeada en usuario", id)}
+        />
+        <TarjetaUsuario
+          id={2}
+          nombre="Cintia"
+          apellido="Alejandra Aguado"
+          rol="Admin"
+          activo="Activo"
+          onClickFlecha={(id) => console.log("Flecha clickeada en usuario", id)}
+        />
+        <TarjetaUsuario
+          id={3}
+          nombre="Ezequiel"
+          apellido="Moyano"
+          rol="Admin-Coordinador de carrera"
+          activo="Activo"
+          onClickFlecha={(id) => console.log("Flecha clickeada en usuario", id)}
+        />
 
-      <TarjetaUsuario
-        id={2}
-        nombre="Cintia"
-        apellido="Alejandra Aguado"
-        rol="Admin"
-        activo="Activo"
-        onClickFlecha={(id) => console.log("Flecha clickeada en usuario", id)}
-      />
-
-      <TarjetaUsuario
-        id={3}
-        nombre="Ezequiel"
-        apellido="Moyano"
-        rol="Admin-Coordinador de carrera"
-        activo="Activo"
-        onClickFlecha={(id) => console.log("Flecha clickeada en usuario", id)}
-      />
-
-
-        {/* Botón de logout */}
-        <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-sm text-center border border-gray-200">
+        {/* Botón Cerrar sesión */}
+        <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-sm text-center border border-gray-200 mt-6">
           <h1 className="text-2xl font-semibold text-black mb-6">
             ¿Deseas cerrar sesión?
           </h1>
