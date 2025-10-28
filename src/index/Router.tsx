@@ -7,7 +7,7 @@ import Home from "./Home";
 
 
 export default function Router() {
-    const router = createBrowserRouter([
+    const rutas = [
         {
             path: "/",
             Component: App,
@@ -35,7 +35,8 @@ export default function Router() {
                 },
             ],
         },
-    ]);
+    ]
+    const router = createBrowserRouter(rutas);
 
     return <RouterProvider router={router} />;
 }
