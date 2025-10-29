@@ -1,8 +1,6 @@
 import PageBase from "@components/PageBase/PageBase";
+import useAuth from "@components/hooks/useAuth";
 import { useTheme } from "@components/hooks/useTheme";
-import { Button } from "@components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
-import { Moon, Sun } from "lucide-react";
 
 const carreras = [
     {
@@ -31,6 +29,11 @@ const institutos = ["IDEI", "ICPA"];
 
 export default function DegreePage() {
     const { setTheme } = useTheme();
+    const { refresh } = useAuth();
+    
+    const token = localStorage.getItem("refresh_token");
+    
+    if (token) refresh(token);
 
     return (
         <PageBase>
@@ -40,7 +43,6 @@ export default function DegreePage() {
                     <h4>{instituto}</h4>
                 </div>
             ))}
-
         </PageBase>
     )
 }

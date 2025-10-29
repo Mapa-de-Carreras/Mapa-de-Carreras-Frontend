@@ -3,7 +3,7 @@ import App from "@components/App/App";
 import DegreePage from "@academic/DegreePage/DegreePage";
 import InstitutePage from "@academic/InstitutesPage/InstitutesPage";
 import LoginPage from "@users/LoginPage/LoginPage";
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router";
 import Home from "./Home";
 import RecoverUsername1 from "../modules/users/RecoverUserName/RecoverUsername1";
 import RecoverUsername2 from "../modules/users/RecoverUserName/RecoverUsername2";
@@ -11,72 +11,65 @@ import RecoverPassword1 from "../modules/users/RecoverPassword/RecoverPassword1"
 import RecoverPassword2 from "../modules/users/RecoverPassword/RecoverPassword2";
 import RecoverPassword3 from "../modules/users/RecoverPassword/RecoverPassword3";
 import LogoutPage from "../modules/users/LogoutPage/LogoutPage";
+import ProtectedRoute from "@components/Providers/ProtectRouter";
+import GuestRoute from "@components/Providers/GuestRoute";
 
 
 export default function Router() {
     const rutas = [
         {
-            path: "/",
-            Component: App,
+            path: "authentication", 
+            element: <GuestRoute />,
             children: [
                 {
-                    index: true,
-                    Component: Home,
+                    path: "login",
+                    Component: LoginPage,
                 },
                 {
-                    path: "carreras",
-                    Component: DegreePage,
+                    path: "reuser1",
+                    Component: RecoverUsername1,
                 },
                 {
-                    path: "institutos",
-                    Component: InstitutePage,
+                    path: "reuser2",
+                    Component: RecoverUsername2,
                 },
                 {
-                    path: "usuarios",
-
+                    path: "repass1",
+                    Component: RecoverPassword1,
+                },
+                {
+                    path: "repass2",
+                    Component: RecoverPassword2,
+                },
+                {
+                    path: "repass3",
+                    Component: RecoverPassword3,
+                },
+            ]
+        },
+        {
+            element: <ProtectedRoute />,
+            children: [
+                {
+                    path: "/",
+                    Component: App,
                     children: [
+                        { index: true, Component: Home },
+                        { path: "carreras", Component: DegreePage },
+                        { path: "institutos", Component: InstitutePage },
                         {
-                            path: "login",
-                            Component: LoginPage,
-                        },
-                        {
-                            path: "inicio",
+                            path: "usuarios",
                             Component: LogoutPage,
                         },
-
-                        {
-                            path: "recuperar-nombre-usuario-1",
-                            Component: RecoverUsername1,
-                        },
-                        {
-                            path: "recuperar-nombre-usuario-2",
-                            Component: RecoverUsername2,
-                        },
-                        {
-                            path: "recuperar-contraseña-1",
-                            Component: RecoverPassword1,
-                        },
-                        {
-                            path: "recuperar-contraseña-2",
-                            Component: RecoverPassword2,
-                        },
-                        {
-                            path: "recuperar-contraseña-3",
-                            Component: RecoverPassword3,
-
-                        },
-                        {
-                            path: "inicio",
-                            Component: LogoutPage,
-
-                        },
-
-                    ]
+                    ],
                 },
-
             ],
         },
-    ]
+        {
+            path: "*",
+            element: <div>Error</div>,
+        },
+    ];
     const router = createBrowserRouter(rutas);
 
     return <RouterProvider router={router} />;
