@@ -25,6 +25,7 @@
       "@components/*":["./src/shared/components/*"],
       "@apis/*":["./src/shared/apis/*"],
       "@lib/*":["./src/shared/lib/*"],
+      "@services/*":["./src/shared/services/*"],
       
       // Modules
       "@academic/*":["./src/modules/academic/*"],
