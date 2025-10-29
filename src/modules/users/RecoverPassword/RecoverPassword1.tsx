@@ -27,7 +27,7 @@ export default function RecoverPassword1() {
     console.log("Email:", email);
 
 
-    navigate("/recuperar-contraseña-2");
+    navigate("/usuarios/recuperar-contraseña-2");
   };
 
   const handleCancel = () => {
