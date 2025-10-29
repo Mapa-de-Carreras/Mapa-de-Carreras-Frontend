@@ -2,38 +2,19 @@ import { useState } from "react";
 import PageBase from "../../../shared/components/PageBase/PageBase";
 import { useNavigate } from "react-router";
 import TarjetaUsuario from "../../../shared/components/TarjetaUsuario"; 
+import useAuth from "@components/hooks/useAuth";
 
 export default function LogoutPage() {
   const navigate = useNavigate();
   const [error, setError] = useState<string>("");
+  const { logout } = useAuth();
 
   const handleLogout = async () => {
     try {
-      const refreshToken = localStorage.getItem("refresh_token");
-      const accessToken = localStorage.getItem("access_token");
-      console.log("Refresh Token:", refreshToken);
-      console.log("Access Token:", accessToken);
-
-      const response = await fetch("http://127.0.0.1:8000/api/auth/logout/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({ refresh_token: refreshToken }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.text();
-        throw new Error(errorData || "Error al cerrar sesión");
-      }
-
-      console.log("Cierre de sesión exitoso");
-
-      localStorage.clear(); // limpia todo el localStorage
-      navigate("/usuarios/login");
-    } catch (error: unknown) {
-      console.error("Error al cerrar sesión:", error);
+      await logout();
+      navigate('/authentication/login');
+    } catch (error) {
+      console.error("Error en el logout:", error);
       setError(error instanceof Error ? error.message : "Error inesperado.");
     }
   };
