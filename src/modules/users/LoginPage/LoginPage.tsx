@@ -113,13 +113,13 @@ export default function LoginPage() {
 					{/* Links */}
 					<div className="mt-4 text-sm text-left flex flex-col gap-2">
 						<button
-							onClick={() => navigate("/recuperar-contraseña-1")}
+							onClick={() => navigate("/authentication/repass1")}
 							className="text-gray-900 underline hover:text-black text-left"
 						>
 							¿Olvidaste tu contraseña?
 						</button>
 						<button
-							onClick={() => navigate("/recuperar-nombre-usuario-1")}
+							onClick={() => navigate("/authentication/reuser1")}
 							className="text-gray-900 underline hover:text-black text-left"
 						>
 							¿Olvidaste tu nombre de usuario?

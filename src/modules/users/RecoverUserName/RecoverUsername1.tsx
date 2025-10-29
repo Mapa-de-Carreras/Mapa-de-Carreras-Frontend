@@ -27,7 +27,7 @@ export default function RecoverUsername1() {
     console.log("Email:", email);
 
 
-    navigate("/usuarios/recuperar-nombre-usuario-2");
+    navigate("/authentication/reuser2");
   };
 
   const handleCancel = () => {

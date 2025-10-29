@@ -23,7 +23,7 @@ export default function RecoverPassword2() {
 
     setError("");
     console.log("Código:", codigo);
-    navigate("/usuarios/recuperar-contraseña-3");
+    navigate("/authentication/repass3");
 
   };
 
