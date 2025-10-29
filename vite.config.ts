@@ -15,6 +15,7 @@ export default defineConfig({
       "@components": path.resolve(__dirname, "./src/shared/components"),
       "@apis": path.resolve(__dirname, "./src/shared/apis"),
       "@lib": path.resolve(__dirname, "./src/shared/lib"),
+      "@services": path.resolve(__dirname, "./src/shared/services"),
 
       // Modules
       "@academic": path.resolve(__dirname, "./src/modules/academic"),
