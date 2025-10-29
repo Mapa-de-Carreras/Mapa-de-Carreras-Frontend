@@ -13,6 +13,11 @@
     "isolatedModules":true,
     "strict":true,
     "skipLibCheck":true,
+    "allowJs": false,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
 
     "baseUrl":".",
     "paths": {
@@ -25,7 +30,7 @@
       // Modules
       "@academic/*":["./src/modules/academic/*"],
       "@designations/*":["./src/modules/designations/*"],
-      "@management/*":["./src/modules/management/*"],
+      "@management/*":["src/modules/users/*"],
       "@statistics/*":["./src/modules/statistics/*"],
       "@teachers/*":["./src/modules/teachers/*"],
       "@users/*":["./src/modules/users/*"],
