@@ -13,6 +13,7 @@ import RecoverPassword3 from "../modules/users/RecoverPassword/RecoverPassword3"
 import LogoutPage from "../modules/users/LogoutPage/LogoutPage";
 import ProtectedRoute from "@components/Providers/ProtectRouter";
 import GuestRoute from "@components/Providers/GuestRoute";
+import UserDetail from "../modules/users/UserDetail/UserDetail";
 
 
 export default function Router() {
@@ -61,6 +62,8 @@ export default function Router() {
                             path: "usuarios",
                             Component: LogoutPage,
                         },
+                        { path: "usuarios/detail", Component: UserDetail },
+                        
                     ],
                 },
             ],
