@@ -1,10 +1,11 @@
 import PageBase from "../../../shared/components/PageBase/PageBase";
-import { useState } from "react";
-import type { FormEvent } from "react";
+import { useState, type FormEvent } from "react";
+import ModalGenerico from "../../../shared/components/Modal/ModalGenerico";
 
 export default function RecoverUsername2() {
   const [codigo, setCodigo] = useState<string>("");
-  const [error, setError] = useState<string>(""); 
+  const [error, setError] = useState<string>("");
+  const [mostrarModal, setMostrarModal] = useState<boolean>(false);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,13 +21,20 @@ export default function RecoverUsername2() {
     }
 
     setError("");
-    console.log("Código:", codigo);
 
+    // Simulamos envío exitoso para mostra el modal de momento
+    console.log("Código enviado:", codigo);
+    setMostrarModal(true);
   };
 
   const handleCancel = () => {
     setCodigo("");
     setError("");
+  };
+
+  const handleCerrarModal = () => {
+    setMostrarModal(false);
+    setCodigo("");
   };
 
   return (
@@ -55,9 +63,7 @@ export default function RecoverUsername2() {
                 value={codigo}
                 onChange={(e) => setCodigo(e.target.value)}
               />
-              {error && (
-                <p className="text-red-600 text-sm mt-1">{error}</p>
-              )}
+              {error && <p className="text-red-600 text-sm mt-1">{error}</p>}
             </div>
 
             <div className="flex gap-4 mt-2">
@@ -79,6 +85,18 @@ export default function RecoverUsername2() {
           </form>
         </div>
       </div>
+
+      {/* Modal de éxito */}
+      <ModalGenerico
+        abierto={mostrarModal}
+        onClose={handleCerrarModal}
+        icono={<span className="icon-[mdi--check-bold] text-green-600 text-5xl" />}
+        titulo="Éxito"
+        mensaje="Su nombre de usuario ha sido enviado a su correo electrónico."
+        textoBoton="Aceptar"
+        colorBoton="#3E9956"
+        onConfirmar={handleCerrarModal}
+      />
     </PageBase>
   );
 }
