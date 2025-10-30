@@ -14,6 +14,7 @@ import LogoutPage from "../modules/users/LogoutPage/LogoutPage";
 import ProtectedRoute from "@components/Providers/ProtectRouter";
 import GuestRoute from "@components/Providers/GuestRoute";
 import UserDetail from "../modules/users/UserDetail/UserDetail";
+import UserCreate from "../modules/users/UserCreate/UserCreate";
 
 
 export default function Router() {
@@ -63,7 +64,7 @@ export default function Router() {
                             Component: LogoutPage,
                         },
                         { path: "usuarios/detail", Component: UserDetail },
-                        
+                        { path: "usuarios/create", Component: UserCreate },
                     ],
                 },
             ],
