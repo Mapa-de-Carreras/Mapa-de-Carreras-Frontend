@@ -28,6 +28,7 @@ export default defineConfig({
       "@statistics": path.resolve(__dirname, "./src/modules/statistics"),
       "@teachers": path.resolve(__dirname, "./src/modules/teachers"),
       "@users": path.resolve(__dirname, "./src/modules/users"),
+      "@assets": path.resolve(__dirname, "./src/assets"),
 
       "@": path.resolve(__dirname, "./src"),
     },
