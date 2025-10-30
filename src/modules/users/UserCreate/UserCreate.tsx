@@ -1,10 +1,10 @@
-import { useState, FormEvent } from "react";
+import { useState } from "react";
 import PageBase from "../../../shared/components/PageBase/PageBase";
 import BotonGenerico from "../../../shared/components/Botones/BotonGenerico";
-import { Input } from "@components/ui/input";
-import { Label } from "@components/ui/label";
 import { Card, CardHeader, CardTitle, CardContent } from "@components/ui/card";
 import { Checkbox } from "@components/ui/checkbox";
+import { Label } from "@components/ui/label";
+import InputConLabel from "../../../shared/components/InputConLabel/InputConLabel";
 
 export default function UserCreate() {
   const [form, setForm] = useState({
@@ -20,10 +20,10 @@ export default function UserCreate() {
     carrera: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (name: string, value: string) => {
     setForm({
       ...form,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -34,17 +34,9 @@ export default function UserCreate() {
     });
   };
 
-  const handleAgregar = () => {
-    console.log("Usuario agregado:", form);
-  };
-
-  const handleGuardar = () => {
-    console.log("Guardar usuario:", form);
-  };
-
-  const handleCancelar = () => {
-    console.log("Cancelado");
-  };
+  const handleAgregar = () => console.log("Usuario agregado:", form);
+  const handleGuardar = () => console.log("Guardar usuario:", form);
+  const handleCancelar = () => console.log("Cancelado");
 
   return (
     <PageBase>
@@ -57,7 +49,8 @@ export default function UserCreate() {
           </CardHeader>
 
           <CardContent>
-            <form onSubmit={handleGuardar} className="space-y-4">
+            <form className="space-y-5">
+              {/* Campos principales */}
               {[
                 { label: "Legajo", name: "legajo" },
                 { label: "Nombre", name: "nombre" },
@@ -67,43 +60,42 @@ export default function UserCreate() {
                 { label: "Email", name: "email" },
                 { label: "Celular", name: "celular" },
               ].map(({ label, name }) => (
-                <div key={name}>
-                  <Label htmlFor={name}>{label}</Label>
-                  <Input
-                    id={name}
-                    name={name}
-                    value={(form as any)[name]}
-                    onChange={handleChange}
-                    className="border-gray-400 focus:ring-green-600"
-                    placeholder={`Ingrese ${label.toLowerCase()}`}
-                    required
-                  />
-                  <p className="text-xs text-gray-500">
-                    Este campo es obligatorio
-                  </p>
-                </div>
+                <InputConLabel
+                  key={name}
+                  label={label}
+                  name={name}
+                  placeholder={`Ingrese ${label.toLowerCase()}`}
+                  supportingText="Este campo es obligatorio"
+                  value={(form as any)[name]}
+                  onChange={(val) => handleChange(name, val)}
+                />
               ))}
 
               {/* Checkboxes */}
-              <div className="flex items-center gap-6 mt-3">
+                <div className="flex items-center gap-6 mt-3">
                 <div className="flex items-center space-x-2">
-                  <Checkbox
+                    <Checkbox
                     id="coordinador"
                     checked={form.esCoordinador}
                     onCheckedChange={() => handleCheck("esCoordinador")}
-                  />
-                  <Label htmlFor="coordinador">Es coordinador?</Label>
+                    className="border border-black data-[state=checked]:bg-green-600"
+                    />
+                    <Label htmlFor="coordinador" className="text-gray-700">
+                    Es coordinador?
+                    </Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Checkbox
+                    <Checkbox
                     id="admin"
                     checked={form.esAdministrador}
                     onCheckedChange={() => handleCheck("esAdministrador")}
-                  />
-                  <Label htmlFor="admin">Es administrador?</Label>
+                    className="border border-black data-[state=checked]:bg-green-600"
+                    />
+                    <Label htmlFor="admin" className="text-gray-700">
+                    Es administrador?
+                    </Label>
                 </div>
-              </div>
-
+                </div>
               {/* Botón Agregar */}
               <div className="flex justify-start mt-2">
                 <BotonGenerico
@@ -119,38 +111,34 @@ export default function UserCreate() {
               </div>
 
               {/* Carrera */}
-              <div className="mt-4">
-                <Label htmlFor="carrera">Carrera:</Label>
-                <Input
-                  id="carrera"
-                  name="carrera"
-                  value={form.carrera}
-                  onChange={handleChange}
-                  placeholder="Ingrese carrera"
-                  className="border-gray-400"
-                />
-              </div>
+              <InputConLabel
+                label="Carrera"
+                name="carrera"
+                placeholder="Ingrese carrera"
+                value={form.carrera}
+                onChange={(val) => handleChange("carrera", val)}
+              />
 
               {/* Botones Guardar / Cancelar */}
               <div className="flex justify-between mt-6">
-                <BotonGenerico
-                  texto="Guardar"
-                  color="#3E9956"
-                  icono={
-                    <span className="w-5 h-5 flex items-center justify-center rounded-full bg-white text-green-600">
-                      <span className="icon-[mdi--content-save]" />
-                    </span>
-                  }
-                  onClick={handleGuardar}
-                />
+             <BotonGenerico
+                    texto="Guardar"
+                    color="#47ADA4"
+                    icono={
+                        <span className="w-6 h-6 flex items-center justify-center rounded-full text-white text-2xl">
+                        <span className="icon-[mdi--content-save]" aria-label="Guardar" />
+                        </span>
+                    }
+                    onClick={handleGuardar}
+                    />
                 <BotonGenerico
                   texto="Cancelar"
-                  color="#808080"
+                  color="#929292"
                   icono={
                     <span className="w-5 h-5 flex items-center justify-center rounded-full bg-white text-gray-600">
                       <span className="icon-[mdi--close]" />
                     </span>
-                  } 
+                  }
                   onClick={handleCancelar}
                 />
               </div>

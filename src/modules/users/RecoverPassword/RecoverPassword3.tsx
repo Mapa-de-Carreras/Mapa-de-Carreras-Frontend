@@ -1,3 +1,4 @@
+import ModalGenerico from "@components/Modal/ModalGenerico";
 import PageBase from "../../../shared/components/PageBase/PageBase";
 import { useState } from "react";
 import type { FormEvent } from "react";
@@ -7,6 +8,7 @@ export default function RecoverPassword3() {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [mostrarModal, setMostrarModal] = useState<boolean>(false);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,6 +30,7 @@ export default function RecoverPassword3() {
 
     setError("");
     console.log("Nueva contraseña establecida:", password);
+    setMostrarModal(true);
   };
 
   const handleCancel = () => {
@@ -35,6 +38,14 @@ export default function RecoverPassword3() {
     setConfirmPassword("");
     setError("");
   };
+
+
+  const handleCerrarModal = () => {
+    setPassword("");
+    setConfirmPassword("");
+    setError("");
+  };
+
 
   return (
     <PageBase>
@@ -141,6 +152,17 @@ export default function RecoverPassword3() {
           </form>
         </div>
       </div>
+       {/* Modal de éxito */}
+            <ModalGenerico
+              abierto={mostrarModal}
+              onClose={handleCerrarModal}
+              icono={<span className="icon-[mdi--check-bold] text-green-600 text-5xl" />}
+              titulo="Éxito"
+              mensaje="Su contraseña ha sido restablecida correctamente."
+              textoBoton="Aceptar"
+              colorBoton="#3E9956"
+              onConfirmar={handleCerrarModal}
+            />
     </PageBase>
   );
 }

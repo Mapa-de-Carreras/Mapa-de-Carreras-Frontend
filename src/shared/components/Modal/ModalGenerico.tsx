@@ -39,7 +39,6 @@ export default function ModalGenerico({
           {mensaje && <p className="text-gray-600 mt-2">{mensaje}</p>}
         </DrawerHeader>
 
-        {/* Footer: usar un contenedor full-width y centrar el contenido */}
         <DrawerFooter className="mt-4">
           <div className="w-full flex justify-center">
             <Button
