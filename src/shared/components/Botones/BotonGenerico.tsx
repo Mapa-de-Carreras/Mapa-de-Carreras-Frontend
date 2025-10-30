@@ -2,11 +2,11 @@ import { Button } from "@components/ui/button";
 import { useNavigate } from "react-router";
 
 interface BotonGenericoProps {
-  texto: string;
+  texto?: string;
   color?: string; 
   icono?: React.ReactNode; 
   to?: string;
-  onClick?: () => void; // <-- agregar
+  onClick?: () => void; 
 }
 
 export default function BotonGenerico({
