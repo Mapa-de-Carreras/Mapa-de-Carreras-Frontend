@@ -1,6 +1,6 @@
-// TarjetaUsuario.tsx
 import { Card, CardHeader, CardTitle } from "@components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import BotonGenerico from "./Botones/BotonGenerico";
 
 interface TarjetaUsuarioProps {
   id: string | number;
@@ -34,35 +34,40 @@ export default function TarjetaUsuario({
               </AvatarFallback>
             </Avatar>
           ) : (
-            <div className="w-16 h-16 flex items-center justify-center rounded-full bg-white border border-gray-300">
+            <div
+              className="w-16 h-16 flex items-center justify-center rounded-full bg-white border"
+              style={{ borderColor: "#000000" }}
+            >
               <span
-                className="icon-[codicon--account] text-black w-full h-full text-[48px] flex items-center justify-center"
+                className="icon-[mdi--account] text-black w-full h-full text-[48px] flex items-center justify-center"
                 aria-label="Usuario"
               />
             </div>
           )}
 
           <div className="min-w-0">
-            <CardTitle className="text-xl font-semibold break-words">
+            <CardTitle className="text-xl font-semibold break-words text-black">
               {`${nombre} ${apellido}`}
             </CardTitle>
             <p className="text-sm text-muted-foreground">{rol}</p>
             {activo && (
-              <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm mt-1" style={{ color: "#999999" }}>
                 Estado: {activo}
               </p>
             )}
           </div>
         </div>
 
-        {/* Flecha siempre a la derecha */}
-        <button
+        {/* Botón con icono de flecha */}
+        <BotonGenerico
+          color="#49454F"
+          icono={
+            <span className="icon-[majesticons--share] text-white text-4xl" />
+          }
           onClick={() => onClickFlecha(id)}
-          className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-black border border-black hover:opacity-80 transition"
-          aria-label="Ir"
-        >
-          <span className="icon-[codicon--arrow-right] text-xl" />
-        </button>
+          type="button"
+          className="ml-auto w-10 h-10 rounded-full flex items-center justify-center p-0 border border-black hover:opacity-80 transition"
+        />
       </CardHeader>
     </Card>
   );

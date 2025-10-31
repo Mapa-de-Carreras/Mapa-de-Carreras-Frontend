@@ -1,12 +1,13 @@
 import { Button } from "@components/ui/button";
 import { useNavigate } from "react-router";
 
-interface BotonGenericoProps {
+interface BotonGenericoProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   texto?: string;
-  color?: string; 
-  icono?: React.ReactNode; 
+  color?: string;
+  icono?: React.ReactNode;
   to?: string;
-  onClick?: () => void; 
+  onClick?: () => void;
+  type?: "button" | "submit" | "reset"; 
 }
 
 export default function BotonGenerico({
@@ -15,21 +16,23 @@ export default function BotonGenerico({
   icono,
   to,
   onClick,
+  type = "button",
   ...props
 }: BotonGenericoProps) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (onClick) onClick(); // ejecuta la función que pase el usuario
-    if (to) navigate(to);   // navega si se definió la ruta
+    if (onClick) onClick();
+    if (to) navigate(to);
   };
 
   return (
     <Button
-      style={{ backgroundColor: color, color: "#fff" }} 
+      type={type} // usamos el type definido
+      style={{ backgroundColor: color, color: "#fff" }}
       className="flex items-center gap-2 px-4 py-2 rounded-lg"
       onClick={handleClick}
-      {...props}
+      {...props} // ahora acepta className, disabled, etc.
     >
       {icono && <span>{icono}</span>}
       {texto}

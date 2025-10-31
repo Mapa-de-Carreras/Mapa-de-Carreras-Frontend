@@ -1,33 +1,68 @@
+import { URL_API } from "@apis/constantes";
 import PageBase from "../../../shared/components/PageBase/PageBase";
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router";
+import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
+import ModalGenerico from "@components/Modal/ModalGenerico";
 
-export default function RecoverUsername1() {
+export default function RecoverUsername() {
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string>(""); 
+  const [loading, setLoading] = useState<boolean>(false);
+  const [mostrarModal, setMostrarModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+
+  const handleCerrarModal = () => {
+    setMostrarModal(false);
+    navigate("/authentication/login");
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Validar que el campo mail no este vacio
+    // Validar que el campo mail no esté vacío
     if (!email.trim()) {
       setError("Por favor, ingrese su email.");
       return;
     }
 
+    // Validar formato de email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("Ingrese un email válido.");
       return;
     }
 
-    setError(""); 
-    console.log("Email:", email);
+    setError("");
+    setLoading(true);
 
+     try {
+      const response = await fetch(
+        `${URL_API}auth/recuperar/recuperar-username/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({email}),
+        }
+      );
 
-    navigate("/authentication/reuser2");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error en la autenticación");
+      }
+
+      console.log("Email con nombre de usuario enviado correctamente");
+    } catch (error) {
+      console.error("Error al enviar el email:", error);
+      setError("Error al enviar el email. Intente nuevamente.");
+    }finally {
+      setLoading(false);
+      setMostrarModal(true);
+    }
   };
 
   const handleCancel = () => {
@@ -43,6 +78,7 @@ export default function RecoverUsername1() {
           <h1 className="text-2xl font-semibold text-center mb-6 text-black">
             Recuperar nombre de usuario
           </h1>
+            {loading && <PantallaCarga mensaje="Enviando correo..." />}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Email */}
@@ -87,6 +123,17 @@ export default function RecoverUsername1() {
           </form>
         </div>
       </div>
+       {/* Modal de éxito */}
+            <ModalGenerico
+              abierto={mostrarModal}
+              onClose={handleCerrarModal}
+              icono={<span className="icon-[mdi--check-bold] text-green-600 text-5xl" />}
+              titulo="Éxito"
+              mensaje="Su nombre de usuario ha sido enviado a su correo electrónico."
+              textoBoton="Aceptar"
+              colorBoton="#3E9956"
+              onConfirmar={handleCerrarModal}
+            />
     </PageBase>
   );
 }
