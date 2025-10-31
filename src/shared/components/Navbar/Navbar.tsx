@@ -26,8 +26,8 @@ export default function Navbar() {
 					<span
 						className={
 							collapsed
-								? 'icon-[lucide--panel-right] text-xl'
-								: 'icon-[lucide--panel-left] text-xl'
+								? 'icon-[lucide--panel-right] text-2xl'
+								: 'icon-[lucide--panel-left] text-2xl'
 						}
 					/>
 				</button>
