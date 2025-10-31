@@ -1,3 +1,4 @@
+import { URL_API } from "@apis/constantes";
 import PageBase from "../../../shared/components/PageBase/PageBase";
 import { useState } from "react";
 import type { FormEvent } from "react";
@@ -8,26 +9,47 @@ export default function RecoverUsername1() {
   const [error, setError] = useState<string>(""); 
   const navigate = useNavigate();
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Validar que el campo mail no este vacio
+    // Validar que el campo mail no esté vacío
     if (!email.trim()) {
       setError("Por favor, ingrese su email.");
       return;
     }
 
+    // Validar formato de email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("Ingrese un email válido.");
       return;
     }
 
-    setError(""); 
-    console.log("Email:", email);
+    setError("");
 
+    try {
+        const response = await fetch(`${URL_API}auth/recuperar/solicitar-codigo/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email }),
+          });
 
-    navigate("/authentication/reuser2");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error en la autenticación");
+      }
+
+      // Si todo salió bien
+      console.log("Email enviado correctamente");
+
+      // Ir al siguiente paso 
+      navigate("/authentication/reuser2");
+    } catch (error) {
+      console.error("Error al enviar el email:", error);
+      setError("Error al enviar el email. Intente nuevamente.");
+    }
   };
 
   const handleCancel = () => {

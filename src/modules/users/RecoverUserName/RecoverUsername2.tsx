@@ -1,11 +1,18 @@
 import PageBase from "../../../shared/components/PageBase/PageBase";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import ModalGenerico from "../../../shared/components/Modal/ModalGenerico";
+import { useLocation } from "react-router";
 
 export default function RecoverUsername2() {
   const [codigo, setCodigo] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [mostrarModal, setMostrarModal] = useState<boolean>(false);
+  const location = useLocation();
+  const email = location.state?.email;
+
+  useEffect(() => {
+    console.log("Email recibido:", email);
+  }, [email]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@components/ui/card";
 import { Checkbox } from "@components/ui/checkbox";
 import { Label } from "@components/ui/label";
 import InputConLabel from "../../../shared/components/InputConLabel/InputConLabel";
+import ModalGenerico from "@components/Modal/ModalGenerico";
 
 export default function UserCreate() {
   const [form, setForm] = useState({
@@ -20,6 +21,8 @@ export default function UserCreate() {
     carrera: "",
   });
 
+  const [mostrarModal, setMostrarModal] = useState<boolean>(false);
+
   const handleChange = (name: string, value: string) => {
     setForm({
       ...form,
@@ -34,9 +37,23 @@ export default function UserCreate() {
     });
   };
 
-  const handleAgregar = () => console.log("Usuario agregado:", form);
-  const handleGuardar = () => console.log("Guardar usuario:", form);
-  const handleCancelar = () => console.log("Cancelado");
+  const handleAgregar = () => {
+    console.log("Usuario agregado:", form);
+  };
+
+  const handleGuardar = () => {
+    console.log("Guardar usuario:");
+    setMostrarModal(true); 
+  };
+
+  const handleCancelar = () => {
+    console.log("Cancelado");
+  };
+
+  const handleCerrarModal = () => {
+    console.log("Cerrar modal");
+    setMostrarModal(false);
+  };
 
   return (
     <PageBase>
@@ -72,30 +89,32 @@ export default function UserCreate() {
               ))}
 
               {/* Checkboxes */}
-                <div className="flex items-center gap-6 mt-3">
+              <div className="flex items-center gap-6 mt-3">
                 <div className="flex items-center space-x-2">
-                    <Checkbox
+                  <Checkbox
                     id="coordinador"
                     checked={form.esCoordinador}
                     onCheckedChange={() => handleCheck("esCoordinador")}
                     className="border border-black data-[state=checked]:bg-green-600"
-                    />
-                    <Label htmlFor="coordinador" className="text-gray-700">
-                    Es coordinador?
-                    </Label>
+                  />
+                  <Label htmlFor="coordinador" className="text-gray-700">
+                    ¿Es coordinador?
+                  </Label>
                 </div>
+
                 <div className="flex items-center space-x-2">
-                    <Checkbox
+                  <Checkbox
                     id="admin"
                     checked={form.esAdministrador}
                     onCheckedChange={() => handleCheck("esAdministrador")}
                     className="border border-black data-[state=checked]:bg-green-600"
-                    />
-                    <Label htmlFor="admin" className="text-gray-700">
-                    Es administrador?
-                    </Label>
+                  />
+                  <Label htmlFor="admin" className="text-gray-700">
+                    ¿Es administrador?
+                  </Label>
                 </div>
-                </div>
+              </div>
+
               {/* Botón Agregar */}
               <div className="flex justify-start mt-2">
                 <BotonGenerico
@@ -121,16 +140,20 @@ export default function UserCreate() {
 
               {/* Botones Guardar / Cancelar */}
               <div className="flex justify-between mt-6">
-             <BotonGenerico
-                    texto="Guardar"
-                    color="#47ADA4"
-                    icono={
-                        <span className="w-6 h-6 flex items-center justify-center rounded-full text-white text-2xl">
-                        <span className="icon-[mdi--content-save]" aria-label="Guardar" />
-                        </span>
-                    }
-                    onClick={handleGuardar}
-                    />
+                <BotonGenerico
+                  texto="Guardar"
+                  color="#47ADA4"
+                  icono={
+                    <span className="w-6 h-6 flex items-center justify-center text-white text-2xl">
+                      <span
+                        className="icon-[mdi--content-save]"
+                        aria-label="Guardar"
+                      />
+                    </span>
+                  }
+                  onClick={handleGuardar}
+                />
+
                 <BotonGenerico
                   texto="Cancelar"
                   color="#929292"
@@ -146,6 +169,20 @@ export default function UserCreate() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Modal de éxito */}
+      <ModalGenerico
+        abierto={mostrarModal}
+        onClose={handleCerrarModal}
+        icono={
+          <span className="icon-[mdi--check-bold] text-green-600 text-5xl" />
+        }
+        titulo="Éxito"
+        mensaje="Usuario creado exitosamente."
+        textoBoton="Aceptar"
+        colorBoton="#3E9956"
+        onConfirmar={handleCerrarModal}
+      />
     </PageBase>
   );
 }

@@ -16,8 +16,10 @@ interface ModalGenericoProps {
   textoBoton?: string;
   colorBoton?: string;
   onConfirmar?: () => void;
+  textoBotonSecundario?: string;
+  colorBotonSecundario?: string;
+  onCancelar?: () => void;
 }
-
 export default function ModalGenerico({
   abierto,
   onClose,
@@ -27,9 +29,12 @@ export default function ModalGenerico({
   textoBoton = "Aceptar",
   colorBoton = "#3E9956",
   onConfirmar,
+  textoBotonSecundario = "Cancelar",
+  colorBotonSecundario = "#929292",
+  onCancelar,
 }: ModalGenericoProps) {
   return (
-    <Drawer open={abierto} onOpenChange={onClose}>
+    <Drawer open={abierto} onOpenChange={(open) => !open && onClose()}>
       <DrawerContent className="rounded-t-3xl p-6 text-center bg-white">
         <DrawerHeader className="flex flex-col items-center">
           {icono && <div className="mb-3">{icono}</div>}
@@ -40,16 +45,35 @@ export default function ModalGenerico({
         </DrawerHeader>
 
         <DrawerFooter className="mt-4">
-          <div className="w-full flex justify-center">
+     
+          <div className="flex flex-col items-center gap-3 w-full">
             <Button
-              style={{ backgroundColor: colorBoton, color: "#fff" }}
-              className="w-28 h-9 rounded-lg flex items-center justify-center gap-2"
+              style={{
+                backgroundColor: colorBoton,
+                color: "#fff",
+              }}
+              className="w-40 h-10 rounded-lg flex items-center justify-center"
               onClick={() => {
                 onConfirmar?.();
                 onClose();
               }}
             >
               {textoBoton}
+            </Button>
+
+   
+            <Button
+              style={{
+                backgroundColor: colorBotonSecundario,
+                color: "#fff",
+              }}
+              className="w-40 h-10 rounded-lg flex items-center justify-center"
+              onClick={() => {
+                onCancelar?.();
+                onClose();
+              }}
+            >
+              {textoBotonSecundario}
             </Button>
           </div>
         </DrawerFooter>
