@@ -119,7 +119,7 @@ export default function LoginPage() {
 							¿Olvidaste tu contraseña?
 						</button>
 						<button
-							onClick={() => navigate("/authentication/reuser1")}
+							onClick={() => navigate("/authentication/reuser")}
 							className="text-gray-900 underline hover:text-black text-left"
 						>
 							¿Olvidaste tu nombre de usuario?

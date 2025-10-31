@@ -5,8 +5,7 @@ import InstitutePage from "@academic/InstitutesPage/InstitutesPage";
 import LoginPage from "@users/LoginPage/LoginPage";
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router";
 import Home from "./Home";
-import RecoverUsername1 from "../modules/users/RecoverUserName/RecoverUsername1";
-import RecoverUsername2 from "../modules/users/RecoverUserName/RecoverUsername2";
+import RecoverUsername from "../modules/users/RecoverUserName/RecoverUsername";
 import RecoverPassword1 from "../modules/users/RecoverPassword/RecoverPassword1";
 import RecoverPassword2 from "../modules/users/RecoverPassword/RecoverPassword2";
 import RecoverPassword3 from "../modules/users/RecoverPassword/RecoverPassword3";
@@ -28,12 +27,8 @@ export default function Router() {
                     Component: LoginPage,
                 },
                 {
-                    path: "reuser1",
-                    Component: RecoverUsername1,
-                },
-                {
-                    path: "reuser2",
-                    Component: RecoverUsername2,
+                    path: "reuser",
+                    Component: RecoverUsername,
                 },
                 {
                     path: "repass1",
