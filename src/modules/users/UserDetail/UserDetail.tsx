@@ -34,12 +34,15 @@ export default function UserDetail() {
         <Card className="w-full max-w-md bg-white rounded-2xl shadow-md border border-gray-200 p-4">
           <CardHeader className="flex flex-col items-center">
             <div className="flex items-center justify-center gap-4">
-              <div className="w-16 h-16 flex items-center justify-center rounded-full bg-white border border-gray-300">
-                <span
-                  className="icon-[codicon--account] text-black text-[48px]"
-                  aria-label="Usuario"
-                />
-              </div>
+              <div
+              className="w-16 h-16 flex items-center justify-center rounded-full bg-white border"
+              style={{ borderColor: "#000000" }}
+            >
+              <span
+                className="icon-[mdi--account] text-black w-full h-full text-[48px] flex items-center justify-center"
+                aria-label="Usuario"
+              />
+            </div>
               <CardTitle className="text-xl font-semibold text-center text-black">
                 Horacio Pendenti
               </CardTitle>
@@ -123,13 +126,13 @@ export default function UserDetail() {
                     </p>
                   </div>
                   <BotonGenerico
-                    color="white"
-                    icono={
-                      <span className="w-8 h-8 flex items-center justify-center rounded-full text-black text-3xl">
-                        <span className="icon-[ph--arrow-circle-right]" />
-                      </span>
-                    }
+                     color="#49454F"
+                     icono={
+                          <span className="icon-[majesticons--share] text-white text-4xl" />
+                        }
                     onClick={() => handleVerCarrera(1)}
+                    type="button"
+                    className="ml-auto w-10 h-10 rounded-full flex items-center justify-center p-0 border border-black hover:opacity-80 transition"
                   />
                 </div>
               </Card>

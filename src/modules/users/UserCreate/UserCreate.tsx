@@ -43,7 +43,7 @@ export default function UserCreate() {
 
   const handleGuardar = () => {
     console.log("Guardar usuario:");
-    setMostrarModal(true); 
+    setMostrarModal(true);
   };
 
   const handleCancelar = () => {
@@ -66,7 +66,13 @@ export default function UserCreate() {
           </CardHeader>
 
           <CardContent>
-            <form className="space-y-5">
+            <form
+              className="space-y-5"
+              onSubmit={(e) => {
+                e.preventDefault(); // evita recargar la página
+                handleGuardar();
+              }}
+            >
               {/* Campos principales */}
               {[
                 { label: "Legajo", name: "legajo" },
@@ -126,6 +132,7 @@ export default function UserCreate() {
                     </span>
                   }
                   onClick={handleAgregar}
+                  type="button" 
                 />
               </div>
 
@@ -163,6 +170,7 @@ export default function UserCreate() {
                     </span>
                   }
                   onClick={handleCancelar}
+                  type="button" 
                 />
               </div>
             </form>
