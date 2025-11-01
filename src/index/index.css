@@ -170,6 +170,12 @@ body,
 	--chart-2: oklch(0.7 0.17 162);
 	--chart-3: oklch(0.77 0.18 70);
 	--chart-4: oklch(0.63 0.25 304);
+
+	--card-home: #2f2f35;
+	--card-home-foreground: #dcd6d6;
+	--card-home-accent: #474444;
+	--link: #43a1a2;
+	--link-hover: #51bec0;
 }
 
 @layer base {
