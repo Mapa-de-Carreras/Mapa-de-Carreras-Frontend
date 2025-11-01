@@ -8,7 +8,7 @@ export default function NavbarMobile() {
     const [open, setOpen] = useState(false);
     
 	return (
-		<nav className="bg-sidebar flex flex-row items-center justify-between h-15 w-full sm:hidden">
+		<nav className="bg-sidebar flex flex-row items-center justify-between h-15 w-full sm:hidden z-10">
 			<Drawer direction='bottom' open={open} onOpenChange={setOpen}>
 				<DrawerTrigger asChild>
                     <button
