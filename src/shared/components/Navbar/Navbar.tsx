@@ -8,13 +8,14 @@ import { UserMenu } from './UserMenu'
 import { rutas } from './rutasProvisorias'
 
 export default function Navbar() {
-	const [collapsed, setCollapsed] = useState<boolean>(false)
+	const [collapsed, setCollapsed] = useState<boolean>(false);
+
 	const { theme } = useTheme();
 
 	return (
 		<nav
 			className={cn(
-				'hidden sm:block bg-sidebar border-sidebar-border scroll-hidden h-full overflow-y-auto border-r p-2 transition-all duration-300 ease-in-out',
+				'hidden sm:block bg-sidebar border-sidebar-border scroll-hidden h-full overflow-y-auto border-r p-2 transition-all duration-300 ease-in-out z-10',
 				collapsed ? 'w-20' : 'w-70' // 🔹 ancho animado
 			)}
 		>
@@ -26,8 +27,8 @@ export default function Navbar() {
 					<span
 						className={
 							collapsed
-								? 'icon-[lucide--panel-right] text-xl'
-								: 'icon-[lucide--panel-left] text-xl'
+								? 'icon-[lucide--panel-right] text-2xl'
+								: 'icon-[lucide--panel-left] text-2xl'
 						}
 					/>
 				</button>
@@ -40,7 +41,7 @@ export default function Navbar() {
 					)}
 				>
 					<img
-						src={theme === 'dark' ? LOGOBLANCO : LOGONORMAL}
+						src={theme.includes('dark') ? LOGOBLANCO : LOGONORMAL}
 						alt="logo"
 						className="w-60 p-2 transition-opacity transition-transform"
 					/>

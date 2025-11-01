@@ -22,10 +22,6 @@ export function UserSettingMenu() {
 						<span className="icon-[lucide--moon]" />
 						Oscuro
 					</Button>
-					<Button onClick={() => setTheme("system")}>
-						<span className="icon-[lucide--monitor]" />
-						Sistema
-					</Button>
 				</AccordionContent>
 			</AccordionItem>
 		</Accordion>

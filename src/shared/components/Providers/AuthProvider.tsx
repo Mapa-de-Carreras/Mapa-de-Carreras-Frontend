@@ -41,9 +41,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setUser(null);
     };
 
-    const refresh = async (token: string) => {
+    const refresh = async () => {
         try {
-            await refreshRequest(token);
+            await refreshRequest();
         } catch (err) {
             console.error("Error refrescando token:", err);
             logout();

@@ -20,7 +20,7 @@ export default function NavItem({ ruta, collapsed, setCollapsed }: NavItemProps)
 	const [openAccordion, setOpenAccordion] = useState<string | undefined>(undefined)
 	const location = useLocation()
 	const navigate = useNavigate()
-	const isActive = location.pathname.startsWith(ruta.path)
+	const isActive = (location.pathname === "/" && ruta.label==="Home") || location.pathname.startsWith(`/${ruta.path}`);
 
 	const toggleAccordion = (value: string | undefined) => {
 		if (collapsed) {
@@ -44,12 +44,12 @@ export default function NavItem({ ruta, collapsed, setCollapsed }: NavItemProps)
 					variant="ghost"
 					onClick={() => navigate(ruta.path)}
 					className={cn(
-						'w-full gap-2',
+						'hover:bg-sidebar-accent/40 flex w-full items-center gap-2 rounded-sm px-2 py-2 cursor-pointer text-xl',
 						collapsed ? 'justify-center' : 'justify-start',
 						isActive && 'bg-sidebar-primary text-sidebar-primary-foreground'
 					)}
 				>
-					<span className={`text-xl ${ruta.icon}`} />
+					<span className={`text-2xl ${ruta.icon}`} />
 					{!collapsed && <span>{ruta.label}</span>}
 				</Button>
 			</li>
@@ -68,25 +68,25 @@ export default function NavItem({ ruta, collapsed, setCollapsed }: NavItemProps)
 			<AccordionItem value={ruta.path} className="border-0">
 				<AccordionTrigger
 					className={cn(
-						'hover:bg-sidebar-accent/40 flex w-full items-center gap-2 rounded-sm px-2 py-2 cursor-pointer',
+						'hover:bg-sidebar-accent/40 flex w-full items-center gap-2 rounded-sm px-2 py-2 cursor-pointer text-xl',
 						collapsed ? 'justify-center' : 'text-left',
 						isActive && 'bg-sidebar-primary text-sidebar-primary-foreground'
 					)}
 				>
-					<span className={`text-xl ${ruta.icon}`} />
+					<span className={`text-2xl ${ruta.icon}`} />
 					{!collapsed && <span>{ruta.label}</span>}
 				</AccordionTrigger>
 				<AccordionContent>
-					<ul className="ml-auto flex w-[90%] flex-col gap-1">
+					<ul className="ml-auto my-2 flex w-[90%] flex-col gap-1">
 						{ruta.children.map((child) => {
-							const childActive = location.pathname === child.path
+							const childActive = location.pathname === `/${ruta.path}/${child.path}`							
 							return (
 								<li key={child.path}>
 									<Button
 										variant="ghost"
-										onClick={() => navigate(child.path)}
+										onClick={() => navigate(`${ruta.path}/${child.path}`)}
 										className={cn(
-											'w-full justify-start pl-6 text-sm cursor-pointer',
+											'w-full justify-start pl-6 text-xl cursor-pointer',
 											childActive &&
 												'bg-sidebar-primary text-sidebar-primary-foreground'
 										)}

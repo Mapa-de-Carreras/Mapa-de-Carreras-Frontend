@@ -2,6 +2,11 @@ import { Route } from "./types";
 
 export const rutas: Route[] = [
     {
+        path: '/',
+        label: 'Home',
+        icon: 'icon-[material-symbols--home]',
+    },
+    {
         path: 'administracion',
         label: 'Administración',
         icon: 'icon-[eos-icons--admin-outlined]',

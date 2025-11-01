@@ -7,6 +7,6 @@ export type Route = {
 	path: string,
 	label: string,
 	icon: string,
-	children: SubRoute[],
+	children?: SubRoute[],
 };
 
