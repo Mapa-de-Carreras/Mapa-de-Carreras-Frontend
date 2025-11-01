@@ -5,7 +5,7 @@ const GuestRoute: React.FC = () => {
     const { user } = useAuth();
 
     if (user) {
-        return <Navigate to="/home" replace />;
+        return <Navigate to="/" replace />;
     }
 
     return <Outlet />;
