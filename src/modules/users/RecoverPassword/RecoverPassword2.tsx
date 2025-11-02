@@ -1,12 +1,29 @@
 import PageBase from "../../../shared/components/PageBase/PageBase";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+
+interface LocationState {
+  email?: string;
+}
 
 export default function RecoverPassword2() {
   const [codigo, setCodigo] = useState<string>("");
   const [error, setError] = useState<string>(""); 
   const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state as LocationState;
+  const [email, setEmail] = useState<string>("");
+
+  useEffect(() => {
+    if (state?.email) {
+      console.log("Email recibido en RecoverPassword2:", state.email);
+      setEmail(state.email);
+    } else {
+      // Si no hay email, volvemos a la pantalla anterior
+      navigate("/authentication/repass1");
+    }
+  }, [state, navigate]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -16,20 +33,21 @@ export default function RecoverPassword2() {
       return;
     }
 
-    if (codigo.length !== 5) {
-      setError("El código debe tener 5 dígitos.");
+    if (codigo.length !== 6) {
+      setError("El código debe tener 6 dígitos.");
       return;
     }
 
     setError("");
     console.log("Código:", codigo);
-    navigate("/authentication/repass3");
+    navigate("/authentication/repass3", { state: { email,codigo } });
 
   };
 
   const handleCancel = () => {
     setCodigo("");
     setError("");
+    navigate("/authentication/login");
   };
 
   return (
@@ -37,7 +55,7 @@ export default function RecoverPassword2() {
       <div className="flex justify-center items-start h-screen pt-60 bg-gray-50">
         <div className="bg-white shadow-md rounded-lg p-4 w-full max-w-md border border-gray-200">
           <h1 className="text-xl font-semibold text-center mb-6 text-black">
-            Ingrese código de verificación de 5 dígitos
+            Ingrese código de verificación de 6 dígitos
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-4">
