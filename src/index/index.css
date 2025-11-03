@@ -65,6 +65,28 @@ body,
 	--color-table-header: var(--table-header);
 	--color-table-header-foreground: var(--table-header-foreground);
 
+	--color-agregar: var(--agregar);
+	--color-agregar-hover: var(--agregar-hover);
+	--color-agregar-active: var(--agregar-active);
+  
+	--color-guardar: var(--guardar);
+	--color-guardar-hover: var(--guardar-hover);
+	--color-guardar-active: var(--guardar-active);
+  
+	--color-cancelar: var(--cancelar);
+	--color-cancelar-hover: var(--cancelar-hover);
+	--color-cancelar-active: var(--cancelar-active);
+  
+	--color-eliminar: var(--eliminar);
+	--color-eliminar-hover: var(--eliminar-hover);
+	--color-eliminar-active: var(--eliminar-active);
+  
+	--color-editar: var(--editar);
+	--color-editar-hover: var(--editar-hover);
+	--color-editar-active: var(--editar-active);
+  
+	--color-filtro: var(--filtro);
+	--color-default: var(--default);
 }
 
 :root {
@@ -124,6 +146,29 @@ body,
 	--card-home-accent: #d8d8d8;
 	--link: #43a1a2;
 	--link-hover: #51bec0;
+
+	--agregar: #3e9956;
+	--agregar-hover: #359b4b;
+	--agregar-active: #2f7a3d;
+
+	--guardar: #47ada4;
+	--guardar-hover: #419a90;
+	--guardar-active: #357a6e;
+
+	--cancelar: #929292;
+	--cancelar-hover: #7e7e7e;
+	--cancelar-active: #646464;
+
+	--eliminar: #b53b3b;
+	--eliminar-hover: #9a3333;
+	--eliminar-active: #7f2c2c;
+
+	--editar: #3e9956;
+	--editar-hover: #359b4b;
+	--editar-active: #2f7a3d;
+
+	--filtro: #f5f5f5;
+	--default: #b0b0b0;
 }
 
 .dark {
@@ -185,6 +230,29 @@ body,
 	--card-home-accent: #474444;
 	--link: #43a1a2;
 	--link-hover: #51bec0;
+
+	--agregar: #2C7A3B;
+	--agregar-hover: #257A32;
+	--agregar-active: #1F6230;
+
+	--guardar: #409A93;
+	--guardar-hover: #3A8D83;
+	--guardar-active: #336B6B;
+
+	--cancelar: #7D7D7D;
+	--cancelar-hover: #6A6A6A;
+	--cancelar-active: #545454;
+
+	--eliminar: #9A1F1F;
+	--eliminar-hover: #881818;
+	--eliminar-active: #701313;
+
+	--editar: #2C7A3B;
+	--editar-hover: #257A32;
+	--editar-active: #1F6230;
+
+	--filtro: #444444;
+	--default: #B0B0B0;
 }
 
 @layer base {
@@ -208,20 +276,20 @@ body,
 
 /* Estilos del scroll global */
 ::-webkit-scrollbar {
-  width: 10px; /* ancho del scroll vertical */
-  height: 10px; /* alto del scroll horizontal */
+	width: 10px; /* ancho del scroll vertical */
+	height: 10px; /* alto del scroll horizontal */
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--background); /* color del fondo */
-  border-radius: 10px;
+	background: var(--background); /* color del fondo */
+	border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--secondary); /* color de la barra */
-  border-radius: 10px;
+	background: var(--secondary); /* color de la barra */
+	border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; /* color al pasar el mouse */
+	background: #555; /* color al pasar el mouse */
 }

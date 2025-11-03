@@ -114,6 +114,7 @@ export default function DegreePage() {
 				habilitarBuscador
 				habilitarPaginado
 				columnasFijas={false}
+				funcionAgregado={() => {}}
 			/>
 		</PageBase>
 	)

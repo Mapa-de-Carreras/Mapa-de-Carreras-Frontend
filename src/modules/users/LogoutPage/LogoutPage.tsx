@@ -3,8 +3,13 @@ import { useNavigate } from "react-router";
 import PageBase from "@components/PageBase/PageBase";
 import BotonGenerico from "@components/Botones/BotonGenerico";
 import TarjetaUsuario from "@components/TarjetaUsuario";
+<<<<<<< HEAD
 import { URL_API } from "@apis/constantes";
 import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
+import BotonBase from "@components/Botones/BotonBase";
+=======
+import BotonBase from "@components/Botones/BotonBase";
+>>>>>>> 67a9e4d (refactor: se agrega un boton base y se reemplaza parcialmente el boton genérico)
 
 export default function LogoutPage() {
   const navigate = useNavigate();
@@ -57,19 +62,7 @@ export default function LogoutPage() {
 
         {/* Botón Agregar */}
         <div className="w-full max-w-sm">
-          <BotonGenerico
-            texto="Agregar"
-            color="#3E9956"
-            icono={
-              <span className="w-6 h-6 flex items-center justify-center rounded-full bg-white">
-                <span
-                  className="icon-[mdi--plus] text-[#3E9956] text-xl"
-                  aria-label="Agregar"
-                />
-              </span>
-            }
-            onClick={handleAgregar}
-          />
+          <BotonBase variant="agregar" onClick={handleAgregar} />
         </div>
 
         {/* Mostrar error si hay */}

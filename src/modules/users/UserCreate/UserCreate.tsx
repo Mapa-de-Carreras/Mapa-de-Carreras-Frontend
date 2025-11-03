@@ -1,6 +1,5 @@
 import { useState } from "react";
 import PageBase from "../../../shared/components/PageBase/PageBase";
-import BotonGenerico from "../../../shared/components/Botones/BotonGenerico";
 import { Card, CardHeader, CardTitle, CardContent } from "@components/ui/card";
 import { Checkbox } from "@components/ui/checkbox";
 import { Label } from "@components/ui/label";
@@ -9,6 +8,7 @@ import ModalGenerico from "@components/Modal/ModalGenerico";
 import { useNavigate } from "react-router";
 import { URL_API } from "@apis/constantes";
 import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
+import BotonBase from "@components/Botones/BotonBase";
 
 export default function UserCreate() {
   const [form, setForm] = useState({
@@ -258,12 +258,10 @@ export default function UserCreate() {
                   </Label>
                 </div>
               </div>
-
               {errorGeneral && <p className="text-red-500 text-sm text-center mt-2">{errorGeneral}</p>}
-
               <div className="flex justify-between mt-6">
-                <BotonGenerico texto="Guardar" color="#47ADA4" onClick={handleGuardar} />
-                <BotonGenerico texto="Cancelar" color="#929292" onClick={handleCancelar} type="button" />
+                <BotonBase variant="guardar" onClick={handleGuardar} />
+                <BotonBase variant="cancelar" onClick={handleCancelar} />
               </div>
             </form>
           </CardContent>

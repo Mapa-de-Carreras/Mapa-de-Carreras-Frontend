@@ -1,11 +1,12 @@
 import PageBase from "../../../shared/components/PageBase/PageBase";
-import BotonGenerico from "../../../shared/components/Botones/BotonGenerico";
 import { Card, CardHeader, CardTitle, CardContent } from "@components/ui/card";
 import ModalGenerico from "@components/Modal/ModalGenerico";
 import { useEffect, useState } from "react";
 import { URL_API } from "@apis/constantes";
 import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
 import { useLocation, useNavigate } from "react-router";
+import BotonBase from "@components/Botones/BotonBase";
+import BotonDetalle from "@components/Botones/BotonDetalle";
 
 export default function UserDetail() {
   const [mostrarModal, setMostrarModal] = useState(false);
@@ -131,7 +132,6 @@ export default function UserDetail() {
     <PageBase>
       <div className="flex flex-col items-center justify-start min-h-screen bg-gray-50 px-4 sm:px-6 md:px-10 lg:px-20 py-10">
         {loading && <PantallaCarga mensaje="Cargando datos de usuario..." />}
-
         {usuario && (
           <Card className="w-full max-w-2xl bg-white rounded-2xl shadow-lg border border-gray-200 p-6 md:p-8">
             <CardHeader className="flex flex-col items-center">
@@ -149,26 +149,8 @@ export default function UserDetail() {
               </div>
 
               <div className="flex flex-wrap justify-center gap-4 mt-5">
-                <BotonGenerico
-                  texto="Editar"
-                  color="#3E9956"
-                  icono={
-                    <span className="w-6 h-6 flex items-center justify-center text-white text-2xl">
-                      <span className="icon-[ph--note-pencil]" aria-label="Editar" />
-                    </span>
-                  }
-                  onClick={handleEditar}
-                />
-                <BotonGenerico
-                  texto="Eliminar"
-                  color="#B53B3B"
-                  icono={
-                    <span className="w-6 h-6 flex items-center justify-center text-white text-2xl">
-                      <span className="icon-[mdi--trash-can]" aria-label="Eliminar" />
-                    </span>
-                  }
-                  onClick={handleAbrirModalEliminar}
-                />
+                <BotonBase variant="editar" onClick={handleEditar} />
+                <BotonBase variant="eliminar" onClick={handleAbrirModalEliminar} />
               </div>
             </CardHeader>
 
@@ -211,13 +193,7 @@ export default function UserDetail() {
                       <p className="font-semibold text-black text-lg">Licenciatura en Sistemas</p>
                       <p className="text-sm text-gray-600">Coordinador: Ezequiel Moyano</p>
                     </div>
-                    <BotonGenerico
-                      color="#49454F"
-                      icono={<span className="icon-[majesticons--share] text-white text-3xl" />}
-                      onClick={() => handleVerCarrera(1)}
-                      type="button"
-                      className="ml-auto w-10 h-10 rounded-full flex items-center justify-center p-0 border border-black hover:opacity-80 transition"
-                    />
+                    <BotonDetalle onClick={() => handleVerCarrera(1)} />
                   </div>
                 </Card>
               </div>
