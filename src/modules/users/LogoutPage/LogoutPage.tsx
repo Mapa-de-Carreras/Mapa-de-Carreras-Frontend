@@ -1,88 +1,108 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import useAuth from "@components/hooks/useAuth";
 import PageBase from "@components/PageBase/PageBase";
 import BotonGenerico from "@components/Botones/BotonGenerico";
 import TarjetaUsuario from "@components/TarjetaUsuario";
+import { URL_API } from "@apis/constantes";
+import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
 
 export default function LogoutPage() {
   const navigate = useNavigate();
   const [error, setError] = useState<string>("");
-  const { logout } = useAuth();
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate('/authentication/login');
-    } catch (error) {
-      console.error("Error en el logout:", error);
-      setError(error instanceof Error ? error.message : "Error inesperado.");
-    }
-  };
+  const [loading, setLoading] = useState<boolean>(false);
+  const [usuarios, setUsuarios] = useState<any[]>([]);
 
   const handleAgregar = () => {
-    console.log("Botón Agregar clickeado");
-    
+    navigate("/administracion/usuarios/crear");
   };
+
+  useEffect(() => {
+    const fetchUsuarios = async () => {
+      setLoading(true);
+      try {
+        const token = localStorage.getItem("access_token");
+        console.log("Token de acceso:", token);
+
+        const response = await fetch(`${URL_API}usuarios/`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al obtener los usuarios");
+        }
+
+        const data = await response.json();
+        setUsuarios(data);
+        console.log("Usuarios cargados correctamente:", data);
+      } catch (error) {
+        console.error("Error al cargar los usuarios:", error);
+        setError("Error al cargar los usuarios. Intente nuevamente.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsuarios();
+  }, []);
 
   return (
     <PageBase>
-      <div className="flex flex-col justify-center items-center h-screen bg-gray-50 gap-4">
+      <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50 gap-4 p-4">
+        {loading && <PantallaCarga mensaje="Cargando usuarios..." />}
 
         {/* Botón Agregar */}
         <div className="w-full max-w-sm">
           <BotonGenerico
             texto="Agregar"
-            color="#3E9956" 
+            color="#3E9956"
             icono={
-               <span className="w-6 h-6 flex items-center justify-center rounded-full bg-white">
-                <span className="icon-[mdi--plus] text-[#3E9956] text-xl" aria-label="Agregar" />
+              <span className="w-6 h-6 flex items-center justify-center rounded-full bg-white">
+                <span
+                  className="icon-[mdi--plus] text-[#3E9956] text-xl"
+                  aria-label="Agregar"
+                />
               </span>
             }
-            onClick={() => handleAgregar()}
+            onClick={handleAgregar}
           />
         </div>
 
+        {/* Mostrar error si hay */}
+        {error && <p className="text-red-600 mt-2">{error}</p>}
+
         {/* Tarjetas de usuario */}
-        <TarjetaUsuario
-          id={1}
-          nombre="Horacio"
-          apellido="Pendenti"
-          rol="Coordinador de carrera"
-          activo="Activo"
-          onClickFlecha={(id) => console.log("Flecha clickeada en usuario", id)}
-        />
-        <TarjetaUsuario
-          id={2}
-          nombre="Cintia"
-          apellido="Alejandra Aguado"
-          rol="Admin"
-          activo="Activo"
-          onClickFlecha={(id) => console.log("Flecha clickeada en usuario", id)}
-        />
-        <TarjetaUsuario
-          id={3}
-          nombre="Ezequiel"
-          apellido="Moyano"
-          rol="Admin-Coordinador de carrera"
-          activo="Activo"
-          onClickFlecha={(id) => console.log("Flecha clickeada en usuario", id)}
-        />
-
-        {/* Botón Cerrar sesión */}
-        <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-sm text-center border border-gray-200 mt-6">
-          <h1 className="text-2xl font-semibold text-black mb-6">
-            ¿Deseas cerrar sesión?
-          </h1>
-          <button
-            onClick={handleLogout}
-            className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition"
-          >
-            Cerrar sesión
-          </button>
-
-          {error && (
-            <p className="text-red-600 text-sm text-center mt-2">{error}</p>
+        <div className="flex flex-col gap-4 w-full max-w-md">
+          {usuarios.length > 0 ? (
+            usuarios.map((u) => (
+              <TarjetaUsuario
+                key={u.id}
+                id={u.id}
+                nombre={u.first_name || "No disponible"}
+                apellido={u.last_name || "No disponible"}
+                rol={
+                  u.roles && u.roles.length > 0
+                    ? u.roles.join(", ")
+                    : u.is_staff
+                    ? "Administrador"
+                    : "No disponible"
+                }
+                activo={u.is_active ? "Activo" : "Inactivo"}
+                onClickFlecha={() =>
+                  navigate(`/administracion/usuarios/detalle/`, { state: { id: u.id } })
+                }
+              />
+            ))
+          ) : (
+            !loading && (
+              <p className="text-gray-600 text-center">
+                No hay usuarios disponibles.
+              </p>
+            )
           )}
         </div>
       </div>

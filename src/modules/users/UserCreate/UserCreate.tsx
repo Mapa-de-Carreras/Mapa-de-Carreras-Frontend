@@ -6,6 +6,7 @@ import { Checkbox } from "@components/ui/checkbox";
 import { Label } from "@components/ui/label";
 import InputConLabel from "../../../shared/components/InputConLabel/InputConLabel";
 import ModalGenerico from "@components/Modal/ModalGenerico";
+import { useNavigate } from "react-router";
 
 export default function UserCreate() {
   const [form, setForm] = useState({
@@ -22,6 +23,7 @@ export default function UserCreate() {
   });
 
   const [mostrarModal, setMostrarModal] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const handleChange = (name: string, value: string) => {
     setForm({
@@ -48,6 +50,7 @@ export default function UserCreate() {
 
   const handleCancelar = () => {
     console.log("Cancelado");
+    navigate(-1);
   };
 
   const handleCerrarModal = () => {
