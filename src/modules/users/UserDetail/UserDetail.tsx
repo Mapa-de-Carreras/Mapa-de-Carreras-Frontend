@@ -3,6 +3,7 @@ import BotonGenerico from "../../../shared/components/Botones/BotonGenerico";
 import { Card, CardHeader, CardTitle, CardContent } from "@components/ui/card";
 import ModalGenerico from "@components/Modal/ModalGenerico";
 import { useState } from "react";
+import BotonBase from "@components/Botones/BotonBase";
 export default function UserDetail() {
   const [mostrarModal, setMostrarModal] = useState<boolean>(false);
 
@@ -50,33 +51,9 @@ export default function UserDetail() {
 
             {/* Botones */}
             <div className="flex gap-3 mt-3">
-              <BotonGenerico
-                texto="Editar"
-                color="#3E9956"
-                icono={
-                  <span className="w-6 h-6 flex items-center justify-center rounded-full text-white text-2xl">
-                    <span
-                      className="icon-[ph--note-pencil]"
-                      aria-label="Editar"
-                    />
-                  </span>
-                }
-                onClick={handleEditar}
-              />
+              <BotonBase variant="editar" onClick={handleEditar} />
 
-              <BotonGenerico
-                texto="Eliminar"
-                color="#B53B3B"
-                icono={
-                  <span className="w-6 h-6 flex items-center justify-center rounded-full text-white text-2xl">
-                    <span
-                      className="icon-[mdi--trash-can]"
-                      aria-label="Eliminar"
-                    />
-                  </span>
-                }
-                onClick={handleAbrirModalEliminar}
-              />
+              <BotonBase variant="eliminar" onClick={handleAbrirModalEliminar}/>
             </div>
           </CardHeader>
 

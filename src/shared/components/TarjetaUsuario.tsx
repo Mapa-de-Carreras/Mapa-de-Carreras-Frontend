@@ -1,6 +1,8 @@
 import { Card, CardHeader, CardTitle } from "@components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import BotonGenerico from "./Botones/BotonGenerico";
+import BotonBase from "./Botones/BotonBase";
+import BotonDetalle from "./Botones/BotonDetalle";
 
 interface TarjetaUsuarioProps {
   id: string | number;
@@ -59,15 +61,7 @@ export default function TarjetaUsuario({
         </div>
 
         {/* Botón con icono de flecha */}
-        <BotonGenerico
-          color="#49454F"
-          icono={
-            <span className="icon-[majesticons--share] text-white text-4xl" />
-          }
-          onClick={() => onClickFlecha(id)}
-          type="button"
-          className="ml-auto w-10 h-10 rounded-full flex items-center justify-center p-0 border border-black hover:opacity-80 transition"
-        />
+        <BotonDetalle onClick={() => onClickFlecha(id)}/>
       </CardHeader>
     </Card>
   );

@@ -6,6 +6,7 @@ import { Checkbox } from "@components/ui/checkbox";
 import { Label } from "@components/ui/label";
 import InputConLabel from "../../../shared/components/InputConLabel/InputConLabel";
 import ModalGenerico from "@components/Modal/ModalGenerico";
+import BotonBase from "@components/Botones/BotonBase";
 
 export default function UserCreate() {
   const [form, setForm] = useState({
@@ -123,17 +124,7 @@ export default function UserCreate() {
 
               {/* Botón Agregar */}
               <div className="flex justify-start mt-2">
-                <BotonGenerico
-                  texto="Agregar"
-                  color="#3E9956"
-                  icono={
-                    <span className="w-5 h-5 flex items-center justify-center rounded-full bg-white text-green-600">
-                      <span className="icon-[mdi--plus]" />
-                    </span>
-                  }
-                  onClick={handleAgregar}
-                  type="button" 
-                />
+                <BotonBase variant="agregar" onClick={handleAgregar}/>
               </div>
 
               {/* Carrera */}
@@ -147,31 +138,8 @@ export default function UserCreate() {
 
               {/* Botones Guardar / Cancelar */}
               <div className="flex justify-between mt-6">
-                <BotonGenerico
-                  texto="Guardar"
-                  color="#47ADA4"
-                  icono={
-                    <span className="w-6 h-6 flex items-center justify-center text-white text-2xl">
-                      <span
-                        className="icon-[mdi--content-save]"
-                        aria-label="Guardar"
-                      />
-                    </span>
-                  }
-                  onClick={handleGuardar}
-                />
-
-                <BotonGenerico
-                  texto="Cancelar"
-                  color="#929292"
-                  icono={
-                    <span className="w-5 h-5 flex items-center justify-center rounded-full bg-white text-gray-600">
-                      <span className="icon-[mdi--close]" />
-                    </span>
-                  }
-                  onClick={handleCancelar}
-                  type="button" 
-                />
+                <BotonBase variant="guardar" onClick={handleGuardar} />
+                <BotonBase variant="cancelar" onClick={handleCancelar} />
               </div>
             </form>
           </CardContent>

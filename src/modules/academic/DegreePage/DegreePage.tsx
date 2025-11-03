@@ -5,6 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import TituloTabla from "@components/Tabla/TituloTabla";
 import AccionTabla from "@components/Tabla/AccionTabla";
 import Carrera from "@globalTypes/carrera";
+import BotonBase from "@components/Botones/BotonBase";
 
 export default function DegreePage() {
 
@@ -60,6 +61,7 @@ export default function DegreePage() {
                 habilitarBuscador
                 habilitarPaginado
                 columnasFijas={false}
+                funcionAgregado={() => {}}
             />
         </PageBase>
     )

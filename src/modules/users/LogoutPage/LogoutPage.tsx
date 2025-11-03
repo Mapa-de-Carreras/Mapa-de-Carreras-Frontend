@@ -4,6 +4,7 @@ import useAuth from "@components/hooks/useAuth";
 import PageBase from "@components/PageBase/PageBase";
 import BotonGenerico from "@components/Botones/BotonGenerico";
 import TarjetaUsuario from "@components/TarjetaUsuario";
+import BotonBase from "@components/Botones/BotonBase";
 
 export default function LogoutPage() {
   const navigate = useNavigate();
@@ -31,16 +32,7 @@ export default function LogoutPage() {
 
         {/* Botón Agregar */}
         <div className="w-full max-w-sm">
-          <BotonGenerico
-            texto="Agregar"
-            color="#3E9956" 
-            icono={
-               <span className="w-6 h-6 flex items-center justify-center rounded-full bg-white">
-                <span className="icon-[mdi--plus] text-[#3E9956] text-xl" aria-label="Agregar" />
-              </span>
-            }
-            onClick={() => handleAgregar()}
-          />
+          <BotonBase variant="agregar" onClick={handleAgregar} />
         </div>
 
         {/* Tarjetas de usuario */}

@@ -30,7 +30,7 @@ export default function BotonGenerico({
     <Button
       type={type} // usamos el type definido
       style={{ backgroundColor: color, color: "#fff" }}
-      className="flex items-center gap-2 px-4 py-2 rounded-lg"
+      className="flex items-center gap-2 px-4 py-2 rounded-lg cursor-pointer"
       onClick={handleClick}
       {...props} // ahora acepta className, disabled, etc.
     >
