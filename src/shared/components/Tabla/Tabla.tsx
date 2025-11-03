@@ -19,8 +19,7 @@ interface TablaProps<TData, TValue> {
 	data: TData[]
 	habilitarBuscador?: boolean
 	habilitarPaginado?: boolean
-	classNameFila?: string
-	classNameCelda?: string
+	columnasFijas?: boolean // Indica si las columnas tienen todas el mismo tamaño, si es false debe indicar el tamaño con size
 }
 
 export function Tabla<TData, TValue>(
@@ -29,8 +28,7 @@ export function Tabla<TData, TValue>(
 		data,
 		habilitarBuscador = false,
 		habilitarPaginado = false,
-		classNameFila = "",
-		classNameCelda = "",
+		columnasFijas = true,
 	}: TablaProps<TData, TValue>
 ) {
 	const [sorting, setSorting] = useState<SortingState>([]);
@@ -52,21 +50,20 @@ export function Tabla<TData, TValue>(
 	});
 
 	return (
-		<div className="tabla overflow-hidden rounded-md border">
+		<div className="tabla overflow-hidden rounded-md bg-table-background text-table-foreground p-2 text-xl">
 			<EncabezadoTabla
 				tabla={tabla}
 				habilitarBuscador={habilitarBuscador}
 				habilitarPaginado={habilitarPaginado}
 			/>
-			<Table className="text-sm">
-				<ColumnasTabla tabla={tabla} />
+			<div className="tabla-container w-full">
+				<ColumnasTabla tabla={tabla} columnas={columnas} columnasFijas={columnasFijas}/>
 				<FilasTabla
 					tabla={tabla}
-					columns={columnas}
-					classNameFila={classNameFila}
-					classNameCelda={classNameCelda}
+					columnas={columnas}
+					columnasFijas={columnasFijas}
 				/>
-			</Table>
+			</div>
 		</div>
 	)
 }

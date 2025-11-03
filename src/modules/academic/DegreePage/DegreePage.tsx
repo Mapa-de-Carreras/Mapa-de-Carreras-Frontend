@@ -20,7 +20,7 @@ export default function DegreePage() {
                     {row.getValue("instituto")}
                 </div>
             ),
-            size: 200,
+            size: 1,
         },
         {
             accessorKey: "titulo",
@@ -28,21 +28,24 @@ export default function DegreePage() {
                 <TituloTabla column={column} titulo="Carrera" />
             ),
             cell: ({ row }) => (
-                <div className="w-100 flex flex-wrap">
+                <div className="flex flex-wrap">
                     {row.getValue("titulo")}
                 </div>
             ),
+            size: 3,
         },
         {
             accessorKey: "coordinador",
             header: ({ column }) => (
                 <TituloTabla column={column} titulo="Coordinador" />
             ),
+            size: 2,
         },
         {
             id: "actions",
             header: "Acciones",
             cell: () => <AccionTabla onClick={() => { }} />,
+            size: 1,
         },
     ]
 
@@ -56,7 +59,7 @@ export default function DegreePage() {
                 data={carreras}
                 habilitarBuscador
                 habilitarPaginado
-                classNameCelda="truncate"
+                columnasFijas={false}
             />
         </PageBase>
     )

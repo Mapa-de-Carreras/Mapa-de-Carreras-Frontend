@@ -14,7 +14,7 @@ export default function EncabezadoTabla<TData>({
     habilitarPaginado,
 }: EncabezadoTablaProps<TData>) {
     return (
-        <div className="encabezado-tabla flex flex-row justify-between p-4">
+        <div className="encabezado-tabla flex flex-col sm:flex-row justify-between p-4">
             {habilitarBuscador && (
                 <BuscadorTabla tabla={tabla} />
             )}

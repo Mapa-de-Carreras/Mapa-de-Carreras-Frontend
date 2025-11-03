@@ -3,46 +3,48 @@ import { ColumnDef, flexRender, Table } from "@tanstack/react-table";
 
 type FilasTablaProps<TData, TValue> = {
 	tabla: Table<TData>,
-	columns: ColumnDef<TData, TValue>[],
-	classNameFila: string
-	classNameCelda: string
+	columnas: ColumnDef<TData, TValue>[],
+	columnasFijas: boolean // Indica si las columnas tienen todas el mismo tamaño, si es false debe indicar el tamaño con size
 };
 
 export default function FilasTabla<TData, TValue>({
-	tabla, columns, classNameCelda, classNameFila
+	tabla, columnas, columnasFijas
 }: FilasTablaProps<TData, TValue>) {
+	const gridTemplateColumns = `${columnas.map(col => col.size).join('fr ')}fr`;
+
 	return (
-		<TableBody className="tabla-filas">
+		<div className="tabla-body">
 			{tabla.getRowModel().rows?.length ? (
 				tabla.getRowModel().rows.map((row) => (
-					<TableRow
+					<div
 						key={row.id}
 						data-state={row.getIsSelected() && "selected"}
-						className={classNameFila}
+						className="tabla-row grid gap-4 border-b border-gray-300"
+            			style={{ gridTemplateColumns: columnasFijas ? `repeat(${columnas.length}, 1fr)` : gridTemplateColumns}}
 					>
 						{row.getVisibleCells().map((cell) => (
-							<TableCell
+							<div
 								key={cell.id}
-								className={classNameCelda}
+								className="table-cell p-2"
 							>
 								{flexRender(
 									cell.column.columnDef.cell,
 									cell.getContext()
 								)}
-							</TableCell>
+							</div>
 						))}
-					</TableRow>
+					</div>
 				))
 			) : (
 				<TableRow>
 					<TableCell
-						colSpan={columns.length}
+						colSpan={columnas.length}
 						className="h-24 text-center"
 					>
 						No results.
 					</TableCell>
 				</TableRow>
 			)}
-		</TableBody>
+		</div>
 	);
 }

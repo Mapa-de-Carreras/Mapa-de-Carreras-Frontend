@@ -9,7 +9,7 @@ type HeaderProps<TData> = {
 
 export default function TituloTabla<TData,>({ titulo, column }: HeaderProps<TData>) {
 	return (
-		<div className="w-10 mx-2">
+		<div className="">
 			{titulo}
 			<Button
 				variant="ghost"
