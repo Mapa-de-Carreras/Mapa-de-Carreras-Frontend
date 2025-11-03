@@ -7,7 +7,7 @@ type BuscadorTablaProps<TData> = {
 
 export default function BuscadorTabla<TData>({ tabla }: BuscadorTablaProps<TData>) {
     return (
-        <div className="flex items-center relative w-[40%]">
+        <div className="flex items-center relative w-full sm:w-[40%]">
             <span className="icon-[material-symbols--search] text-2xl absolute left-2" />
             <Input
                 placeholder="¿Qué está buscando?"
