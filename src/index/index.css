@@ -196,3 +196,23 @@ body,
 .scroll-hidden {
 	scrollbar-width: none;
 }
+
+/* Estilos del scroll global */
+::-webkit-scrollbar {
+  width: 10px; /* ancho del scroll vertical */
+  height: 10px; /* alto del scroll horizontal */
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background); /* color del fondo */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary); /* color de la barra */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* color al pasar el mouse */
+}

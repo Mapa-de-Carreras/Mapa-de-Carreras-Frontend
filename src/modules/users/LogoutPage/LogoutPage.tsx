@@ -1,10 +1,9 @@
 import { useState } from "react";
-import PageBase from "../../../shared/components/PageBase/PageBase";
 import { useNavigate } from "react-router";
-
-import TarjetaUsuario from "../../../shared/components/TarjetaUsuario"; 
 import useAuth from "@components/hooks/useAuth";
-import BotonGenerico from "../../../shared/components/Botones/BotonGenerico";
+import PageBase from "@components/PageBase/PageBase";
+import BotonGenerico from "@components/Botones/BotonGenerico";
+import TarjetaUsuario from "@components/TarjetaUsuario";
 
 export default function LogoutPage() {
   const navigate = useNavigate();
