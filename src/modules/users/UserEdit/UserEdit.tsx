@@ -11,7 +11,6 @@ import { URL_API } from "@apis/constantes";
 import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
 
 export default function UserEdit() {
-  const { id } = useParams();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -32,13 +31,15 @@ export default function UserEdit() {
 
   // Cargar datos del usuario al montar el componente
   useEffect(() => {
+    const  id  = localStorage.getItem("user_id");
+    console.log("En el useEffect id a cargar: ", id);
     const fetchUser = async () => {
       try {
         setLoading(true);
         const token = localStorage.getItem("access_token");
         if (!token) throw new Error("Token no encontrado");
 
-        const response = await fetch(`${URL_API}auth/usuarios/${id}/`, {
+        const response = await fetch(`${URL_API}usuarios/${id}/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -68,7 +69,7 @@ export default function UserEdit() {
     };
 
     fetchUser();
-  }, [id]);
+  }, []);
 
   const handleChange = (name: string, value: string) => {
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -103,6 +104,9 @@ export default function UserEdit() {
         carrera: form.carrera,
       };
 
+      const  id  = localStorage.getItem("user_id");
+      console.log("En el patch id a enviar: ", id);
+      console.log("Cuerpo a enviar en el patch: ", body);
       const response = await fetch(`${URL_API}usuarios/${id}/`, {
         method: "PATCH",
         headers: {

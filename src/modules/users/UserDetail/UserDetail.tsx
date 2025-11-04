@@ -77,18 +77,20 @@ export default function UserDetail() {
     if (!id) return;
 
     const loggedUserId = localStorage.getItem("user_id");
+    const loggedUserIsStaff = localStorage.getItem("is_staff") === "true";
     if (loggedUserId && loggedUserId === String(id)) {
       setError("No puedes eliminar tu propio usuario.");
       setMostrarModal(false);
       return;
     }
 
-    if (!usuario.is_staff) {
-      setError("No se puede eliminar un usuario que no es staff.");
+    console.log("Permisos usuario: ", loggedUserIsStaff);
+     if (!loggedUserIsStaff) {
+      setError("No tienes permisos para eliminar usuarios.");
       setMostrarModal(false);
-      return;
-    }
-
+     return;
+     }
+     
     setLoading(true);
     try {
       const token = localStorage.getItem("access_token");

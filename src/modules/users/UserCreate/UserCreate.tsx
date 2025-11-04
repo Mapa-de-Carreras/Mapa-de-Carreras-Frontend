@@ -96,6 +96,7 @@ export default function UserCreate() {
         last_name: form.apellido,
         email: form.email,
         is_staff: form.esAdministrador,
+        is_active: true,
         password: form.contrasena,
         password2: form.password2,
         old_password: "",
@@ -105,6 +106,7 @@ export default function UserCreate() {
         roles: ["Rol-prueba"],
       };
 
+      console.log("Cuerpo a enviar en el registro: ", body);
       const response = await fetch(`${URL_API}auth/registrar-usuario/`, {
         method: "POST",
         headers: {
