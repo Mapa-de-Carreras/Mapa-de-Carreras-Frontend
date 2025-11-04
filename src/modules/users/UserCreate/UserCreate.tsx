@@ -7,6 +7,8 @@ import { Label } from "@components/ui/label";
 import InputConLabel from "../../../shared/components/InputConLabel/InputConLabel";
 import ModalGenerico from "@components/Modal/ModalGenerico";
 import { useNavigate } from "react-router";
+import { URL_API } from "@apis/constantes";
+import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
 
 export default function UserCreate() {
   const [form, setForm] = useState({
@@ -24,6 +26,9 @@ export default function UserCreate() {
 
   const [mostrarModal, setMostrarModal] = useState<boolean>(false);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [usuario, setUsuario] = useState<any>(null);
+  const [error, setError] = useState<string>("");
 
   const handleChange = (name: string, value: string) => {
     setForm({
@@ -39,13 +44,57 @@ export default function UserCreate() {
     });
   };
 
-  const handleAgregar = () => {
-    console.log("Usuario agregado:", form);
+  const handleGuardar = async () => {
+    setLoading(true);
+    setError("");
+
+    try {
+      const token = localStorage.getItem("access_token");
+      if (!token) throw new Error("Token no encontrado.");
+
+      // Mapeo del formulario al formato que espera el backend
+      const body = {
+        username: form.usuario,
+        first_name: form.nombre,
+        last_name: form.apellido,
+        email: form.email,
+        is_staff: form.esAdministrador, 
+        password: form.contrasena,
+        old_password: "",
+        password2: form.contrasena, 
+        legajo: form.legajo,
+        fecha_nacimiento: "2000-04-13", 
+        celular: form.celular,
+        roles: ["Rol-prueba"], //rol hardcodeado
+      };
+
+      console.log("Body a enviar: ",body);
+      const response = await fetch(`${URL_API}auth/registrar-usuario/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al crear el usuario");
+      }
+
+      setMostrarModal(true);
+    } catch (error) {
+      console.error("Error al crear el usuario:", error);
+      setError("Error al crear el usuario. Intente nuevamente.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleGuardar = () => {
-    console.log("Guardar usuario:");
-    setMostrarModal(true);
+  const handleAgregar = () => {
+    console.log("Cancelado");
+    navigate(-1);
   };
 
   const handleCancelar = () => {
@@ -56,11 +105,13 @@ export default function UserCreate() {
   const handleCerrarModal = () => {
     console.log("Cerrar modal");
     setMostrarModal(false);
+    navigate("administracion/usuarios/")
   };
 
   return (
     <PageBase>
       <div className="flex justify-center items-start min-h-screen bg-gray-50 p-6">
+          {loading && <PantallaCarga mensaje="Creando usuario..." />}
         <Card className="w-full max-w-md bg-white rounded-2xl shadow-md border border-gray-300">
           <CardHeader>
             <CardTitle className="text-center text-xl font-bold text-black">
