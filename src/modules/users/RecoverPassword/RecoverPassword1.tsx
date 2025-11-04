@@ -1,22 +1,26 @@
+import { URL_API } from "@apis/constantes";
 import PageBase from "../../../shared/components/PageBase/PageBase";
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router";
+import PantallaCarga from "../../../shared/components/PantallaCarga/PantallaCarga"; 
 
 export default function RecoverPassword1() {
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string>(""); 
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Validar que el campo mail no este vacio
+    // Validar que el campo mail no esté vacío
     if (!email.trim()) {
       setError("Por favor, ingrese su email.");
       return;
     }
 
+    // Validar formato de email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("Ingrese un email válido.");
@@ -24,10 +28,29 @@ export default function RecoverPassword1() {
     }
 
     setError(""); 
-    console.log("Email:", email);
+    setLoading(true);
 
+    try {
+      const response = await fetch(`${URL_API}auth/recuperar/solicitar-codigo/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
 
-    navigate("/authentication/repass2");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error en la autenticación");
+      }
+
+      console.log("Email con código de recuperación enviado correctamente");
+      // Si todo salió bien, vamos al siguiente paso
+      navigate("/authentication/repass2", { state: { email } });
+    } catch (error) {
+      console.error("Error al enviar el email:", error);
+      setError("Error al enviar el email. Intente nuevamente.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCancel = () => {
@@ -38,8 +61,9 @@ export default function RecoverPassword1() {
 
   return (
     <PageBase>
-     <div className="flex justify-center items-start h-screen pt-60 bg-gray-50">
-        <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-sm border border-gray-200">
+      <div className="flex justify-center items-start h-screen pt-60 bg-gray-50 relative">
+        {loading && <PantallaCarga mensaje="Enviando correo..." />}
+        <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-sm border border-gray-200 z-10">
           <h1 className="text-2xl font-semibold text-center mb-6 text-black">
             Recuperar Contraseña
           </h1>
@@ -61,9 +85,7 @@ export default function RecoverPassword1() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              {error && (
-                <p className="text-red-600 text-sm mt-1">{error}</p>
-              )}
+              {error && <p className="text-red-600 text-sm mt-1">{error}</p>}
             </div>
 
             <div className="flex gap-4 mt-2">
