@@ -1,7 +1,24 @@
+<<<<<<< HEAD
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+<<<<<<< HEAD
+@plugin '@iconify/tailwind4' {
+	prefixes:
+		mdi-light, carbon, ion, tabler, eos-icons, cil, hugeicons, material-symbols, akar-icons; /* <--- Añade aquí las colecciones que necesitas */
+}
+=======
+@plugin "@iconify/tailwind4"
+>>>>>>> e84188e (se borre tailwind.config)
+
+=======
 @import "tailwindcss";
 @plugin "@iconify/tailwind4";
 @custom-variant dark (&:is(.dark *));
 
+>>>>>>> b2e7fae (update navbar)
 /* CONFIGURACIÓN DEL LAYOUT */
 
 html,
