@@ -1,8 +1,10 @@
 import DegreePage from "@academic/DegreePage/DegreePage"
 import InstitutePage from "@academic/InstitutesPage/InstitutesPage"
 import LogoutPage from "@users/LogoutPage/LogoutPage"
+import NotificacionesPage from "@users/NotificacionesPage/NotificacionesPage"
 import UserCreate from "@users/UserCreate/UserCreate"
 import UserDetail from "@users/UserDetail/UserDetail"
+import UserEdit from "@users/UserEdit/UserEdit"
 
 export interface AppRoute {
 	path: string
@@ -22,6 +24,8 @@ export const appRoutes: AppRoute[] = [
 			{ path: 'usuarios', label: 'Usuarios', icon: "icon-[mdi--user-group]", component: LogoutPage, menu: true },
 			{ path: 'usuarios/crear', component:  UserCreate, menu: false},
 			{ path: 'usuarios/detalle', component:  UserDetail, menu: false},
+			{ path: 'usuarios/editar', component:  UserEdit, menu: false},
+			{ path: 'notificaciones', component:  NotificacionesPage, menu: false},
 			{ path: 'roles', label: 'Roles', icon: "icon-[clarity--lock-solid]", menu: true },
 		],
 		menu: true,
