@@ -17,58 +17,94 @@ export default function UserCreate() {
     apellido: "",
     usuario: "",
     contrasena: "",
+    password2: "",
     email: "",
     celular: "",
+    fecha_nacimiento: "",
     esCoordinador: false,
     esAdministrador: false,
     carrera: "",
   });
 
-  const [mostrarModal, setMostrarModal] = useState<boolean>(false);
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorGeneral, setErrorGeneral] = useState("");
+  const [erroresCampos, setErroresCampos] = useState<Record<string, string>>({});
+  const [mostrarPass, setMostrarPass] = useState(false);
+  const [mostrarPass2, setMostrarPass2] = useState(false);
+
   const navigate = useNavigate();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [usuario, setUsuario] = useState<any>(null);
-  const [error, setError] = useState<string>("");
 
   const handleChange = (name: string, value: string) => {
-    setForm({
-      ...form,
-      [name]: value,
-    });
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleCheck = (field: "esCoordinador" | "esAdministrador") => {
-    setForm({
-      ...form,
-      [field]: !form[field],
-    });
+    setForm((prev) => ({ ...prev, [field]: !prev[field] }));
+  };
+
+  const validarCampos = () => {
+    const camposRequeridos = [
+      "legajo",
+      "nombre",
+      "apellido",
+      "usuario",
+      "contrasena",
+      "password2",
+      "email",
+      "celular",
+      "fecha_nacimiento",
+      "carrera",
+    ];
+    const vacios = camposRequeridos.filter((campo) => !form[campo as keyof typeof form]);
+    if (vacios.length > 0) {
+      setErrorGeneral("Todos los campos son obligatorios.");
+      return false;
+    }
+    return true;
+  };
+
+  const formatearFecha = (fecha: string): string => {
+    // Convierte DD/MM/YYYY → YYYY-MM-DD
+    const partes = fecha.split("/");
+    if (partes.length === 3) {
+      const [dia, mes, anio] = partes;
+      return `${anio}-${mes.padStart(2, "0")}-${dia.padStart(2, "0")}`;
+    }
+    return fecha;
   };
 
   const handleGuardar = async () => {
-    setLoading(true);
-    setError("");
+    setErrorGeneral("");
+    setErroresCampos({});
 
+    if (!validarCampos()) return;
+
+    if (form.contrasena !== form.password2) {
+      setErrorGeneral("Las contraseñas no coinciden.");
+      return;
+    }
+
+    setLoading(true);
     try {
       const token = localStorage.getItem("access_token");
       if (!token) throw new Error("Token no encontrado.");
 
-      // Mapeo del formulario al formato que espera el backend
       const body = {
         username: form.usuario,
         first_name: form.nombre,
         last_name: form.apellido,
         email: form.email,
-        is_staff: form.esAdministrador, 
+        is_staff: form.esAdministrador,
         password: form.contrasena,
+        password2: form.password2,
         old_password: "",
-        password2: form.contrasena, 
         legajo: form.legajo,
-        fecha_nacimiento: "2000-04-13", 
+        fecha_nacimiento: formatearFecha(form.fecha_nacimiento),
         celular: form.celular,
-        roles: ["Rol-prueba"], //rol hardcodeado
+        roles: ["Rol-prueba"],
       };
 
-      console.log("Body a enviar: ",body);
       const response = await fetch(`${URL_API}auth/registrar-usuario/`, {
         method: "POST",
         headers: {
@@ -78,40 +114,53 @@ export default function UserCreate() {
         body: JSON.stringify(body),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Error al crear el usuario");
+        const nuevosErrores: Record<string, string> = {};
+
+        const traducirError = (campo: string, mensaje: string) => {
+          if (mensaje.includes("already exists")) {
+            if (campo === "email") return "El correo electrónico ya está registrado.";
+            if (campo === "legajo") return "El legajo ya está registrado.";
+            if (campo === "username") return "El nombre de usuario ya está en uso.";
+            return "El valor ingresado ya existe.";
+          }
+          if (mensaje.includes("This field may not be blank")) return "Este campo no puede estar vacío.";
+          if (mensaje.includes("password")) return "Las contraseñas no cumplen los requisitos.";
+          return mensaje;
+        };
+
+        Object.keys(data).forEach((campo) => {
+          const valor = Array.isArray(data[campo]) ? data[campo][0] : data[campo];
+          nuevosErrores[campo] = traducirError(campo, valor);
+        });
+
+        setErroresCampos(nuevosErrores);
+        throw new Error("Error en el registro");
       }
 
       setMostrarModal(true);
     } catch (error) {
       console.error("Error al crear el usuario:", error);
-      setError("Error al crear el usuario. Intente nuevamente.");
+      if (!Object.keys(erroresCampos).length)
+        setErrorGeneral("Error al crear el usuario. Intente nuevamente.");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleAgregar = () => {
-    console.log("Cancelado");
-    navigate(-1);
-  };
-
-  const handleCancelar = () => {
-    console.log("Cancelado");
-    navigate(-1);
-  };
-
+  const handleCancelar = () => navigate(-1);
   const handleCerrarModal = () => {
-    console.log("Cerrar modal");
     setMostrarModal(false);
-    navigate("administracion/usuarios/")
+    navigate("/administracion/usuarios/");
   };
 
   return (
     <PageBase>
       <div className="flex justify-center items-start min-h-screen bg-gray-50 p-6">
-          {loading && <PantallaCarga mensaje="Creando usuario..." />}
+        {loading && <PantallaCarga mensaje="Creando usuario..." />}
+
         <Card className="w-full max-w-md bg-white rounded-2xl shadow-md border border-gray-300">
           <CardHeader>
             <CardTitle className="text-center text-xl font-bold text-black">
@@ -123,29 +172,62 @@ export default function UserCreate() {
             <form
               className="space-y-5"
               onSubmit={(e) => {
-                e.preventDefault(); // evita recargar la página
+                e.preventDefault();
                 handleGuardar();
               }}
             >
-              {/* Campos principales */}
               {[
                 { label: "Legajo", name: "legajo" },
                 { label: "Nombre", name: "nombre" },
                 { label: "Apellido", name: "apellido" },
                 { label: "Usuario", name: "usuario" },
-                { label: "Contraseña Provisional", name: "contrasena" },
+                {
+                  label: "Contraseña",
+                  name: "contrasena",
+                  type: mostrarPass ? "text" : "password",
+                  icon: (
+                    <span
+                      onClick={() => setMostrarPass(!mostrarPass)}
+                      className="absolute right-0 p-1 text-gray-600 hover:text-black cursor-pointer"
+                    >
+                      <span className={mostrarPass ? "icon-[mdi--eye-off]" : "icon-[mdi--eye]"} />
+                    </span>
+                  ),
+                },
+                {
+                  label: "Confirme su Contraseña",
+                  name: "password2",
+                  type: mostrarPass2 ? "text" : "password",
+                  icon: (
+                    <span
+                      onClick={() => setMostrarPass2(!mostrarPass2)}
+                      className="absolute right-0 p-1 text-gray-600 hover:text-black cursor-pointer"
+                    >
+                      <span className={mostrarPass2 ? "icon-[mdi--eye-off]" : "icon-[mdi--eye]"} />
+                    </span>
+                  ),
+                },
                 { label: "Email", name: "email" },
                 { label: "Celular", name: "celular" },
-              ].map(({ label, name }) => (
-                <InputConLabel
-                  key={name}
-                  label={label}
-                  name={name}
-                  placeholder={`Ingrese ${label.toLowerCase()}`}
-                  supportingText="Este campo es obligatorio"
-                  value={(form as any)[name]}
-                  onChange={(val) => handleChange(name, val)}
-                />
+                {
+                  label: "Fecha de nacimiento (DD/MM/AAAA)",
+                  name: "fecha_nacimiento",
+                  placeholder: "Ej: 01/01/2000",
+                },
+                { label: "Carrera", name: "carrera" },
+              ].map(({ label, name, type, icon, placeholder }) => (
+                <div key={name} className="relative">
+                  <InputConLabel
+                    label={label}
+                    name={name}
+                    placeholder={placeholder || `Ingrese ${label.toLowerCase()}`}
+                    supportingText={erroresCampos[name]}
+                    value={(form as any)[name]}
+                    onChange={(val) => handleChange(name, val)}
+                    type={type || "text"}
+                  />
+                  {icon}
+                </div>
               ))}
 
               {/* Checkboxes */}
@@ -175,70 +257,21 @@ export default function UserCreate() {
                 </div>
               </div>
 
-              {/* Botón Agregar */}
-              <div className="flex justify-start mt-2">
-                <BotonGenerico
-                  texto="Agregar"
-                  color="#3E9956"
-                  icono={
-                    <span className="w-5 h-5 flex items-center justify-center rounded-full bg-white text-green-600">
-                      <span className="icon-[mdi--plus]" />
-                    </span>
-                  }
-                  onClick={handleAgregar}
-                  type="button" 
-                />
-              </div>
+              {errorGeneral && <p className="text-red-500 text-sm text-center mt-2">{errorGeneral}</p>}
 
-              {/* Carrera */}
-              <InputConLabel
-                label="Carrera"
-                name="carrera"
-                placeholder="Ingrese carrera"
-                value={form.carrera}
-                onChange={(val) => handleChange("carrera", val)}
-              />
-
-              {/* Botones Guardar / Cancelar */}
               <div className="flex justify-between mt-6">
-                <BotonGenerico
-                  texto="Guardar"
-                  color="#47ADA4"
-                  icono={
-                    <span className="w-6 h-6 flex items-center justify-center text-white text-2xl">
-                      <span
-                        className="icon-[mdi--content-save]"
-                        aria-label="Guardar"
-                      />
-                    </span>
-                  }
-                  onClick={handleGuardar}
-                />
-
-                <BotonGenerico
-                  texto="Cancelar"
-                  color="#929292"
-                  icono={
-                    <span className="w-5 h-5 flex items-center justify-center rounded-full bg-white text-gray-600">
-                      <span className="icon-[mdi--close]" />
-                    </span>
-                  }
-                  onClick={handleCancelar}
-                  type="button" 
-                />
+                <BotonGenerico texto="Guardar" color="#47ADA4" onClick={handleGuardar} />
+                <BotonGenerico texto="Cancelar" color="#929292" onClick={handleCancelar} type="button" />
               </div>
             </form>
           </CardContent>
         </Card>
       </div>
 
-      {/* Modal de éxito */}
       <ModalGenerico
         abierto={mostrarModal}
         onClose={handleCerrarModal}
-        icono={
-          <span className="icon-[mdi--check-bold] text-green-600 text-5xl" />
-        }
+        icono={<span className="icon-[mdi--check-bold] text-green-600 text-5xl" />}
         titulo="Éxito"
         mensaje="Usuario creado exitosamente."
         textoBoton="Aceptar"
