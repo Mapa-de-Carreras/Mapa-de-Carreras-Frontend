@@ -5,6 +5,7 @@ type Carrera = {
     instituto: Instituto,
     titulo: string,
     coordinador: string,
+    estado: boolean,
 };
 
 export default Carrera;
