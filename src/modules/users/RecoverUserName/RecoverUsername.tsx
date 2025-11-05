@@ -56,12 +56,12 @@ export default function RecoverUsername() {
       }
 
       console.log("Email con nombre de usuario enviado correctamente");
+       setMostrarModal(true);
     } catch (error) {
       console.error("Error al enviar el email:", error);
       setError("Error al enviar el email. Intente nuevamente.");
     }finally {
       setLoading(false);
-      setMostrarModal(true);
     }
   };
 
