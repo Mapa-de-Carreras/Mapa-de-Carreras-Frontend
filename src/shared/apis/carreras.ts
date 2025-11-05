@@ -1,9 +1,10 @@
+import { URL_API } from "./constantes";
 import { useGet } from "./generics";
 
 export default function useGetCarreras() {
     return useGet({
         hookName: "useGetCarreras",
-        url: "https://localhost:8000/carreras",
+        url: `${URL_API}institutos`,
         enabled: true,
     });
 }

@@ -1,1 +1,1 @@
-export const URL_API = "http://localhost:8000/api/";
+export const URL_API = import.meta.env.VITE_API_URL;
