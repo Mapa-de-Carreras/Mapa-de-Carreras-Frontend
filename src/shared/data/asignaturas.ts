@@ -16,7 +16,8 @@ const Asignaturas: Asignatura[] = [
                 "titulo": "IDEI"
             },
             "titulo": "Licenciatura en Sistemas",
-            "coordinador": "Ezequiel Moyano"
+            "coordinador": "Ezequiel Moyano",
+            estado: true,
         },
         "codigo": "POO23",
         "anio": "4ro",
@@ -38,7 +39,8 @@ const Asignaturas: Asignatura[] = [
                 "titulo": "IDEI"
             },
             "titulo": "Licenciatura en Sistemas",
-            "coordinador": "Ezequiel Moyano"
+            "coordinador": "Ezequiel Moyano",
+            estado: true,
         },
         "codigo": "POO23",
         "anio": "3ro",
@@ -59,7 +61,8 @@ const Asignaturas: Asignatura[] = [
                 "titulo": "IDEI"
             },
             "titulo": "Licenciatura en Sistemas",
-            "coordinador": "Ezequiel Moyano"
+            "coordinador": "Ezequiel Moyano",
+            estado: true,
         },
         "codigo": "MD23",
         "anio": "1ro",
@@ -80,7 +83,8 @@ const Asignaturas: Asignatura[] = [
                 "titulo": "IDEI"
             },
             "titulo": "Licenciatura en Sistemas",
-            "coordinador": "Ezequiel Moyano"
+            "coordinador": "Ezequiel Moyano",
+            estado: true,
         },
         "codigo": "SO23",
         "anio": "2do",
@@ -98,10 +102,11 @@ const Asignaturas: Asignatura[] = [
             "codigo": 0,
             "instituto": {
                 "codigo": 0,
-                "titulo": "IDEI"
+                "titulo": "IDEI",
             },
             "titulo": "Licenciatura en Sistemas",
-            "coordinador": "Ezequiel Moyano"
+            "coordinador": "Ezequiel Moyano",
+            estado: true,
         },
         "codigo": "EST23",
         "anio": "3ro",
@@ -122,7 +127,8 @@ const Asignaturas: Asignatura[] = [
                 "titulo": "IDEI"
             },
             "titulo": "Licenciatura en Sistemas",
-            "coordinador": "Ezequiel Moyano"
+            "coordinador": "Ezequiel Moyano",
+            estado: true,
         },
         "codigo": "IS23",
         "anio": "4ro",
@@ -143,7 +149,8 @@ const Asignaturas: Asignatura[] = [
                 "titulo": "IDEI"
             },
             "titulo": "Licenciatura en Sistemas",
-            "coordinador": "Ezequiel Moyano"
+            "coordinador": "Ezequiel Moyano",
+            estado: true,
         },
         "codigo": "IS23",
         "anio": "4ro",

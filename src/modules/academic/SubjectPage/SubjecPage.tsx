@@ -96,7 +96,7 @@ export default function SubjectPage() {
                 data={asignaturas}
                 habilitarBuscador={true}
                 habilitarPaginado={true}
-                classNameCelda="truncate"
+                columnasFijas
             />
         </PageBase>
     )

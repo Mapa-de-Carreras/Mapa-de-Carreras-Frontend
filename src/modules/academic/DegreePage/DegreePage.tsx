@@ -84,7 +84,7 @@ export default function DegreePage() {
 			accessorKey: 'nombre',
 			header: ({ column }) => <TituloTabla column={column} titulo="Carrera" />,
 			cell: ({ row }) => (
-				<div className="flex w-full flex-wrap font-medium text-white">
+				<div className="flex flex-wrap">
 					{row.getValue('nombre')}
 				</div>
 			),
@@ -122,16 +122,18 @@ export default function DegreePage() {
 				/>
 			</div>
 			<div className="block sm:hidden">
-				<Listado
-					data={carreras}
-                    orderData={institutos}
-                    orderKey={(instituto) => instituto.titulo}
-                    compareTo={(instituto, carrera) => true}
-					dataRender={(carrera) => (
-						<TarjetaCarrera key={carrera.codigo} carrera={carrera} />
-					)}
-					mensajeSinDatos="No hay carreras para este instituto."
-				/>
+				{carreras && institutos && (
+					<Listado
+						data={carreras}
+						orderData={institutos}
+						orderKey={(instituto) => instituto.titulo}
+						compareTo={(instituto, carrera) => true}
+						dataRender={(carrera) => (
+							<TarjetaCarrera key={carrera.codigo} carrera={carrera} />
+						)}
+						mensajeSinDatos="No hay carreras para este instituto."
+					/>
+				)}
 			</div>
 		</PageBase>
 	)
