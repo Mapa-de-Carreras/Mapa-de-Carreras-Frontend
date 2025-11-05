@@ -4,7 +4,7 @@ import Asignatura  from "@globalTypes/asignatura";
 const Asignaturas: Asignatura[] = [
 
     {
-        "titulo": "Programación funcional",
+        "asignatura": "Programación funcional",
         "instituto": {
             "codigo": 0,
             "titulo": "IDEI"
@@ -26,7 +26,7 @@ const Asignaturas: Asignatura[] = [
     },
 
     {
-        "titulo": "Programación Orientada a Objetos",
+        "asignatura": "Programación Orientada a Objetos",
         "instituto": {
             "codigo": 0,
             "titulo": "IDEI"
@@ -47,7 +47,7 @@ const Asignaturas: Asignatura[] = [
         "comision": "Vespertino"
     },
     {
-        "titulo": "Matemática Discreta",
+        "asignatura": "Matemática Discreta",
         "instituto": {
             "codigo": 0,
             "titulo": "IDEI"
@@ -66,6 +66,90 @@ const Asignaturas: Asignatura[] = [
         "tipo": "Cuatrimestral",
         "etapa": "1er",
         "comision": "Matutino"
+    },
+    {
+        "asignatura": "Sistmas Operativos",
+        "instituto": {
+            "codigo": 0,
+            "titulo": "IDEI"
+        },
+        "carrera": {
+            "codigo": 0,
+            "instituto": {
+                "codigo": 0,
+                "titulo": "IDEI"
+            },
+            "titulo": "Licenciatura en Sistemas",
+            "coordinador": "Ezequiel Moyano"
+        },
+        "codigo": "SO23",
+        "anio": "2do",
+        "tipo": "Cuatrimestral",
+        "etapa": "2do",
+        "comision": "Matutino"
+    },
+    {
+        "asignatura": "Estadística",
+        "instituto": {
+            "codigo": 0,
+            "titulo": "IDEI"
+        },
+        "carrera": {
+            "codigo": 0,
+            "instituto": {
+                "codigo": 0,
+                "titulo": "IDEI"
+            },
+            "titulo": "Licenciatura en Sistemas",
+            "coordinador": "Ezequiel Moyano"
+        },
+        "codigo": "EST23",
+        "anio": "3ro",
+        "tipo": "Cuatrimestral",
+        "etapa": "1er",
+        "comision": "Vespertino"
+    },
+    {
+        "asignatura": "Ingenieria de Software",
+        "instituto": {
+            "codigo": 0,
+            "titulo": "IDEI"
+        },
+        "carrera": {
+            "codigo": 0,
+            "instituto": {
+                "codigo": 0,
+                "titulo": "IDEI"
+            },
+            "titulo": "Licenciatura en Sistemas",
+            "coordinador": "Ezequiel Moyano"
+        },
+        "codigo": "IS23",
+        "anio": "4ro",
+        "tipo": "Cuatrimestral",
+        "etapa": "2do",
+        "comision": "Vespertino"
+    },
+    {
+        "asignatura": "Ingenieria de Software 2",
+        "instituto": {
+            "codigo": 0,
+            "titulo": "IDEI"
+        },
+        "carrera": {
+            "codigo": 0,
+            "instituto": {
+                "codigo": 0,
+                "titulo": "IDEI"
+            },
+            "titulo": "Licenciatura en Sistemas",
+            "coordinador": "Ezequiel Moyano"
+        },
+        "codigo": "IS23",
+        "anio": "4ro",
+        "tipo": "Cuatrimestral",
+        "etapa": "2do",
+        "comision": "Vespertino"
     }
 ]
 
