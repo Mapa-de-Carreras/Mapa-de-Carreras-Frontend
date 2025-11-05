@@ -1,3 +1,4 @@
+import DegreeDetail from "@academic/DegreePage/DegreeDetail/DegreeDetail"
 import DegreePage from "@academic/DegreePage/DegreePage"
 import InstitutePage from "@academic/InstitutesPage/InstitutesPage"
 import LogoutPage from "@users/LogoutPage/LogoutPage"
@@ -37,6 +38,7 @@ export const appRoutes: AppRoute[] = [
 		children: [
 			{ path: 'institutos', label: 'Institutos', icon: "icon-[cil--institution]", component: InstitutePage, menu: true },
 			{ path: 'carreras', label: 'Carreras', icon: "icon-[icon-park-outline--degree-hat]", component: DegreePage, menu: true },
+			{ path: 'carreras/detalle', component:  DegreeDetail, menu: false},
 			{ path: 'asignaturas', label: 'Asignaturas', icon: "icon-[octicon--book-16]", menu: true },
 			{ path: 'planes', label: 'Planes de Estudio', icon: "icon-[basil--document-outline]", menu: true },
 		],
