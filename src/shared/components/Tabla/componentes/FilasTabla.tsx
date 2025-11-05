@@ -15,7 +15,7 @@ export default function FilasTabla<TData, TValue>({
 	return (
 		<div className="tabla-body">
 			{tabla.getRowModel().rows?.length ? (
-				tabla.getRowModel().rows.map((row) => (
+				tabla.getRowModel().rows.map((row) => {return (
 					<div
 						key={row.id}
 						data-state={row.getIsSelected() && "selected"}
@@ -34,7 +34,7 @@ export default function FilasTabla<TData, TValue>({
 							</div>
 						))}
 					</div>
-				))
+				)})
 			) : (
 				<TableRow>
 					<TableCell

@@ -4,7 +4,7 @@ import Titulo from '@components/Tipografia/Titulo'
 import Carrera from '@globalTypes/carrera'
 
 type TarjetaCarreraProps = {
-	carrera: Carrera
+	carrera: any
 }
 
 export default function TarjetaCarrera({ carrera }: TarjetaCarreraProps) {

@@ -8,6 +8,7 @@ interface InputConLabelProps {
   supportingText?: string;
   value?: string;
   onChange?: (value: string) => void;
+  type?: string;
 }
 
 export default function InputConLabel({
@@ -17,6 +18,7 @@ export default function InputConLabel({
   supportingText,
   value = "",
   onChange,
+  type = "text",
 }: InputConLabelProps) {
   const [inputValue, setInputValue] = useState(value);
 
@@ -40,6 +42,7 @@ export default function InputConLabel({
         <input
           id={name}
           name={name}
+          type={type || "text"}
           value={inputValue}
           onChange={handleChange}
           placeholder={placeholder}
