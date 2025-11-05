@@ -8,8 +8,7 @@ import {
 	getPaginationRowModel,
 } from '@tanstack/react-table'
 
-import { Table } from '@components/ui/table'
-import { ReactNode, useState } from 'react'
+import { useState } from 'react'
 import EncabezadoTabla from './componentes/EncabezadoTabla'
 import ColumnasTabla from './componentes/ColumnasTabla'
 import FilasTabla from './componentes/FilasTabla'
