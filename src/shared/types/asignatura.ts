@@ -4,7 +4,7 @@ import Instituto from "./instituto"
 type Asignatura = 
 
 {
-    titulo: string,
+    asignatura: string,
     instituto: Instituto,
     carrera: Carrera,
     codigo: string,
