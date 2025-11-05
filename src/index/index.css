@@ -98,9 +98,10 @@ body,
 }
 
 :root {
+	/* Base */
 	--radius: 0.625rem;
-	--background: #f0f0f0; /* gris muy claro */
-	--foreground: oklch(0.18 0.004 255); /* gris oscuro para texto */
+	--background: #f0f0f0;
+	--foreground: oklch(0.18 0.004 255);
 
 	--card: oklch(0.97 0.002 255);
 	--card-foreground: var(--foreground);
@@ -181,8 +182,8 @@ body,
 
 .dark {
 	/* Base */
-	--background: oklch(20% 0.02 270); /* fondo más oscuro */
-	--foreground: oklch(0.98 0 0); /* texto claro */
+	--background: oklch(20% 0.02 270);
+	--foreground: oklch(0.98 0 0);
 
 	/* Superficies */
 	--card: oklch(25% 0.015 270);
