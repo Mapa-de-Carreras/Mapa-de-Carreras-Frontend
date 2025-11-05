@@ -7,6 +7,9 @@ import { URL_API } from '@apis/constantes'
 import { useEffect, useState } from 'react'
 import PantallaCarga from '@components/PantallaCarga/PantallaCarga'
 import { useNavigate } from 'react-router'
+import Listado from '@components/Lista/Listado'
+import institutos from '@data/institutos'
+import TarjetaCarrera from './TarjetaCarrera'
 
 interface Carrera {
 	id: number
@@ -108,14 +111,28 @@ export default function DegreePage() {
 		>
 			{loading && <PantallaCarga mensaje="Cargando carreras..." />}
 			{error && <p className="text-center text-red-500">{error}</p>}
-			<Tabla
-				columnas={columns}
-				data={carreras}
-				habilitarBuscador
-				habilitarPaginado
-				columnasFijas={false}
-				funcionAgregado={() => {}}
-			/>
+			<div className="hidden sm:block">
+				<Tabla
+					columnas={columns}
+					data={carreras}
+					habilitarBuscador
+					habilitarPaginado
+					columnasFijas={false}
+					funcionAgregado={() => {}}
+				/>
+			</div>
+			<div className="block sm:hidden">
+				<Listado
+					data={carreras}
+                    orderData={institutos}
+                    orderKey={(instituto) => instituto.titulo}
+                    compareTo={(instituto, carrera) => true}
+					dataRender={(carrera) => (
+						<TarjetaCarrera key={carrera.codigo} carrera={carrera} />
+					)}
+					mensajeSinDatos="No hay carreras para este instituto."
+				/>
+			</div>
 		</PageBase>
 	)
 }

@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import PageBase from "@components/PageBase/PageBase";
-import BotonGenerico from "@components/Botones/BotonGenerico";
 import TarjetaUsuario from "@components/TarjetaUsuario";
-<<<<<<< HEAD
 import { URL_API } from "@apis/constantes";
 import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
 import BotonBase from "@components/Botones/BotonBase";
-=======
-import BotonBase from "@components/Botones/BotonBase";
->>>>>>> 67a9e4d (refactor: se agrega un boton base y se reemplaza parcialmente el boton genérico)
 
 export default function LogoutPage() {
   const navigate = useNavigate();
