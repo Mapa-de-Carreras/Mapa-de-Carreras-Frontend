@@ -84,6 +84,10 @@ export default function SubjectPage() {
 			header: ({ column }) => <TituloTabla column={column} titulo="Hs. Semanales" />,
 		},
 		{
+			accessorKey: 'horas_totales',
+			header: ({ column }) => <TituloTabla column={column} titulo="Hs. Totales" />,
+		},
+		{
 			id: 'actions',
 			header: 'Acciones',
 			cell: ({ row }) => (
