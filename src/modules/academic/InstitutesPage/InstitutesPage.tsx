@@ -38,7 +38,7 @@ export default function InstutesPage() {
 	)
 
     return (
-        <PageBase titulo="Página de Asignaturas" subtitulo="Listado de Asignaturas">
+        <PageBase titulo="Página de Instituto" subtitulo="Listado de Institutos">
             {loading && <ComponenteCarga />}
             {error && <p className="text-center text-red-500">{error}</p>}
             {!loading && !error && institutos && (
