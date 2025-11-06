@@ -1,15 +1,17 @@
-import Carrera from './carrera'
-import Instituto from './instituto'
-
 type Asignatura = {
-	asignatura: string
-	instituto: Instituto
-	carrera: Carrera
+	id?: number
 	codigo: string
-	anio: string
-	tipo: string
-	etapa: string
-	comision: string
+	nombre: string
+	activo?: boolean
+	cuatrimestre: number
+	tipo_asignatura: 'OBLIGATORIA' | 'OPTATIVA'
+	tipo_duracion: 'ANUAL' | 'CUATRIMESTRAL'
+	horas_teoria: number
+	horas_practica: number
+	horas_semanales: number
+	horas_totales?: number
+	created_at?: string
+	updated_at?: string
 }
 
 export default Asignatura
