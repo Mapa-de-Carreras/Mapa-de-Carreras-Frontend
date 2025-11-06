@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageBase from "../../../shared/components/PageBase/PageBase";
 import { Card, CardHeader, CardTitle, CardContent } from "@components/ui/card";
 import { Checkbox } from "@components/ui/checkbox";
@@ -23,23 +23,69 @@ export default function UserCreate() {
     fecha_nacimiento: "",
     esCoordinador: false,
     esAdministrador: false,
+    esDocente: false, 
     carrera: "",
   });
+
+  interface IRol {
+  id: number;
+  nombre: string;
+  descripcion: string;
+}
+
 
   const [mostrarModal, setMostrarModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorGeneral, setErrorGeneral] = useState("");
   const [erroresCampos, setErroresCampos] = useState<Record<string, string>>({});
   const [mostrarPass, setMostrarPass] = useState(false);
+  const [error, setError] = useState<string>("");
   const [mostrarPass2, setMostrarPass2] = useState(false);
+  const [roles, setRoles] = useState<IRol[]>([]);
+  const [codigoVerificacion, setCodigoVerificacion] = useState("");
 
   const navigate = useNavigate();
+
+  
+    useEffect(() => {
+      const fetchRoles = async () => {
+        setLoading(true);
+        try {
+          const token = localStorage.getItem("access_token");
+          console.log("Token de acceso:", token);
+  
+          const response = await fetch(`${URL_API}roles/`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+  
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Error al obtener los roles");
+          }
+  
+          const data = await response.json();
+          setRoles(data);
+        } catch (error) {
+          console.error("Error al cargar los roles:", error);
+          setError("Error al cargar los roles. Intente nuevamente.");
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchRoles();
+    }, []);
+  
 
   const handleChange = (name: string, value: string) => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleCheck = (field: "esCoordinador" | "esAdministrador") => {
+  const handleCheck = (field: "esCoordinador" | "esAdministrador" | "esDocente") => {
     setForm((prev) => ({ ...prev, [field]: !prev[field] }));
   };
 
@@ -90,6 +136,23 @@ export default function UserCreate() {
       const token = localStorage.getItem("access_token");
       if (!token) throw new Error("Token no encontrado.");
 
+      const rolesSeleccionados: string[] = [];
+
+      if (form.esAdministrador) {
+        const rolAdmin = roles.find((r) => r.nombre.toLowerCase().includes("admin"));
+        if (rolAdmin) rolesSeleccionados.push(rolAdmin.nombre);
+      }
+
+      if (form.esCoordinador) {
+        const rolCoord = roles.find((r) => r.nombre.toLowerCase().includes("coordinador"));
+        if (rolCoord) rolesSeleccionados.push(rolCoord.nombre);
+      }
+
+      if (form.esDocente) {
+        const rolDocente = roles.find((r) => r.nombre.toLowerCase().includes("docente"));
+        if (rolDocente) rolesSeleccionados.push(rolDocente.nombre);
+      }
+
       const body = {
         username: form.usuario,
         first_name: form.nombre,
@@ -103,7 +166,7 @@ export default function UserCreate() {
         legajo: form.legajo,
         fecha_nacimiento: formatearFecha(form.fecha_nacimiento),
         celular: form.celular,
-        roles: ["Rol-prueba"],
+        roles: rolesSeleccionados,
       };
 
       console.log("Cuerpo a enviar en el registro: ", body);
@@ -141,7 +204,6 @@ export default function UserCreate() {
         setErroresCampos(nuevosErrores);
         throw new Error("Error en el registro");
       }
-
       setMostrarModal(true);
     } catch (error) {
       console.error("Error al crear el usuario:", error);
@@ -151,6 +213,33 @@ export default function UserCreate() {
       setLoading(false);
     }
   };
+
+      const handlePressVerificarCodigo = async () => {
+      setErrorGeneral("");
+      try {
+        const token = localStorage.getItem("access_token");
+        if (!token) throw new Error("Token no encontrado.");
+
+        const res = await fetch(`${URL_API}auth/registrar/activar-cuenta/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ email: form.email, code: codigoVerificacion }),
+        });
+
+        if (!res.ok) throw new Error("Código inválido");
+
+        navigate("/administracion/usuarios/");
+      } catch (err) {
+        console.error("Error al verificar el código:", err);
+        setErrorGeneral("El código de verificación no es válido o ha expirado.");
+      
+    };
+
+ 
+}
 
   const handleCancelar = () => navigate(-1);
   const handleCerrarModal = () => {
@@ -258,6 +347,19 @@ export default function UserCreate() {
                   </Label>
                 </div>
               </div>
+
+               <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="docente"
+                  checked={form.esDocente}
+                  onCheckedChange={() => handleCheck("esDocente")}
+                  className="border border-black data-[state=checked]:bg-green-600"
+                />
+                <Label htmlFor="docente" className="text-gray-700">
+                  ¿Es docente?
+                </Label>
+              </div>
+
               {errorGeneral && <p className="text-red-500 text-sm text-center mt-2">{errorGeneral}</p>}
               <div className="flex justify-between mt-6">
                 <BotonBase variant="guardar" onClick={handleGuardar} />
@@ -268,16 +370,36 @@ export default function UserCreate() {
         </Card>
       </div>
 
-      <ModalGenerico
+          <ModalGenerico
         abierto={mostrarModal}
         onClose={handleCerrarModal}
-        icono={<span className="icon-[mdi--check-bold] text-green-600 text-5xl" />}
-        titulo="Éxito"
-        mensaje="Usuario creado exitosamente."
-        textoBoton="Aceptar"
+        icono={<span className="icon-[mdi--email-check-outline] text-blue-600 text-5xl" />}
+        titulo="Verificación de cuenta"
+        mensaje="Ingrese el código de verificación que fue enviado al correo del usuario para activar su cuenta. También puede activarla más tarde desde el apartado 'Detalle de usuario'."
+        textoBoton="Verificar"
         colorBoton="#3E9956"
-        onConfirmar={handleCerrarModal}
-      />
+        onConfirmar={handlePressVerificarCodigo}
+        textoBotonSecundario="Cancelar"
+        colorBotonSecundario="#929292"
+        onCancelar={handleCerrarModal}
+      >
+      
+        <div className="mt-4">
+          <input
+            type="text"
+            placeholder="Ingrese el código de verificación"
+            value={codigoVerificacion}
+            onChange={(e) => setCodigoVerificacion(e.target.value)}
+            className="w-full p-2 border-2 border-black rounded-md text-center text-lg font-semibold text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-black"
+          />
+          {errorGeneral && (
+            <p className="text-red-500 text-sm mt-2 text-center">
+              {errorGeneral}
+            </p>
+          )}
+        </div>
+      </ModalGenerico>
+
     </PageBase>
   );
 }
