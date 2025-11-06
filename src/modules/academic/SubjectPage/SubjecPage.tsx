@@ -1,5 +1,4 @@
 import PageBase from '@components/PageBase/PageBase'
-import asignaturas from '@data/asignaturas'
 import { Tabla } from '@components/Tabla/Tabla'
 import { ColumnDef } from '@tanstack/react-table'
 import TituloTabla from '@components/Tabla/TituloTabla'
@@ -9,26 +8,27 @@ import { useEffect, useState } from 'react'
 import { URL_API } from '@apis/constantes'
 //import PantallaCarga from '@components/PantallaCarga/PantallaCarga'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
+import { useNavigate } from 'react-router'
 
 export default function SubjectPage() {
 	const [asignaturas, setAsignaturas] = useState<Asignatura[]>([])
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState<string>('')
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		const fetchingAsignaturas = async () => {
-			const token = localStorage.getItem('access_token') //esto luego debería ser un get?
+			const token = localStorage.getItem("access_token")//esto luego debería ser un get? si no hay token redirigir a login? 
 			if (!token) {
-				console.error('Token no encontrado ¿redirecciono a login?') //¿debería redirigir a login?
+				navigate('/login')
 				return
 			}
 
 			try {
 				setLoading(true)
-				const request = await fetch(`${URL_API}asignaturas/true`, {
+				const request = await fetch(`${URL_API}asignaturas`, {
 					method: 'GET',
 					headers: {
-						'content type': 'application/json',
 						Authorization: `Bearer ${token}`,
 					},
 				})
@@ -49,7 +49,7 @@ export default function SubjectPage() {
 		}
 
 		fetchingAsignaturas()
-	}, [])
+	}, [navigate])
 
 	const handleVerDetalle = (codigo: string) => {
 		console.log('Asignatura a ver detalle codigo: ', codigo)
