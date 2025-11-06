@@ -6,6 +6,7 @@ import {
   DrawerFooter,
 } from "@components/ui/drawer";
 import { Button } from "@components/ui/button";
+import React from "react";
 
 interface ModalGenericoProps {
   abierto: boolean;
@@ -19,7 +20,9 @@ interface ModalGenericoProps {
   textoBotonSecundario?: string;
   colorBotonSecundario?: string;
   onCancelar?: () => void;
+  children?: React.ReactNode; 
 }
+
 export default function ModalGenerico({
   abierto,
   onClose,
@@ -32,6 +35,7 @@ export default function ModalGenerico({
   textoBotonSecundario = "Cancelar",
   colorBotonSecundario = "#929292",
   onCancelar,
+  children, 
 }: ModalGenericoProps) {
   return (
     <Drawer open={abierto} onOpenChange={(open) => !open && onClose()}>
@@ -44,9 +48,10 @@ export default function ModalGenerico({
           {mensaje && <p className="text-gray-600 mt-2">{mensaje}</p>}
         </DrawerHeader>
 
+        {children && <div className="my-4">{children}</div>}
+
         <DrawerFooter className="mt-4">
-     
-          <div className="flex flex-col items-center gap-3 w-full">
+            <div className="flex flex-col items-center gap-3 w-full">
             <Button
               style={{
                 backgroundColor: colorBoton,
@@ -61,7 +66,6 @@ export default function ModalGenerico({
               {textoBoton}
             </Button>
 
-   
             <Button
               style={{
                 backgroundColor: colorBotonSecundario,
