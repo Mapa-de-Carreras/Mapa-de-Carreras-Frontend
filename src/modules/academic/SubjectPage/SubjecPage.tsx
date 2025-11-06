@@ -5,12 +5,55 @@ import { ColumnDef } from '@tanstack/react-table'
 import TituloTabla from '@components/Tabla/TituloTabla'
 import AccionTabla from '@components/Tabla/AccionTabla'
 import Asignatura from '@globalTypes/asignatura'
+import { useEffect, useState } from 'react'
+import { URL_API } from '@apis/constantes'
+import PantallaCarga from '@components/PantallaCarga/PantallaCarga'
+import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 
 export default function SubjectPage() {
+	const [asignaturas, setAsignaturas] = useState<Asignatura[]>([])
+	const [loading, setLoading] = useState(false)
+	const [error, setError] = useState<string>('')
+
+	useEffect(() => {
+		const fetchingAsignaturas = async () => {
+			const token = localStorage.getItem('access_token') //esto luego debería ser un get?
+			if (!token) {
+				console.error('Token no encontrado ¿redirecciono a login?') //¿debería redirigir a login?
+				return
+			}
+
+			try {
+				setLoading(true)
+				const request = await fetch(`${URL_API}asignaturas/true`, {
+					method: 'GET',
+					headers: {
+						'content type': 'application/json',
+						Authorization: `Bearer ${token}`,
+					},
+				})
+
+				const response = await request.json()
+
+				if (!request.ok) {
+					throw new Error(response.message)
+				}
+
+				setAsignaturas(response)
+				setLoading(false)
+			} catch (error) {
+				console.log('ocurrio un error', error)
+				setError('Error al obtener las asignaturas. Intente más tarde.')
+			}
+		}
+
+		fetchingAsignaturas()
+	}, [])
+
 	const handleVerDetalle = (codigo: string) => {
 		console.log('Asignatura a ver detalle codigo: ', codigo)
 	}
-
+	
 	const columns: ColumnDef<Asignatura>[] = [
 		{
 			accessorKey: 'nombre',
@@ -50,12 +93,19 @@ export default function SubjectPage() {
 
 	return (
 		<PageBase titulo="Página de Asignaturas" subtitulo="Listado de Asignaturas">
-			<Tabla
-				columnas={columns}
-				data={asignaturas}
-				habilitarBuscador={true}
-				habilitarPaginado={true}
-			/>
+			{!loading && (
+				<Tabla
+					columnas={columns}
+					data={asignaturas}
+					habilitarBuscador={true}
+					habilitarPaginado={true}
+				/>
+			)}
+
+			{loading && (
+				<ComponenteCarga />
+			)}
+			
 		</PageBase>
 	)
 }
