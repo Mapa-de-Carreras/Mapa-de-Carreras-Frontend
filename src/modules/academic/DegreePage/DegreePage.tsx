@@ -126,7 +126,7 @@ export default function DegreePage() {
 					<Listado
 						data={carreras}
 						orderData={institutos}
-						orderKey={(instituto) => instituto.titulo}
+						orderKey={(instituto) => instituto.nombre}
 						compareTo={(instituto, carrera) => true}
 						dataRender={(carrera) => (
 							<TarjetaCarrera key={carrera.codigo} carrera={carrera} />
