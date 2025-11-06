@@ -7,7 +7,7 @@ import AccionTabla from '@components/Tabla/AccionTabla'
 import Asignatura from '@globalTypes/asignatura'
 import { useEffect, useState } from 'react'
 import { URL_API } from '@apis/constantes'
-import PantallaCarga from '@components/PantallaCarga/PantallaCarga'
+//import PantallaCarga from '@components/PantallaCarga/PantallaCarga'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 
 export default function SubjectPage() {
@@ -40,10 +40,11 @@ export default function SubjectPage() {
 				}
 
 				setAsignaturas(response)
-				setLoading(false)
 			} catch (error) {
-				console.log('ocurrio un error', error)
-				setError('Error al obtener las asignaturas. Intente más tarde.')
+				console.log('ocurrio un error al obtener las asignaturas', error)
+				setError('Ocurrio un error al obtener las asignaturas')
+			} finally {
+				setLoading(false)
 			}
 		}
 
@@ -53,7 +54,7 @@ export default function SubjectPage() {
 	const handleVerDetalle = (codigo: string) => {
 		console.log('Asignatura a ver detalle codigo: ', codigo)
 	}
-	
+
 	const columns: ColumnDef<Asignatura>[] = [
 		{
 			accessorKey: 'nombre',
@@ -93,7 +94,9 @@ export default function SubjectPage() {
 
 	return (
 		<PageBase titulo="Página de Asignaturas" subtitulo="Listado de Asignaturas">
-			{!loading && (
+			{loading && <ComponenteCarga />}
+			{error && <p className="text-center text-red-500">{error}</p>}
+			{!loading && !error && asignaturas && (
 				<Tabla
 					columnas={columns}
 					data={asignaturas}
@@ -101,11 +104,6 @@ export default function SubjectPage() {
 					habilitarPaginado={true}
 				/>
 			)}
-
-			{loading && (
-				<ComponenteCarga />
-			)}
-			
 		</PageBase>
 	)
 }
