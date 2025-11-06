@@ -18,6 +18,7 @@ export default function UserDetail() {
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = location.state || {};
+  const [mensajeExito, setMensajeExito] = useState("");
 
   useEffect(() => {
     const fetchUsuario = async () => {
@@ -122,6 +123,31 @@ export default function UserDetail() {
       }
   };
 
+    const handleGenerarCodigo = async () => {
+      try {
+            setLoading(true);
+            const email = usuario.email;
+            console.log("El email es: ",email);
+            const response = await fetch(`${URL_API}auth/recuperar/solicitar-codigo/`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email }),
+            });
+
+            if (!response.ok) {
+              const errorData = await response.json();
+              throw new Error(errorData.message || "Error en la autenticación");
+            }
+
+            console.log("Email con código de recuperación enviado correctamente");
+            setMensajeExito("Se ha enviado un código de verificación. Revisa tu correo electrónico."); 
+          } catch (error) {
+            console.error("Error al enviar el email:", error);
+            setError("Error al enviar el email. Intente nuevamente.");
+          } finally {
+            setLoading(false);
+          }
+    };
   return (
     <PageBase>
       <div className="flex flex-col items-center justify-start min-h-screen bg-gray-50 px-4 sm:px-6 md:px-10 lg:px-20 py-10">
@@ -172,21 +198,35 @@ export default function UserDetail() {
                 <strong className="text-black">Email:</strong> {usuario.email || "No disponible"}
               </div>
 
-              <div className="flex items-center justify-between mt-2">
-                <strong className="text-black">Estado:</strong>
-                {usuario.is_active ? (
-                  <span className="text-green-600 font-semibold">Activo</span>
-                ) : (
-                  <div className="flex items-center gap-3">
-                    <span className="text-red-600 font-semibold">Inactivo</span>
+           <div className="flex items-center justify-between mt-2">
+              <strong className="text-black">Estado:</strong>
+              {usuario.is_active ? (
+                <span className="text-green-600 font-semibold">Activo</span>
+              ) : (
+                <div className="flex flex-col sm:flex-row items-center gap-3">
+                  <span className="text-red-600 font-semibold">Inactivo</span>
+                  <div className="flex flex-col sm:flex-row gap-3">
                     <BotonGenerico
                       texto="Activar usuario"
                       color="#3E9956"
                       onClick={() => setMostrarModalVerificacion(true)}
                     />
+                    <BotonGenerico
+                      texto="Generar código"
+                      color="#1D4ED8"
+                      onClick={handleGenerarCodigo}
+                    />
                   </div>
-                )}
-              </div>
+                </div>
+              )}
+            </div>
+
+            {/* Mensaje de éxito */}
+            {mensajeExito && (
+              <p className="text-green-600 font-semibold mt-4 text-center">
+                {mensajeExito}
+              </p>
+            )}
               <div>
                 <strong className="text-black">Rol:</strong>{" "}
                 {usuario.roles?.length > 0 ? usuario.roles.join(", ") : "No disponible"}
