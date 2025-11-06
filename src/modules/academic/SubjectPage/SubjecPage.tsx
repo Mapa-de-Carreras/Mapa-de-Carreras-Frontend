@@ -10,7 +10,7 @@ import { useFetch } from '@components/hooks/useFetch'
 
 export default function SubjectPage() {
 	const { data: asignaturas, loading, error } = useFetch<Asignatura>('asignaturas') 
-	// extraje el fetch y lo hice un hook, lo deje en component/hooks
+	// extraje el fech y lo hice un hook, lo deje en component/hooks
 
 	const handleVerDetalle = useCallback((codigo: string) => {
 		console.log('Asignatura a ver detalle codigo: ', codigo)
@@ -21,9 +21,6 @@ export default function SubjectPage() {
 			{
 				accessorKey: 'nombre',
 				header: ({ column }) => <TituloTabla column={column} titulo="Nombre" />,
-				cell: ({ row }) => (
-					<div className="flex flex-wrap font-medium">{row.getValue('nombre')}</div>
-				),
 			},
 			{
 				accessorKey: 'codigo',
