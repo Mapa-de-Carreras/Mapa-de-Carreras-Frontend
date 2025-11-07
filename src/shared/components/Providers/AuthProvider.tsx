@@ -55,7 +55,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 					console.error('Error refrescando token automáticamente:', err)
 				}
 			},
-			5 * 60 * 1000
+			60000
 		)
 
 		return () => clearInterval(interval)

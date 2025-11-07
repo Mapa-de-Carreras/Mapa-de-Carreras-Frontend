@@ -28,6 +28,9 @@ export default function UserEdit() {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [carreras, setCarreras] = useState<any>(null);
+  const [mostrarModalCarrera, setMostrarModalCarrera] = useState(false);
+  const [carreraSeleccionada, setCarreraSeleccionada] = useState("")
 
   // Cargar datos del usuario al montar el componente
   useEffect(() => {
@@ -68,16 +71,43 @@ export default function UserEdit() {
       }
     };
 
+       const fetchCarreras= async () => {
+      if (!id) return;
+      setLoading(true);
+      try {
+        const token = localStorage.getItem("access_token");
+        const response = await fetch(`${URL_API}carreras/`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!response.ok) throw new Error("Error al obtener las carreras");
+        const data = await response.json();
+        console.log("Carreras obtenidas: ",data);
+        setCarreras(data);
+      } catch (error) {
+        console.error(error);
+        setError("Error al obtener las carreras. Intente nuevamente.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+
     fetchUser();
+    fetchCarreras();
   }, []);
 
   const handleChange = (name: string, value: string) => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleCheck = (field: "esCoordinador" | "esAdministrador") => {
-    setForm((prev) => ({ ...prev, [field]: !prev[field] }));
-  };
+    const handleCheck = (field: "esCoordinador" | "esAdministrador") => {
+      setForm((prev) => ({ ...prev, [field]: !prev[field] }));
+
+      // Si activó el rol de coordinador, mostrar el modal
+      if (field === "esCoordinador" && !form.esCoordinador) {
+        setMostrarModalCarrera(true);
+      }
+    };
 
   // Guardar cambios
   const handleGuardar = async () => {
@@ -218,6 +248,13 @@ export default function UserEdit() {
                 </div>
               </div>
 
+              {form.carrera && (
+                <p className="text-sm text-gray-600 mt-1">
+                  Carrera seleccionada:{" "}
+                  {carreras?.find((c: any) => c.id === form.carrera)?.nombre || form.carrera}
+                </p>
+              )}
+
               {error && (
                 <p className="text-red-600 text-sm text-center">{error}</p>
               )}
@@ -263,6 +300,41 @@ export default function UserEdit() {
         colorBoton="#3E9956"
         onConfirmar={handleCerrarModal}
       />
+
+     <ModalGenerico
+      abierto={mostrarModalCarrera}
+      onClose={() => setMostrarModalCarrera(false)}
+      titulo="Seleccionar carrera"
+      mensaje="Seleccione la carrera que coordinará."
+      icono={<span className="icon-[mdi--school] text-blue-600 text-5xl" />}
+      textoBoton="Guardar"
+      colorBoton="#2563EB"
+      onConfirmar={() => {
+        setForm((prev) => ({ ...prev, carrera: carreraSeleccionada }));
+        setMostrarModalCarrera(false);
+      }}
+    >
+      <div className="mt-4 flex flex-col gap-3">
+        {carreras?.length ? (
+          <select
+            className="border border-black text-black rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={carreraSeleccionada}
+            onChange={(e) => setCarreraSeleccionada(e.target.value)}
+          >
+            <option value="">Seleccione una carrera</option>
+            {carreras.map((c: any) => (
+              <option key={c.id} value={c.id}>
+                {c.nombre || c.carrera?.nombre || c.codigo || "Sin nombre"}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <p className="text-gray-500 text-sm text-center">
+            No hay carreras disponibles.
+          </p>
+        )}
+      </div>
+    </ModalGenerico>
     </PageBase>
   );
 }
