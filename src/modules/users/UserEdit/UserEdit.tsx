@@ -9,10 +9,8 @@ import ModalGenerico from "@components/Modal/ModalGenerico";
 import { useNavigate, useParams } from "react-router";
 import { URL_API } from "@apis/constantes";
 import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
-
 export default function UserEdit() {
   const navigate = useNavigate();
-
   const [form, setForm] = useState({
     legajo: "",
     nombre: "",
@@ -22,6 +20,7 @@ export default function UserEdit() {
     celular: "",
     esCoordinador: false,
     esAdministrador: false,
+    esDocente: false,
     carrera: "",
   });
 
@@ -30,12 +29,21 @@ export default function UserEdit() {
   const [error, setError] = useState("");
   const [carreras, setCarreras] = useState<any>(null);
   const [mostrarModalCarrera, setMostrarModalCarrera] = useState(false);
-  const [carreraSeleccionada, setCarreraSeleccionada] = useState("")
+  const [carreraSeleccionada, setCarreraSeleccionada] = useState("");
+  const [nuevaContraseña, setNuevaContraseña] = useState("");
+  const [confirmarContraseña, setConfirmarContraseña] = useState("");
+  const [mostrarNueva, setMostrarNueva] = useState(false);
+  const [mostrarConfirmar, setMostrarConfirmar] = useState(false);
 
-  // Cargar datos del usuario al montar el componente
+  const [mostrarModalContraseña, setMostrarModalContraseña] = useState(false);
+  const contraseñasCoinciden =
+    nuevaContraseña.trim() !== "" &&
+    nuevaContraseña === confirmarContraseña;
+
+  // Cargar datos del usuario
   useEffect(() => {
-    const  id  = localStorage.getItem("user_id");
-    console.log("En el useEffect id a cargar: ", id);
+    const id = localStorage.getItem("user_id");
+
     const fetchUser = async () => {
       try {
         setLoading(true);
@@ -43,26 +51,25 @@ export default function UserEdit() {
         if (!token) throw new Error("Token no encontrado");
 
         const response = await fetch(`${URL_API}usuarios/${id}/`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         if (!response.ok) throw new Error("Error al obtener datos del usuario");
 
         const data = await response.json();
-         console.log("Datos del usuario obtenidos:", data);
-        setForm({
+        setForm((prev) => ({
+          ...prev,
           legajo: data.legajo || "",
           nombre: data.first_name || "",
           apellido: data.last_name || "",
           usuario: data.username || "",
           email: data.email || "",
           celular: data.celular || "",
-          esCoordinador: data.roles?.includes("Rol-prueba-coord") || false,
-          esAdministrador: data.roles?.includes("Rol-prueba-admin") || false,
+          esCoordinador: data.roles?.includes("Coordinador") || false,
+          esAdministrador: data.roles?.includes("Administrador") || false,
+          esDocente: data.roles?.includes("Docente") || false,
           carrera: data.carrera || "",
-        });
+        }));
       } catch (err) {
         console.error(err);
         setError("No se pudieron cargar los datos del usuario.");
@@ -71,26 +78,19 @@ export default function UserEdit() {
       }
     };
 
-       const fetchCarreras= async () => {
-      if (!id) return;
-      setLoading(true);
+    const fetchCarreras = async () => {
       try {
         const token = localStorage.getItem("access_token");
         const response = await fetch(`${URL_API}carreras/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        if (!response.ok) throw new Error("Error al obtener las carreras");
         const data = await response.json();
-        console.log("Carreras obtenidas: ",data);
         setCarreras(data);
       } catch (error) {
         console.error(error);
         setError("Error al obtener las carreras. Intente nuevamente.");
-      } finally {
-        setLoading(false);
       }
     };
-
 
     fetchUser();
     fetchCarreras();
@@ -100,14 +100,13 @@ export default function UserEdit() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-    const handleCheck = (field: "esCoordinador" | "esAdministrador") => {
-      setForm((prev) => ({ ...prev, [field]: !prev[field] }));
+  const handleCheck = (field: "esCoordinador" | "esAdministrador" | "esDocente") => {
+    setForm((prev) => ({ ...prev, [field]: !prev[field] }));
 
-      // Si activó el rol de coordinador, mostrar el modal
-      if (field === "esCoordinador" && !form.esCoordinador) {
-        setMostrarModalCarrera(true);
-      }
-    };
+    if (field === "esCoordinador" && !form.esCoordinador) {
+      setMostrarModalCarrera(true);
+    }
+  };
 
   // Guardar cambios
   const handleGuardar = async () => {
@@ -118,6 +117,11 @@ export default function UserEdit() {
       const token = localStorage.getItem("access_token");
       if (!token) throw new Error("Token no encontrado");
 
+      const rolesSeleccionados: string[] = [];
+      if (form.esAdministrador) rolesSeleccionados.push("Administrador");
+      if (form.esCoordinador) rolesSeleccionados.push("Coordinador");
+      if (form.esDocente) rolesSeleccionados.push("Docente");
+
       const body: any = {
         username: form.usuario,
         first_name: form.nombre,
@@ -126,17 +130,19 @@ export default function UserEdit() {
         legajo: form.legajo,
         celular: form.celular,
         is_staff: form.esAdministrador,
-        roles: form.esAdministrador
-          ? ["Rol-prueba-admin"]
-          : form.esCoordinador
-          ? ["Rol-prueba-coord"]
-          : [],
-        carrera: form.carrera,
+        roles: rolesSeleccionados,
       };
 
-      const  id  = localStorage.getItem("user_id");
-      console.log("En el patch id a enviar: ", id);
-      console.log("Cuerpo a enviar en el patch: ", body);
+      if (form.esCoordinador) {
+        if (form.carrera) {
+          body.carreras_coordinadas = [Number(form.carrera)];
+          console.log(" Le envío la carrera:", form.carrera);
+        } else {
+          console.warn("⚠ Es coordinador pero no hay carrera seleccionada");
+        }
+      }
+      console.log("Body a enviar:", body);
+      const id = localStorage.getItem("user_id");
       const response = await fetch(`${URL_API}usuarios/${id}/`, {
         method: "PATCH",
         headers: {
@@ -149,24 +155,17 @@ export default function UserEdit() {
       if (!response.ok) {
         const errorData = await response.json();
 
-        if (errorData.detail) {
-          if (errorData.detail.includes("No tienes permisos")) {
-            setError(
-              "No tienes permisos para editar este usuario. Solo Coordinadores o Docentes pueden hacerlo."
-            );
-            return;
-          }
-        }
-
         if (errorData.email)
           setError("El email ya está registrado por otro usuario.");
         else if (errorData.legajo)
           setError("El legajo ya está registrado por otro usuario.");
-        else setError("Error al actualizar el usuario.");
+        else if (errorData.celular)
+          setError("El número de celular ya está en uso.");
+        else
+          setError("Error al actualizar el usuario.");
 
         return;
       }
-
       setMostrarModal(true);
     } catch (err) {
       console.error(err);
@@ -180,6 +179,39 @@ export default function UserEdit() {
   const handleCerrarModal = () => {
     setMostrarModal(false);
     navigate("/administracion/usuarios/");
+  };
+
+  const fetchCambiarContraseña = async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(`${URL_API}auth/cambiar-contraseña/`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          old_password: nuevaContraseña,
+          password: nuevaContraseña,
+          password2: confirmarContraseña,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Error al cambiar la contraseña");
+      }
+
+      setNuevaContraseña("");
+      setConfirmarContraseña("");
+      alert("Contraseña cambiada correctamente");
+    } catch (error) {
+      console.error(error);
+      setError("Error al cambiar la contraseña. Intente nuevamente.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -209,20 +241,19 @@ export default function UserEdit() {
                 { label: "Usuario", name: "usuario" },
                 { label: "Email", name: "email" },
                 { label: "Celular", name: "celular" },
-                { label: "Carrera", name: "carrera" },
               ].map(({ label, name }) => (
                 <InputConLabel
                   key={name}
                   label={label}
                   name={name}
                   placeholder={`Ingrese ${label.toLowerCase()}`}
-                  supportingText="Este campo es opcional"
                   value={(form as any)[name]}
                   onChange={(val) => handleChange(name, val)}
                 />
               ))}
 
-              <div className="flex items-center gap-6 mt-3">
+              {/* Roles */}
+              <div className="flex flex-col gap-3 mt-3">
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="coordinador"
@@ -246,12 +277,28 @@ export default function UserEdit() {
                     ¿Es administrador?
                   </Label>
                 </div>
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="docente"
+                    checked={form.esDocente}
+                    onCheckedChange={() => handleCheck("esDocente")}
+                    className="border border-black data-[state=checked]:bg-green-600"
+                  />
+                  <Label htmlFor="docente" className="text-gray-700">
+                    ¿Es docente?
+                  </Label>
+                </div>
               </div>
 
               {form.carrera && (
                 <p className="text-sm text-gray-600 mt-1">
                   Carrera seleccionada:{" "}
-                  {carreras?.find((c: any) => c.id === form.carrera)?.nombre || form.carrera}
+                  {
+                    carreras?.find(
+                      (c: any) => String(c.id) === String(form.carrera)
+                    )?.nombre || "Sin nombre"
+                  }
                 </p>
               )}
 
@@ -283,58 +330,132 @@ export default function UserEdit() {
                   type="button"
                 />
               </div>
+
+              <div className="flex justify-center mt-4">
+                <BotonGenerico
+                  texto="Cambiar contraseña"
+                  color="#2563EB"
+                  icono={
+                    <span className="w-5 h-5 flex items-center justify-center rounded-full bg-white text-gray-600">
+                      <span className="icon-[mdi--lock-reset]" />
+                    </span>
+                  }
+                  onClick={() => setMostrarModalContraseña(true)}
+                />
+              </div>
             </form>
           </CardContent>
         </Card>
       </div>
 
+      {/* Modal de éxito */}
       <ModalGenerico
         abierto={mostrarModal}
         onClose={handleCerrarModal}
-        icono={
-          <span className="icon-[mdi--check-bold] text-green-600 text-5xl" />
-        }
+        icono={<span className="icon-[mdi--check-bold] text-green-600 text-5xl" />}
         titulo="Éxito"
         mensaje="Usuario actualizado exitosamente."
         textoBoton="Aceptar"
-        colorBoton="#3E9956"
+        colorBoton="#47ADA4"
         onConfirmar={handleCerrarModal}
       />
 
-     <ModalGenerico
-      abierto={mostrarModalCarrera}
-      onClose={() => setMostrarModalCarrera(false)}
-      titulo="Seleccionar carrera"
-      mensaje="Seleccione la carrera que coordinará."
-      icono={<span className="icon-[mdi--school] text-blue-600 text-5xl" />}
-      textoBoton="Guardar"
-      colorBoton="#2563EB"
-      onConfirmar={() => {
-        setForm((prev) => ({ ...prev, carrera: carreraSeleccionada }));
-        setMostrarModalCarrera(false);
-      }}
-    >
-      <div className="mt-4 flex flex-col gap-3">
-        {carreras?.length ? (
-          <select
-            className="border border-black text-black rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={carreraSeleccionada}
-            onChange={(e) => setCarreraSeleccionada(e.target.value)}
-          >
-            <option value="">Seleccione una carrera</option>
-            {carreras.map((c: any) => (
-              <option key={c.id} value={c.id}>
-                {c.nombre || c.carrera?.nombre || c.codigo || "Sin nombre"}
-              </option>
-            ))}
-          </select>
-        ) : (
-          <p className="text-gray-500 text-sm text-center">
-            No hay carreras disponibles.
-          </p>
-        )}
-      </div>
-    </ModalGenerico>
+      {/* Modal selección de carrera */}
+      <ModalGenerico
+        abierto={mostrarModalCarrera}
+        onClose={() => setMostrarModalCarrera(false)}
+        titulo="Seleccionar carrera"
+        mensaje="Seleccione la carrera que coordinará."
+        icono={<span className="icon-[mdi--school] text-blue-600 text-5xl" />}
+        textoBoton="Guardar"
+        colorBoton="#2563EB"
+        onConfirmar={() => {
+          setForm((prev) => ({ ...prev, carrera: carreraSeleccionada }));
+          setMostrarModalCarrera(false);
+        }}
+      >
+        <div className="mt-4 flex flex-col gap-3">
+          {carreras?.length ? (
+            <select
+              className="border border-black text-black rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-black"
+              value={carreraSeleccionada}
+              onChange={(e) => setCarreraSeleccionada(e.target.value)}
+            >
+              <option value="">Seleccione una carrera</option>
+              {carreras.map((c: any) => (
+                <option key={c.id} value={c.id}>
+                  {c.nombre || c.carrera?.nombre || c.codigo || "Sin nombre"}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <p className="text-gray-500 text-sm text-center">
+              No hay carreras disponibles.
+            </p>
+          )}
+        </div>
+      </ModalGenerico>
+      <ModalGenerico
+        abierto={mostrarModalContraseña}
+        onClose={() => setMostrarModalContraseña(false)}
+        titulo="Cambiar contraseña"
+        mensaje="Ingrese su nueva contraseña y confírmela."
+        icono={<span className="icon-[mdi--lock-reset] text-blue-600 text-5xl" />}
+        textoBoton="Confirmar"
+        colorBoton="#2563EB"
+        onConfirmar={() => {
+          if (nuevaContraseña === confirmarContraseña) {
+            fetchCambiarContraseña();
+            setMostrarModalContraseña(false);
+          } else {
+            setError("Las contraseñas no coinciden.");
+          }
+        }}
+      >
+        <div className="mt-4 flex flex-col gap-3">
+          {/* Nueva contraseña */}
+          <div className="relative">
+            <input
+              type={mostrarNueva ? "text" : "password"}
+              placeholder="Nueva contraseña"
+              value={nuevaContraseña}
+              onChange={(e) => setNuevaContraseña(e.target.value)}
+              className="border border-black text-black rounded-lg p-2 w-full pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              type="button"
+              onClick={() => setMostrarNueva((prev) => !prev)}
+              className="absolute right-3 top-2.5 text-gray-600 hover:text-black"
+            >
+              <span
+                className={mostrarNueva ? "icon-[mdi--eye-off] text-xl" : "icon-[mdi--eye] text-xl"}
+              />
+            </button>
+          </div>
+
+          {/* Confirmar contraseña */}
+          <div className="relative">
+            <input
+              type={mostrarConfirmar ? "text" : "password"}
+              placeholder="Confirmar contraseña"
+              value={confirmarContraseña}
+              onChange={(e) => setConfirmarContraseña(e.target.value)}
+              className="border border-black text-black rounded-lg p-2 w-full pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              type="button"
+              onClick={() => setMostrarConfirmar((prev) => !prev)}
+              className="absolute right-3 top-2.5 text-gray-600 hover:text-black"
+            >
+              <span
+                className={mostrarConfirmar ? "icon-[mdi--eye-off] text-xl" : "icon-[mdi--eye] text-xl"}
+              />
+            </button>
+          </div>
+        </div>
+      </ModalGenerico>
+                          
+
     </PageBase>
   );
 }
