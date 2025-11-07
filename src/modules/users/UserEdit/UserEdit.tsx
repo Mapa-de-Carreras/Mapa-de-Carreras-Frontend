@@ -34,6 +34,8 @@ export default function UserEdit() {
   const [confirmarContraseña, setConfirmarContraseña] = useState("");
   const [mostrarNueva, setMostrarNueva] = useState(false);
   const [mostrarConfirmar, setMostrarConfirmar] = useState(false);
+  const [contraseñaActual, setContraseñaActual] = useState("");
+  const [mostrarActual, setMostrarActual] = useState(false);
 
   const [mostrarModalContraseña, setMostrarModalContraseña] = useState(false);
   const contraseñasCoinciden =
@@ -135,7 +137,7 @@ export default function UserEdit() {
 
       if (form.esCoordinador) {
         if (form.carrera) {
-          body.carreras_coordinadas = [Number(form.carrera)];
+          body.carreras_asignadas_ids= [Number(form.carrera)];
           console.log(" Le envío la carrera:", form.carrera);
         } else {
           console.warn("⚠ Es coordinador pero no hay carrera seleccionada");
@@ -181,7 +183,7 @@ export default function UserEdit() {
     navigate("/administracion/usuarios/");
   };
 
-  const fetchCambiarContraseña = async () => {
+    const fetchCambiarContraseña = async () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("access_token");
@@ -192,7 +194,7 @@ export default function UserEdit() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          old_password: nuevaContraseña,
+          old_password: contraseñaActual,
           password: nuevaContraseña,
           password2: confirmarContraseña,
         }),
@@ -203,6 +205,7 @@ export default function UserEdit() {
         throw new Error(errorData.detail || "Error al cambiar la contraseña");
       }
 
+      setContraseñaActual("");
       setNuevaContraseña("");
       setConfirmarContraseña("");
       alert("Contraseña cambiada correctamente");
@@ -396,65 +399,84 @@ export default function UserEdit() {
         </div>
       </ModalGenerico>
       <ModalGenerico
-        abierto={mostrarModalContraseña}
-        onClose={() => setMostrarModalContraseña(false)}
-        titulo="Cambiar contraseña"
-        mensaje="Ingrese su nueva contraseña y confírmela."
-        icono={<span className="icon-[mdi--lock-reset] text-blue-600 text-5xl" />}
-        textoBoton="Confirmar"
-        colorBoton="#2563EB"
-        onConfirmar={() => {
-          if (nuevaContraseña === confirmarContraseña) {
-            fetchCambiarContraseña();
-            setMostrarModalContraseña(false);
-          } else {
-            setError("Las contraseñas no coinciden.");
-          }
-        }}
-      >
-        <div className="mt-4 flex flex-col gap-3">
-          {/* Nueva contraseña */}
-          <div className="relative">
-            <input
-              type={mostrarNueva ? "text" : "password"}
-              placeholder="Nueva contraseña"
-              value={nuevaContraseña}
-              onChange={(e) => setNuevaContraseña(e.target.value)}
-              className="border border-black text-black rounded-lg p-2 w-full pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      abierto={mostrarModalContraseña}
+      onClose={() => setMostrarModalContraseña(false)}
+      titulo="Cambiar contraseña"
+      mensaje="Ingrese su contraseña actual, su nueva contraseña y confírmela."
+      icono={<span className="icon-[mdi--lock-reset] text-blue-600 text-5xl" />}
+      textoBoton="Confirmar"
+      colorBoton="#2563EB"
+      onConfirmar={() => {
+        if (nuevaContraseña === confirmarContraseña) {
+          fetchCambiarContraseña();
+          setMostrarModalContraseña(false);
+        } else {
+          setError("Las contraseñas no coinciden.");
+        }
+      }}
+    >
+      <div className="mt-4 flex flex-col gap-3">
+        {/* Contraseña actual */}
+        <div className="relative">
+          <input
+            type={mostrarActual ? "text" : "password"}
+            placeholder="Contraseña actual"
+            value={contraseñaActual}
+            onChange={(e) => setContraseñaActual(e.target.value)}
+            className="border border-black text-black rounded-lg p-2 w-full pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="button"
+            onClick={() => setMostrarActual((prev) => !prev)}
+            className="absolute right-3 top-2.5 text-gray-600 hover:text-black"
+          >
+            <span
+              className={mostrarActual ? "icon-[mdi--eye-off] text-xl" : "icon-[mdi--eye] text-xl"}
             />
-            <button
-              type="button"
-              onClick={() => setMostrarNueva((prev) => !prev)}
-              className="absolute right-3 top-2.5 text-gray-600 hover:text-black"
-            >
-              <span
-                className={mostrarNueva ? "icon-[mdi--eye-off] text-xl" : "icon-[mdi--eye] text-xl"}
-              />
-            </button>
-          </div>
-
-          {/* Confirmar contraseña */}
-          <div className="relative">
-            <input
-              type={mostrarConfirmar ? "text" : "password"}
-              placeholder="Confirmar contraseña"
-              value={confirmarContraseña}
-              onChange={(e) => setConfirmarContraseña(e.target.value)}
-              className="border border-black text-black rounded-lg p-2 w-full pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <button
-              type="button"
-              onClick={() => setMostrarConfirmar((prev) => !prev)}
-              className="absolute right-3 top-2.5 text-gray-600 hover:text-black"
-            >
-              <span
-                className={mostrarConfirmar ? "icon-[mdi--eye-off] text-xl" : "icon-[mdi--eye] text-xl"}
-              />
-            </button>
-          </div>
+          </button>
         </div>
-      </ModalGenerico>
-                          
+
+        {/* Nueva contraseña */}
+        <div className="relative">
+          <input
+            type={mostrarNueva ? "text" : "password"}
+            placeholder="Nueva contraseña"
+            value={nuevaContraseña}
+            onChange={(e) => setNuevaContraseña(e.target.value)}
+            className="border border-black text-black rounded-lg p-2 w-full pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="button"
+            onClick={() => setMostrarNueva((prev) => !prev)}
+            className="absolute right-3 top-2.5 text-gray-600 hover:text-black"
+          >
+            <span
+              className={mostrarNueva ? "icon-[mdi--eye-off] text-xl" : "icon-[mdi--eye] text-xl"}
+            />
+          </button>
+        </div>
+
+        {/* Confirmar contraseña */}
+        <div className="relative">
+          <input
+            type={mostrarConfirmar ? "text" : "password"}
+            placeholder="Confirmar contraseña"
+            value={confirmarContraseña}
+            onChange={(e) => setConfirmarContraseña(e.target.value)}
+            className="border border-black text-black rounded-lg p-2 w-full pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="button"
+            onClick={() => setMostrarConfirmar((prev) => !prev)}
+            className="absolute right-3 top-2.5 text-gray-600 hover:text-black"
+          >
+            <span
+              className={mostrarConfirmar ? "icon-[mdi--eye-off] text-xl" : "icon-[mdi--eye] text-xl"}
+            />
+          </button>
+        </div>
+      </div>
+    </ModalGenerico>
 
     </PageBase>
   );
