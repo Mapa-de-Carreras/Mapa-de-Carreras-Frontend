@@ -11,18 +11,49 @@ export default function LogoutPage() {
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [usuarios, setUsuarios] = useState<any[]>([]);
+  const [rolUsuario, setRolUsuario] = useState<string>("");
 
   const handleAgregar = () => {
     navigate("/administracion/usuarios/crear");
   };
 
   useEffect(() => {
-    const fetchUsuarios = async () => {
+    const fetchUsuario = async () => {
+      const id = localStorage.getItem("user_id");
+      if (!id) return;
+
       setLoading(true);
       try {
         const token = localStorage.getItem("access_token");
-        console.log("Token de acceso:", token);
+        const response = await fetch(`${URL_API}usuarios/${id}/`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
+        if (!response.ok) throw new Error("Error al obtener el usuario");
+
+        const data = await response.json();
+
+        // Guardamos el rol principal del usuario logueado
+        console.log("Data: ",data);
+        if (data.roles && data.roles.length > 0) {
+          console.log("Rol actual: ",data.roles);
+          setRolUsuario(data.roles[0].toLowerCase());
+        } else if (data.is_staff) {
+          setRolUsuario("administrador");
+        } else {
+          setRolUsuario("usuario");
+        }
+      } catch (error) {
+        console.error(error);
+        setError("Error al cargar el usuario. Intente nuevamente.");
+      }finally{
+        setLoading(false);
+      }
+    };
+
+    const fetchUsuarios = async () => {
+      try {
+        const token = localStorage.getItem("access_token");
         const response = await fetch(`${URL_API}usuarios/`, {
           method: "GET",
           headers: {
@@ -33,20 +64,26 @@ export default function LogoutPage() {
 
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(errorData.message || "Error al obtener los usuarios");
+          // Traducir mensaje del backend
+          if (errorData.detail === "You do not have permission to perform this action.") {
+            throw new Error("No tiene permisos para realizar esta acción.");
+          } else {
+            throw new Error(errorData.message || "Error al obtener los usuarios");
+          }
         }
 
         const data = await response.json();
         setUsuarios(data);
         console.log("Usuarios cargados correctamente:", data);
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error al cargar los usuarios:", error);
-        setError("Error al cargar los usuarios. Intente nuevamente.");
+        setError(error.message || "Error al cargar los usuarios. Intente nuevamente.");
       } finally {
         setLoading(false);
       }
     };
 
+    fetchUsuario();
     fetchUsuarios();
   }, []);
 
@@ -55,13 +92,15 @@ export default function LogoutPage() {
       <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50 gap-4 p-4">
         {loading && <PantallaCarga mensaje="Cargando usuarios..." />}
 
-        {/* Botón Agregar */}
-        <div className="w-full max-w-sm">
-          <BotonBase variant="agregar" onClick={handleAgregar} />
-        </div>
+        {/* Botón Agregar — visible solo si no es coordinador ni docente */}
+        {rolUsuario !== "coordinador" && rolUsuario !== "docente" && (
+          <div className="w-full max-w-sm">
+            <BotonBase variant="agregar" onClick={handleAgregar} />
+          </div>
+        )}
 
         {/* Mostrar error si hay */}
-        {error && <p className="text-red-600 mt-2">{error}</p>}
+        {error && <p className="text-red-600 mt-2 text-center">{error}</p>}
 
         {/* Tarjetas de usuario */}
         <div className="flex flex-col gap-4 w-full max-w-md">

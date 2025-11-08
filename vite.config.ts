@@ -6,7 +6,7 @@ import checker from 'vite-plugin-checker'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: process.env.VITE_BASE,
+  base: '/mapa2025/',
   plugins: [
     react(),
     tailwindcss(),

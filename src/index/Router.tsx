@@ -2,7 +2,7 @@ import App from '@components/App/App'
 import LoginPage from '@users/LoginPage/LoginPage'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router'
 import Home from './Home'
-import RecoverUsername from "../modules/users/RecoverUserName/RecoverUsername";
+import RecoverUsername from '../modules/users/RecoverUserName/RecoverUsername'
 import RecoverPassword1 from '../modules/users/RecoverPassword/RecoverPassword1'
 import RecoverPassword2 from '../modules/users/RecoverPassword/RecoverPassword2'
 import RecoverPassword3 from '../modules/users/RecoverPassword/RecoverPassword3'
@@ -24,7 +24,7 @@ export default function Router() {
 
 	const rutas = [
 		{
-			path: 'authentication',
+			path: '/authentication',
 			element: <GuestRoute />,
 			children: [
 				{ path: 'login', Component: LoginPage },
@@ -40,16 +40,15 @@ export default function Router() {
 				{
 					path: '/',
 					Component: App,
-					children: [
-						{ index: true, Component: Home },
-						...mapRoutes(appRoutes),
-					],
+					children: [{ index: true, Component: Home }, ...mapRoutes(appRoutes)],
 				},
 			],
 		},
 		{ path: '*', element: <div>Error</div> },
 	]
 
-	const router = createBrowserRouter(rutas)
+	const router = createBrowserRouter(rutas, {
+		basename: '/mapa2025',
+	})
 	return <RouterProvider router={router} />
 }

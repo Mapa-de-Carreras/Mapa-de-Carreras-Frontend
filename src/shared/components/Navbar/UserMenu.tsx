@@ -86,6 +86,12 @@ import { useNavigate } from 'react-router'
 		fetchUsuario()
 	}, [])
 
+		const handleIrPerfil = () => {
+		const id = localStorage.getItem("user_id");
+		navigate("/administracion/usuarios/detalle", { state: { id } });
+		};
+
+
 	const closeSesion = async () => {
 		try {
 		await logout()
@@ -144,7 +150,7 @@ import { useNavigate } from 'react-router'
 			</div>
 			</DropdownMenuLabel>
 			<DropdownMenuSeparator />
-			<DropDownItem icon="icon-[lucide--user]" path="/profile">
+			<DropDownItem icon="icon-[lucide--user]" onClick={handleIrPerfil}>
 			Perfil
 			</DropDownItem>
 			<UserSettingMenu />
