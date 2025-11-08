@@ -1,9 +1,0 @@
-services:
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: mapa2025
-    ports:
-      - "80:80"
-    restart: unless-stopped
