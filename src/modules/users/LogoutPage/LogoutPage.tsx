@@ -84,7 +84,7 @@ export default function LogoutPage() {
     };
 
     fetchUsuario();
-   // fetchUsuarios();
+    fetchUsuarios();
   }, []);
 
   return (
