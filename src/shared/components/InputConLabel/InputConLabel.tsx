@@ -20,6 +20,7 @@ export default function InputConLabel({
   onChange,
   type = "text",
 }: InputConLabelProps) {
+
   const [inputValue, setInputValue] = useState(value);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +35,7 @@ export default function InputConLabel({
 
   return (
     <div className="flex flex-col">
-      <label htmlFor={name} className="text-gray-500 text-sm mb-1">
+      <label htmlFor={name} className="text-shadow-white text-sm mb-1">
         {label}
       </label>
 
@@ -46,7 +47,7 @@ export default function InputConLabel({
           value={inputValue}
           onChange={handleChange}
           placeholder={placeholder}
-          className="w-full border-b border-gray-400 focus:border-black outline-none py-1 pr-7 text-black bg-transparent"
+          className="w-full border-b border-gray-400 focus:border-black outline-none py-1 pr-7 text-shadow-white bg-transparent"
         />
         {inputValue && (
           <button
@@ -60,7 +61,7 @@ export default function InputConLabel({
       </div>
 
       {supportingText && (
-        <p className="text-gray-400 text-xs mt-1">{supportingText}</p>
+        <p className="text-shadow-white text-xs mt-1">{supportingText}</p>
       )}
     </div>
   );
