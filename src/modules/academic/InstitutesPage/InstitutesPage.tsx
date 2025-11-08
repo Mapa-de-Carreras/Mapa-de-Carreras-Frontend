@@ -5,12 +5,12 @@ import TituloTabla from '@components/Tabla/TituloTabla'
 import AccionTabla from '@components/Tabla/AccionTabla'
 import Instituto from '@globalTypes/instituto'
 import { useMemo, useCallback } from 'react'
-import { useFetch } from '@components/hooks/useFetch'
+import useGetInstitutos  from '@apis/intitutos'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 
 export default function InstutesPage() {
 
-    const {data: institutos, loading, error} = useFetch<Instituto>('institutos')
+    const {data: institutos, loading, error} = useGetInstitutos()
 
     const handleVerDetalle = useCallback((codigo: string) => {
         console.log('Instituo a ver detalle codigo: ', codigo)
@@ -40,15 +40,21 @@ export default function InstutesPage() {
     return (
         <PageBase titulo="Página de Instituto" subtitulo="Listado de Institutos">
             {loading && <ComponenteCarga />}
-            {error && <p className="text-center text-red-500">{error}</p>}
-            {!loading && !error && institutos && (
-                <Tabla
-                    columnas={columns}
-                    data={institutos}
-                    habilitarBuscador={true}
-                    habilitarPaginado={true}
-                />
-            )}
+            {error && <p className="text-center text-red-500">{error.message}</p>}
+            {!loading && 
+                !error && 
+                (institutos ? (
+                    <Tabla
+                        columnas={columns}
+                        data={institutos}
+                        habilitarBuscador={true}
+                        habilitarPaginado={true}
+                    />
+                    ):(
+                        <p className="text-center text-gray-500">No se encontraron institutos.</p>
+                    )     
+                )  
+            }
         </PageBase>
     )
 }
