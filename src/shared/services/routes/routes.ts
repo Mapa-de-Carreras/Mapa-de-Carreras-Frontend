@@ -7,6 +7,7 @@ import NotificacionesPage from "@users/NotificacionesPage/NotificacionesPage"
 import UserCreate from "@users/UserCreate/UserCreate"
 import UserDetail from "@users/UserDetail/UserDetail"
 import UserEdit from "@users/UserEdit/UserEdit"
+import InstitutesDetail from "@academic/InstitutesPage/InstitutesDetail"
 
 export interface AppRoute {
 	path: string
@@ -37,7 +38,8 @@ export const appRoutes: AppRoute[] = [
 		label: 'Académica',
 		icon: 'icon-[cil--institution]',
 		children: [
-			{ path: 'institutos', label: 'Institutos', icon: "icon-[cil--institution]", component: InstitutePage, menu: true },
+			{ path: 'institutos', label: 'Institutos', icon: "icon-[cil--institution]", component: InstitutePage, menu: true},
+			{ path: 'institutos/detalle/:id', component:  InstitutesDetail, menu: false},
 			{ path: 'carreras', label: 'Carreras', icon: "icon-[icon-park-outline--degree-hat]", component: DegreePage, menu: true },
 			{ path: 'carreras/detalle', component:  DegreeDetail, menu: false},
 			{ path: 'asignaturas', label: 'Asignaturas', icon: "icon-[octicon--book-16]", component: SubjectPage, menu: true },

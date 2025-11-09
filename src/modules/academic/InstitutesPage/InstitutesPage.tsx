@@ -7,22 +7,25 @@ import Instituto from '@globalTypes/instituto'
 import { useMemo, useCallback } from 'react'
 import useGetInstitutos  from '@apis/intitutos'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
+import { useNavigate } from 'react-router' 
 
 export default function InstutesPage() {
 
     const {data: institutos, loading, error} = useGetInstitutos()
+    const navigate = useNavigate()
 
-    const handleVerDetalle = useCallback((codigo: string) => {
-        console.log('Instituo a ver detalle codigo: ', codigo)
-    }, [])
+    const handleVerDetalle = useCallback((id: number) => {
+        console.log('Instituto a ver detalle id: ', id)
+		navigate(`/academica/institutos/detalle/${id}`)
+    }, [navigate])
 
     const columns = useMemo<ColumnDef<Instituto>[]>(
 		() => [
-            {
+            {   
                 accessorKey: 'nombre',
                 header: ({ column }) => <TituloTabla column={column} titulo="Nombre" />,
             },
-            {
+            {   
                 accessorKey: 'codigo',
                 header: ({ column }) => <TituloTabla column={column} titulo="Código" />,
             },
@@ -31,7 +34,7 @@ export default function InstutesPage() {
                 header: 'Acciones',
 
                 cell: ({ row }) => (
-                    <AccionTabla onClick={() => handleVerDetalle(row.original.codigo)} />
+                    <AccionTabla onClick={() => handleVerDetalle(row.original.id)} />
                 ),
             },
 		],[handleVerDetalle]

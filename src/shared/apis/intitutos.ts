@@ -10,3 +10,11 @@ export default function useGetInstitutos() {
         enabled: true,
     });
 }
+
+export function useGetInstituto(id: number){
+    return useGet<Instituto>({
+        hookName: `useGetInstituto:${id}`, 
+        url: `${URL_API}institutos/${id}/`,
+        enabled: !!id, 
+    });
+}
