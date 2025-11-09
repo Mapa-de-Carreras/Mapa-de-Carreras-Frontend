@@ -110,6 +110,40 @@ export default function UserEdit() {
     }
   };
 
+ const asignarCarreraCoordinador = async (carreraId: number) => {
+  try {
+    const id = localStorage.getItem("user_id");
+    const token = localStorage.getItem("access_token");
+    if (!token) throw new Error("Token no encontrado.");
+
+    const body = {
+      carreras_asignadas_ids: [carreraId], 
+    };
+
+
+    console.log(" Enviando relación carrera-coordinador:", body);
+
+    const response = await fetch(`${URL_API}coordinadores/${id}/`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error(" Error al asignar carrera:", errorData);
+      throw new Error(errorData.detail || "Error al asignar carrera al coordinador");
+    }
+
+    console.log("Carrera asignada correctamente al coordinador");
+  } catch (error) {
+    console.error("Error en asignarCarreraCoordinador:", error);
+    setError("Error al asignar carrera al coordinador. Intente nuevamente.");
+  }
+};
   // Guardar cambios
   const handleGuardar = async () => {
     setError("");
@@ -134,15 +168,7 @@ export default function UserEdit() {
         is_staff: form.esAdministrador,
         roles: rolesSeleccionados,
       };
-
-      if (form.esCoordinador) {
-        if (form.carrera) {
-          body.carreras_asignadas_ids= [Number(form.carrera)];
-          console.log(" Le envío la carrera:", form.carrera);
-        } else {
-          console.warn("⚠ Es coordinador pero no hay carrera seleccionada");
-        }
-      }
+      
       console.log("Body a enviar:", body);
       const id = localStorage.getItem("user_id");
       const response = await fetch(`${URL_API}usuarios/${id}/`, {
@@ -168,6 +194,13 @@ export default function UserEdit() {
 
         return;
       }
+
+          // 2. Si es coordinador, asignar carrera
+      if (form.esCoordinador && form.carrera) {
+        await asignarCarreraCoordinador(Number(form.carrera));
+      }
+
+
       setMostrarModal(true);
     } catch (err) {
       console.error(err);
