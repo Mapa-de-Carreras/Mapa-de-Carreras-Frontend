@@ -23,16 +23,15 @@ export default function UserCreate() {
     fecha_nacimiento: "",
     esCoordinador: false,
     esAdministrador: false,
-    esDocente: false, 
+    esDocente: false,
     carrera: "",
   });
 
   interface IRol {
-  id: number;
-  nombre: string;
-  descripcion: string;
-}
-
+    id: number;
+    nombre: string;
+    descripcion: string;
+  }
 
   const [mostrarModal, setMostrarModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -46,40 +45,38 @@ export default function UserCreate() {
 
   const navigate = useNavigate();
 
-  
-    useEffect(() => {
-      const fetchRoles = async () => {
-        setLoading(true);
-        try {
-          const token = localStorage.getItem("access_token");
-          console.log("Token de acceso:", token);
-  
-          const response = await fetch(`${URL_API}roles/`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          });
-  
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || "Error al obtener los roles");
-          }
-  
-          const data = await response.json();
-          setRoles(data);
-        } catch (error) {
-          console.error("Error al cargar los roles:", error);
-          setError("Error al cargar los roles. Intente nuevamente.");
-        } finally {
-          setLoading(false);
+  useEffect(() => {
+    const fetchRoles = async () => {
+      setLoading(true);
+      try {
+        const token = localStorage.getItem("access_token");
+        console.log("Token de acceso:", token);
+
+        const response = await fetch(`${URL_API}roles/`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al obtener los roles");
         }
-      };
-  
-      fetchRoles();
-    }, []);
-  
+
+        const data = await response.json();
+        setRoles(data);
+      } catch (error) {
+        console.error("Error al cargar los roles:", error);
+        setError("Error al cargar los roles. Intente nuevamente.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRoles();
+  }, []);
 
   const handleChange = (name: string, value: string) => {
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -102,7 +99,9 @@ export default function UserCreate() {
       "fecha_nacimiento",
       "carrera",
     ];
-    const vacios = camposRequeridos.filter((campo) => !form[campo as keyof typeof form]);
+    const vacios = camposRequeridos.filter(
+      (campo) => !form[campo as keyof typeof form]
+    );
     if (vacios.length > 0) {
       setErrorGeneral("Todos los campos son obligatorios.");
       return false;
@@ -111,7 +110,6 @@ export default function UserCreate() {
   };
 
   const formatearFecha = (fecha: string): string => {
-    // Convierte DD/MM/YYYY → YYYY-MM-DD
     const partes = fecha.split("/");
     if (partes.length === 3) {
       const [dia, mes, anio] = partes;
@@ -139,17 +137,23 @@ export default function UserCreate() {
       const rolesSeleccionados: string[] = [];
 
       if (form.esAdministrador) {
-        const rolAdmin = roles.find((r) => r.nombre.toLowerCase().includes("admin"));
+        const rolAdmin = roles.find((r) =>
+          r.nombre.toLowerCase().includes("admin")
+        );
         if (rolAdmin) rolesSeleccionados.push(rolAdmin.nombre);
       }
 
       if (form.esCoordinador) {
-        const rolCoord = roles.find((r) => r.nombre.toLowerCase().includes("coordinador"));
+        const rolCoord = roles.find((r) =>
+          r.nombre.toLowerCase().includes("coordinador")
+        );
         if (rolCoord) rolesSeleccionados.push(rolCoord.nombre);
       }
 
       if (form.esDocente) {
-        const rolDocente = roles.find((r) => r.nombre.toLowerCase().includes("docente"));
+        const rolDocente = roles.find((r) =>
+          r.nombre.toLowerCase().includes("docente")
+        );
         if (rolDocente) rolesSeleccionados.push(rolDocente.nombre);
       }
 
@@ -191,8 +195,10 @@ export default function UserCreate() {
             if (campo === "username") return "El nombre de usuario ya está en uso.";
             return "El valor ingresado ya existe.";
           }
-          if (mensaje.includes("This field may not be blank")) return "Este campo no puede estar vacío.";
-          if (mensaje.includes("password")) return "Las contraseñas no cumplen los requisitos.";
+          if (mensaje.includes("This field may not be blank"))
+            return "Este campo no puede estar vacío.";
+          if (mensaje.includes("password"))
+            return "Las contraseñas no cumplen los requisitos.";
           return mensaje;
         };
 
@@ -214,33 +220,29 @@ export default function UserCreate() {
     }
   };
 
-      const handlePressVerificarCodigo = async () => {
-      setErrorGeneral("");
-      try {
-        const token = localStorage.getItem("access_token");
-        if (!token) throw new Error("Token no encontrado.");
+  const handlePressVerificarCodigo = async () => {
+    setErrorGeneral("");
+    try {
+      const token = localStorage.getItem("access_token");
+      if (!token) throw new Error("Token no encontrado.");
 
-        const res = await fetch(`${URL_API}auth/registrar/activar-cuenta/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ email: form.email, code: codigoVerificacion }),
-        });
+      const res = await fetch(`${URL_API}auth/registrar/activar-cuenta/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ email: form.email, code: codigoVerificacion }),
+      });
 
-        if (!res.ok) throw new Error("Código inválido");
+      if (!res.ok) throw new Error("Código inválido");
 
-        navigate("/administracion/usuarios/");
-      } catch (err) {
-        console.error("Error al verificar el código:", err);
-        setErrorGeneral("El código de verificación no es válido o ha expirado.");
-      
-    };
-
- 
-}
-
+      navigate("/administracion/usuarios/");
+    } catch (err) {
+      console.error("Error al verificar el código:", err);
+      setErrorGeneral("El código de verificación no es válido o ha expirado.");
+    }
+  }; 
   const handleCancelar = () => navigate(-1);
   const handleCerrarModal = () => {
     setMostrarModal(false);
@@ -279,9 +281,15 @@ export default function UserCreate() {
                   icon: (
                     <span
                       onClick={() => setMostrarPass(!mostrarPass)}
-                      className="absolute right-0 p-1 text-gray-600 hover:text-black cursor-pointer"
+                      className="absolute right-0 p-1 text-gray-700 hover:text-black cursor-pointer"
                     >
-                      <span className={mostrarPass ? "icon-[mdi--eye-off]" : "icon-[mdi--eye]"} />
+                      <span
+                        className={
+                          mostrarPass
+                            ? "icon-[mdi--eye-off]"
+                            : "icon-[mdi--eye]"
+                        }
+                      />
                     </span>
                   ),
                 },
@@ -292,9 +300,15 @@ export default function UserCreate() {
                   icon: (
                     <span
                       onClick={() => setMostrarPass2(!mostrarPass2)}
-                      className="absolute right-0 p-1 text-gray-600 hover:text-black cursor-pointer"
+                      className="absolute right-0 p-1 text-gray-700 hover:text-black cursor-pointer"
                     >
-                      <span className={mostrarPass2 ? "icon-[mdi--eye-off]" : "icon-[mdi--eye]"} />
+                      <span
+                        className={
+                          mostrarPass2
+                            ? "icon-[mdi--eye-off]"
+                            : "icon-[mdi--eye]"
+                        }
+                      />
                     </span>
                   ),
                 },
@@ -311,7 +325,9 @@ export default function UserCreate() {
                   <InputConLabel
                     label={label}
                     name={name}
-                    placeholder={placeholder || `Ingrese ${label.toLowerCase()}`}
+                    placeholder={
+                      placeholder || `Ingrese ${label.toLowerCase()}`
+                    }
                     supportingText={erroresCampos[name]}
                     value={(form as any)[name]}
                     onChange={(val) => handleChange(name, val)}
@@ -330,7 +346,7 @@ export default function UserCreate() {
                     onCheckedChange={() => handleCheck("esCoordinador")}
                     className="border border-black data-[state=checked]:bg-green-600"
                   />
-                  <Label htmlFor="coordinador" className="text-gray-700">
+                  <Label htmlFor="coordinador" className="text-black">
                     ¿Es coordinador?
                   </Label>
                 </div>
@@ -342,25 +358,30 @@ export default function UserCreate() {
                     onCheckedChange={() => handleCheck("esAdministrador")}
                     className="border border-black data-[state=checked]:bg-green-600"
                   />
-                  <Label htmlFor="admin" className="text-gray-700">
+                  <Label htmlFor="admin" className="text-black">
                     ¿Es administrador?
                   </Label>
                 </div>
               </div>
 
-               <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2">
                 <Checkbox
                   id="docente"
                   checked={form.esDocente}
                   onCheckedChange={() => handleCheck("esDocente")}
                   className="border border-black data-[state=checked]:bg-green-600"
                 />
-                <Label htmlFor="docente" className="text-gray-700">
+                <Label htmlFor="docente" className="text-black">
                   ¿Es docente?
                 </Label>
               </div>
 
-              {errorGeneral && <p className="text-red-500 text-sm text-center mt-2">{errorGeneral}</p>}
+              {errorGeneral && (
+                <p className="text-red-500 text-sm text-center mt-2">
+                  {errorGeneral}
+                </p>
+              )}
+
               <div className="flex justify-between mt-6">
                 <BotonBase variant="guardar" onClick={handleGuardar} />
                 <BotonBase variant="cancelar" onClick={handleCancelar} />
@@ -370,10 +391,12 @@ export default function UserCreate() {
         </Card>
       </div>
 
-          <ModalGenerico
+      <ModalGenerico
         abierto={mostrarModal}
         onClose={handleCerrarModal}
-        icono={<span className="icon-[mdi--email-check-outline] text-blue-600 text-5xl" />}
+        icono={
+          <span className="icon-[mdi--email-check-outline] text-blue-600 text-5xl" />
+        }
         titulo="Verificación de cuenta"
         mensaje="Ingrese el código de verificación que fue enviado al correo del usuario para activar su cuenta. También puede activarla más tarde desde el apartado 'Detalle de usuario'."
         textoBoton="Verificar"
@@ -383,14 +406,13 @@ export default function UserCreate() {
         colorBotonSecundario="#929292"
         onCancelar={handleCerrarModal}
       >
-      
         <div className="mt-4">
           <input
             type="text"
             placeholder="Ingrese el código de verificación"
             value={codigoVerificacion}
             onChange={(e) => setCodigoVerificacion(e.target.value)}
-            className="w-full p-2 border-2 border-black rounded-md text-center text-lg font-semibold text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-black"
+            className="w-full p-2 border-2 border-black rounded-md text-center text-lg font-semibold text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
           />
           {errorGeneral && (
             <p className="text-red-500 text-sm mt-2 text-center">
@@ -399,7 +421,6 @@ export default function UserCreate() {
           )}
         </div>
       </ModalGenerico>
-
     </PageBase>
   );
 }
