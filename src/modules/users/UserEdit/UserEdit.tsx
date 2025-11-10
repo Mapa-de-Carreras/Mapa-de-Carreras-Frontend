@@ -132,16 +132,27 @@ export default function UserEdit() {
       body: JSON.stringify(body),
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error(" Error al asignar carrera:", errorData);
-      throw new Error(errorData.detail || "Error al asignar carrera al coordinador");
+  if (!response.ok) {
+      let errorMsg = `Error ${response.status}`;
+      try {
+        // Intentamos leer JSON solo si se puede
+        const text = await response.text();
+        const errorData = JSON.parse(text);
+        errorMsg = errorData.detail || errorMsg;
+      } catch {
+        // Si no es JSON, lo dejamos como texto plano
+        const text = await response.text();
+        console.error("Respuesta no JSON del backend:", text);
+      }
+
+      throw new Error(errorMsg || "Error al asignar carrera al coordinador");
     }
 
     console.log("Carrera asignada correctamente al coordinador");
   } catch (error) {
     console.error("Error en asignarCarreraCoordinador:", error);
     setError("Error al asignar carrera al coordinador. Intente nuevamente.");
+    throw error;
   }
 };
   // Guardar cambios

@@ -26,11 +26,11 @@ export interface ICarrera {
   instituto: IInstituto;
   created_at: string;
   updated_at: string;
-  // Campos opcionales usados en la vista
   descripcion?: string;
   coordinador?: string;
   duracion?: string;
   cantidadMaterias?: number;
+  coordinador_actual?:string;
 }
 
 export default function DegreeDetail() {
@@ -119,7 +119,7 @@ export default function DegreeDetail() {
     );
   }
 
-  return (
+return (
     <PageBase>
       {carrera && (
         <div className="flex flex-col items-center justify-start min-h-screen bg-gray-50 px-4 sm:px-6 md:px-10 lg:px-20 py-10">
@@ -177,37 +177,40 @@ export default function DegreeDetail() {
                 {carrera.esta_vigente ? "Sí" : "No"}
               </div>
 
-             {/*Plan de Estudio */}
-            <div className="mt-6">
+              {/* Nuevo campo: Coordinador actual */}
+              <div>
+                <strong className="text-black">Coordinador actual:</strong>{" "}
+                {carrera.coordinador_actual
+                  ? carrera.coordinador_actual
+                  : "Sin asignar"}
+              </div>
+
+              {/* Plan de Estudio */}
+              <div className="mt-6">
                 <strong className="text-black">Plan de Estudio:</strong>
                 <Card className="mt-3 p-4 bg-white border border-black rounded-xl shadow-sm cursor-pointer hover:bg-gray-50 transition">
-                <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <div>
-                    <p className="font-semibold text-black text-lg">
-                        Plan de Estudios 2025
-                    </p>
-                    <p className="text-sm text-gray-600">
-                        Duración: 5 años - 40 materias
-                    </p>
+                      <p className="font-semibold text-black text-lg">
+                        Plan de Estudio
+                      </p>
                     </div>
                     <BotonGenerico
-                    color="#49454F"
-                    icono={
+                      color="#49454F"
+                      icono={
                         <span className="icon-[majesticons--share] text-white text-3xl" />
-                    }
-                    onClick={() => handleVerPlanEstudio(1)}
-                    type="button"
-                    className="ml-auto w-10 h-10 rounded-full flex items-center justify-center p-0 border border-black hover:opacity-80 transition"
+                      }
+                      onClick={() => handleVerPlanEstudio(1)}
+                      type="button"
+                      className="ml-auto w-10 h-10 rounded-full flex items-center justify-center p-0 border border-black hover:opacity-80 transition"
                     />
-                </div>
+                  </div>
                 </Card>
-            </div>
+              </div>
             </CardContent>
           </Card>
         </div>
       )}
-
-      
 
       <ModalGenerico
         abierto={mostrarModal}
