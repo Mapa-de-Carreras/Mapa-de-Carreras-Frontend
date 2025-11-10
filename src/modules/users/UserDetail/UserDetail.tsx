@@ -150,6 +150,11 @@ export default function UserDetail() {
             setLoading(false);
           }
     };
+
+    const handleVerCarrera = (id: number) => {
+      navigate("/academica/carreras/detalle/", { state: { id } });
+  };
+
   return (
     <PageBase>
       <div className="flex flex-col items-center justify-start min-h-screen bg-gray-50 px-4 sm:px-6 md:px-10 lg:px-20 py-10">
@@ -187,47 +192,51 @@ export default function UserDetail() {
 
             <CardContent className="mt-6 space-y-3 text-base sm:text-lg text-gray-800">
               <div>
-                <strong className="text-black">Nombre:</strong> {usuario.first_name || "No disponible"}
+                <strong className="text-black">Nombre:</strong>{" "}
+                {usuario.first_name || "No disponible"}
               </div>
               <div>
-                <strong className="text-black">Apellido:</strong> {usuario.last_name || "No disponible"}
+                <strong className="text-black">Apellido:</strong>{" "}
+                {usuario.last_name || "No disponible"}
               </div>
               <div>
-                <strong className="text-black">Usuario:</strong> {usuario.username || "No disponible"}
+                <strong className="text-black">Usuario:</strong>{" "}
+                {usuario.username || "No disponible"}
               </div>
               <div>
-                <strong className="text-black">Email:</strong> {usuario.email || "No disponible"}
+                <strong className="text-black">Email:</strong>{" "}
+                {usuario.email || "No disponible"}
               </div>
 
-           <div className="flex items-center justify-between mt-2">
-              <strong className="text-black">Estado:</strong>
-              {usuario.is_active ? (
-                <span className="text-green-600 font-semibold">Activo</span>
-              ) : (
-                <div className="flex flex-col sm:flex-row items-center gap-3">
-                  <span className="text-red-600 font-semibold">Inactivo</span>
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <BotonGenerico
-                      texto="Activar usuario"
-                      color="#3E9956"
-                      onClick={() => setMostrarModalVerificacion(true)}
-                    />
-                    <BotonGenerico
-                      texto="Generar código"
-                      color="#1D4ED8"
-                      onClick={handleGenerarCodigo}
-                    />
+              <div className="flex items-center justify-between mt-2">
+                <strong className="text-black">Estado:</strong>
+                {usuario.is_active ? (
+                  <span className="text-green-600 font-semibold">Activo</span>
+                ) : (
+                  <div className="flex flex-col sm:flex-row items-center gap-3">
+                    <span className="text-red-600 font-semibold">Inactivo</span>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <BotonGenerico
+                        texto="Activar usuario"
+                        color="#3E9956"
+                        onClick={() => setMostrarModalVerificacion(true)}
+                      />
+                      <BotonGenerico
+                        texto="Generar código"
+                        color="#1D4ED8"
+                        onClick={handleGenerarCodigo}
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
 
-            {/* Mensaje de éxito */}
-            {mensajeExito && (
-              <p className="text-green-600 font-semibold mt-4 text-center">
-                {mensajeExito}
-              </p>
-            )}
+              {mensajeExito && (
+                <p className="text-green-600 font-semibold mt-4 text-center">
+                  {mensajeExito}
+                </p>
+              )}
+
               <div>
                 <strong className="text-black">Rol:</strong>{" "}
                 {usuario.roles?.length > 0 ? usuario.roles.join(", ") : "No disponible"}
@@ -235,6 +244,42 @@ export default function UserDetail() {
             </CardContent>
           </Card>
         )}
+
+        {/* Carreras Coordinadas */}
+        {usuario?.coordinador_data?.carreras_coordinadas &&
+          usuario.coordinador_data.carreras_coordinadas.length > 0 && (
+            <div className="w-full max-w-2xl mt-6">
+              <strong className="text-black">Carrera:</strong>
+              {usuario.coordinador_data.carreras_coordinadas.map((carrera: any) => (
+                <Card
+                  key={carrera.id}
+                  className="mt-3 p-4 bg-white border border-black rounded-xl shadow-sm cursor-pointer hover:bg-gray-50 transition"
+                  onClick={() => handleVerCarrera(carrera.id)}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-semibold text-black text-lg">
+                        {carrera.carrera}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        {carrera.activo ? "Activa" : "Inactiva"} – Coordinador desde:{" "}
+                        {new Date(carrera.fecha_inicio).toLocaleDateString("es-AR")}
+                      </p>
+                    </div>
+                    <BotonGenerico
+                      color="#49454F"
+                      icono={
+                        <span className="icon-[majesticons--share] text-white text-3xl" />
+                      }
+                      onClick={() => handleVerCarrera(carrera.id)}
+                      type="button"
+                      className="ml-auto w-10 h-10 rounded-full flex items-center justify-center p-0 border border-black hover:opacity-80 transition"
+                    />
+                  </div>
+                </Card>
+              ))}
+            </div>
+          )}
       </div>
 
       {/* Modal eliminar */}
@@ -252,35 +297,35 @@ export default function UserDetail() {
         onCancelar={handleCerrarModal}
       />
 
-      {/*  Modal verificación / activación */}
-            <ModalGenerico
-          abierto={mostrarModalVerificacion} 
-          onClose={() => setMostrarModalVerificacion(false)} 
-          icono={<span className="icon-[mdi--email-check-outline] text-blue-600 text-5xl" />}
-          titulo="Verificación de cuenta"
-          mensaje="Ingrese el código de verificación que fue enviado al correo del usuario para activar su cuenta. También puede activarla más tarde desde el detalle de usuario." 
-          textoBoton="Verificar"
-          colorBoton="#3E9956"
-          onConfirmar={handleActivarUsuario}
-          textoBotonSecundario="Cancelar"
-          colorBotonSecundario="#929292"
-          onCancelar={() => setMostrarModalVerificacion(false)} 
-        >
-          <div className="mt-4">
-            <input
-              type="text"
-              placeholder="Ingrese el código de verificación"
-              value={codigoVerificacion}
-              onChange={(e) => setCodigoVerificacion(e.target.value)}
-              className="w-full p-2 border-2 border-black rounded-md text-center text-lg font-semibold text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-black"
-            />
-            {errorGeneral && (
-              <p className="text-red-500 text-sm mt-2 text-center">
-                {errorGeneral}
-              </p>
-            )}
-          </div>
-        </ModalGenerico>
+      {/* Modal verificación / activación */}
+      <ModalGenerico
+        abierto={mostrarModalVerificacion}
+        onClose={() => setMostrarModalVerificacion(false)}
+        icono={<span className="icon-[mdi--email-check-outline] text-blue-600 text-5xl" />}
+        titulo="Verificación de cuenta"
+        mensaje="Ingrese el código de verificación que fue enviado al correo del usuario para activar su cuenta. También puede activarla más tarde desde el detalle de usuario."
+        textoBoton="Verificar"
+        colorBoton="#3E9956"
+        onConfirmar={handleActivarUsuario}
+        textoBotonSecundario="Cancelar"
+        colorBotonSecundario="#929292"
+        onCancelar={() => setMostrarModalVerificacion(false)}
+      >
+        <div className="mt-4">
+          <input
+            type="text"
+            placeholder="Ingrese el código de verificación"
+            value={codigoVerificacion}
+            onChange={(e) => setCodigoVerificacion(e.target.value)}
+            className="w-full p-2 border-2 border-black rounded-md text-center text-lg font-semibold text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-black"
+          />
+          {errorGeneral && (
+            <p className="text-red-500 text-sm mt-2 text-center">
+              {errorGeneral}
+            </p>
+          )}
+        </div>
+      </ModalGenerico>
     </PageBase>
   );
-}
+ }
