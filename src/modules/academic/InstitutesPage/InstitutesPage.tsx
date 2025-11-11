@@ -8,7 +8,7 @@ import { useMemo, useCallback } from 'react'
 import { useFetch } from '@components/hooks/useFetch'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 
-export default function InstutesPage() {
+export default function InstitutesPage() {
 
     const {data: institutos, loading, error} = useFetch<Instituto>('institutos')
 
