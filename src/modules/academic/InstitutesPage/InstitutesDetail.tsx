@@ -45,6 +45,10 @@ export default function InstitutesDetail() {
             {loading && <ComponenteCarga/>}
             
             {error && <p>Error al cargar el instituto: {error.message}</p>}
+
+            {!loading && !error && !instituto && (
+                <p>Instituto no encontrado.</p>
+            )}
             
             {!loading && !error && instituto && (
                 <DetailCard
@@ -67,9 +71,7 @@ export default function InstitutesDetail() {
             )}
 
           
-            {!loading && !error && !instituto && (
-                <p>Instituto no encontrado.</p>
-            )}
+
         </PageBase>
     )
 }

@@ -10,4 +10,4 @@ export default function App() {
             <Outlet />
         </div>
     );
-}1
+}

@@ -8,6 +8,9 @@ import { useMemo, useCallback } from 'react'
 import useGetInstitutos  from '@apis/intitutos'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 import { useNavigate } from 'react-router' 
+import Listado from '@components/Lista/Listado'
+import FeedCard from '@components/Tarjetas/FeedCard'
+import BotonDetalle from '@components/Botones/BotonDetalle'
 
 export default function InstutesPage() {
 
@@ -44,20 +47,42 @@ export default function InstutesPage() {
         <PageBase titulo="Página de Instituto" subtitulo="Listado de Institutos">
             {loading && <ComponenteCarga />}
             {error && <p className="text-center text-red-500">{error.message}</p>}
-            {!loading && 
-                !error && 
-                (institutos ? (
+
+            {institutos && institutos.length > 0 && (   
+            <div>       
+                <div className="hidden sm:block">
                     <Tabla
                         columnas={columns}
                         data={institutos}
                         habilitarBuscador={true}
                         habilitarPaginado={true}
                     />
-                    ):(
-                        <p className="text-center text-gray-500">No se encontraron institutos.</p>
-                    )     
-                )  
+                </div>
+                <div className="block sm:hidden">
+                    {institutos && (
+                        <Listado
+                            data={institutos}
+                            orderData={institutos}
+                            orderKey={(institutos) => institutos.codigo}
+                            compareTo={(institutos) => true}
+                            dataRender={(institutos) => (
+                                <FeedCard titulo={institutos.nombre} descripcion={institutos.codigo}
+                                actions={
+                                    <BotonDetalle onClick={() => handleVerDetalle(institutos.id)} />
+                                }
+                                />
+                            )}
+                            mensajeSinDatos="No hay institutos."
+                        />
+                    )}
+                </div>
+            </div>     
+            )}
+
+            {institutos && institutos.length === 0 &&
+                <p className="text-center">No hay institutos</p>
             }
+            
         </PageBase>
     )
 }
