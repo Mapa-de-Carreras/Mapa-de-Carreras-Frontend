@@ -6,7 +6,7 @@ import { Checkbox } from "@components/ui/checkbox";
 import { Label } from "@components/ui/label";
 import InputConLabel from "../../../shared/components/InputConLabel/InputConLabel";
 import ModalGenerico from "@components/Modal/ModalGenerico";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { URL_API } from "@apis/constantes";
 import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
 export default function UserEdit() {
@@ -36,6 +36,8 @@ export default function UserEdit() {
   const [mostrarConfirmar, setMostrarConfirmar] = useState(false);
   const [contraseñaActual, setContraseñaActual] = useState("");
   const [mostrarActual, setMostrarActual] = useState(false);
+  const location = useLocation();
+  const { id } = (location.state as { id: number }) || {};
 
   const [mostrarModalContraseña, setMostrarModalContraseña] = useState(false);
   const contraseñasCoinciden =
@@ -44,10 +46,9 @@ export default function UserEdit() {
 
   // Cargar datos del usuario
   useEffect(() => {
-    const id = localStorage.getItem("user_id");
-
     const fetchUser = async () => {
       try {
+        console.log("ID recibido por parametro: ",id);
         setLoading(true);
         const token = localStorage.getItem("access_token");
         if (!token) throw new Error("Token no encontrado");
