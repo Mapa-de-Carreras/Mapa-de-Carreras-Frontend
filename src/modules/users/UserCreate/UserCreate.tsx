@@ -24,7 +24,6 @@ export default function UserCreate() {
     esCoordinador: false,
     esAdministrador: false,
     esDocente: false,
-    carrera: "",
   });
 
   interface IRol {
@@ -97,7 +96,6 @@ export default function UserCreate() {
       "email",
       "celular",
       "fecha_nacimiento",
-      "carrera",
     ];
     const vacios = camposRequeridos.filter(
       (campo) => !form[campo as keyof typeof form]
@@ -319,7 +317,6 @@ export default function UserCreate() {
                   name: "fecha_nacimiento",
                   placeholder: "Ej: 01/01/2000",
                 },
-                { label: "Carrera", name: "carrera" },
               ].map(({ label, name, type, icon, placeholder }) => (
                 <div key={name} className="relative">
                   <InputConLabel
