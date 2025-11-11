@@ -9,7 +9,7 @@ import useGetInstitutos  from '@apis/intitutos'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 import { useNavigate } from 'react-router' 
 
-export default function InstutesPage() {
+export default function InstitutesPage() {
 
     const {data: institutos, loading, error} = useGetInstitutos()
     const navigate = useNavigate()

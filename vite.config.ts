@@ -6,7 +6,7 @@ import checker from 'vite-plugin-checker'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/mapa2025/',
+  base: '/mapa2025',
   plugins: [
     react(),
     tailwindcss(),
@@ -21,6 +21,7 @@ export default defineConfig({
       "@apis": path.resolve(__dirname, "./src/shared/apis"),
       "@lib": path.resolve(__dirname, "./src/shared/lib"),
       "@services": path.resolve(__dirname, "./src/shared/services"),
+      "@hooks": path.resolve(__dirname, "./src/shared/hooks"),
       "@globalTypes": path.resolve(__dirname, "./src/shared/types"),
       "@data": path.resolve(__dirname, "./src/shared/data"),
 

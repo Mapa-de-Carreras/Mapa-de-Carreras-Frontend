@@ -1,4 +1,3 @@
-import { TableBody, TableCell, TableRow } from "@components/ui/table";
 import { ColumnDef, flexRender, Table } from "@tanstack/react-table";
 
 type FilasTablaProps<TData, TValue> = {
@@ -36,14 +35,11 @@ export default function FilasTabla<TData, TValue>({
 					</div>
 				)})
 			) : (
-				<TableRow>
-					<TableCell
-						colSpan={columnas.length}
-						className="h-24 text-center"
-					>
-						No results.
-					</TableCell>
-				</TableRow>
+				<div className="">
+					<div className="h-24 text-center">
+						No hay resultados.
+					</div>
+				</div>
 			)}
 		</div>
 	);
