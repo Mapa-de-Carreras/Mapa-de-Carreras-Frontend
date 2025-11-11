@@ -22,10 +22,6 @@ export function Formulario<T extends Record<string, any>>({
     defaultValues: toDefaultValues(valoresIniciales),
   });
 
-  useEffect(() => {
-    form.reset(valoresIniciales);
-  }, [valoresIniciales, form]);
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
