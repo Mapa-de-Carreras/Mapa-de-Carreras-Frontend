@@ -6,11 +6,10 @@ import AccionTabla from '@components/Tabla/AccionTabla'
 import Asignatura from '@globalTypes/asignatura'
 import { useMemo, useCallback } from 'react'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
-import { useFetch } from '@components/hooks/useFetch'
+import  useGetAsignaturas from '@apis/asignaturas'
 
 export default function SubjectPage() {
-	const { data: asignaturas, loading, error } = useFetch<Asignatura>('asignaturas') 
-	// extraje el fech y lo hice un hook, lo deje en component/hooks
+	const { data: asignaturas, loading, error } = useGetAsignaturas()
 
 	const handleVerDetalle = useCallback((codigo: string) => {
 		console.log('Asignatura a ver detalle codigo: ', codigo)
@@ -59,14 +58,13 @@ export default function SubjectPage() {
 
 	return (
 		<PageBase titulo="Página de Asignaturas" subtitulo="Listado de Asignaturas">
-
 			{loading && <ComponenteCarga />}
 
-			{error && <p className="text-center text-red-500">{error}</p>}
+			{error && <p className="text-center text-red-500">{error.message}</p>}
 
 			{!loading &&
 				!error &&
-				(asignaturas.length > 0 ? (
+				(asignaturas ? (
 					<Tabla
 						columnas={columns}
 						data={asignaturas}

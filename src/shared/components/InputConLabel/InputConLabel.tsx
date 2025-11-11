@@ -9,6 +9,8 @@ interface InputConLabelProps {
   value?: string;
   onChange?: (value: string) => void;
   type?: string;
+  classNameInput?: string; 
+  classNameLabel?: string; 
 }
 
 export default function InputConLabel({
@@ -19,6 +21,8 @@ export default function InputConLabel({
   value = "",
   onChange,
   type = "text",
+  classNameInput = "",
+  classNameLabel = "",
 }: InputConLabelProps) {
   const [inputValue, setInputValue] = useState(value);
 
@@ -34,7 +38,10 @@ export default function InputConLabel({
 
   return (
     <div className="flex flex-col">
-      <label htmlFor={name} className="text-gray-500 text-sm mb-1">
+      <label
+        htmlFor={name}
+        className={`text-sm mb-1 text-black ${classNameLabel}`}
+      >
         {label}
       </label>
 
@@ -42,11 +49,11 @@ export default function InputConLabel({
         <input
           id={name}
           name={name}
-          type={type || "text"}
+          type={type}
           value={inputValue}
           onChange={handleChange}
           placeholder={placeholder}
-          className="w-full border-b border-gray-400 focus:border-black outline-none py-1 pr-7 text-black bg-transparent"
+          className={`w-full border-b border-black text-black placeholder-gray-600 focus:border-black outline-none py-1 pr-7 bg-transparent ${classNameInput}`}
         />
         {inputValue && (
           <button
@@ -60,7 +67,7 @@ export default function InputConLabel({
       </div>
 
       {supportingText && (
-        <p className="text-gray-400 text-xs mt-1">{supportingText}</p>
+        <p className="text-xs mt-1 text-red-500">{supportingText}</p>
       )}
     </div>
   );

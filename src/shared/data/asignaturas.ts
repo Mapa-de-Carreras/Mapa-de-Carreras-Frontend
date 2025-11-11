@@ -12,6 +12,9 @@ const asignaturas: Asignatura[] = [
 		horas_practica: 4,
 		horas_semanales: 8,
 		activo: true,
+		horas_totales: 0,
+		created_at: '',
+		updated_at: ''
 	},
 	{
 		id: 2,
@@ -24,6 +27,9 @@ const asignaturas: Asignatura[] = [
 		horas_practica: 4,
 		horas_semanales: 8,
 		activo: true,
+		horas_totales: 0,
+		created_at: '',
+		updated_at: ''
 	},
 	{
 		id: 3,
@@ -36,6 +42,9 @@ const asignaturas: Asignatura[] = [
 		horas_practica: 3,
 		horas_semanales: 6,
 		activo: true,
+		horas_totales: 0,
+		created_at: '',
+		updated_at: ''
 	},
 	{
 		id: 4,
@@ -48,6 +57,9 @@ const asignaturas: Asignatura[] = [
 		horas_practica: 4,
 		horas_semanales: 8,
 		activo: true,
+		horas_totales: 0,
+		created_at: '',
+		updated_at: ''
 	},
 ]
 

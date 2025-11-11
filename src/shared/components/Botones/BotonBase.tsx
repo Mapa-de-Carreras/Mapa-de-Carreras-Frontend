@@ -1,7 +1,7 @@
 import { Button } from '@components/ui/button'
 import { ReactNode } from 'react'
 
-type BotonBaseProps = {
+export type BotonBaseProps = {
 	children?: ReactNode
 	onClick?: () => void
 	className?: string
