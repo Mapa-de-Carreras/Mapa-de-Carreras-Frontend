@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from 'axios'
 import { generarQueryKey } from '../lib/generarQueryKey'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import fetcher from '../lib/fetcher'
-import useObtenerToken from '@hooks/useToken'
+import useToken from '@hooks/useToken'
 
 type UseGetProps<TData, TParams> = {
 	key: string
@@ -20,7 +20,7 @@ export function useGet<TData = unknown, TParams extends Record<string, any> = {}
 	configAxios = {},
 }: UseGetProps<TData, TParams>): UseQueryResult<TData, Error> {
 	const queryKey = generarQueryKey(key, params)
-	const token = useObtenerToken()
+	const token = useToken()
 
 	return useQuery<TData, Error>({
 		queryKey,
