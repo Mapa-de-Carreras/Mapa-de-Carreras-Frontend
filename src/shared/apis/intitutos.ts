@@ -1,20 +1,21 @@
 import Instituto from '@globalTypes/instituto'
 import { URL_API } from "./constantes";
-import { useGet } from "./generics";
+import { useGet } from './hooks/useGet';
 
 export default function useGetInstitutos() {
-
     return useGet<Instituto[]>({
-        hookName: "useGetInstitutos",
-        url: `${URL_API}institutos`,
-        enabled: true,
+        key: "useGetInstitutos",
+        urlApi: `${URL_API}institutos`,
+        isEnabled: true,
+        params: {},
     });
 }
 
 export function useGetInstituto(id: number){
     return useGet<Instituto>({
-        hookName: `useGetInstituto:${id}`, 
-        url: `${URL_API}institutos/${id}/`,
-        enabled: !!id, 
+        key: "useGetInstituto",
+        urlApi: `${URL_API}institutos/${id}/`,
+        isEnabled: !!id,
+        params: {},
     });
 }

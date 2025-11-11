@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router'
 
 export default function InstitutesPage() {
 
-    const {data: institutos, loading, error} = useGetInstitutos()
+    const {data: institutos, isLoading: loading, error} = useGetInstitutos()
     const navigate = useNavigate()
 
     const handleVerDetalle = useCallback((id: number) => {

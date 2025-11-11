@@ -9,7 +9,7 @@ import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 import  useGetAsignaturas from '@apis/asignaturas'
 
 export default function SubjectPage() {
-	const { data: asignaturas, loading, error } = useGetAsignaturas()
+	const { data: asignaturas, isLoading: loading, error } = useGetAsignaturas()
 
 	const handleVerDetalle = useCallback((codigo: string) => {
 		console.log('Asignatura a ver detalle codigo: ', codigo)

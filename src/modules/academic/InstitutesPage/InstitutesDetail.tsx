@@ -37,7 +37,7 @@ export default function InstitutesDetail() {
 
 	const { id } = useParams<{ id: string }>()
     
-	const { data: instituto, loading, error } = useGetInstituto(Number(id))
+	const { data: instituto, isLoading: loading, error } = useGetInstituto(Number(id))
 
     return (
         <PageBase>
