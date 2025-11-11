@@ -6,7 +6,7 @@ import { Checkbox } from "@components/ui/checkbox";
 import { Label } from "@components/ui/label";
 import InputConLabel from "../../../shared/components/InputConLabel/InputConLabel";
 import ModalGenerico from "@components/Modal/ModalGenerico";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { URL_API } from "@apis/constantes";
 import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
 export default function UserEdit() {
@@ -36,6 +36,8 @@ export default function UserEdit() {
   const [mostrarConfirmar, setMostrarConfirmar] = useState(false);
   const [contraseñaActual, setContraseñaActual] = useState("");
   const [mostrarActual, setMostrarActual] = useState(false);
+  const location = useLocation();
+  const { id } = (location.state as { id: number }) || {};
 
   const [mostrarModalContraseña, setMostrarModalContraseña] = useState(false);
   const contraseñasCoinciden =
@@ -44,10 +46,9 @@ export default function UserEdit() {
 
   // Cargar datos del usuario
   useEffect(() => {
-    const id = localStorage.getItem("user_id");
-
     const fetchUser = async () => {
       try {
+        console.log("ID recibido por parametro: ",id);
         setLoading(true);
         const token = localStorage.getItem("access_token");
         if (!token) throw new Error("Token no encontrado");
@@ -132,16 +133,27 @@ export default function UserEdit() {
       body: JSON.stringify(body),
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error(" Error al asignar carrera:", errorData);
-      throw new Error(errorData.detail || "Error al asignar carrera al coordinador");
+  if (!response.ok) {
+      let errorMsg = `Error ${response.status}`;
+      try {
+        // Intentamos leer JSON solo si se puede
+        const text = await response.text();
+        const errorData = JSON.parse(text);
+        errorMsg = errorData.detail || errorMsg;
+      } catch {
+        // Si no es JSON, lo dejamos como texto plano
+        const text = await response.text();
+        console.error("Respuesta no JSON del backend:", text);
+      }
+
+      throw new Error(errorMsg || "Error al asignar carrera al coordinador");
     }
 
     console.log("Carrera asignada correctamente al coordinador");
   } catch (error) {
     console.error("Error en asignarCarreraCoordinador:", error);
     setError("Error al asignar carrera al coordinador. Intente nuevamente.");
+    throw error;
   }
 };
   // Guardar cambios
