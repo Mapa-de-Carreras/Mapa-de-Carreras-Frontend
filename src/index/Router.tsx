@@ -18,6 +18,7 @@ import DegreePage from '@academic/DegreePage/DegreePage'
 import InstitutesPage from '@academic/InstitutesPage/InstitutesPage'
 import DegreeDetail from '@academic/DegreePage/DegreeDetail/DegreeDetail'
 import SubjectPage from '@academic/SubjectPage/SubjecPage'
+import InstitutesDetail from '@academic/InstitutesPage/InstitutesDetail'
 
 export default function Router() {
 	const rutas: Route[] = [
@@ -46,27 +47,12 @@ export default function Router() {
 							label: 'Administración',
 							icon: 'icon-[eos-icons--admin-outlined]',
 							children: [
-								{
-									path: 'usuarios',
-									label: 'Usuarios',
-									icon: 'icon-[mdi--user-group]',
-									Component: LogoutPage,
-									menu: true,
-								},
+								{ path: 'usuarios', label: 'Usuarios', icon: 'icon-[mdi--user-group]', Component: LogoutPage, menu: true, },
 								{ path: 'usuarios/crear', Component: UserCreate, menu: false },
 								{ path: 'usuarios/detalle', Component: UserDetail, menu: false },
 								{ path: 'usuarios/editar', Component: UserEdit, menu: false },
-								{
-									path: 'notificaciones',
-									Component: NotificacionesPage,
-									menu: false,
-								},
-								{
-									path: 'roles',
-									label: 'Roles',
-									icon: 'icon-[clarity--lock-solid]',
-									menu: true,
-								},
+								{ path: 'notificaciones', Component: NotificacionesPage, menu: false, },
+								{ path: 'roles', label: 'Roles', icon: 'icon-[clarity--lock-solid]', menu: true, },
 							],
 							menu: true,
 						},
@@ -75,34 +61,12 @@ export default function Router() {
 							label: 'Académica',
 							icon: 'icon-[cil--institution]',
 							children: [
-								{
-									path: 'institutos',
-									label: 'Institutos',
-									icon: 'icon-[cil--institution]',
-									Component: InstitutesPage,
-									menu: true,
-								},
-								{
-									path: 'carreras',
-									label: 'Carreras',
-									icon: 'icon-[icon-park-outline--degree-hat]',
-									Component: DegreePage,
-									menu: true,
-								},
+								{ path: 'institutos', label: 'Institutos', icon: 'icon-[cil--institution]', Component: InstitutesPage, menu: true, },
+								{ path: 'institutos/detalle/:id', Component:  InstitutesDetail, menu: false},
+								{ path: 'carreras', label: 'Carreras', icon: 'icon-[icon-park-outline--degree-hat]', Component: DegreePage, menu: true, },
 								{ path: 'carreras/detalle', Component: DegreeDetail, menu: false },
-								{
-									path: 'asignaturas',
-									label: 'Asignaturas',
-									icon: 'icon-[octicon--book-16]',
-									Component: SubjectPage,
-									menu: true,
-								},
-								{
-									path: 'planes',
-									label: 'Planes de Estudio',
-									icon: 'icon-[basil--document-outline]',
-									menu: true,
-								},
+								{ path: 'asignaturas', label: 'Asignaturas', icon: 'icon-[octicon--book-16]', Component: SubjectPage, menu: true,},
+								{ path: 'planes', label: 'Planes de Estudio', icon: 'icon-[basil--document-outline]', menu: true, },
 							],
 							menu: true,
 						},
@@ -111,18 +75,8 @@ export default function Router() {
 							label: 'Docentes',
 							icon: 'icon-[hugeicons--teacher]',
 							children: [
-								{
-									path: 'gestion',
-									label: 'Gestionar Docentes',
-									icon: 'icon-[mdi--account-student]',
-									menu: true,
-								},
-								{
-									path: 'parametros',
-									label: 'Parámetros de Régimen',
-									icon: 'icon-[material-symbols--rule]',
-									menu: true,
-								},
+								{ path: 'gestion', label: 'Gestionar Docentes', icon: 'icon-[mdi--account-student]', menu: true, },
+								{ path: 'parametros', label: 'Parámetros de Régimen', icon: 'icon-[material-symbols--rule]', menu: true, },
 							],
 							menu: true,
 						},
@@ -131,12 +85,7 @@ export default function Router() {
 							label: 'Designaciones',
 							icon: 'icon-[material-symbols--pending-actions]',
 							children: [
-								{
-									path: 'gestion',
-									label: 'Gestión',
-									icon: 'icon-[fluent--document-person-16-filled]',
-									menu: true,
-								},
+								{ path: 'gestion', label: 'Gestión', icon: 'icon-[fluent--document-person-16-filled]', menu: true, },
 							],
 							menu: true,
 						},
@@ -145,18 +94,8 @@ export default function Router() {
 							label: 'Estadísticas',
 							icon: 'icon-[akar-icons--statistic-up]',
 							children: [
-								{
-									path: 'estadisticas',
-									label: 'Estadísticas',
-									icon: 'icon-[akar-icons--statistic-up]',
-									menu: true,
-								},
-								{
-									path: 'reportes',
-									label: 'Reportes',
-									icon: 'icon-[mdi--report-bar-stacked]',
-									menu: true,
-								},
+								{ path: 'estadisticas', label: 'Estadísticas', icon: 'icon-[akar-icons--statistic-up]', menu: true, },
+								{ path: 'reportes', label: 'Reportes', icon: 'icon-[mdi--report-bar-stacked]', menu: true, },
 							],
 							menu: true,
 						},
