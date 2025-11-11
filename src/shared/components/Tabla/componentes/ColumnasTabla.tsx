@@ -13,18 +13,15 @@ export default function ColumnasTabla<TData, TValue>({ tabla, columnas, columnas
 		<div
 			className='tabla-header grid gap-4 p-4 rounded-sm bg-table-header text-table-header-foreground font-semibold items-center'
 			style={{ gridTemplateColumns: columnasFijas ? `repeat(${columnas.length}, 1fr)` : gridTemplateColumns}}
-			// style={{ gridTemplateColumns: `repeat(${columnas.length}, 1fr)`}}
 		>
 			{tabla.getHeaderGroups().map((headerGroup) => (
-				<>
-					{headerGroup.headers.map((header) => {
-						return (
-							<div key={header.id} className='tabla-fila flex'>
-								{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-							</div>
-						)
-					})}
-				</>
+				headerGroup.headers.map((header) => {
+					return (
+						<div key={`table-${header.id}`} className='tabla-fila flex'>
+							{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+						</div>
+					)
+				})
 			))}
 		</div>
 	)

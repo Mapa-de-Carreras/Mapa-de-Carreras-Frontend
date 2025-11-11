@@ -1,6 +1,5 @@
 import BotonBase from "@components/Botones/BotonBase"
 import Titulo from "@components/Tipografia/Titulo";
-import { log } from "console";
 import { ReactNode } from "react";
 
 type ListadoProps<TOrden, TData> = {
@@ -27,8 +26,6 @@ export default function Listado<TOrden, TData>({
             {onClick && <BotonBase variant="agregar" onClick={onClick} />}
             {(orderData.length > 0 && orderKey && compareTo) ? (
                 orderData.map((order) => {
-                    console.log("Data: ", data);
-                    
                     const dataFiltered = data.filter((element) => compareTo(order, element));
                     return (
                         <div key={orderKey(order)}>
