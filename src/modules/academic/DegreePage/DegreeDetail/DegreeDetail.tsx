@@ -15,6 +15,14 @@ export interface IInstituto {
   created_at: string;
   updated_at: string;
 }
+export interface ICoordinador {
+  id: number;
+  username: string;
+  nombre_completo: string;
+  email: string;
+  fecha_inicio: string;
+}
+
 
 export interface ICarrera {
   id: number;
@@ -30,8 +38,10 @@ export interface ICarrera {
   coordinador?: string;
   duracion?: string;
   cantidadMaterias?: number;
-  coordinador_actual?:string;
+  coordinador_actual?: ICoordinador;
 }
+
+
 
 export default function DegreeDetail() {
   const location = useLocation();
@@ -179,10 +189,10 @@ return (
 
               {/* Nuevo campo: Coordinador actual */}
               <div>
-                <strong className="text-black">Coordinador actual:</strong>{" "}
-                {carrera.coordinador_actual
-                  ? carrera.coordinador_actual
-                  : "Sin asignar"}
+               <strong className="text-black">Coordinador actual:</strong>{" "}
+                    {carrera.coordinador_actual
+                ? `${carrera.coordinador_actual.nombre_completo}`
+                : "Sin asignar"}
               </div>
 
               {/* Plan de Estudio */}

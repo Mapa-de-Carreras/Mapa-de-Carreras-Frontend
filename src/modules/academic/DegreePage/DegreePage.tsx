@@ -11,15 +11,26 @@ import Listado from '@components/Lista/Listado'
 import institutos from '@data/institutos'
 import TarjetaCarrera from './TarjetaCarrera'
 
+interface Coordinador {
+	id: number
+	username: string
+	nombre_completo: string
+	email: string
+	fecha_inicio: string
+}
+
+interface Instituto {
+	id: number
+	codigo: string
+	nombre: string
+}
+
 interface Carrera {
 	id: number
 	nombre: string
 	codigo: string
-	instituto: {
-		id: number
-		codigo: string
-		nombre: string
-	}
+	instituto: Instituto
+	coordinador_actual?: Coordinador | null
 }
 
 export default function DegreePage() {
@@ -93,7 +104,16 @@ export default function DegreePage() {
 		{
 			id: 'coordinador',
 			header: ({ column }) => <TituloTabla column={column} titulo="Coordinador" />,
-			cell: () => <span className="text-gray-600 italic">Pendiente de asignar</span>,
+			cell: ({ row }) => {
+				const coordinador = row.original.coordinador_actual
+				return (
+					<div className="text-center">
+						{coordinador
+							? coordinador.nombre_completo
+							: <span className="text-gray-600 italic">Sin asignar</span>}
+					</div>
+				)
+			},
 			size: 2,
 		},
 		{
@@ -127,7 +147,7 @@ export default function DegreePage() {
 						data={carreras}
 						orderData={institutos}
 						orderKey={(instituto) => instituto.nombre}
-						compareTo={(instituto, carrera) => true}
+						compareTo={(instituto, carrera) => carrera.instituto.id === instituto.id}
 						dataRender={(carrera) => (
 							<TarjetaCarrera key={carrera.codigo} carrera={carrera} />
 						)}
