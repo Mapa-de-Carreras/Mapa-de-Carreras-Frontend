@@ -27,6 +27,7 @@
       "@lib/*":["./src/shared/lib/*"],
       "@services/*":["./src/shared/services/*"],
       "@assets/*":["./src/assets/*"],
+      "@hooks/*":["./src/shared/hooks/*"],
       // No se usa @types porque genera un error,
       // ts lo usa para importar tipos de librerias.
       "@globalTypes/*":["./src/shared/types/*"],

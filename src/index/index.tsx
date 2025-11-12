@@ -1,18 +1,24 @@
 import { createRoot } from 'react-dom/client'
-import Router from './Router'
-import './index.css'
 import { ThemeProvider } from '@components/Providers/ThemeProvider'
 import { AuthProvider } from '@components/Providers/AuthProvider'
 import { ModalProvider } from '@components/Providers/ModalProvider'
+import { BrowserRouter } from 'react-router'
+import Router from './Router'
+import './index.css'
+import QueryProvider from '@components/Providers/QueryProvider'
 
 const root = document.getElementById('root')
 
 createRoot(root!).render(
-	<ThemeProvider>
-		<AuthProvider>
-			<ModalProvider>
-				<Router />
-			</ModalProvider>
-		</AuthProvider>
-	</ThemeProvider>
+	<BrowserRouter basename="/mapa2025">
+		<ThemeProvider>
+			<AuthProvider>
+				<QueryProvider>
+					<ModalProvider>
+						<Router />
+					</ModalProvider>
+				</QueryProvider>
+			</AuthProvider>
+		</ThemeProvider>
+	</BrowserRouter>
 )

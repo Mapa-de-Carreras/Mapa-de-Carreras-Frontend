@@ -12,9 +12,9 @@ import Listado from '@components/Lista/Listado'
 import FeedCard from '@components/Tarjetas/FeedCard'
 import BotonDetalle from '@components/Botones/BotonDetalle'
 
-export default function InstutesPage() {
+export default function InstitutesPage() {
 
-    const {data: institutos, loading, error} = useGetInstitutos()
+    const {data: institutos, isLoading: loading, error} = useGetInstitutos()
     const navigate = useNavigate()
 
     const handleVerDetalle = useCallback((id: number) => {

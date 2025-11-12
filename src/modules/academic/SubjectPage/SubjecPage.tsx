@@ -12,7 +12,7 @@ import FeedCard from '@components/Tarjetas/FeedCard'
 import BotonDetalle from '@components/Botones/BotonDetalle'
 
 export default function SubjectPage() {
-	const { data: asignaturas, loading, error } = useGetAsignaturas()
+	const { data: asignaturas, isLoading: loading, error } = useGetAsignaturas()
 
 	const handleVerDetalle = useCallback((codigo: string) => {
 		console.log('Asignatura a ver detalle codigo: ', codigo)

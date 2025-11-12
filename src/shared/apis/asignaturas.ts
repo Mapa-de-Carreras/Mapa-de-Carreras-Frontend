@@ -1,11 +1,12 @@
 import { URL_API } from './constantes'
-import { useGet } from './generics'
 import Asignatura from '@globalTypes/asignatura'
+import { useGet } from './hooks/useGet'
 
 export default function useGetAsignaturas() {
 	return useGet<Asignatura[]>({
-		hookName: 'useGetAsignaturas',
-		url: `${URL_API}asignaturas`,
-		enabled: true,
+		key: 'useGetAsignaturas',
+		urlApi: `${URL_API}asignaturas`,
+		isEnabled: true,
+		params: {},
 	})
 }

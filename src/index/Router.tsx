@@ -1,28 +1,27 @@
 import App from '@components/App/App'
 import LoginPage from '@users/LoginPage/LoginPage'
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router'
 import Home from './Home'
-import RecoverUsername from '../modules/users/RecoverUserName/RecoverUsername'
-import RecoverPassword1 from '../modules/users/RecoverPassword/RecoverPassword1'
-import RecoverPassword2 from '../modules/users/RecoverPassword/RecoverPassword2'
-import RecoverPassword3 from '../modules/users/RecoverPassword/RecoverPassword3'
 import ProtectedRoute from '@components/Providers/ProtectRouter'
 import GuestRoute from '@components/Providers/GuestRoute'
-import { appRoutes } from '@services/routes/routes'
+import RouterMapa from '@components/Providers/RouterMapa'
+import { Route } from '@globalTypes/route'
+import RecoverUsername from '@users/RecoverUserName/RecoverUsername'
+import RecoverPassword1 from '@users/RecoverPassword/RecoverPassword1'
+import RecoverPassword2 from '@users/RecoverPassword/RecoverPassword2'
+import RecoverPassword3 from '@users/RecoverPassword/RecoverPassword3'
+import LogoutPage from '@users/LogoutPage/LogoutPage'
+import UserCreate from '@users/UserCreate/UserCreate'
+import UserDetail from '@users/UserDetail/UserDetail'
+import UserEdit from '@users/UserEdit/UserEdit'
+import NotificacionesPage from '@users/NotificacionesPage/NotificacionesPage'
+import DegreePage from '@academic/DegreePage/DegreePage'
+import InstitutesPage from '@academic/InstitutesPage/InstitutesPage'
+import DegreeDetail from '@academic/DegreePage/DegreeDetail/DegreeDetail'
+import SubjectPage from '@academic/SubjectPage/SubjecPage'
+import InstitutesDetail from '@academic/InstitutesPage/InstitutesDetail'
 
 export default function Router() {
-	const mapRoutes = (routes: typeof appRoutes) =>
-		routes.flatMap((route) => {
-			const basePath = route.path
-			return (
-				route.children?.map((child) => ({
-					path: `${basePath}/${child.path}`,
-					Component: child.component || (() => <div>{child.label}</div>),
-				})) || []
-			)
-		})
-
-	const rutas = [
+	const rutas: Route[] = [
 		{
 			path: '/authentication',
 			element: <GuestRoute />,
@@ -35,20 +34,77 @@ export default function Router() {
 			],
 		},
 		{
+			navbar: true,
 			element: <ProtectedRoute />,
 			children: [
 				{
 					path: '/',
 					Component: App,
-					children: [{ index: true, Component: Home }, ...mapRoutes(appRoutes)],
+					children: [
+						{ index: true, Component: Home, menu: true, label: "Home", icon: "icon-[material-symbols--home]" },
+						{
+							path: 'administracion',
+							label: 'Administración',
+							icon: 'icon-[eos-icons--admin-outlined]',
+							children: [
+								{ path: 'usuarios', label: 'Usuarios', icon: 'icon-[mdi--user-group]', Component: LogoutPage, menu: true, },
+								{ path: 'usuarios/crear', Component: UserCreate, menu: false },
+								{ path: 'usuarios/detalle', Component: UserDetail, menu: false },
+								{ path: 'usuarios/editar', Component: UserEdit, menu: false },
+								{ path: 'notificaciones', Component: NotificacionesPage, menu: false, },
+								{ path: 'roles', label: 'Roles', icon: 'icon-[clarity--lock-solid]', menu: true, },
+							],
+							menu: true,
+						},
+						{
+							path: 'academica',
+							label: 'Académica',
+							icon: 'icon-[cil--institution]',
+							children: [
+								{ path: 'institutos', label: 'Institutos', icon: 'icon-[cil--institution]', Component: InstitutesPage, menu: true, },
+								{ path: 'institutos/detalle/:id', Component:  InstitutesDetail, menu: false},
+								{ path: 'carreras', label: 'Carreras', icon: 'icon-[icon-park-outline--degree-hat]', Component: DegreePage, menu: true, },
+								{ path: 'carreras/detalle', Component: DegreeDetail, menu: false },
+								{ path: 'asignaturas', label: 'Asignaturas', icon: 'icon-[octicon--book-16]', Component: SubjectPage, menu: true,},
+								{ path: 'planes', label: 'Planes de Estudio', icon: 'icon-[basil--document-outline]', menu: true, },
+							],
+							menu: true,
+						},
+						{
+							path: 'docentes',
+							label: 'Docentes',
+							icon: 'icon-[hugeicons--teacher]',
+							children: [
+								{ path: 'gestion', label: 'Gestionar Docentes', icon: 'icon-[mdi--account-student]', menu: true, },
+								{ path: 'parametros', label: 'Parámetros de Régimen', icon: 'icon-[material-symbols--rule]', menu: true, },
+							],
+							menu: true,
+						},
+						{
+							path: 'designaciones',
+							label: 'Designaciones',
+							icon: 'icon-[material-symbols--pending-actions]',
+							children: [
+								{ path: 'gestion', label: 'Gestión', icon: 'icon-[fluent--document-person-16-filled]', menu: true, },
+							],
+							menu: true,
+						},
+						{
+							path: 'estadisticas',
+							label: 'Estadísticas',
+							icon: 'icon-[akar-icons--statistic-up]',
+							children: [
+								{ path: 'estadisticas', label: 'Estadísticas', icon: 'icon-[akar-icons--statistic-up]', menu: true, },
+								{ path: 'reportes', label: 'Reportes', icon: 'icon-[mdi--report-bar-stacked]', menu: true, },
+							],
+							menu: true,
+						},
+					],
 				},
 			],
 		},
 		{ path: '*', element: <div>Error</div> },
 	]
 
-	const router = createBrowserRouter(rutas, {
-		basename: '/mapa2025',
-	})
-	return <RouterProvider router={router} />
+	return <RouterMapa rutas={rutas} />
 }

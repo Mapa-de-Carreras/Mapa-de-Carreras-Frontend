@@ -7,14 +7,18 @@ import {
 } from '@components/ui/drawer'
 import { useState } from 'react'
 import { UserMenu } from './UserMenu'
-import { rutas } from './rutasProvisorias'
 import NavItemMobile from './NavItemMobile'
+import { Route } from '@globalTypes/route'
 
-export default function NavbarMobile() {
+type NavbarMobileProps = {
+	rutas: Route[]
+};
+
+export default function NavbarMobile({ rutas }: NavbarMobileProps) {
 	const [open, setOpen] = useState(false)
 
 	return (
-		<nav className="bg-sidebar z-10 flex flex-row h-20 w-full flex-col justify-between sm:hidden p-4">
+		<nav className="bg-sidebar z-10 flex h-20 w-full flex-row justify-between sm:hidden p-4">
 			<Drawer direction="bottom" open={open} onOpenChange={setOpen}>
 				<DrawerTrigger asChild>
 					<button
@@ -29,7 +33,7 @@ export default function NavbarMobile() {
 					</DrawerHeader>
 					<ul className="flex w-full flex-col items-end gap-1 overflow-y-auto">
 						{rutas.map((ruta) => (
-							<NavItemMobile key={ruta.path} ruta={ruta} />
+							<NavItemMobile key={ruta.path || "Home"} ruta={ruta} />
 						))}
 					</ul>
 				</DrawerContent>
