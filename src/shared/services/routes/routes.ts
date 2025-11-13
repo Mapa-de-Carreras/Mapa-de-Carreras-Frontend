@@ -8,6 +8,7 @@ import UserCreate from "@users/UserCreate/UserCreate"
 import UserDetail from "@users/UserDetail/UserDetail"
 import UserEdit from "@users/UserEdit/UserEdit"
 import InstitutesDetail from "@academic/InstitutesPage/InstitutesDetail"
+import PlanEstudioDetail from "@academic/PlanDeEstudio/PlanEstudioDetalle"
 
 export interface AppRoute {
 	path: string
@@ -44,6 +45,7 @@ export const appRoutes: AppRoute[] = [
 			{ path: 'carreras/detalle', component:  DegreeDetail, menu: false},
 			{ path: 'asignaturas', label: 'Asignaturas', icon: "icon-[octicon--book-16]", component: SubjectPage, menu: true },
 			{ path: 'planes', label: 'Planes de Estudio', icon: "icon-[basil--document-outline]", menu: true },
+			{ path: 'planes/detalle', component:  PlanEstudioDetail, menu: false},
 		],
 		menu: true,
 	},
