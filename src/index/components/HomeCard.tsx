@@ -10,7 +10,6 @@ type HomeCardProps = {
 export default function HomeCard({ route, icon, children }: HomeCardProps) {
 	const navigate = useNavigate();
 
-
 	const onClick = () => {
 		navigate(route);
 	};

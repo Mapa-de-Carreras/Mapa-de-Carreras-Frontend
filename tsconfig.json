@@ -35,7 +35,6 @@
       
       // Modules
       "@academic/*":["./src/modules/academic/*"],
-      "@academica/*":["./src/modules/academica/*"],
       "@designations/*":["./src/modules/designations/*"],
       "@statistics/*":["./src/modules/statistics/*"],
       "@teachers/*":["./src/modules/teachers/*"],

@@ -1,4 +1,4 @@
-import {Instituto} from "@globalTypes/instituto";
+import Instituto from "@globalTypes/instituto";
 
 export const institutos: Instituto[] = [
     {

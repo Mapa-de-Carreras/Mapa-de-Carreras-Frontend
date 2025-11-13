@@ -25,7 +25,7 @@ export function DetailCard({
     children 
 }: DetailCardProps) {
     return (
-        <Card className="bg-table-background">
+        <Card className="shadow-black-500">
             <CardHeader className="justify-center text-center">
                 <CardTitle>
                     <div className="flex flex-row justify-center gap-5 items-center">
@@ -37,12 +37,12 @@ export function DetailCard({
                 <CardDescription>{descripcion}</CardDescription>
 
 
-            
+                <div className="flex flex-row flex-wrap justify-evenly items-center">
+                    {actions}
+                </div>
             </CardHeader>
-            <div className="flex flex-row flex-wrap justify-evenly items-center py-">
-                {actions}
-            </div>
-
+            
+            {/* El contenido es genérico, viene de los 'children' */}
             <CardContent className="flex flex-col gap-y-3 pt-6 py-4">
                 {children}
             </CardContent>
