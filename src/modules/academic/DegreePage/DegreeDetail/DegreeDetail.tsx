@@ -23,6 +23,14 @@ export interface ICoordinador {
   fecha_inicio: string;
 }
 
+export interface IPlanEstudio {
+  id: number;
+  fecha_inicio: string;
+  esta_vigente: boolean;
+  creado_por?: string | null;
+  created_at: string;
+  updated_at: string;
+}
 
 export interface ICarrera {
   id: number;
@@ -39,6 +47,7 @@ export interface ICarrera {
   duracion?: string;
   cantidadMaterias?: number;
   coordinador_actual?: ICoordinador;
+  planes?: IPlanEstudio[];
 }
 
 
@@ -97,6 +106,7 @@ export default function DegreeDetail() {
 
   const handleVerPlanEstudio = (idPlan: number) => {
    console.log("Ver plan de estudio id: ", idPlan);
+   navigate("/academica/planes/detalle", { state: { id: idPlan } });
 };
 
   const handleAbrirModalEliminar = () => setMostrarModal(true);
@@ -197,7 +207,6 @@ return (
 
               {/* Plan de Estudio */}
               <div className="mt-6">
-                <strong className="text-black">Plan de Estudio:</strong>
                 <Card className="mt-3 p-4 bg-white border border-black rounded-xl shadow-sm cursor-pointer hover:bg-gray-50 transition">
                   <div className="flex items-center justify-between">
                     <div>
@@ -210,7 +219,15 @@ return (
                       icono={
                         <span className="icon-[majesticons--share] text-white text-3xl" />
                       }
-                      onClick={() => handleVerPlanEstudio(1)}
+                      onClick={() => {
+                          const idPlan = carrera.planes?.[0]?.id; //accede al primer plan
+                          if (idPlan) {
+                            console.log("Navegando al plan:", idPlan);
+                            handleVerPlanEstudio(idPlan);
+                          } else {
+                            console.warn("La carrera no tiene planes de estudio");
+                          }
+                        }}
                       type="button"
                       className="ml-auto w-10 h-10 rounded-full flex items-center justify-center p-0 border border-black hover:opacity-80 transition"
                     />
