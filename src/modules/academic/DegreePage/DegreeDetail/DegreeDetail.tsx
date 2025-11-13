@@ -138,7 +138,6 @@ export default function DegreeDetail() {
       </PageBase>
     );
   }
-
 return (
     <PageBase>
       {carrera && (
@@ -197,43 +196,40 @@ return (
                 {carrera.esta_vigente ? "Sí" : "No"}
               </div>
 
-              {/* Nuevo campo: Coordinador actual */}
+              {/* Coordinador actual */}
               <div>
-               <strong className="text-black">Coordinador actual:</strong>{" "}
-                    {carrera.coordinador_actual
-                ? `${carrera.coordinador_actual.nombre_completo}`
-                : "Sin asignar"}
+                <strong className="text-black">Coordinador actual:</strong>{" "}
+                {carrera.coordinador_actual
+                  ? `${carrera.coordinador_actual.nombre_completo}`
+                  : "Sin asignar"}
               </div>
 
-              {/* Plan de Estudio */}
-              <div className="mt-6">
-                <Card className="mt-3 p-4 bg-white border border-black rounded-xl shadow-sm cursor-pointer hover:bg-gray-50 transition">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-semibold text-black text-lg">
-                        Plan de Estudio
-                      </p>
-                    </div>
-                    <BotonGenerico
-                      color="#49454F"
-                      icono={
-                        <span className="icon-[majesticons--share] text-white text-3xl" />
-                      }
-                      onClick={() => {
-                          const idPlan = carrera.planes?.[0]?.id; //accede al primer plan
+              {/* Plan de Estudio (solo si el array no está vacío) */}
+              {carrera.planes && carrera.planes.length > 0 && (
+                <div className="mt-6">
+                  <Card className="mt-3 p-4 bg-white border border-black rounded-xl shadow-sm cursor-pointer hover:bg-gray-50 transition">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-semibold text-black text-lg">Plan de Estudio</p>
+                      </div>
+                      <BotonGenerico
+                        color="#49454F"
+                        icono={
+                          <span className="icon-[majesticons--share] text-white text-3xl" />
+                        }
+                        onClick={() => {
+                          const idPlan = carrera.planes?.[0]?.id;
                           if (idPlan) {
-                            console.log("Navegando al plan:", idPlan);
                             handleVerPlanEstudio(idPlan);
-                          } else {
-                            console.warn("La carrera no tiene planes de estudio");
                           }
                         }}
-                      type="button"
-                      className="ml-auto w-10 h-10 rounded-full flex items-center justify-center p-0 border border-black hover:opacity-80 transition"
-                    />
-                  </div>
-                </Card>
-              </div>
+                        type="button"
+                        className="ml-auto w-10 h-10 rounded-full flex items-center justify-center p-0 border border-black hover:opacity-80 transition"
+                      />
+                    </div>
+                  </Card>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -256,4 +252,4 @@ return (
       />
     </PageBase>
   );
-}
+  } 
