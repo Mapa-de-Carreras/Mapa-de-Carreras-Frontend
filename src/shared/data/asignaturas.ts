@@ -1,4 +1,4 @@
-import Asignatura from '@globalTypes/asignatura'
+import {Asignatura} from '@globalTypes/asignatura'
 
 const asignaturas: Asignatura[] = [
 	{

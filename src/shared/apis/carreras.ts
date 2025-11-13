@@ -1,43 +1,51 @@
-import { Instituto, InstitutoPayload } from '@globalTypes/instituto'
-import { URL_API } from "./constantes";
-import { useGet } from './hooks/useGet';
+import { URL_API } from './constantes'
+import { GetCarrera, PostCarrera, PutCarrera } from '@globalTypes/carrera'
+import { useGet } from './hooks/useGet'
 import { useState, useCallback } from 'react';
 
-export default function useGetInstitutos() {
-    return useGet<Instituto[]>({
-        key: "useGetInstitutos",
-        urlApi: `${URL_API}institutos`,
+export default function useGetCarreras() {
+    return useGet<GetCarrera[]>({
+        key: 'useGetCarreras',
+        urlApi: `${URL_API}carreras`,
         isEnabled: true,
         params: {},
-    });
+    })
 }
 
-export function useGetInstituto(id: number){
-    return useGet<Instituto>({
-        key: "useGetInstituto",
-        urlApi: `${URL_API}institutos/${id}/`,
+export function useGetCarrerasPorInstituto(id: number) {
+    return useGet<GetCarrera[]>({
+        key: 'useGetCarreras',
+        urlApi: `${URL_API}carreras/?instituto_id=${id}`,
+        isEnabled: true,
+        params: {},
+    })
+}
+
+export function useGetCarrera( id : number ){
+    return useGet<GetCarrera>({
+        key: "useGetCarrera",
+        urlApi: `${URL_API}carreras/${id}/`,
         isEnabled: !!id,
         params: {},
     });
 }
 
-
 // --- HOOKS DE MUTACIÓN (POST, PUT, DELETE) ---
 
 /**
- * Hook para CREAR una nueva instituto.
+ * Hook para CREAR una nueva carrera.
  * Emula el 'useMutation' de TanStack Query.
  */
-export function usePostInstituto() {
-    const [data, setData] = useState<Instituto | null>(null);
+export function usePostCarrera() {
+    const [data, setData] = useState<PostCarrera | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
 
     /**
      * Función 'mutate' que ejecuta la petición POST.
-     * @param payload Los datos de la AsignaturaPayload a crear.
+     * @param payload Los datos de la CarreraPayload a crear.
      */
-    const mutate = useCallback(async (payload: InstitutoPayload) => {
+    const mutate = useCallback(async (payload: PostCarrera) => {
         setLoading(true);
         setError(null);
         setData(null);
@@ -51,7 +59,7 @@ export function usePostInstituto() {
         }
 
         try {
-            const response = await fetch(`${URL_API}institutos/`, {
+            const response = await fetch(`${URL_API}carreras/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify(payload),
@@ -59,7 +67,7 @@ export function usePostInstituto() {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message || 'Error al crear el instituto.');
+                throw new Error(errorData.message || 'Error al crear la carrera.');
             }
 
             const result = await response.json();
@@ -78,20 +86,20 @@ export function usePostInstituto() {
 
 
 /**
- * Hook para ACTUALIZAR una instituto existente.
+ * Hook para ACTUALIZAR una carrera existente.
  * Emula el 'useMutation' de TanStack Query.
  */
-export function usePutInstituto() {
-    const [data, setData] = useState<Instituto | null>(null);
+export function usePutCarrera() {
+    const [data, setData] = useState<PutCarrera | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
 
     /**
      * Función 'mutate' que ejecuta la petición PUT.
-     * @param id El ID de la instituto a actualizar.
-     * @param payload Los datos de la InstitutoPayload.
+     * @param id El ID de la carrera a actualizar.
+     * @param payload Los datos de la CarreraPayload.
      */
-    const mutate = useCallback(async (id: number, payload: InstitutoPayload) => {
+    const mutate = useCallback(async (id: number, payload: PutCarrera) => {
         setLoading(true);
         setError(null);
         setData(null);
@@ -105,7 +113,7 @@ export function usePutInstituto() {
         }
 
         try {
-            const response = await fetch(`${URL_API}institutos/${id}/`, {
+            const response = await fetch(`${URL_API}carreras/${id}/`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify(payload),
@@ -113,7 +121,7 @@ export function usePutInstituto() {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message || 'Error al actualizar el instituto.');
+                throw new Error(errorData.message || 'Error al actualizar la carrera.');
             }
 
             const result = await response.json();
@@ -132,16 +140,16 @@ export function usePutInstituto() {
 
 
 /**
- * Hook para ELIMINAR una instituto.
+ * Hook para ELIMINAR una carrera.
  * Emula el 'useMutation' de TanStack Query.
  */
-export function useDeleteInstituto() {
+export function useDeleteCarrera() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
 
     /**
      * Función 'mutate' que ejecuta la petición DELETE.
-     * @param id El ID de la asignatura a eliminar.
+     * @param id El ID de la carrear a eliminar.
      */
     const mutate = useCallback(async (id: number) => {
         setLoading(true);
@@ -156,14 +164,14 @@ export function useDeleteInstituto() {
         }
 
         try {
-            const response = await fetch(`${URL_API}institutos/${id}/`, {
+            const response = await fetch(`${URL_API}carreras/${id}/`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` },
             });
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || `Error ${response.status}: No se pudo eliminar el instituto.`);
+                throw new Error(errorData.message || `Error ${response.status}: No se pudo eliminar la carreras.`);
             }
             
             // Éxito, no hay 'data' que devolver

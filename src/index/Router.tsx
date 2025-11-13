@@ -14,13 +14,18 @@ import UserCreate from '@users/UserCreate/UserCreate'
 import UserDetail from '@users/UserDetail/UserDetail'
 import UserEdit from '@users/UserEdit/UserEdit'
 import NotificacionesPage from '@users/NotificacionesPage/NotificacionesPage'
-import DegreePage from '@academic/DegreePage/DegreePage'
-import InstitutesPage from '@academic/InstitutesPage/InstitutesPage'
-import DegreeDetail from '@academic/DegreePage/DegreeDetail/DegreeDetail'
-import SubjectPage from '@academic/SubjectPage/SubjecPage'
-import InstitutesDetail from '@academic/InstitutesPage/InstitutesDetail'
-import PlanEstudioDetalle from '@academic/PlanDeEstudio/PlanEstudioDetalle'
-import AsignaturaDetalle from '@academic/Asignaturas/AsignaturaDetalle'
+import PaginaInstitutos from '@academica/PaginaInstitutos/PaginaInstitutos'
+import DetallesAsignatura from '@academica/PaginaAsignaturas/DetallesAsignatura'
+import PaginaAsignaturas from '@academica/PaginaAsignaturas/PaginaAsignaturas'
+import DetallesInstituto from '@academica/PaginaInstitutos/DetallesInstituto'
+import EditarAsignatura from '@academica/PaginaAsignaturas/EditarAsingatura'
+import AgregarAsignatura from '@academica/PaginaAsignaturas/AgregarAsignatura'
+import EditarInstituto from '@academica/PaginaInstitutos/EditarInstituto'
+import AgregarInstituto from '@academica/PaginaInstitutos/AgregarInstituto'
+import PaginaCarreras from '@academica/PaginaCarreras/PaginaCarreras'
+import DetallesCarrera from '@academica/PaginaCarreras/DetallesCarrera'
+import EditarCarrera from '@academica/PaginaCarreras/EditarCarrera'
+import AgregarCarrera from '@academica/PaginaCarreras/AgregarCarrera'
 
 export default function Router() {
 	const rutas: Route[] = [
@@ -43,18 +48,39 @@ export default function Router() {
 					path: '/',
 					Component: App,
 					children: [
-						{ index: true, Component: Home, menu: true, label: "Home", icon: "icon-[material-symbols--home]" },
+						{
+							index: true,
+							Component: Home,
+							menu: true,
+							label: 'Home',
+							icon: 'icon-[material-symbols--home]',
+						},
 						{
 							path: 'administracion',
 							label: 'Administración',
 							icon: 'icon-[eos-icons--admin-outlined]',
 							children: [
-								{ path: 'usuarios', label: 'Usuarios', icon: 'icon-[mdi--user-group]', Component: LogoutPage, menu: true, },
+								{
+									path: 'usuarios',
+									label: 'Usuarios',
+									icon: 'icon-[mdi--user-group]',
+									Component: LogoutPage,
+									menu: true,
+								},
 								{ path: 'usuarios/crear', Component: UserCreate, menu: false },
 								{ path: 'usuarios/detalle', Component: UserDetail, menu: false },
 								{ path: 'usuarios/editar', Component: UserEdit, menu: false },
-								{ path: 'notificaciones', Component: NotificacionesPage, menu: false, },
-								{ path: 'roles', label: 'Roles', icon: 'icon-[clarity--lock-solid]', menu: true, },
+								{
+									path: 'notificaciones',
+									Component: NotificacionesPage,
+									menu: false,
+								},
+								{
+									path: 'roles',
+									label: 'Roles',
+									icon: 'icon-[clarity--lock-solid]',
+									menu: true,
+								},
 							],
 							menu: true,
 						},
@@ -63,14 +89,77 @@ export default function Router() {
 							label: 'Académica',
 							icon: 'icon-[cil--institution]',
 							children: [
-								{ path: 'institutos', label: 'Institutos', icon: 'icon-[cil--institution]', Component: InstitutesPage, menu: true, },
-								{ path: 'institutos/detalle/:id', Component:  InstitutesDetail, menu: false},
-								{ path: 'carreras', label: 'Carreras', icon: 'icon-[icon-park-outline--degree-hat]', Component: DegreePage, menu: true, },
-								{ path: 'carreras/detalle', Component: DegreeDetail, menu: false },
-								{ path: 'asignaturas', label: 'Asignaturas', icon: 'icon-[octicon--book-16]', Component: SubjectPage, menu: true,},
-								{ path: 'asignaturas/detalle', Component: AsignaturaDetalle, menu: false },
-								{ path: 'planes', label: 'Planes de Estudio', icon: 'icon-[basil--document-outline]', menu: true, },
-								{ path: 'planes/detalle', Component: PlanEstudioDetalle, menu: false },
+								{
+									path: 'institutos',
+									label: 'Institutos',
+									icon: 'icon-[cil--institution]',
+									Component: PaginaInstitutos,
+									menu: true,
+								},
+								{
+									path: 'institutos/detalle/:id',
+									Component: DetallesInstituto,
+									menu: false,
+								},
+								{
+									path: 'institutos/editar/:id',
+									Component: EditarInstituto,
+									menu: false,
+								},
+								{
+									path:'institutos/agregar',
+									Component: AgregarInstituto,
+									menu: false
+								},
+								{
+									path: 'carreras',
+									label: 'Carreras',
+									icon: 'icon-[icon-park-outline--degree-hat]',
+									Component: PaginaCarreras,
+									menu: true,
+								},
+								{ 	path: 'carreras/detalle/:id', 
+									Component: DetallesCarrera, 
+									menu: false 
+								},
+								{
+									path: 'carreras/editar/:id',
+									Component: EditarCarrera,
+									menu: false
+								},
+								{
+									path:'carreras/agregar',
+									Component: AgregarCarrera,
+									menu: false
+								},
+								{
+									path: 'asignaturas',
+									label: 'Asignaturas',
+									icon: 'icon-[octicon--book-16]',
+									Component: PaginaAsignaturas,
+									menu: true,
+								},
+								{
+									path: 'asignaturas/detalle/:id',
+									Component: DetallesAsignatura,
+									menu: false,
+								},
+								{
+									path: 'asignaturas/editar/:id',
+									Component: EditarAsignatura,
+									menu: false,
+								},
+								{
+									path:'asignaturas/agregar',
+									Component: AgregarAsignatura,
+									menu: false
+								},
+								{
+									path: 'planes',
+									label: 'Planes de Estudio',
+									icon: 'icon-[basil--document-outline]',
+									menu: true,
+								},
 							],
 							menu: true,
 						},
@@ -79,8 +168,18 @@ export default function Router() {
 							label: 'Docentes',
 							icon: 'icon-[hugeicons--teacher]',
 							children: [
-								{ path: 'gestion', label: 'Gestionar Docentes', icon: 'icon-[mdi--account-student]', menu: true, },
-								{ path: 'parametros', label: 'Parámetros de Régimen', icon: 'icon-[material-symbols--rule]', menu: true, },
+								{
+									path: 'gestion',
+									label: 'Gestionar Docentes',
+									icon: 'icon-[mdi--account-student]',
+									menu: true,
+								},
+								{
+									path: 'parametros',
+									label: 'Parámetros de Régimen',
+									icon: 'icon-[material-symbols--rule]',
+									menu: true,
+								},
 							],
 							menu: true,
 						},
@@ -89,7 +188,12 @@ export default function Router() {
 							label: 'Designaciones',
 							icon: 'icon-[material-symbols--pending-actions]',
 							children: [
-								{ path: 'gestion', label: 'Gestión', icon: 'icon-[fluent--document-person-16-filled]', menu: true, },
+								{
+									path: 'gestion',
+									label: 'Gestión',
+									icon: 'icon-[fluent--document-person-16-filled]',
+									menu: true,
+								},
 							],
 							menu: true,
 						},
@@ -98,8 +202,18 @@ export default function Router() {
 							label: 'Estadísticas',
 							icon: 'icon-[akar-icons--statistic-up]',
 							children: [
-								{ path: 'estadisticas', label: 'Estadísticas', icon: 'icon-[akar-icons--statistic-up]', menu: true, },
-								{ path: 'reportes', label: 'Reportes', icon: 'icon-[mdi--report-bar-stacked]', menu: true, },
+								{
+									path: 'estadisticas',
+									label: 'Estadísticas',
+									icon: 'icon-[akar-icons--statistic-up]',
+									menu: true,
+								},
+								{
+									path: 'reportes',
+									label: 'Reportes',
+									icon: 'icon-[mdi--report-bar-stacked]',
+									menu: true,
+								},
 							],
 							menu: true,
 						},

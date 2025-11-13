@@ -86,6 +86,7 @@ export default function DegreePage() {
 			accessorFn: (row) => row.instituto?.codigo || '—',
 			id: 'instituto',
 			header: ({ column }) => <TituloTabla column={column} titulo="Instituto" />,
+
 			cell: ({ row }) => (
 				<div className="text-center font-medium">{row.getValue('instituto')}</div>
 			),

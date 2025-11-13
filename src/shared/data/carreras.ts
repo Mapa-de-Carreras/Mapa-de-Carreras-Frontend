@@ -1,45 +1,22 @@
-import Carrera from "@globalTypes/carrera";
-
-const carreras: Carrera[] = [
+/* const carreras: Carrera[] = [
     {
-        codigo: 0,
+        id: 0,
+        nombre: "Tecnicatura en Desarrollo de Software",
+        nivel: "TECNICATURA",
+        activo: true,
+        codigo: "TDS01",
+        created_at: "",
+        updated_at: "",
         instituto: {
-            codigo: "IDEI", nombre: "Instituto de Desarrollo Económico e Innovación",
             id: 0,
+            nombre: "Instituto de Desarrollo Económico e Innovación",
+            codigo: "IDEI",
             activo: false,
             created_at: "",
             updated_at: ""
         },
-        titulo: "Licenciatura en Sistemas",
         coordinador: "Ezequiel Moyano",
-        estado: true,
-    },
-    {
-        codigo: 1,
-        instituto: {
-            codigo: "IDEI", nombre: "Instituto de Desarrollo Económico e Innovación",
-            id: 0,
-            activo: false,
-            created_at: "",
-            updated_at: ""
-        },
-        titulo: "Tecnicatura en Análisis de Sistemas",
-        coordinador: "Ezequiel Moyano",
-        estado: true,
-    },
-    {
-        codigo: 2,
-        instituto: {
-            codigo: "IDEI", nombre: "Instituto de Desarrollo Económico e Innovación",
-            id: 0,
-            activo: false,
-            created_at: "",
-            updated_at: ""
-        },
-        titulo: "Tecnicatura Universitaria en Desarrollo de Aplicaciones",
-        coordinador: "Ezequiel Moyano",
-        estado: true,
-    },
+    }, 
 ];
 
-export default carreras;
+export default carreras; */

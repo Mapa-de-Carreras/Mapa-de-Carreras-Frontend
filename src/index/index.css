@@ -84,6 +84,10 @@ body,
 	--color-editar: var(--editar);
 	--color-editar-hover: var(--editar-hover);
 	--color-editar-active: var(--editar-active);
+
+	--color-aceptar: var(--aceptar);
+    --color-aceptar-hover: var(--aceptar-hover);
+    --color-aceptar-active: var(--aceptar-active);
   
 	--color-filtro: var(--filtro);
 	--color-default: var(--default);
@@ -168,6 +172,10 @@ body,
 	--editar-hover: #359b4b;
 	--editar-active: #2f7a3d;
 
+	--aceptar: #3b82f6;       
+    --aceptar-hover: #2563eb;  
+    --aceptar-active: #1d4ed8;
+
 	--filtro: #f5f5f5;
 	--default: #b0b0b0;
 }
@@ -251,6 +259,10 @@ body,
 	--editar: #2C7A3B;
 	--editar-hover: #257A32;
 	--editar-active: #1F6230;
+
+	--aceptar: #1d4ed8;        
+    --aceptar-hover: #1e40af; 
+    --aceptar-active: #1e3a8a;	
 
 	--filtro: #444444;
 	--default: #B0B0B0;

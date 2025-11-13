@@ -1,7 +1,7 @@
 import TarjetaLista from '@components/Tarjetas/TarjetaLista'
 import Subtitulo from '@components/Tipografia/Subtitulo'
 import Titulo from '@components/Tipografia/Titulo'
-import Carrera from '@globalTypes/carrera'
+
 
 type TarjetaCarreraProps = {
 	carrera: any

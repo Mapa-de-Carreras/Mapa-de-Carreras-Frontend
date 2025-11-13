@@ -23,14 +23,6 @@ export interface ICoordinador {
   fecha_inicio: string;
 }
 
-export interface IPlanEstudio {
-  id: number;
-  fecha_inicio: string;
-  esta_vigente: boolean;
-  creado_por?: string | null;
-  created_at: string;
-  updated_at: string;
-}
 
 export interface ICarrera {
   id: number;
@@ -47,7 +39,6 @@ export interface ICarrera {
   duracion?: string;
   cantidadMaterias?: number;
   coordinador_actual?: ICoordinador;
-  planes?: IPlanEstudio[];
 }
 
 
@@ -106,7 +97,6 @@ export default function DegreeDetail() {
 
   const handleVerPlanEstudio = (idPlan: number) => {
    console.log("Ver plan de estudio id: ", idPlan);
-   navigate("/academica/planes/detalle", { state: { id: idPlan } });
 };
 
   const handleAbrirModalEliminar = () => setMostrarModal(true);
@@ -138,6 +128,7 @@ export default function DegreeDetail() {
       </PageBase>
     );
   }
+
 return (
     <PageBase>
       {carrera && (
@@ -196,40 +187,36 @@ return (
                 {carrera.esta_vigente ? "Sí" : "No"}
               </div>
 
-              {/* Coordinador actual */}
+              {/* Nuevo campo: Coordinador actual */}
               <div>
-                <strong className="text-black">Coordinador actual:</strong>{" "}
-                {carrera.coordinador_actual
-                  ? `${carrera.coordinador_actual.nombre_completo}`
-                  : "Sin asignar"}
+               <strong className="text-black">Coordinador actual:</strong>{" "}
+                    {carrera.coordinador_actual
+                ? `${carrera.coordinador_actual.nombre_completo}`
+                : "Sin asignar"}
               </div>
 
-              {/* Plan de Estudio (solo si el array no está vacío) */}
-              {carrera.planes && carrera.planes.length > 0 && (
-                <div className="mt-6">
-                  <Card className="mt-3 p-4 bg-white border border-black rounded-xl shadow-sm cursor-pointer hover:bg-gray-50 transition">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-semibold text-black text-lg">Plan de Estudio</p>
-                      </div>
-                      <BotonGenerico
-                        color="#49454F"
-                        icono={
-                          <span className="icon-[majesticons--share] text-white text-3xl" />
-                        }
-                        onClick={() => {
-                          const idPlan = carrera.planes?.[0]?.id;
-                          if (idPlan) {
-                            handleVerPlanEstudio(idPlan);
-                          }
-                        }}
-                        type="button"
-                        className="ml-auto w-10 h-10 rounded-full flex items-center justify-center p-0 border border-black hover:opacity-80 transition"
-                      />
+              {/* Plan de Estudio */}
+              <div className="mt-6">
+                <strong className="text-black">Plan de Estudio:</strong>
+                <Card className="mt-3 p-4 bg-white border border-black rounded-xl shadow-sm cursor-pointer hover:bg-gray-50 transition">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-semibold text-black text-lg">
+                        Plan de Estudio
+                      </p>
                     </div>
-                  </Card>
-                </div>
-              )}
+                    <BotonGenerico
+                      color="#49454F"
+                      icono={
+                        <span className="icon-[majesticons--share] text-white text-3xl" />
+                      }
+                      onClick={() => handleVerPlanEstudio(1)}
+                      type="button"
+                      className="ml-auto w-10 h-10 rounded-full flex items-center justify-center p-0 border border-black hover:opacity-80 transition"
+                    />
+                  </div>
+                </Card>
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -252,4 +239,4 @@ return (
       />
     </PageBase>
   );
-  } 
+}
