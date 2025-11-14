@@ -1,6 +1,6 @@
 import PageBase from "@components/PageBase/PageBase";
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import BotonGenerico from "@components/Botones/BotonGenerico";
 import ModalGenerico from "@components/Modal/ModalGenerico";
@@ -53,8 +53,7 @@ export interface ICarrera {
 
 
 export default function DegreeDetail() {
-  const location = useLocation();
-  const { id } = (location.state as { id: number }) || {};
+  const { id } = useParams<{ id: string }>()
   const navigate = useNavigate();
 
   const [carrera, setCarrera] = useState<ICarrera | null>(null);

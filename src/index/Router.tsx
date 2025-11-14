@@ -23,6 +23,7 @@ import PlanEstudioDetalle from '@academic/PlanDeEstudio/PlanEstudioDetalle'
 import AsignaturaDetalle from '@academic/Asignaturas/AsignaturaDetalle'
 import InstitutesAdd from '@academic/InstitutesPage/InstitutesAdd'
 import InstitutesEdit from '@academic/InstitutesPage/InsitutesEdit'
+import DegreeAdd from '@academic/DegreePage/DegreeAdd'
 
 export default function Router() {
 	const rutas: Route[] = [
@@ -71,6 +72,7 @@ export default function Router() {
 								{path: 'institutos/editar/:id', Component: InstitutesEdit, menu: false},
 								{ path: 'carreras', label: 'Carreras', icon: 'icon-[icon-park-outline--degree-hat]', Component: DegreePage, menu: true, },
 								{ path: 'carreras/detalle/:id', Component: DegreeDetail, menu: false },
+								{ path: 'carreras/agregar', Component: DegreeAdd, menu: false },
 								{ path: 'asignaturas', label: 'Asignaturas', icon: 'icon-[octicon--book-16]', Component: SubjectPage, menu: true,},
 								{ path: 'asignaturas/detalle', Component: AsignaturaDetalle, menu: false },
 								{ path: 'planes', label: 'Planes de Estudio', icon: 'icon-[basil--document-outline]', menu: true, },

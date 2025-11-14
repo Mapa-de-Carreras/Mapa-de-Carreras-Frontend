@@ -42,7 +42,7 @@ export default function InstitutesPage() {
 	}
 
 	return (
-		<PageBase titulo="Página de Instituto" subtitulo="Listado de Institutos">
+		<PageBase titulo="Institutos">
 			{loading && <ComponenteCarga />}
 			{error && <p className="text-center text-red-500">{error.message}</p>}
 
@@ -75,7 +75,6 @@ export default function InstitutesPage() {
 									/>
 								)}
 								onClick={hadleAgregar}
-								mensajeSinDatos="No hay institutos."
 							/>
 						)}
 					</div>

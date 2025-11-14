@@ -3,158 +3,110 @@ import { Tabla } from '@components/Tabla/Tabla'
 import { ColumnDef } from '@tanstack/react-table'
 import TituloTabla from '@components/Tabla/TituloTabla'
 import AccionTabla from '@components/Tabla/AccionTabla'
-import { URL_API } from '@apis/constantes'
-import { useEffect, useState } from 'react'
-import PantallaCarga from '@components/PantallaCarga/PantallaCarga'
 import { useNavigate } from 'react-router'
 import Listado from '@components/Lista/Listado'
 import institutos from '@data/institutos'
-import TarjetaCarrera from './TarjetaCarrera'
 
-interface Coordinador {
-	id: number
-	username: string
-	nombre_completo: string
-	email: string
-	fecha_inicio: string
-}
-
-interface Instituto {
-	id: number
-	codigo: string
-	nombre: string
-}
-
-interface Carrera {
-	id: number
-	nombre: string
-	codigo: string
-	instituto: Instituto
-	coordinador_actual?: Coordinador | null
-}
+// --- 2. Importa el hook y los tipos correctos ---
+import useGetCarreras from '@apis/carreras'
+import { CarreraListItem } from '@globalTypes/carrera' // El tipo que devuelve la API
+import BotonDetalle from '@components/Botones/BotonDetalle'
+import FeedCard from '@components/Tarjetas/FeedCard'
+import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 
 export default function DegreePage() {
-	const [carreras, setCarreras] = useState<Carrera[]>([])
-	const [loading, setLoading] = useState(false)
-	const [error, setError] = useState<string>('')
-	const navigate = useNavigate()
+    const navigate = useNavigate()
 
-	useEffect(() => {
-		const fetchCarreras = async () => {
-			const token = localStorage.getItem('access_token')
-			if (!token) {
-				console.error('Token no encontrado')
-				return
-			}
+    const { data: carreras, isLoading: loading, error } = useGetCarreras()
 
-			try {
-				setLoading(true)
-				const response = await fetch(`${URL_API}carreras/`, {
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: `Bearer ${token}`,
-					},
-				})
+    const handleVerDetalle = (id: string | number) => {//lo hago asi porque la posta no se que será el id
+        navigate(`/academica/carreras/detalle/${Number(id)}`)
+    }
 
-				if (!response.ok) {
-					const errorData = await response.json()
-					throw new Error(errorData.message || 'Error al obtener carreras')
-				}
+    const columns : ColumnDef<CarreraListItem>[] = 
+		[
+            {
+                accessorFn: (row) => row.instituto?.codigo || '—',
+                id: 'instituto',
+                header: ({ column }) => <TituloTabla column={column} titulo="Instituto" />,
+                cell: ({ row }) => (
+                    <div className="text-center font-medium">{row.getValue('instituto')}</div>
+                ),
+                size: 1,
+            },
+            {
+                accessorKey: 'nombre',
+                header: ({ column }) => <TituloTabla column={column} titulo="Carrera" />,
+                cell: ({ row }) => (
+                    <div className="flex flex-wrap">
+                        {row.getValue('nombre')}
+                    </div>
+                ),
+                size: 3,
+            },
+            {
+                id: 'actions',
+                header: 'Acciones',
+                cell: ({ row }) => <AccionTabla onClick={() => handleVerDetalle(row.original.id)} />,
+                size: 1,
+            },
+        ]
 
-				const data = await response.json()
-				console.log('Carreras obtenidas:', data)
-				setCarreras(data)
-			} catch (error) {
-				console.error('Error al obtener las carreras:', error)
-				setError('Error al obtener las carreras. Intente nuevamente.')
-			} finally {
-				setLoading(false)
-			}
-		}
-
-		fetchCarreras()
-	}, [])
-
-	const handleVerDetalle = (id: number) => {
-		console.log('Carrera a ver detalle id: ', id)
-		navigate(`/academica/carreras/detalle/`, { state: { id } })
+	function handleAgregar(): void {
+		navigate("/academica/carreras/agregar")
 	}
 
-	const columns: ColumnDef<Carrera>[] = [
-		{
-			accessorFn: (row) => row.instituto?.codigo || '—',
-			id: 'instituto',
-			header: ({ column }) => <TituloTabla column={column} titulo="Instituto" />,
-			cell: ({ row }) => (
-				<div className="text-center font-medium">{row.getValue('instituto')}</div>
-			),
-			size: 1,
-		},
-		{
-			accessorKey: 'nombre',
-			header: ({ column }) => <TituloTabla column={column} titulo="Carrera" />,
-			cell: ({ row }) => (
-				<div className="flex flex-wrap">
-					{row.getValue('nombre')}
-				</div>
-			),
-			size: 3,
-		},
-		{
-			id: 'coordinador',
-			header: ({ column }) => <TituloTabla column={column} titulo="Coordinador" />,
-			cell: ({ row }) => {
-				const coordinador = row.original.coordinador_actual
-				return (
-					<div className="text-center">
-						{coordinador
-							? coordinador.nombre_completo
-							: <span className="text-gray-600 italic">Sin asignar</span>}
-					</div>
-				)
-			},
-			size: 2,
-		},
-		{
-			id: 'actions',
-			header: 'Acciones',
-			cell: ({ row }) => <AccionTabla onClick={() => handleVerDetalle(row.original.id)} />,
-			size: 1,
-		},
-	]
+    return (
+        <PageBase titulo="Carreras">
+            
+  
+            {loading && <ComponenteCarga mensaje="Cargando carreras..." />}
+            
 
-	return (
-		<PageBase
-			titulo="Página de Carreras"
-			subtitulo="Listado de carreras ordenadas por instituto"
-		>
-			{loading && <PantallaCarga mensaje="Cargando carreras..." />}
-			{error && <p className="text-center text-red-500">{error}</p>}
-			<div className="hidden sm:block">
-				<Tabla
-					columnas={columns}
-					data={carreras}
-					habilitarBuscador
-					habilitarPaginado
-					columnasFijas={false}
-					funcionAgregado={() => {}}
-				/>
-			</div>
-			<div className="block sm:hidden">
-				{carreras && institutos && (
-					<Listado
-						data={carreras}
-						orderData={institutos}
-						orderKey={(instituto) => instituto.nombre}
-						compareTo={(instituto, carrera) => carrera.instituto.id === instituto.id}
-						dataRender={(carrera) => (
-							<TarjetaCarrera key={carrera.codigo} carrera={carrera} />
+            {error && <p className="text-center text-red-500">{error.message}</p>}
+            {
+				!loading && !error && carreras && institutos && (
+				<div>
+					<div className="hidden sm:block"> 
+						<Tabla
+							columnas={columns}
+							data={carreras} 
+							habilitarBuscador
+							habilitarPaginado
+							columnasFijas={false}
+							funcionAgregado={handleAgregar}
+						/>
+					</div>
+					<div className="block sm:hidden">
+						{carreras && institutos && (
+							<Listado
+								data={carreras} 
+								orderData={institutos}
+								dataRender={(carrera) => (
+									<FeedCard
+										titulo={carrera.nombre}
+										descripcion={carrera.codigo}
+										actions={
+											<BotonDetalle
+												onClick={() => handleVerDetalle(carrera.id)}
+											/>
+										}
+									/>
+								)}
+								onClick={handleAgregar}
+							/>
 						)}
-						mensajeSinDatos="No hay carreras para este instituto."
-					/>
-				)}
-			</div>
-		</PageBase>
-	)
+					</div>				
+				</div>
+				)
+			}
+			
+			{
+				carreras && carreras.length === 0 && (
+					<p className="text-center text-gray-500">No se encontraron carreras.</p>
+				)
+			}
+
+        </PageBase>
+    )
 }
