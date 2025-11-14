@@ -4,20 +4,48 @@ import {CampoInput} from '@components/Formularios/CampoInput';
 import { Button } from '@components/ui/button';
 import PageBase from '@components/PageBase/PageBase';
 import { usePostInstituto } from '@apis/intitutos';
+import { useModal } from '@components/Providers/ModalProvider';
+import { useEffect } from 'react';
 
 export default function InstitutesAdd() {
     const navigate = useNavigate();
-    
-    const { mutate, isPending, error } = usePostInstituto();
+    const { showModal } = useModal();
+    const { mutate, isPending, error, isSuccess, isError } = usePostInstituto();
+
+
+        useEffect(() => {
+        // Si la mutación (POST) tuvo ÉXITO
+        if (isSuccess) {
+            showModal({
+                title: 'Éxito',
+                description: 'El instituto se ha creado correctamente.',
+                buttons: [
+                    {
+                        variant: 'aceptar',
+                        onClick: () => navigate(-1),
+                    }
+                ]
+            });
+        }
+        
+        // Si la mutación (POST) tuvo ERROR
+        if (isError) {
+            showModal({
+                title: 'Error',
+                description: error?.message || 'No se pudo crear el instituto.',
+                buttons: [
+                    {
+                        variant: 'aceptar',
+                        onClick: () => {},
+                    }
+                ]
+                
+            });
+        }
+    }, [isSuccess, isError, error, showModal, navigate]);
 
 
     const handleSubmit = (dataDelFormulario: { nombre: string; codigo: string }) => {
-        // 4. Llama a 'mutate' con los datos.
-        // 'usePostMutation' se encargará de todo:
-        //   - Hará el POST
-        //   - Si tiene éxito, llamará a 'useInvalidateAndRefetch'
-        //   - 'useInvalidateAndRefetch' refrescará 'useGetInstitutos'
-        //   - El hook genérico 'usePostMutation' te llevará de vuelta (-1)
         mutate(dataDelFormulario); 
     };
 
@@ -29,9 +57,6 @@ export default function InstitutesAdd() {
             >
                 <CampoInput label="Nombre del Instituto" nombre="nombre" />
                 <CampoInput label="Código (Ej: IDEI)" nombre="codigo" />
-
-                {error && <p className="text-red-500">Error: {error.message}</p>}
-
                 <Button type="submit" disabled={isPending}>
                     {isPending ? 'Guardando...' : 'Crear Instituto'}
                 </Button>

@@ -11,6 +11,7 @@ import { useModal } from '@components/Providers/ModalProvider'
 import Icon from '@components/const/icons'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 
+
 export default function InstitutesDetail() {
 	const { showModal } = useModal()
 

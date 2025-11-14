@@ -84,6 +84,10 @@ body,
 	--color-editar: var(--editar);
 	--color-editar-hover: var(--editar-hover);
 	--color-editar-active: var(--editar-active);
+
+	--color-aceptar: var(--color-aceptar);
+    --color-aceptar-hover: var(--color-aceptar-hover);
+    --color-aceptar-active: var(--color-aceptar-active);
   
 	--color-filtro: var(--filtro);
 	--color-default: var(--default);
@@ -128,6 +132,10 @@ body,
 	--chart-4: oklch(0.68 0.13 310);
 	--chart-5: oklch(0.72 0.15 40);
 
+	--color-aceptar: oklch(0.61 0.18 150);      
+    --color-aceptar-hover: oklch(0.53 0.16 150);
+    --color-aceptar-active: oklch(0.45 0.13 150);
+
 	--sidebar: oklch(0.94 0.003 255); /* gris suave */
 	--sidebar-foreground: var(--foreground);
 	--sidebar-primary: oklch(0.44 0.16 27.22);
@@ -167,6 +175,10 @@ body,
 	--editar: #3e9956;
 	--editar-hover: #359b4b;
 	--editar-active: #2f7a3d;
+
+	--agregar: #3e9956;
+	--agregar-hover: #359b4b;
+	--agregar-active: #2f7a3d;
 
 	--filtro: #f5f5f5;
 	--default: #b0b0b0;
@@ -226,6 +238,10 @@ body,
 	--chart-3: oklch(0.77 0.18 70);
 	--chart-4: oklch(0.63 0.25 304);
 
+	--color-aceptar: oklch(0.7 0.2 150);       
+    --color-aceptar-hover: oklch(0.61 0.18 150);  
+    --color-aceptar-active: oklch(0.53 0.16 150);
+
 	--card-home: #2f2f35;
 	--card-home-foreground: #dcd6d6;
 	--card-home-accent: #474444;
@@ -251,6 +267,10 @@ body,
 	--editar: #2C7A3B;
 	--editar-hover: #257A32;
 	--editar-active: #1F6230;
+
+	--agregar: #2C7A3B;
+	--agregar-hover: #257A32;
+	--agregar-active: #1F6230;
 
 	--filtro: #444444;
 	--default: #B0B0B0;

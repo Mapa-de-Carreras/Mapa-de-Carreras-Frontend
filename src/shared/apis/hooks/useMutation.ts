@@ -9,7 +9,7 @@ import useToken from '@hooks/useToken'; // Tu hook de token
  */
 export function usePostMutation(urlApi: string, queryKeyToInvalidate: QueryKey) {
     const queryClient = useQueryClient();
-    const navigate = useNavigate();
+    //const navigate = useNavigate(); quiero mostar un modal
     const token = useToken();
 
     return useMutation({
@@ -30,7 +30,7 @@ export function usePostMutation(urlApi: string, queryKeyToInvalidate: QueryKey) 
             // 1. Invalidamos la lista (usando el queryClient directamente)
             queryClient.invalidateQueries({ queryKey: queryKeyToInvalidate });
             // 2. Navegamos atrás
-            navigate(-1);
+            //navigate(-1); quiero mostar un modal
         },
         onError: (err: Error) => {
             console.error(`Error en POST a ${urlApi}:`, err);
@@ -73,7 +73,7 @@ export function usePutMutation(urlApiBase: string, listQueryKey: QueryKey, detai
             //    (Usando la lógica de tu 'generarQueryKey')
             queryClient.invalidateQueries({ queryKey: [detailKeyBase, { id }] });
 
-            navigate(-1); // Vuelve de la página de edición
+            //navigate(-1); quiero mostar un modal
         }
     });
 }

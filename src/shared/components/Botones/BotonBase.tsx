@@ -5,7 +5,7 @@ export type BotonBaseProps = {
 	children?: ReactNode
 	onClick?: () => void
 	className?: string
-	variant?: 'agregar' | 'guardar' | 'cancelar' | 'eliminar' | 'editar' | 'filtro' | 'default'
+	variant?: 'agregar' | 'guardar' | 'cancelar' | 'eliminar' | 'editar' | 'filtro' | 'default' | 'aceptar'
 }
 
 export default function BotonBase({
@@ -20,6 +20,7 @@ export default function BotonBase({
 		cancelar: 'icon-[mdi--close]',
 		eliminar: 'icon-[mdi--trash-can]',
 		editar: 'icon-[ph--note-pencil]',
+		aceptar: 'icon-[mdi--check]',
 		filtro: '',
 		default: '',
 	}
@@ -31,7 +32,9 @@ export default function BotonBase({
 		eliminar: 'bg-eliminar hover:bg-eliminar-hover active:bg-eliminar-active',
 		editar: 'bg-editar hover:bg-editar-hover active:bg-editar-active',
 		filtro: 'bg-filtro',
+		aceptar: 'bg-aceptar hover:bg-aceptar-hover active:bg-aceptar-active',
 		default: 'bg-default',
+		
 	}
 
 	const textVariants = {
@@ -42,6 +45,7 @@ export default function BotonBase({
 		editar: 'Editar',
 		filtro: 'Filtros',
 		default: 'Click',
+		aceptar: 'Aceptar',
 	}
 
 	return (
