@@ -66,7 +66,7 @@ export default function InstitutesDetail() {
     }
 
     const handlelClickEditar = () => {
-        navigate(`/ruta/para/editar/${id}`)
+        navigate(`/academica/institutos/editar/${id}`)
     }
 
     return (
