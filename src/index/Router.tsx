@@ -70,7 +70,7 @@ export default function Router() {
 								{path: 'institutos/agregar', Component: InstitutesAdd, menu: false},
 								{path: 'institutos/editar/:id', Component: InstitutesEdit, menu: false},
 								{ path: 'carreras', label: 'Carreras', icon: 'icon-[icon-park-outline--degree-hat]', Component: DegreePage, menu: true, },
-								{ path: 'carreras/detalle', Component: DegreeDetail, menu: false },
+								{ path: 'carreras/detalle/:id', Component: DegreeDetail, menu: false },
 								{ path: 'asignaturas', label: 'Asignaturas', icon: 'icon-[octicon--book-16]', Component: SubjectPage, menu: true,},
 								{ path: 'asignaturas/detalle', Component: AsignaturaDetalle, menu: false },
 								{ path: 'planes', label: 'Planes de Estudio', icon: 'icon-[basil--document-outline]', menu: true, },

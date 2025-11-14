@@ -1,4 +1,4 @@
-import Instituto from '@globalTypes/instituto'
+import {Instituto} from '@globalTypes/instituto'
 import { URL_API } from "./constantes";
 import { useGet } from './hooks/useGet';
 import { usePostMutation, usePutMutation, useDeleteMutation } from '@apis/hooks/useMutation';
