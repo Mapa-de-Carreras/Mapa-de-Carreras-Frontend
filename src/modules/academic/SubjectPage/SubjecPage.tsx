@@ -4,7 +4,6 @@ import { ColumnDef } from '@tanstack/react-table'
 import TituloTabla from '@components/Tabla/TituloTabla'
 import AccionTabla from '@components/Tabla/AccionTabla'
 import Asignatura from '@globalTypes/asignatura'
-import { useMemo, useCallback } from 'react'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 import  useGetAsignaturas from '@apis/asignaturas'
 import Listado from '@components/Lista/Listado'
@@ -14,51 +13,32 @@ import BotonDetalle from '@components/Botones/BotonDetalle'
 export default function SubjectPage() {
 	const { data: asignaturas, isLoading: loading, error } = useGetAsignaturas()
 
-	const handleVerDetalle = useCallback((codigo: string) => {
+	const handleVerDetalle = (codigo: string) => {
 		console.log('Asignatura a ver detalle codigo: ', codigo)
-	}, [])
+	}
 
 	
-	const columns = useMemo<ColumnDef<Asignatura>[]>( 
-		() => [
+	const columns: ColumnDef<Asignatura>[] = 
+		[
 			{
 				accessorKey: 'nombre',
-				header: ({ column }) => <TituloTabla column={column} titulo="Nombre" />,
+				header: ({ column }) => <TituloTabla  column={column} titulo="Nombre" />,
 			},
+			
 			{
 				accessorKey: 'codigo',
 				header: ({ column }) => <TituloTabla column={column} titulo="Código" />,
+				size: 1
 			},
-			{
-				accessorKey: 'cuatrimestre',
-				header: ({ column }) => <TituloTabla column={column} titulo="Cuatrimestre" />,
-			},
-			{
-				accessorKey: 'tipo_duracion',
-				header: ({ column }) => <TituloTabla column={column} titulo="Duración" />,
-			},
-			{
-				accessorKey: 'tipo_asignatura',
-				header: ({ column }) => <TituloTabla column={column} titulo="Tipo" />,
-			},
-			{
-				accessorKey: 'horas_semanales',
-				header: ({ column }) => <TituloTabla column={column} titulo="Hs. Semanales" />,
-			},
-			{
-				accessorKey: 'horas_totales',
-				header: ({ column }) => <TituloTabla column={column} titulo="Hs. Totales" />,
-			},
+			
 			{
 				id: 'actions',
-				header: 'Acciones',
 				cell: ({ row }) => (
 					<AccionTabla onClick={() => handleVerDetalle(row.original.codigo)} />
-				),
+				),size: 1
+				
 			},
-		],
-		[handleVerDetalle]
-	)
+		]
 
 	return (
 		<PageBase titulo="Página de Asignaturas" subtitulo="Listado de Asignaturas">
@@ -82,7 +62,6 @@ export default function SubjectPage() {
 								data={asignaturas}
 								orderData={asignaturas}
 								orderKey={(asignaturas) => asignaturas.codigo}
-								compareTo={(asignaturas) => true}
 								dataRender={(asignaturas) => (
 									<FeedCard titulo={asignaturas.nombre} descripcion={asignaturas.codigo}
 									actions={

@@ -4,7 +4,6 @@ import { ColumnDef } from '@tanstack/react-table'
 import TituloTabla from '@components/Tabla/TituloTabla'
 import AccionTabla from '@components/Tabla/AccionTabla'
 import Instituto from '@globalTypes/instituto'
-import { useMemo, useCallback } from 'react'
 import useGetInstitutos  from '@apis/intitutos'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 import { useNavigate } from 'react-router' 
@@ -17,13 +16,13 @@ export default function InstitutesPage() {
     const {data: institutos, isLoading: loading, error} = useGetInstitutos()
     const navigate = useNavigate()
 
-    const handleVerDetalle = useCallback((id: number) => {
+    const handleVerDetalle = (id: number) => {
         console.log('Instituto a ver detalle id: ', id)
 		navigate(`/academica/institutos/detalle/${id}`)
-    }, [navigate])
+    }
 
-    const columns = useMemo<ColumnDef<Instituto>[]>(
-		() => [
+    const columns : ColumnDef<Instituto>[] = 
+		[
             {   
                 accessorKey: 'nombre',
                 header: ({ column }) => <TituloTabla column={column} titulo="Nombre" />,
@@ -40,8 +39,11 @@ export default function InstitutesPage() {
                     <AccionTabla onClick={() => handleVerDetalle(row.original.id)} />
                 ),
             },
-		],[handleVerDetalle]
-	)
+		]
+
+    const hadleAgregar = () => {
+        navigate('/academica/institutos/agregar')
+    }
 
     return (
         <PageBase titulo="Página de Instituto" subtitulo="Listado de Institutos">
@@ -56,6 +58,7 @@ export default function InstitutesPage() {
                         data={institutos}
                         habilitarBuscador={true}
                         habilitarPaginado={true}
+                        funcionAgregado={hadleAgregar}
                     />
                 </div>
                 <div className="block sm:hidden">
@@ -64,7 +67,6 @@ export default function InstitutesPage() {
                             data={institutos}
                             orderData={institutos}
                             orderKey={(institutos) => institutos.codigo}
-                            compareTo={(institutos) => true}
                             dataRender={(institutos) => (
                                 <FeedCard titulo={institutos.nombre} descripcion={institutos.codigo}
                                 actions={
