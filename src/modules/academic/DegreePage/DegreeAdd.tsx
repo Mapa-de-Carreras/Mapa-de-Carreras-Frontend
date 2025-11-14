@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
 import { Formulario } from '@components/Formularios/Formulario';
 import { CampoInput } from '@components/Formularios/CampoInput';
-// Asumo que tienes un componente similar para <select>
+
 import { CampoSelect } from '@components/Formularios/CampoSelect'; 
 import { Button } from '@components/ui/button';
 import PageBase from '@components/PageBase/PageBase';
@@ -59,10 +59,13 @@ export default function DegreeAdd() {
         }
     }, [isSuccess, isError, error, showModal, navigate]);
 
-    const handleSubmit = (dataDelFormulario: CarreraPostPayload) => {
+    const handleSubmit = ({nombre, codigo, nivel, instituto_id}: CarreraPostPayload) => {
         
         const payload = {
-            ...dataDelFormulario,
+            nombre,
+            codigo,
+            nivel,
+            instituto_id
         };
         mutate(payload);
     };

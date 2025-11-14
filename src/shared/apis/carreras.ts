@@ -5,14 +5,14 @@ import { useGet } from './hooks/useGet';
 import { usePostMutation, usePutMutation, useDeleteMutation } from '@apis/hooks/useMutation';
 
 // 1. Define las keys específicas para 'carreras'
-const LIST_KEY_NAME = "useGetCarreras";
+const LIST_KEY = "useGetCarreras";
+const LIST_KEY_NAME = "useGetCarrera";
 const DETAIL_KEY_NAME = "useGetCarrera";
-const LIST_QUERY_KEY = [LIST_KEY_NAME]; // La QueryKey (array) para la lista
 
 // --- GET (Listado) ---
 export default function useGetCarreras() {
     return useGet<CarreraListItem[]>({ // Asumo un tipo Carrera[]
-        key: LIST_KEY_NAME,
+        key: LIST_KEY,
         urlApi: `${URL_API}carreras`,
         isEnabled: true,
         params: {},
@@ -31,7 +31,7 @@ export function useGetCarrera(id: number) {
 
 export function useGetCarrerasPorInstituto(instituto_id: number) {
     return useGet<CarreraListItem[]>({ // Devuelve el mismo tipo de lista
-        key: LIST_KEY_NAME, // Usa la misma key BASE ('useGetCarreras')
+        key: LIST_KEY, // Usa la misma key BASE ('useGetCarreras')
         urlApi: `${URL_API}carreras`, // La misma URL base
         
         // --- ¡AQUÍ ESTÁ LA MAGIA! ---
@@ -51,7 +51,7 @@ export function useGetCarrerasPorInstituto(instituto_id: number) {
 export function usePostCarrera() {
     return usePostMutation(
         `${URL_API}carreras/`, // URL Completa para POST
-        LIST_QUERY_KEY         // Key de la lista a refrescar
+        [LIST_KEY]         // Key de la lista a refrescar
     );
 }
 
@@ -59,7 +59,7 @@ export function usePostCarrera() {
 export function usePutCarrera() {
     return usePutMutation(
         `${URL_API}carreras`,  // URL Base (el hook le pondrá /id/)
-        LIST_QUERY_KEY,        // Key de la lista a refrescar
+        [LIST_KEY_NAME],        // Key de la lista a refrescar
         DETAIL_KEY_NAME        // Nombre de la key de detalle
     );
 }
@@ -68,6 +68,6 @@ export function usePutCarrera() {
 export function useDeleteCarrera() {
     return useDeleteMutation(
         `${URL_API}carreras`, // URL Base (el hook le pondrá /id/)
-        LIST_QUERY_KEY        // Key de la lista a refrescar
+        [LIST_KEY]        // Key de la lista a refrescar
     );
 }

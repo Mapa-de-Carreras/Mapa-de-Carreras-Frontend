@@ -16,7 +16,7 @@ import UserEdit from '@users/UserEdit/UserEdit'
 import NotificacionesPage from '@users/NotificacionesPage/NotificacionesPage'
 import DegreePage from '@academic/DegreePage/DegreePage'
 import InstitutesPage from '@academic/InstitutesPage/InstitutesPage'
-import DegreeDetail from '@academic/DegreePage/DegreeDetail/DegreeDetail'
+import DegreeDetail from '@academic/DegreePage/DegreeDetail'
 import SubjectPage from '@academic/SubjectPage/SubjecPage'
 import InstitutesDetail from '@academic/InstitutesPage/InstitutesDetail'
 import PlanEstudioDetalle from '@academic/PlanDeEstudio/PlanEstudioDetalle'
@@ -24,6 +24,7 @@ import AsignaturaDetalle from '@academic/Asignaturas/AsignaturaDetalle'
 import InstitutesAdd from '@academic/InstitutesPage/InstitutesAdd'
 import InstitutesEdit from '@academic/InstitutesPage/InsitutesEdit'
 import DegreeAdd from '@academic/DegreePage/DegreeAdd'
+import DegreeEdit from '@academic/DegreePage/DegreeEdit'
 
 export default function Router() {
 	const rutas: Route[] = [
@@ -73,6 +74,7 @@ export default function Router() {
 								{ path: 'carreras', label: 'Carreras', icon: 'icon-[icon-park-outline--degree-hat]', Component: DegreePage, menu: true, },
 								{ path: 'carreras/detalle/:id', Component: DegreeDetail, menu: false },
 								{ path: 'carreras/agregar', Component: DegreeAdd, menu: false },
+								{ path: 'carreras/editar/:id', Component: DegreeEdit, menu: false },
 								{ path: 'asignaturas', label: 'Asignaturas', icon: 'icon-[octicon--book-16]', Component: SubjectPage, menu: true,},
 								{ path: 'asignaturas/detalle', Component: AsignaturaDetalle, menu: false },
 								{ path: 'planes', label: 'Planes de Estudio', icon: 'icon-[basil--document-outline]', menu: true, },

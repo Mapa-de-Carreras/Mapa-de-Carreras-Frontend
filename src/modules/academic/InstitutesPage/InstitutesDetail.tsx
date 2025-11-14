@@ -1,5 +1,5 @@
-import { useParams, useNavigate } from 'react-router' // 1. Importa useNavigate
-import { useGetInstituto, useDeleteInstituto } from '@apis/intitutos' // 2. Importa el hook de DELETE
+import { useParams, useNavigate } from 'react-router'
+import { useGetInstituto, useDeleteInstituto } from '@apis/intitutos' 
 import BotonBase from '@components/Botones/BotonBase'
 import { DetailCard } from '@components/CardDetalles/DetailCard'
 import PageBase from '@components/PageBase/PageBase'
@@ -33,13 +33,13 @@ export default function InstitutesDetail() {
 					buttons: [
 						{
 							variant: 'aceptar',
-							onClick: () => navigate(-1), // Vuelve a la lista
+							onClick: () => navigate(-1),
 						},
 					],
 				})
 			},
 			onError: (err) => {
-				// 5. ERROR: Muestra el modal de error (ej: 400 - "tiene carreras asociadas")
+				
 				showModal({
 					title: 'Error',
 					description: err.message || 'No se pudo eliminar el instituto.',
