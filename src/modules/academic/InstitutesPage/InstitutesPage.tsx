@@ -4,7 +4,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import TituloTabla from '@components/Tabla/TituloTabla'
 import AccionTabla from '@components/Tabla/AccionTabla'
 import Instituto from '@globalTypes/instituto'
-import useGetInstitutos from '@apis/institutos'
+import useGetInstitutos from '@apis/intitutos'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 import { useNavigate } from 'react-router'
 import Listado from '@components/Lista/Listado'
@@ -31,7 +31,7 @@ export default function InstitutesPage() {
 		},
 		{
 			id: 'actions',
-			header: 'Acciones',
+			header: 'Detalle',
 
 			cell: ({ row }) => <AccionTabla onClick={() => handleVerDetalle(row.original.id)} />,
 		},

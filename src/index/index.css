@@ -88,6 +88,22 @@ body,
 	--color-aceptar: var(--color-aceptar);
     --color-aceptar-hover: var(--color-aceptar-hover);
     --color-aceptar-active: var(--color-aceptar-active);
+
+    --color-editar-active: var(--editar-active);
+    --color-filtro: var(--filtro);
+    --color-default: var(--default);
+
+    --color-regresar: var(--color-regresar);
+    --color-regresar-hover: var(--color-regresar-hover);
+    --color-regresar-active: var(--color-regresar-active);
+
+	--color-regresar: var(--color-regresar);
+    --color-regresar-hover: var(--color-regresar-hover);
+    --color-regresar-active: var(--color-regresar-active);
+
+    --color-error: var(--color-error);
+    --color-error-hover: var(--color-error-hover);
+    --color-error-active: var(--color-error-active);
   
 	--color-filtro: var(--filtro);
 	--color-default: var(--default);
@@ -136,6 +152,19 @@ body,
     --color-aceptar-hover: oklch(0.53 0.16 150);
     --color-aceptar-active: oklch(0.45 0.13 150);
 
+	--color-regresar: oklch(0.7 0.01 270);        /* Gris Neutro */
+    --color-regresar-hover: oklch(0.65 0.01 270);  /* Más oscuro */
+    --color-regresar-active: oklch(0.6 0.01 270);
+	
+	--color-regresar: var(--color-regresar);
+    --color-regresar-hover: var(--color-regresar-hover);
+    --color-regresar-active: var(--color-regresar-active);
+
+    /* --- AÑADE ESTO --- */
+    --color-error: var(--color-error);
+    --color-error-hover: var(--color-error-hover);
+    --color-error-active: var(--color-error-active);
+
 	--sidebar: oklch(0.94 0.003 255); /* gris suave */
 	--sidebar-foreground: var(--foreground);
 	--sidebar-primary: oklch(0.44 0.16 27.22);
@@ -144,6 +173,8 @@ body,
 	--sidebar-accent-foreground: var(--foreground);
 	--sidebar-border: oklch(0.85 0.005 255);
 	--sidebar-ring: oklch(0.55 0.12 250);
+
+	
 
 	--table-background: #fafafa;
 	--table-foreground: #000;
@@ -242,6 +273,10 @@ body,
     --color-aceptar-hover: oklch(0.61 0.18 150);  
     --color-aceptar-active: oklch(0.53 0.16 150);
 
+	--color-error: var(--eliminar);
+    --color-error-hover: var(--eliminar-hover);
+    --color-error-active: var(--eliminar-active);
+
 	--card-home: #2f2f35;
 	--card-home-foreground: #dcd6d6;
 	--card-home-accent: #474444;
@@ -271,6 +306,10 @@ body,
 	--agregar: #2C7A3B;
 	--agregar-hover: #257A32;
 	--agregar-active: #1F6230;
+
+	--color-regresar: oklch(0.6 0.01 270);         /* Gris Neutro (Dark) */
+    --color-regresar-hover: oklch(0.55 0.01 270);   /* Más oscuro */
+    --color-regresar-active: oklch(0.5 0.01 270);
 
 	--filtro: #444444;
 	--default: #B0B0B0;

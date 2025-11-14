@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router';
 
 // --- API Hooks ---
-import { useGetInstituto, usePutInstituto } from '@apis/institutos'; // Importa GET y PUT
+import { useGetInstituto, usePutInstituto } from '@apis/intitutos'; // Importa GET y PUT
 
 // --- Context Hooks ---
 import { useModal } from '@components/Providers/ModalProvider';
@@ -68,7 +68,7 @@ export default function InstitutesEdit() {
                     description: err.message || 'No se pudo actualizar el instituto.',
                     buttons: [
                         {
-                            variant: 'aceptar',
+                            variant: 'error',
                             onClick: () => {},
                         },
                     ],
@@ -111,19 +111,20 @@ export default function InstitutesEdit() {
     // --- Éxito: Renderiza el Formulario con datos ---
     return (
         <PageBase titulo="Editar Instituto">
+            <div className="mb-4"> 
+                <BotonBase 
+                    variant="regresar" 
+                    onClick={() => navigate(-1)}
+                />
+            </div>
             
             {/* Contenedor "enmarcado" y centrado */}
             <div className="max-w-lg mx-auto">
                 <Card className="shadow-lg">
                     
                     <Formulario
-                        // 1. VALORES INICIALES: Aquí está la magia.
-                        // Le pasas el objeto 'instituto' que fetcheaste.
                         valoresIniciales={instituto}
-                        
-                        // 2. KEY: ¡Muy Importante!
-                        // Esto fuerza a React a reiniciar el formulario
-                        // cuando 'instituto' finalmente carga.
+                    
                         key={instituto.id} 
                         
                         onSubmit={handleSubmit}
@@ -134,12 +135,7 @@ export default function InstitutesEdit() {
                             {/* Aquí irían más campos si los tuvieras */}
                         </CardContent>
 
-                        <CardFooter className="flex justify-between">
-                            <BotonBase 
-                                variant='cancelar' 
-                                onClick={() => navigate(-1)}
-                            />
-                            
+                        <CardFooter className="flex justify-between">                            
                             <Button type="submit" disabled={isUpdating}>
                                 {isUpdating ? 'Guardando...' : 'Actualizar Instituto'}
                             </Button>

@@ -3,7 +3,7 @@ import { Formulario } from '@components/Formularios/Formulario'
 import { CampoInput } from '@components/Formularios/CampoInput'
 import { Button } from '@components/ui/button'
 import PageBase from '@components/PageBase/PageBase'
-import { usePostInstituto } from '@apis/institutos'
+import { usePostInstituto } from '@apis/intitutos'
 import { useModal } from '@components/Providers/ModalProvider'
 import { useEffect } from 'react'
 import BotonBase from '@components/Botones/BotonBase'
@@ -36,7 +36,7 @@ export default function InstitutesAdd() {
 				description: error?.message || 'No se pudo crear el instituto.',
 				buttons: [
 					{
-						variant: 'aceptar',
+						variant: 'error',
 						onClick: () => {},
 					},
 				],
@@ -50,6 +50,10 @@ export default function InstitutesAdd() {
 
 	return (
 		<PageBase titulo="Agregar Nuevo Instituto">
+			<div className="mb-4">
+				<BotonBase variant="regresar" onClick={() => navigate(-1)} />
+			</div>
+
 			<div className="mx-auto max-w-lg">
 				<Card className="shadow-lg">
 					<Formulario

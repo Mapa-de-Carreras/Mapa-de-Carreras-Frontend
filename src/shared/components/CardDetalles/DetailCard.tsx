@@ -6,6 +6,7 @@ import {
     CardTitle,
     CardDescription,
     CardContent,
+    CardFooter,
 } from '@components/ui/card';
 import Titulo from '@components/Tipografia/Titulo'; // Asumo la ruta
 
@@ -35,17 +36,18 @@ export function DetailCard({
                 </CardTitle>
 
                 <CardDescription>{descripcion}</CardDescription>
+                <CardContent className="flex justify-center-safe gap-x-3">
+                {actions}
+                </CardContent>
 
-
-                <div className="flex flex-row flex-wrap justify-evenly items-center">
-                    {actions}
-                </div>
             </CardHeader>
             
-            {/* El contenido es genérico, viene de los 'children' */}
+            
             <CardContent className="flex flex-col gap-y-3 pt-6 py-4">
                 {children}
             </CardContent>
+
+            
         </Card>
     );
 }

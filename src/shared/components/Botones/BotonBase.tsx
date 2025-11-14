@@ -5,7 +5,7 @@ export type BotonBaseProps = {
 	children?: ReactNode
 	onClick?: () => void
 	className?: string
-	variant?: 'agregar' | 'guardar' | 'cancelar' | 'eliminar' | 'editar' | 'filtro' | 'default' | 'aceptar'
+	variant?: 'agregar' | 'guardar' | 'cancelar' | 'eliminar' | 'editar' | 'filtro' | 'default' | 'aceptar' | 'regresar' | 'error'
 }
 
 export default function BotonBase({
@@ -21,6 +21,8 @@ export default function BotonBase({
 		eliminar: 'icon-[mdi--trash-can]',
 		editar: 'icon-[ph--note-pencil]',
 		aceptar: 'icon-[mdi--check]',
+		error: 'icon-[mdi--alert-circle]',
+		regresar: 'icon-[mdi--arrow-left]',
 		filtro: '',
 		default: '',
 	}
@@ -33,6 +35,8 @@ export default function BotonBase({
 		editar: 'bg-editar hover:bg-editar-hover active:bg-editar-active',
 		filtro: 'bg-filtro',
 		aceptar: 'bg-aceptar hover:bg-aceptar-hover active:bg-aceptar-active',
+		error: 'bg-error hover:bg-error-hover active:bg-error-active',
+		regresar: 'bg-regresar hover:bg-regresar-hover active:bg-regresar-active',
 		default: 'bg-default',
 		
 	}
@@ -45,6 +49,8 @@ export default function BotonBase({
 		editar: 'Editar',
 		filtro: 'Filtros',
 		default: 'Click',
+		regresar: 'Regresar',
+		error: 'Entendido',
 		aceptar: 'Aceptar',
 	}
 
