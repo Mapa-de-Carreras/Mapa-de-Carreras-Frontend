@@ -3,7 +3,7 @@ import { URL_API } from "./constantes";
 import { useGet } from './hooks/useGet';
 
 const DETAIL_KEY_NAME = "useGetDocenteCarrera";
-
+const DOCENTE_DETALLE_KEY = "useGetDocenteDetalle";
 // --- GET (Detalle por ID) ---
 export function useGetDocenteCarrera(id: number) {
     return useGet<IDocente[]>({ 
@@ -12,4 +12,13 @@ export function useGetDocenteCarrera(id: number) {
         isEnabled: !!id, // Solo se ejecuta si hay ID
         params: { id },
     });
+}
+// --- GET detalle de un docente (retorna objeto) ---
+export function useGetDocenteDetalle(id: number) {
+  return useGet<IDocente>({
+    key: `${DOCENTE_DETALLE_KEY}-${id}`, 
+    urlApi: `${URL_API}docentes/${id}`,
+    isEnabled: !!id,
+    params: { id },
+  });
 }

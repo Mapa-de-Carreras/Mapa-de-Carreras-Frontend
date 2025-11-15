@@ -25,6 +25,7 @@ import InstitutesAdd from '@academic/InstitutesPage/InstitutesAdd'
 import InstitutesEdit from '@academic/InstitutesPage/InsitutesEdit'
 import DegreeAdd from '@academic/DegreePage/DegreeAdd'
 import DegreeEdit from '@academic/DegreePage/DegreeEdit'
+import DocenteDetalle from '../modules/Docentes/DocenteDetalle'
 
 export default function Router() {
 	const rutas: Route[] = [
@@ -89,6 +90,7 @@ export default function Router() {
 							children: [
 								{ path: 'gestion', label: 'Gestionar Docentes', icon: 'icon-[mdi--account-student]', menu: true, },
 								{ path: 'parametros', label: 'Parámetros de Régimen', icon: 'icon-[material-symbols--rule]', menu: true, },
+								{ path: 'detalle/:id', Component: DocenteDetalle, menu: false },
 							],
 							menu: true,
 						},

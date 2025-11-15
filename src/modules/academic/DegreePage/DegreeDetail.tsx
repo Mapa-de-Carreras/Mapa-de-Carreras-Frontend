@@ -2,20 +2,18 @@ import PageBase from "@components/PageBase/PageBase";
 import { data, useNavigate, useParams } from "react-router";
 import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
 
-// --- 1. Hooks de API y Lógica (Sin cambios) ---
+// --- 1. Hooks de API y Lógica  ---
 import { useGetCarrera, useDeleteCarrera } from "@apis/carreras";
 import { useModal } from "@components/Providers/ModalProvider"; 
 
-// --- 2. Componentes de UI de "Tu Código" ---
+// --- 2. Componentes de UI " ---
 import BotonBase from '@components/Botones/BotonBase';
 import { DetailCard } from '@components/CardDetalles/DetailCard';
-import { DetailField } from '@components/CardDetalles/DetailField'; // Asumo que tienes este
+import { DetailField } from '@components/CardDetalles/DetailField'; 
 import { DetailList } from '@components/CardDetalles/DetailList';
 import Icon from '@components/const/icons';
 import FeedCard from '@components/Tarjetas/FeedCard';
 import BotonDetalle from '@components/Botones/BotonDetalle';
-import { URL_API } from "@apis/constantes";
-import { useEffect } from "react";
 import { useGetDocenteCarrera } from "@apis/docentes";
 import {Accordion,AccordionItem,AccordionTrigger,AccordionContent} from "@components/ui/accordion";
 
@@ -38,6 +36,11 @@ export default function DegreeDetail() {
   const handleVerPlanEstudio = (idPlan: number) => {
    console.log("Ver plan de estudio id: ", idPlan);
    navigate("/academica/planes/detalle", { state: { id: idPlan } });
+  };
+
+  const handleVerDocente = (idDocente: number) => {
+   console.log("Ver plan de estudio id: ", idDocente);
+ navigate(`/docentes/detalle/${idDocente}`);
   };
 
   const handleConfirmDelete = () => {
@@ -178,9 +181,10 @@ export default function DegreeDetail() {
                     {docente && docente.length > 0 ? (
                         <ul className="space-y-2">
                         {docente.map((d) => (
-                        <li
+                       <li
                             key={d.id}
-                            className="border rounded-lg p-3 shadow-sm"
+                            onClick={() => handleVerDocente(d.usuario.id)}
+                            className="border rounded-lg p-3 shadow-sm cursor-pointer hover:opacity-90 transition"
                             style={{ backgroundColor: "oklch(28% 0.03 270)" }}
                             >
                             <p className="font-medium">
