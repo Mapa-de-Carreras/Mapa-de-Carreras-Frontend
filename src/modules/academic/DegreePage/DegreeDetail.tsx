@@ -1,6 +1,6 @@
 import PageBase from "@components/PageBase/PageBase";
-import { data, useNavigate, useParams } from "react-router";
-import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
+import { useNavigate, useParams } from "react-router";
+import ComponenteCarga from "@components/ComponenteCarga/Componentecarga";
 
 // --- 1. Hooks de API y Lógica  ---
 import { useGetCarrera, useDeleteCarrera } from "@apis/carreras";
@@ -82,7 +82,7 @@ export default function DegreeDetail() {
 
   // --- Renderizado (Loading y Error) ---
   if (loading || isDeleting) {
-    return <PantallaCarga mensaje="Cargando información de la carrera..." />;
+    return <ComponenteCarga mensaje="Cargando información de la carrera..." />;
   }
  
   if (error) {
@@ -118,7 +118,6 @@ export default function DegreeDetail() {
 
         <DetailCard
             titulo={`${carrera.codigo} - Detalles`}
-            // Usamos el mismo ícono que tenías en el 'span'
             icono={<Icon type="carrera" className="text-5xl" />}
             descripcion={carrera.nombre}
             actions={
@@ -151,7 +150,7 @@ export default function DegreeDetail() {
                   : "Sin asignar"}
             </DetailField>
 
-            {/* --- Lista de Planes --- */}
+            {/* --- Lista de Planes --- HACERLO UN COMPONENTE */}
             <DetailList label="Planes" scrollable={false}>
                 {carrera.planes && carrera.planes.length > 0 ? (
                     carrera.planes.map((plan) => (
@@ -171,7 +170,7 @@ export default function DegreeDetail() {
                 )}
             </DetailList>
   
-         {/* --- Docentes asignados --- */}
+         {/* --- Docentes asignados --- HACERLO UN COMPONENTE*/}
                 <Accordion type="single" collapsible className="mt-6">
                 <AccordionItem value="docentes">
                     <AccordionTrigger className="text-lg font-semibold">
