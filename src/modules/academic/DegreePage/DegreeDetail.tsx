@@ -169,40 +169,51 @@ export default function DegreeDetail() {
                     <p className="text-sm text-gray-500">Esta carrera no tiene planes de estudio asociados.</p>
                 )}
             </DetailList>
-  
-         {/* --- Docentes asignados --- HACERLO UN COMPONENTE*/}
-                <Accordion type="single" collapsible className="mt-6">
-                <AccordionItem value="docentes">
-                    <AccordionTrigger className="text-lg font-semibold">
-                    Docentes a Cargo
-                    </AccordionTrigger>
-                    <AccordionContent>
-                    {docente && docente.length > 0 ? (
-                        <ul className="space-y-2">
-                        {docente.map((d) => (
-                       <li
-                            key={d.id}
-                            onClick={() => handleVerDocente(d.usuario.id)}
-                            className="border rounded-lg p-3 shadow-sm cursor-pointer hover:opacity-90 transition"
-                            style={{ backgroundColor: "oklch(28% 0.03 270)" }}
-                            >
-                            <p className="font-medium">
-                                {d.usuario.first_name} {d.usuario.last_name}
-                            </p>
-                            <p className="text-sm text-gray-600">
-                                {d.usuario.email}
-                            </p>
-                            </li>
-                        ))}
-                        </ul>
-                    ) : (
-                        <p className="text-sm text-gray-500">
-                        No hay docentes asignados a esta carrera.
+                
+         {/* --- Docentes asignados --- */}
+            <Accordion type="single" collapsible className="mt-6">
+            <AccordionItem value="docentes">
+                <AccordionTrigger className="text-lg font-semibold text-foreground">
+                Docentes a Cargo
+                </AccordionTrigger>
+
+                <AccordionContent>
+                {docente && docente.length > 0 ? (
+                    <ul className="space-y-2">
+                    {docente.map((d) => (
+                        <li
+                        key={d.id}
+                        onClick={() => handleVerDocente(d.usuario.id)}
+                        className="
+                            border 
+                            rounded-lg 
+                            p-3 
+                            shadow-sm 
+                            cursor-pointer 
+                            transition
+                            bg-card 
+                            hover:bg-accent
+                            text-foreground
+                        "
+                        >
+                        <p className="font-medium text-foreground">
+                            {d.usuario.first_name} {d.usuario.last_name}
                         </p>
-                    )}
-                    </AccordionContent>
-                </AccordionItem>
-                </Accordion>
+
+                        <p className="text-sm text-muted-foreground">
+                            {d.usuario.email}
+                        </p>
+                        </li>
+                    ))}
+                    </ul>
+                ) : (
+                    <p className="text-sm text-muted-foreground">
+                    No hay docentes asignados a esta carrera.
+                    </p>
+                )}
+                </AccordionContent>
+            </AccordionItem>
+            </Accordion>
 
 
         </DetailCard>
