@@ -1,5 +1,5 @@
 import PageBase from "@components/PageBase/PageBase";
-import { useNavigate, useParams } from "react-router";
+import { data, useNavigate, useParams } from "react-router";
 import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
 
 // --- 1. Hooks de API y Lógica (Sin cambios) ---
@@ -14,6 +14,10 @@ import { DetailList } from '@components/CardDetalles/DetailList';
 import Icon from '@components/const/icons';
 import FeedCard from '@components/Tarjetas/FeedCard';
 import BotonDetalle from '@components/Botones/BotonDetalle';
+import { URL_API } from "@apis/constantes";
+import { useEffect } from "react";
+import { useGetDocenteCarrera } from "@apis/docentes";
+import {Accordion,AccordionItem,AccordionTrigger,AccordionContent} from "@components/ui/accordion";
 
 export default function DegreeDetail() {
   const { id } = useParams<{ id: string }>();
@@ -24,6 +28,7 @@ export default function DegreeDetail() {
   const { data: carrera, isLoading: loading, error } = useGetCarrera(Number(id));
   
   const { mutate: deleteCarrera, isPending: isDeleting } = useDeleteCarrera();
+  const { data: docente } = useGetDocenteCarrera(Number(id));
 
   // --- Handlers (Sin cambios) ---
   const handleEditar = () => {
@@ -97,10 +102,10 @@ export default function DegreeDetail() {
     );
   }
 
-  // --- 3. Renderizado Principal (Usando TUS componentes) ---
+  // --- 3. Renderizado Principal ) ---
   return (
     <PageBase>
-        {/* Botón Volver (como en tu InstitutesDetail) */}
+        {/* Botón Volver  */}
         <div className="mb-4">
             <BotonBase
                 variant="regresar"
@@ -127,7 +132,7 @@ export default function DegreeDetail() {
                 </>
             }
         >
-            {/* --- Campos de Detalle (reemplazando CardContent) --- */}
+            {/* --- Campos de Detalle --- */}
             <DetailField label="Instituto">
                 {carrera.instituto?.nombre || "No disponible"}
             </DetailField>
@@ -143,7 +148,7 @@ export default function DegreeDetail() {
                   : "Sin asignar"}
             </DetailField>
 
-            {/* --- Lista de Planes (como tu lista de Carreras en InstitutesDetail) --- */}
+            {/* --- Lista de Planes --- */}
             <DetailList label="Planes" scrollable={false}>
                 {carrera.planes && carrera.planes.length > 0 ? (
                     carrera.planes.map((plan) => (
@@ -162,6 +167,41 @@ export default function DegreeDetail() {
                     <p className="text-sm text-gray-500">Esta carrera no tiene planes de estudio asociados.</p>
                 )}
             </DetailList>
+  
+         {/* --- Docentes asignados --- */}
+                <Accordion type="single" collapsible className="mt-6">
+                <AccordionItem value="docentes">
+                    <AccordionTrigger className="text-lg font-semibold">
+                    Docentes a Cargo
+                    </AccordionTrigger>
+                    <AccordionContent>
+                    {docente && docente.length > 0 ? (
+                        <ul className="space-y-2">
+                        {docente.map((d) => (
+                        <li
+                            key={d.id}
+                            className="border rounded-lg p-3 shadow-sm"
+                            style={{ backgroundColor: "oklch(28% 0.03 270)" }}
+                            >
+                            <p className="font-medium">
+                                {d.usuario.first_name} {d.usuario.last_name}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                                {d.usuario.email}
+                            </p>
+                            </li>
+                        ))}
+                        </ul>
+                    ) : (
+                        <p className="text-sm text-gray-500">
+                        No hay docentes asignados a esta carrera.
+                        </p>
+                    )}
+                    </AccordionContent>
+                </AccordionItem>
+                </Accordion>
+
+
         </DetailCard>
     </PageBase>
   );
