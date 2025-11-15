@@ -3,51 +3,53 @@ import { URL_API } from "./constantes";
 import { useGet } from './hooks/useGet';
 import { usePostMutation, usePutMutation, useDeleteMutation } from '@apis/hooks/useMutation';
 
-const LIST_KEY = "useGetInstitutos";
-const LIST_KEY_NAME = "useGetInstitutos";
-const DETAIL_KEY_NAME = "useGetInstituto";
 
-// --- GET (Listado) ---
+export const GET_INSTITUTOS_KEY = "useGetInstitutos";
 export default function useGetInstitutos() {
     return useGet<Instituto[]>({
-        key: LIST_KEY, // <-- Usa la key
+        key: GET_INSTITUTOS_KEY, 
         urlApi: `${URL_API}institutos`,
         isEnabled: true,
         params: {},
     });
 }
 
-// --- GET (Detalle por ID) ---
+
+export const GET_INSTITUTO_KEY = "useGetInstituto";
 export function useGetInstituto(id: number) {
     return useGet<Instituto>({
-        key: DETAIL_KEY_NAME,
+        key: GET_INSTITUTO_KEY,
         urlApi: `${URL_API}institutos/${id}`,
-        isEnabled: !!id, // Solo se ejecuta si hay ID
+        isEnabled: !!id,
         params: { id },
     });
 }
 
-// --- POST (Crear) ---
+
+const POST_INSTITUTO_INVALIDATES = [GET_INSTITUTOS_KEY];
 export function usePostInstituto() {
     return usePostMutation(
-        `${URL_API}institutos/`, // URL Completa para POST
-        [LIST_KEY]               // Key de la lista a refrescar
+        `${URL_API}institutos/`, 
+        POST_INSTITUTO_INVALIDATES 
     );
 }
 
-// --- PUT (Actualizar) ---
+
+const PUT_INSTITUTO_INVALIDATES_LIST = [GET_INSTITUTOS_KEY];
+const PUT_INSTITUTO_INVALIDATES_DETAIL = GET_INSTITUTO_KEY;
 export function usePutInstituto() {
     return usePutMutation(
-        `${URL_API}institutos`,  // 1. urlApiBase
-        [LIST_KEY_NAME],         // 2. listQueryKey (la de la lista)
-        DETAIL_KEY_NAME          // 3. detailKeyBase (el nombre de la key de detalle)
+        `${URL_API}institutos`,
+        PUT_INSTITUTO_INVALIDATES_LIST,
+        PUT_INSTITUTO_INVALIDATES_DETAIL 
     );
 }
 
-// --- DELETE (Borrar) ---
+
+const DELETE_INSTITUTO_INVALIDATES = [GET_INSTITUTOS_KEY];
 export function useDeleteInstituto() {
     return useDeleteMutation(
-        `${URL_API}institutos`, // URL Base (el hook le pondrá /id/)
-        [LIST_KEY]              // Key de la lista a refrescar
+        `${URL_API}institutos`,
+        DELETE_INSTITUTO_INVALIDATES 
     );
 }
