@@ -3,16 +3,18 @@ import logoutRequest from '@services/auth/logout'
 import { refreshRequest } from '@services/auth/refresh'
 import { AuthContextType, User } from '@services/auth/types'
 import { createContext, ReactNode, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 interface AuthProviderProps {
 	children: ReactNode
 }
-
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export function AuthProvider({ children }: AuthProviderProps) {
 	const [user, setUser] = useState<User | null>(null)
 	const [loading, setLoading] = useState(true)
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const initializeAuth = async () => {
@@ -59,15 +61,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		)
 
 		return () => clearInterval(interval)
+		// NO necesita el refresh como dependencia
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user])
 
-	const login = async (username: string, password: string) => {
+	const login = async (username: string, password: string, onError: (_error: Error) => void) => {
 		try {
 			const userData = await loginRequest(username, password)
-			setUser(userData)
+			setUser(userData);
+			const redirectPath = localStorage.getItem("redirectAfterLogin") || "/";
+			localStorage.removeItem("redirectAfterLogin");
+			navigate(redirectPath, { replace: true });
 		} catch (err) {
-			if (err instanceof Error) throw new Error(err.message)
-			throw new Error('Error inesperado en el inicio de sesión.')
+			if (err instanceof Error) onError(new Error(err.message))
+			else onError(new Error('Error inesperado en el inicio de sesión.'))
 		}
 	}
 

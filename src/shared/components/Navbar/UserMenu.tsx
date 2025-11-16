@@ -1,6 +1,6 @@
 import { URL_API } from '@apis/constantes'
 import useAuth from '@components/hooks/useAuth'
-import { UserSettingMenu } from '@components/Menus/UserSettingsMenu'
+import { useTheme } from '@hooks/useTheme'
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
 import {
 	DropdownMenu,
@@ -49,6 +49,7 @@ import { useNavigate } from 'react-router'
 	export function UserMenu({ collapsed, side, align, className }: UserMenuProps) {
 	const navigate = useNavigate()
 	const { logout } = useAuth()
+	const { theme, toggleTheme } = useTheme();
 
 	const [usuario, setUsuario] = useState<any>(null)
 	const [loading, setLoading] = useState<boolean>(false)
@@ -153,7 +154,12 @@ import { useNavigate } from 'react-router'
 			<DropDownItem icon="icon-[lucide--user]" onClick={handleIrPerfil}>
 			Perfil
 			</DropDownItem>
-			<UserSettingMenu />
+			<DropDownItem
+				icon={theme.includes("dark") ? "icon-[mynaui--sun-solid]" : "icon-[lucide--moon]"}
+				onClick={toggleTheme}
+			>
+				Tema {theme.includes("dark") ? "Claro" : "Oscuro"}
+			</DropDownItem>
 			<DropDownItem
 			icon="icon-[lucide--log-out]"
 			className="text-destructive focus:text-destructive"

@@ -1,5 +1,4 @@
 import App from '@components/App/App'
-import LoginPage from '@users/LoginPage/LoginPage'
 import Home from './Home'
 import ProtectedRoute from '@components/Providers/ProtectRouter'
 import GuestRoute from '@components/Providers/GuestRoute'
@@ -29,6 +28,7 @@ import DocenteDetalle from '../modules/Docentes/DocenteDetalle'
 import PaginaDocentes from '../modules/Docentes/PaginaDocentes'
 import CrearDocente from '../modules/Docentes/CrearDocente'
 import EditarDocente from '../modules/Docentes/EditarDocente'
+import PaginaIniciarSesion from '@usuarios/PaginaIniciarSesion/PaginaIniciarSesion'
 
 export default function Router() {
 	const rutas: Route[] = [
@@ -36,7 +36,7 @@ export default function Router() {
 			path: '/authentication',
 			element: <GuestRoute />,
 			children: [
-				{ path: 'login', Component: LoginPage },
+				{ path: 'login', Component: PaginaIniciarSesion },
 				{ path: 'reuser', Component: RecoverUsername },
 				{ path: 'repass1', Component: RecoverPassword1 },
 				{ path: 'repass2', Component: RecoverPassword2 },
