@@ -5,7 +5,12 @@ export type BotonBaseProps = {
 	children?: ReactNode
 	onClick?: () => void
 	className?: string
-	variant?: 'agregar' | 'guardar' | 'cancelar' | 'eliminar' | 'editar' | 'filtro' | 'default' | 'aceptar' | 'regresar' | 'error'
+	type?: "button" | "submit" | "reset"
+	variant?:
+		'agregar' | 'guardar' | 'cancelar' |
+		'eliminar' | 'editar' | 'filtro' |
+		'default' | 'aceptar' | 'regresar' |
+		'error'
 }
 
 export default function BotonBase({
@@ -13,6 +18,7 @@ export default function BotonBase({
 	onClick,
 	className = '',
 	variant = 'default',
+	type = 'button',
 }: BotonBaseProps) {
 	const iconsVariants = {
 		agregar: 'icon-[mdi--plus]',
@@ -37,8 +43,7 @@ export default function BotonBase({
 		aceptar: 'bg-aceptar hover:bg-aceptar-hover active:bg-aceptar-active',
 		error: 'bg-error hover:bg-error-hover active:bg-error-active',
 		regresar: 'bg-regresar hover:bg-regresar-hover active:bg-regresar-active',
-		default: 'bg-default',
-		
+		default: 'bg-default hover:bg-default-hover active:bg-default-active',
 	}
 
 	const textVariants = {
@@ -58,7 +63,7 @@ export default function BotonBase({
 		<Button
 			className={`cursor-pointer text-white ${colorVariants[variant]} ${className}`}
 			onClick={onClick}
-			type="button"
+			type={type}
 		>
 			{variant !== 'default' && <span className={`text-2xl ${iconsVariants[variant]} `} />}
 			{children || textVariants[variant]}
