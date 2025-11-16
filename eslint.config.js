@@ -7,50 +7,62 @@ import tseslint from 'typescript-eslint'
 import { defineConfig } from 'eslint/config'
 
 export default defineConfig([
+	js.configs.recommended,
 
-  js.configs.recommended,
+	...tseslint.configs.recommended,
 
-  ...tseslint.configs.recommended,
+	{
+		files: ['src/**/*.{ts,tsx}'],
+		plugins: {
+			react: pluginReact,
+			'react-hooks': pluginReactHooks,
+			'react-refresh': pluginReactRefresh,
+		},
 
-  {
-    files: ["src/**/*.{ts,tsx}"],
-    plugins:{
-      "react": pluginReact,
-      "react-hooks": pluginReactHooks,
-      "react-refresh": pluginReactRefresh
-    },
+		languageOptions: {
+			globals: {
+				...globals.browser,
+			},
+		},
 
-    languageOptions: {
-      globals: {
-        ...globals.browser
-      }
-    },
+		rules: {
+			...pluginReact.configs.recommended.rules,
+			...pluginReactHooks.configs.recommended.rules,
+			// Reglas para advertir el no uso de variables.
+			'no-unused-vars': [
+				'warn',
+				{
+					vars: 'all',
+					args: 'after-used',
+					ignoreRestSiblings: true,
+					argsIgnorePattern: '^_',
+					varsIgnorePattern: '^_',
+				},
+			],
+			'@typescript-eslint/no-unused-vars': [
+				'warn',
+				{
+					vars: 'all',
+					args: 'after-used',
+					ignoreRestSiblings: true,
+					argsIgnorePattern: '^_',
+					varsIgnorePattern: '^_',
+				},
+			],
 
-    rules: {
-      ...pluginReact.configs.recommended.rules,
-      ...pluginReactHooks.configs.recommended.rules,
+			'react-refresh/only-export-components': 'warn',
+			'react/react-in-jsx-scope': 'off',
+			'react/jsx-uses-react': 'off',
+		},
 
-      "react-refresh/only-export-components":"warn",
-      "react/react-in-jsx-scope":"off",
-      "react/jsx-uses-react":"off"
-    },
+		settings: {
+			react: {
+				version: 'detect',
+			},
+		},
+	},
 
-    settings: {
-      react: {
-        version: "detect"
-      }
-    }
-
-  },
-
-  {
-    ignores: [
-      "dist/",
-      "node_modules/",
-      ".git/",
-      "docker-compose*.yml",
-      "eslint.config.js"
-    ]
-  }
-  
-]);
+	{
+		ignores: ['dist/', 'node_modules/', '.git/', 'docker-compose*.yml', 'eslint.config.js'],
+	},
+])

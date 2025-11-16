@@ -39,6 +39,7 @@
       "@statistics/*":["./src/modules/statistics/*"],
       "@teachers/*":["./src/modules/teachers/*"],
       "@users/*":["./src/modules/users/*"],
+      "@usuarios/*":["./src/modules/usuarios/*"],
     }
   },
   "include": ["src", "vite.config.ts"],
