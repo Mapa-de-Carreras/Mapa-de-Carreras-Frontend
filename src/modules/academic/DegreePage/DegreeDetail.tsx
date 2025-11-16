@@ -39,7 +39,7 @@ export default function DegreeDetail() {
   };
 
   const handleVerDocente = (idDocente: number) => {
-   console.log("Ver plan de estudio id: ", idDocente);
+   console.log("Ver docente id: ", idDocente);
  navigate(`/docentes/detalle/${idDocente}`);
   };
 

@@ -11,10 +11,10 @@ interface IAsignatura {
   codigo: string;
   nombre: string;
   activo: boolean;
-  correlativa?: {
+  correlativas: {
     id: number;
     nombre: string;
-  } | null;
+  }[];
 }
 
 interface IPlanEstudio {
@@ -24,7 +24,6 @@ interface IPlanEstudio {
   documento: string;
   asignaturas: IAsignatura[];
 }
-
 export default function PlanEstudioDetalle() {
   const location = useLocation();
   const { id } = (location.state as { id: number }) || {};
@@ -80,25 +79,43 @@ export default function PlanEstudioDetalle() {
     );
   }
 
-  const handleVerAsignatura = (id: number) => {
-    navigate("/academica/asignaturas/detalle", { state: { id } });
+ const handleVerAsignatura = (asignaturaId: number) => {
+    navigate("/academica/asignaturas/detalle", { 
+      state: { 
+        asignaturaId,
+        planId: plan?.id
+      }
+    });
   };
 
-  return (
+return (
     <PageBase>
       {plan && (
-        <div className="flex flex-col items-center justify-start min-h-screen bg-gray-50 px-4 sm:px-6 md:px-10 lg:px-20 py-10">
-          <Card className="w-full max-w-4xl bg-white rounded-2xl shadow-lg border border-gray-200 p-6 md:p-8">
+        <div className="flex flex-col items-center justify-start min-h-screen 
+                        bg-gray-50 dark:bg-gray-900 
+                        px-4 sm:px-6 md:px-10 lg:px-20 py-10">
+          
+          <Card className="w-full max-w-4xl 
+                          bg-white dark:bg-gray-800 
+                          rounded-2xl shadow-lg 
+                          border border-gray-300 dark:border-gray-700 
+                          p-6 md:p-8">
+            
             <CardHeader className="flex flex-col items-center text-center">
               <div className="flex flex-col items-center justify-center gap-3">
+                
                 <span
-                  className="icon-[mdi--book-education-outline] text-black text-[60px]"
-                  aria-label="Plan de estudio"
+                  className="icon-[mdi--book-education-outline] 
+                            text-gray-900 dark:text-gray-100 
+                            text-[60px]"
                 />
-                <CardTitle className="text-2xl sm:text-3xl font-bold text-black">
+
+                <CardTitle className="text-2xl sm:text-3xl font-bold 
+                                      text-gray-900 dark:text-gray-100">
                   {plan.documento || "Plan sin nombre"}
                 </CardTitle>
-                <p className="text-gray-600 text-base">
+
+                <p className="text-gray-600 dark:text-gray-300 text-base">
                   Vigente: {plan.esta_vigente ? "Sí" : "No"} | Inicio:{" "}
                   {new Date(plan.fecha_inicio).toLocaleDateString()}
                 </p>
@@ -106,39 +123,74 @@ export default function PlanEstudioDetalle() {
             </CardHeader>
 
             <CardContent className="mt-6 space-y-6">
-              <h3 className="text-xl font-semibold text-black text-center">
+              <h3 className="text-xl font-semibold 
+                            text-gray-900 dark:text-gray-100 
+                            text-center">
                 Asignaturas y correlativas
               </h3>
 
               <div className="overflow-x-auto">
-                <table className="min-w-full border border-gray-300 rounded-xl overflow-hidden">
-                  <thead className="bg-gray-100">
+                <table className="min-w-full border 
+                                  border-gray-300 dark:border-gray-700 
+                                  rounded-xl overflow-hidden">
+                  
+                  <thead className="bg-gray-100 dark:bg-gray-700">
                     <tr>
-                      <th className="px-4 py-3 text-left text-gray-700 font-semibold border-b border-gray-300">
+                      <th className="px-4 py-3 text-left 
+                                    text-gray-700 dark:text-gray-200 
+                                    font-semibold 
+                                    border-b border-gray-300 dark:border-gray-600">
                         Asignatura
                       </th>
-                      <th className="px-4 py-3 text-left text-gray-700 font-semibold border-b border-gray-300">
+                      <th className="px-4 py-3 text-left 
+                                    text-gray-700 dark:text-gray-200 
+                                    font-semibold 
+                                    border-b border-gray-300 dark:border-gray-600">
                         Correlativa
                       </th>
                     </tr>
                   </thead>
+
                   <tbody>
                     {plan.asignaturas && plan.asignaturas.length > 0 ? (
                       plan.asignaturas.map((a) => (
                         <tr
                           key={a.id}
-                          className="hover:bg-gray-50 transition cursor-pointer"
+                          className="hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer"
                         >
+                          {/* Asignatura */}
                           <td
-                            className="px-4 py-3 border-b border-gray-200 text-gray-700 hover:underline"
+                            className="px-4 py-3 
+                                      border-b border-gray-200 dark:border-gray-700 
+                                      text-gray-700 dark:text-gray-200 
+                                      hover:underline"
                             onClick={() => handleVerAsignatura(a.id)}
                           >
                             {a.nombre}
                           </td>
-                          <td className="px-4 py-3 border-b border-gray-200 text-gray-800">
-                            {a.correlativa
-                              ? a.correlativa.nombre
-                              : "— Sin correlativa —"}
+
+                          {/* Correlativas */}
+                          <td className="px-4 py-3 
+                                        border-b border-gray-200 dark:border-gray-700 
+                                        text-gray-800 dark:text-gray-200">
+                            {a.correlativas.length > 0 ? (
+                              <div className="flex flex-col gap-1">
+                                {a.correlativas.map((c) => (
+                                  <span
+                                    key={c.id}
+                                    className="hover:underline cursor-pointer 
+                                              text-gray-800 dark:text-gray-300"
+                                    onClick={() => handleVerAsignatura(c.id)}
+                                  >
+                                    {c.nombre}
+                                  </span>
+                                ))}
+                              </div>
+                            ) : (
+                              <span className="text-gray-600 dark:text-gray-400">
+                                — Sin correlativas —
+                              </span>
+                            )}
                           </td>
                         </tr>
                       ))
@@ -146,7 +198,10 @@ export default function PlanEstudioDetalle() {
                       <tr>
                         <td
                           colSpan={2}
-                          className="text-center text-gray-600 py-4 border-b border-gray-200"
+                          className="text-center 
+                                    text-gray-600 dark:text-gray-400 
+                                    py-4 
+                                    border-b border-gray-200 dark:border-gray-700"
                         >
                           No hay asignaturas registradas.
                         </td>
@@ -162,11 +217,9 @@ export default function PlanEstudioDetalle() {
                 texto="Volver"
                 color="#49454F"
                 icono={
-                  <span className="w-6 h-6 flex items-center justify-center text-white text-xl">
-                    <span
-                      className="icon-[mdi--arrow-left]"
-                      aria-label="Volver"
-                    />
+                  <span className="w-6 h-6 flex items-center justify-center 
+                                  text-white dark:text-white text-xl">
+                    <span className="icon-[mdi--arrow-left]" />
                   </span>
                 }
                 onClick={() => navigate(-1)}
@@ -177,4 +230,5 @@ export default function PlanEstudioDetalle() {
       )}
     </PageBase>
   );
+
 }
