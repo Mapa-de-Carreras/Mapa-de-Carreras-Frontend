@@ -12,7 +12,11 @@ export interface LoginResponse {
 
 export interface AuthContextType {
     user: User | null;
-    login: (username: string, password: string) => Promise<void>;
+    login: (
+        _username: string,
+        _password: string,
+        _onError: (_error: Error) => void
+    ) => Promise<void>;
     logout: () => Promise<void>;
-    refresh: (token: string) => Promise<void>;
+    refresh: (_token: string) => Promise<void>;
 }
