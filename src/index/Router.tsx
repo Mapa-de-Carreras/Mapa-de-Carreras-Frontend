@@ -28,6 +28,7 @@ import DegreeEdit from '@academic/DegreePage/DegreeEdit'
 import DocenteDetalle from '../modules/Docentes/DocenteDetalle'
 import PaginaDocentes from '../modules/Docentes/PaginaDocentes'
 import CrearDocente from '../modules/Docentes/CrearDocente'
+import EditarDocente from '../modules/Docentes/EditarDocente'
 
 export default function Router() {
 	const rutas: Route[] = [
@@ -94,6 +95,7 @@ export default function Router() {
 								{ path: 'parametros', label: 'Parámetros de Régimen', icon: 'icon-[material-symbols--rule]', menu: true, },
 								{ path: 'detalle/:id', Component: DocenteDetalle, menu: false },
 								{ path: 'agregar', Component: CrearDocente, menu: false },
+								{ path: 'editar', Component: EditarDocente, menu: false },
 							],
 							menu: true,
 						},

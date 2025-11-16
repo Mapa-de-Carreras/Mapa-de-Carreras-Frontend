@@ -12,6 +12,7 @@ export interface IDocente {
   modalidad: string | null;
   caracter: string | null;
   dedicacion: string | null;
+  activo: boolean,
   cantidad_materias: number;
 
   designaciones: {
