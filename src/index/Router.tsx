@@ -8,7 +8,6 @@ import RecoverUsername from '@users/RecoverUserName/RecoverUsername'
 import RecoverPassword1 from '@users/RecoverPassword/RecoverPassword1'
 import RecoverPassword2 from '@users/RecoverPassword/RecoverPassword2'
 import RecoverPassword3 from '@users/RecoverPassword/RecoverPassword3'
-import LogoutPage from '@users/LogoutPage/LogoutPage'
 import UserCreate from '@users/UserCreate/UserCreate'
 import UserDetail from '@users/UserDetail/UserDetail'
 import UserEdit from '@users/UserEdit/UserEdit'
@@ -29,6 +28,7 @@ import PaginaDocentes from '../modules/Docentes/PaginaDocentes'
 import CrearDocente from '../modules/Docentes/CrearDocente'
 import EditarDocente from '../modules/Docentes/EditarDocente'
 import PaginaIniciarSesion from '@usuarios/PaginaIniciarSesion/PaginaIniciarSesion'
+import PaginaUsuarios from '@usuarios/PaginaUsuarios/PaginaUsuarios'
 
 export default function Router() {
 	const rutas: Route[] = [
@@ -57,7 +57,7 @@ export default function Router() {
 							label: 'Administración',
 							icon: 'icon-[eos-icons--admin-outlined]',
 							children: [
-								{ path: 'usuarios', label: 'Usuarios', icon: 'icon-[mdi--user-group]', Component: LogoutPage, menu: true, },
+								{ path: 'usuarios', label: 'Usuarios', icon: 'icon-[mdi--user-group]', Component: PaginaUsuarios, menu: true, },
 								{ path: 'usuarios/crear', Component: UserCreate, menu: false },
 								{ path: 'usuarios/detalle', Component: UserDetail, menu: false },
 								{ path: 'usuarios/editar', Component: UserEdit, menu: false },

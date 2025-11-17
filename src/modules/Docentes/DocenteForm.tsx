@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import useGetCaracteres from "@apis/caracteres";
 import useGetModalidades from "@apis/modalidades";
-import useGetUsuarios from "@apis/usuarios";
+import { useGetUsuarios } from "@apis/usuarios";
 import { Input } from "@components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@components/ui/select";
 import BotonGenerico from "@components/Botones/BotonGenerico";
