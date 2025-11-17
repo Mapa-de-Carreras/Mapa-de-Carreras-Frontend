@@ -12,6 +12,7 @@ import { useState } from 'react'
 import EncabezadoTabla from './componentes/EncabezadoTabla'
 import ColumnasTabla from './componentes/ColumnasTabla'
 import FilasTabla from './componentes/FilasTabla'
+import enhanceColumns from './componentes/enhanceColumns'
 
 interface TablaProps<TData, TValue> {
 	columnas: ColumnDef<TData, TValue>[]
@@ -21,6 +22,7 @@ interface TablaProps<TData, TValue> {
 	habilitarBuscador?: boolean
 	habilitarPaginado?: boolean
 	columnasFijas?: boolean // Indica si las columnas tienen todas el mismo tamaño, si es false debe indicar el tamaño con size
+	handleAccion?: (_row: TData) => void
 }
 
 export function Tabla<TData, TValue>({
@@ -31,12 +33,13 @@ export function Tabla<TData, TValue>({
 	habilitarBuscador = false,
 	habilitarPaginado = false,
 	columnasFijas = true,
+	handleAccion,
 }: TablaProps<TData, TValue>) {
 	const [sorting, setSorting] = useState<SortingState>([])
 	const [globalFilter, setGlobalFilter] = useState('')
 	const tabla = useReactTable({
 		data,
-		columns: columnas,
+		columns: handleAccion ? enhanceColumns<TData, TValue>(columnas, { onActionClick: handleAccion,}) : columnas,
 		state: {
 			sorting,
 			globalFilter,
