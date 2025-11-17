@@ -22,13 +22,13 @@ export default function Listado<TOrden, TData>({
     mensajeSinDatos = "No hay datos disponibles",
 }: ListadoProps<TOrden, TData>) {
 	return (
-		<div className="flex flex-col">
+		<div className="flex flex-col gap-2 items-start">
             {onClick && <BotonBase variant="agregar" onClick={onClick} />}
             {(orderData.length > 0 && orderKey && compareTo) ? (
                 orderData.map((order) => {
                     const dataFiltered = data.filter((element) => compareTo(order, element));
                     return (
-                        <div key={orderKey(order)}>
+                        <div key={orderKey(order)} className="w-full">
                             <h2 className="py-4 text-2xl font-semibold">{orderKey(order)}</h2>
                             {dataFiltered.length ? (
                                 <div className="flex flex-col gap-4">
@@ -43,7 +43,7 @@ export default function Listado<TOrden, TData>({
                     );
                 })
             ) : (
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 w-full">
                     {data.map((data) => dataRender(data))}
                 </div>
             )}
