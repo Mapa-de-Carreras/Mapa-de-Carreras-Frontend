@@ -17,7 +17,7 @@ interface CampoInputProps {
 	placeholder?: string
 	descripcion?: string
 	obligatorio?: boolean
-	type?: 'text' | 'password' | 'email'
+	type?: React.InputHTMLAttributes<HTMLInputElement>['type'] 
 	icono?: ReactNode
 	adorno?: ReactNode
 	autoComplete?: string

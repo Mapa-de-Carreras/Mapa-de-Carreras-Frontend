@@ -29,6 +29,8 @@ import CrearDocente from '../modules/Docentes/CrearDocente'
 import EditarDocente from '../modules/Docentes/EditarDocente'
 import PaginaIniciarSesion from '@usuarios/PaginaIniciarSesion/PaginaIniciarSesion'
 import PaginaUsuarios from '@usuarios/PaginaUsuarios/PaginaUsuarios'
+import PlanEstudioAgregar from '@academic/PlanDeEstudio/PlanEstudioAgregar'
+import PaginaPlanEstudio from '@academic/PlanDeEstudio/PaginaPlanEstudio'
 
 export default function Router() {
 	const rutas: Route[] = [
@@ -81,8 +83,9 @@ export default function Router() {
 								{ path: 'carreras/editar/:id', Component: DegreeEdit, menu: false },
 								{ path: 'asignaturas', label: 'Asignaturas', icon: 'icon-[octicon--book-16]', Component: SubjectPage, menu: true,},
 								{ path: 'asignaturas/detalle', Component: AsignaturaDetalle, menu: false },
-								{ path: 'planes', label: 'Planes de Estudio', icon: 'icon-[basil--document-outline]', menu: true, },
+								{ path: 'planes', label: 'Planes de Estudio',Component:PaginaPlanEstudio, icon: 'icon-[basil--document-outline]', menu: true, },
 								{ path: 'planes/detalle', Component: PlanEstudioDetalle, menu: false },
+								{ path: 'planes/agregar', Component: PlanEstudioAgregar, menu: false },
 							],
 							menu: true,
 						},

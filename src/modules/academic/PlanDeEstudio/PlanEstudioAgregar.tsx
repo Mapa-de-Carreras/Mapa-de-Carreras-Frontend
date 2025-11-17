@@ -1,0 +1,134 @@
+import { useNavigate } from 'react-router';
+import { Formulario } from '@components/Formularios/Formulario';
+import { CampoInput } from '@components/Formularios/CampoInput';
+import { CampoSelect } from '@components/Formularios/CampoSelect'; 
+import PageBase from '@components/PageBase/PageBase';
+import BotonBase from '@components/Botones/BotonBase';
+import { Card, CardContent, CardFooter } from '@components/ui/card';
+import useGetCarreras from '@apis/carreras';
+import ModalGenerico from '@components/Modal/ModalGenerico';
+import { useState } from 'react';
+import PantallaCarga from '@components/PantallaCarga/PantallaCarga';
+import BotonGenerico from '@components/Botones/BotonGenerico';
+import { URL_API } from '@apis/constantes';
+
+export default function PlanEstudioAgregar() {
+    const navigate = useNavigate();
+    const { data: carreras, isLoading: loading, error } = useGetCarreras()
+    const [mostrarModal, setMostrarModal] = useState(false);
+
+  const handleCerrarModal = () => {
+    setMostrarModal(false);
+    navigate("/docentes/gestion");
+  };
+  
+    const valoresIniciales = {
+        fecha_inicio: "",
+        esta_vigente: true,
+        carrera_id: "",
+        documento_id: "",
+    };
+
+    const documentos = [
+        { id: 1, nombre: "Resolución 2025" }
+    ];
+
+    const handleSubmit = async (data: any) => {
+        const token = localStorage.getItem("access_token");
+        const res = await fetch(`${URL_API}planes/`, {
+            method: "POST",
+             headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!res.ok) {
+            console.error("Error al guardar Plan de Estudio");
+            return;
+        }
+
+        navigate(-1);
+    };
+
+    return (
+        <PageBase titulo="Crear Plan de Estudio">
+         {loading && <PantallaCarga mensaje="Cargando..." />}
+            <div className="mb-4">
+                <BotonBase variant="regresar" onClick={() => navigate(-1)} />
+            </div>
+
+            <div className="mx-auto max-w-lg">
+                <Card className="shadow-lg">
+                    <Formulario
+                        onSubmit={handleSubmit}
+                        valoresIniciales={valoresIniciales}
+                    >
+                        <CardContent className="space-y-4 pt-6">
+                            
+                            <CampoInput
+                                label="Fecha de Inicio"
+                                nombre="fecha_inicio"
+                                type="date"
+                            />
+
+                            <CampoSelect
+                                label="Está vigente"
+                                nombre="esta_vigente"
+                                options={[
+                                    { value: "true", label: "Sí" },
+                                    { value: "false", label: "No" }
+                                ]}
+                            />
+
+                            <CampoSelect
+                                label="Carrera"
+                                nombre="carrera_id"
+                                options={carreras?.map(c => ({
+                                    value: c.id.toString(),
+                                    label: c.nombre
+                                })) || []}
+                                placeholder="Seleccione una carrera..."
+                                disabled={loading}
+                            />
+    
+                            <CampoSelect
+                                label="Documento"
+                                nombre="documento_id"
+                                options={documentos?.map(d => ({
+                                    value: d.id.toString(),
+                                    label: d.nombre
+                                })) || []}
+                                placeholder="Seleccione un documento..."
+                                disabled={loading}
+                            />
+                        </CardContent>
+                        <CardFooter className="flex justify-between">
+                       
+
+                            <BotonGenerico
+                                       texto="Guardar"
+                                       icono={<span className="icon-[mdi--content-save] text-xl" />}
+                                       color="#47ADA4"
+                                       type="submit"
+                                       />
+                        </CardFooter>
+                    </Formulario>
+                </Card>
+            </div>
+               <ModalGenerico
+                    abierto={mostrarModal}
+                    onClose={handleCerrarModal}
+                    icono={
+                      <span className="icon-[mdi--check-bold] text-green-600 text-5xl" />
+                    }
+                    titulo="Éxito"
+                    mensaje="Plan de estudio creado correctamente."
+                    textoBoton="Aceptar"
+                    colorBoton="#47ADA4"
+                    onConfirmar={handleCerrarModal}
+                  />
+        </PageBase>
+    );
+}
