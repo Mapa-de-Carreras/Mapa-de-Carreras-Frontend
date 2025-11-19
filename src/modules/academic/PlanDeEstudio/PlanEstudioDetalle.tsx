@@ -1,75 +1,18 @@
 import PageBase from "@components/PageBase/PageBase";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import BotonGenerico from "@components/Botones/BotonGenerico";
-import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
-import { URL_API } from "@apis/constantes";
+import { useGetPlanDetalle } from "@apis/planestudio";
 
-interface IAsignatura {
-  id: number;
-  codigo: string;
-  nombre: string;
-  activo: boolean;
-  correlativas: {
-    id: number;
-    nombre: string;
-  }[];
-}
-
-interface IPlanEstudio {
-  id: number;
-  fecha_inicio: string;
-  esta_vigente: boolean;
-  documento: string;
-  asignaturas: IAsignatura[];
-}
 export default function PlanEstudioDetalle() {
   const location = useLocation();
   const { id } = (location.state as { id: number }) || {};
   const navigate = useNavigate();
 
-  const [plan, setPlan] = useState<IPlanEstudio | null>(null);
+  const { data: plan} = useGetPlanDetalle(id);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchPlanEstudio = async () => {
-      const token = localStorage.getItem("access_token");
-      if (!token) {
-        setError("Token no encontrado. Inicie sesión nuevamente.");
-        setLoading(false);
-        return;
-      }
-
-      try {
-        setLoading(true);
-        const res = await fetch(`${URL_API}planes/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!res.ok) throw new Error("Error al obtener el plan de estudio");
-        const data = await res.json();
-        console.log("Plan de estudio obtenido:", data);
-        setPlan(data);
-      } catch (err) {
-        console.error(err);
-        setError("No se pudo cargar la información del plan de estudio.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPlanEstudio();
-  }, [id]);
-
-  if (loading) {
-    return <PantallaCarga mensaje="Cargando plan de estudio..." />;
-  }
 
   if (error) {
     return (
@@ -110,10 +53,12 @@ return (
                             text-[60px]"
                 />
 
-                <CardTitle className="text-2xl sm:text-3xl font-bold 
-                                      text-gray-900 dark:text-gray-100">
-                  {plan.documento || "Plan sin nombre"}
-                </CardTitle>
+              <CardTitle className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">
+                {plan.documento
+                  ? `${plan.documento.tipo} ${plan.documento.emisor} Nº ${plan.documento.numero}/${plan.documento.anio}`
+                  : "Plan sin nombre"
+                }
+              </CardTitle>
 
                 <p className="text-gray-600 dark:text-gray-300 text-base">
                   Vigente: {plan.esta_vigente ? "Sí" : "No"} | Inicio:{" "}

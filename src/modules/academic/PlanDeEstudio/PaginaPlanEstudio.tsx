@@ -44,7 +44,9 @@ export default function PaginaPlanEstudio() {
               "
             >
               <p className="font-semibold text-foreground">
-                Plan #{p.id}
+                {p.documento
+                ? `${p.documento.tipo} ${p.documento.emisor} Nº ${p.documento.numero}/${p.documento.anio}`
+                : `Plan #${p.id}`}
               </p>
 
               <p className="text-sm text-muted-foreground">
