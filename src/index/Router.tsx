@@ -29,6 +29,7 @@ import CrearDocente from '../modules/Docentes/CrearDocente'
 import EditarDocente from '../modules/Docentes/EditarDocente'
 import PaginaIniciarSesion from '@usuarios/PaginaIniciarSesion/PaginaIniciarSesion'
 import PaginaUsuarios from '@usuarios/PaginaUsuarios/PaginaUsuarios'
+import PaginaCrearUsuario from '@usuarios/PaginaCrearUsuario/PaginaCrearUsuarios'
 
 export default function Router() {
 	const rutas: Route[] = [
@@ -58,7 +59,8 @@ export default function Router() {
 							icon: 'icon-[eos-icons--admin-outlined]',
 							children: [
 								{ path: 'usuarios', label: 'Usuarios', icon: 'icon-[mdi--user-group]', Component: PaginaUsuarios, menu: true, },
-								{ path: 'usuarios/crear', Component: UserCreate, menu: false },
+								{ path: 'usuarios/crear', Component: PaginaCrearUsuario, menu: false },
+								{ path: 'usuarios/crear2', Component: UserCreate, menu: false },
 								{ path: 'usuarios/detalle', Component: UserDetail, menu: false },
 								{ path: 'usuarios/editar', Component: UserEdit, menu: false },
 								{ path: 'notificaciones', Component: NotificacionesPage, menu: false, },
