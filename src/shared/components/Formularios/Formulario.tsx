@@ -1,9 +1,10 @@
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { Form } from "@components/ui/form";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 
 interface FormularioProps<T extends Record<string, any>> {
-  onSubmit: (data: T) => void;
+  onSubmit: SubmitHandler<T>
+  onError?: SubmitErrorHandler<T>
   valoresIniciales: T;
   children: ReactNode;
 }
@@ -15,16 +16,18 @@ function toDefaultValues<T>(values: T): import("react-hook-form").DefaultValues<
 
 export function Formulario<T extends Record<string, any>>({
   onSubmit,
+  onError,
   valoresIniciales,
   children,
 }: FormularioProps<T>) {
   const form = useForm<T>({
     defaultValues: toDefaultValues(valoresIniciales),
+    mode: "onSubmit",
   });
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit, onError)} className="space-y-4">
         <FormProvider {...form}>{children}</FormProvider>
       </form>
     </Form>
