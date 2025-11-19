@@ -9,7 +9,6 @@ import {
 import { Input } from '@components/ui/input'
 import { useFormContext } from 'react-hook-form'
 import { ReactNode } from 'react'
-import { Button } from '@components/ui/button'
 
 interface CampoInputProps {
 	label: string
@@ -32,7 +31,7 @@ export function CampoInput({
 	type = 'text',
 	icono,
 	adorno,
-	autoComplete
+	autoComplete,
 }: CampoInputProps) {
 	const { control } = useFormContext()
 
@@ -40,6 +39,7 @@ export function CampoInput({
 		<FormField
 			control={control}
 			name={nombre}
+			rules={obligatorio ? { required: 'Este campo es obligatorio' } : undefined}
 			render={({ field }) => (
 				<FormItem>
 					{/* Label */}
