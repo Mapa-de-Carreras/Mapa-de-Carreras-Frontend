@@ -8,6 +8,7 @@ import { useModal } from '@components/Providers/ModalProvider'
 import { useEffect } from 'react'
 import BotonBase from '@components/Botones/BotonBase'
 import { Card, CardContent, CardFooter } from '@components/ui/card'
+import z from 'zod'
 
 export default function InstitutesAdd() {
 	const navigate = useNavigate()
@@ -44,8 +45,26 @@ export default function InstitutesAdd() {
 		}
 	}, [isSuccess, isError, error, showModal, navigate])
 
-	const handleSubmit = (dataDelFormulario: { nombre: string; codigo: string }) => {
-		mutate(dataDelFormulario)
+	const handleSubmit = (data : UsuarioForm) => {
+		mutate(data)
+	}
+
+
+/* 	const usuarioSchema = z.object({
+	nombre: z.string().min(2, "Muy corto"),
+	edad: z.coerce.number().min(18, "Debes ser mayor de edad"),
+	}); */
+
+	const usuarioSchema = z.object({
+		nombre: z.string().min(1, { message: "Requerido" }),
+		codigo: z.string().min(1, { message: "Requerido" }),
+	});
+	
+	type UsuarioForm = z.infer<typeof usuarioSchema>;
+
+	const datosIniciales = { 
+		nombre: "", 
+		codigo: "" 
 	}
 
 	return (
@@ -56,9 +75,11 @@ export default function InstitutesAdd() {
 
 			<div className="mx-auto max-w-lg">
 				<Card className="shadow-lg">
-					<Formulario
-						onSubmit={handleSubmit}
-						valoresIniciales={{ nombre: '', codigo: '' }}
+					<Formulario<UsuarioForm>
+					schema={usuarioSchema} 
+					valoresIniciales={datosIniciales}
+					onSubmit={(data) => {
+						handleSubmit(data)}}
 					>
 						<CardContent className="space-y-4 pt-6">
 							<CampoInput label="Nombre del Instituto" nombre="nombre" />
