@@ -19,13 +19,6 @@ export default function FormularioUsuario({
 	onSubmit,
 	handleCancelar,
 }: FormularioUsuarioProps) {
-	// const camposRoles = roles.reduce(
-	// 	(acc, rol) => ({
-	// 		...acc,
-	// 		[rol.nombre]: false, // o lo que venga del backend
-	// 	}),
-	// 	{} as Record<string, boolean>
-	// );
 
 	const valoresIniciales = {
 		email: '',
