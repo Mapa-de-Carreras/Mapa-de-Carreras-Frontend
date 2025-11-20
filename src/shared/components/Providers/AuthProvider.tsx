@@ -11,6 +11,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 interface AuthProviderProps {
 	children: ReactNode
 }
+
 export function AuthProvider({ children }: AuthProviderProps) {
 	const [user, setUser] = useState<User | null>(null)
 	const [loading, setLoading] = useState(true)
@@ -19,8 +20,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	useEffect(() => {
 		const initializeAuth = async () => {
 			try {
-				const id = localStorage.getItem('user_id');
-				const usuario = localStorage.getItem('usuario');
+				const usuario = JSON.parse(localStorage.getItem('usuario') || "") as User;
+				const id = usuario.id;
 
 				// Si no hay datos, no intentamos nada
 				if (!id) {
@@ -33,7 +34,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
 				// Si el refresh es exitoso, seteamos el usuario
 				if (usuario) {
-					setUser(JSON.parse(usuario) as User);
+					setUser(usuario);
 				}
 			} catch (err) {
 				console.error('Error al refrescar el token al iniciar:', err)

@@ -16,9 +16,10 @@ export interface User {
     avatar: string;
 }
 
-export interface LoginResponse extends User {
+export interface LoginResponse {
     refresh: string;
     access: string;
+    usuario: User;
 }
 
 export interface AuthContextType {

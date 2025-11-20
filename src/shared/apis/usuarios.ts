@@ -45,7 +45,9 @@ type UsePostUsuarioOptions<
 
 export type UsuarioResponse = Usuario
 
-export type UsuarioCreatePayload = Omit<Usuario, 'id' | 'is_staff' | 'is_active'>
+export type UsuarioCreatePayload = Omit<Usuario, 'id' | 'is_active'| 'roles'> & {
+	roles: string[]
+}
 
 export function usePostUsuario(
     options: UsePostUsuarioOptions<UsuarioResponse, Error, ParamsBase, UsuarioCreatePayload>

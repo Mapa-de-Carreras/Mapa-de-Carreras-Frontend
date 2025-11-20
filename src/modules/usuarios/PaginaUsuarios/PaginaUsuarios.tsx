@@ -7,20 +7,18 @@ import { UsuarioListItem } from '@globalTypes/usuario'
 import Listado from '@components/Lista/Listado'
 import FeedCard from '@components/Tarjetas/FeedCard'
 import BotonDetalle from '@components/Botones/BotonDetalle'
-import useAuth from '@hooks/useAuth'
 import { Loading } from '@components/Templates/Loading'
 import MensajeError from '@components/Mensajes/MensajeError'
 
 export default function PaginaUsuarios() {
 	const { data: usuarios, isLoading: isLoadingUsuarios, isError: isErrorUsuarios } = useGetUsuarios()
-	const { user } = useAuth()
 	const navigate = useNavigate()
 
 	const columnas: ColumnDef<UsuarioListItem>[] = [
 		{ accessorKey: 'first_name', header: 'Nombre', size: 1 },
 		{ accessorKey: 'last_name', header: 'Apellido', size: 1 },
 		{
-			accessorFn: (row) => (row.is_staff ? 'administrador' : '') + row.roles.join(','),
+			accessorFn: (row) =>  row.roles.map((rol) => rol.nombre).join(','),
 			id: 'roles',
 			header: 'Roles',
 			cell: ({ row }) => <div className="flex flex-wrap">{row.getValue('roles')}</div>,
@@ -72,8 +70,7 @@ export default function PaginaUsuarios() {
 										key={usuario.id}
 										titulo={`${usuario.first_name} ${usuario.last_name}`}
 										descripcion={
-											(usuario.is_staff ? 'administrador' : '') +
-											usuario.roles.join(',')
+											usuario.roles.map((rol) => rol.nombre).join(',')
 										}
 										actions={
 											<BotonDetalle

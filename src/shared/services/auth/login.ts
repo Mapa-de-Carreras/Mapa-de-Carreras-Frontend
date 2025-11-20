@@ -22,7 +22,7 @@ export const loginRequest = async (
 
     const data: LoginResponse = await response.json();
 
-    const { access, refresh, ...usuario } = data;
+    const { access, refresh, usuario } = data;
 
     localStorage.setItem("access_token", access);
     localStorage.setItem("refresh_token", refresh);
