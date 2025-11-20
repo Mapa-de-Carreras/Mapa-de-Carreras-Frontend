@@ -8,7 +8,6 @@ import RecoverUsername from '@users/RecoverUserName/RecoverUsername'
 import RecoverPassword1 from '@users/RecoverPassword/RecoverPassword1'
 import RecoverPassword2 from '@users/RecoverPassword/RecoverPassword2'
 import RecoverPassword3 from '@users/RecoverPassword/RecoverPassword3'
-import UserCreate from '@users/UserCreate/UserCreate'
 import UserDetail from '@users/UserDetail/UserDetail'
 import UserEdit from '@users/UserEdit/UserEdit'
 import NotificacionesPage from '@users/NotificacionesPage/NotificacionesPage'
@@ -62,7 +61,6 @@ export default function Router() {
 							children: [
 								{ path: 'usuarios', label: 'Usuarios', icon: 'icon-[mdi--user-group]', Component: PaginaUsuarios, menu: true, },
 								{ path: 'usuarios/crear', Component: PaginaCrearUsuario, menu: false },
-								{ path: 'usuarios/crear2', Component: UserCreate, menu: false },
 								{ path: 'usuarios/detalle', Component: UserDetail, menu: false },
 								{ path: 'usuarios/editar', Component: UserEdit, menu: false },
 								{ path: 'notificaciones', Component: NotificacionesPage, menu: false, },
