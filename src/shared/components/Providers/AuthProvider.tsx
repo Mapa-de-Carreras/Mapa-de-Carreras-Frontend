@@ -19,8 +19,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	useEffect(() => {
 		const initializeAuth = async () => {
 			try {
-				const id = localStorage.getItem('user_id')
-				const is_staff = localStorage.getItem('is_staff')
+				const id = localStorage.getItem('user_id');
+				const usuario = localStorage.getItem('usuario');
 
 				// Si no hay datos, no intentamos nada
 				if (!id) {
@@ -32,7 +32,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
 				await refreshRequest()
 
 				// Si el refresh es exitoso, seteamos el usuario
-				setUser({ id: Number(id), is_staff: is_staff === 'true' })
+				if (usuario) {
+					setUser(JSON.parse(usuario) as User);
+				}
 			} catch (err) {
 				console.error('Error al refrescar el token al iniciar:', err)
 				logoutRequest()

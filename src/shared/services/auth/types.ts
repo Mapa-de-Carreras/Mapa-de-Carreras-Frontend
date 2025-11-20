@@ -1,13 +1,24 @@
+import { Rol } from "@globalTypes/rol";
+
 export interface User {
     id: number;
-    is_staff: boolean;
+    username: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    is_active: boolean;
+    legajo: string;
+    fecha_nacimiento: string;
+    celular: string;
+    roles: Rol[];
+    docente_data: null
+    coordinador_data: null;
+    avatar: string;
 }
 
-export interface LoginResponse {
+export interface LoginResponse extends User {
     refresh: string;
     access: string;
-    id: number;
-    is_staff: boolean;
 }
 
 export interface AuthContextType {

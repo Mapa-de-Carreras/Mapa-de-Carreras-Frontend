@@ -22,10 +22,11 @@ export const loginRequest = async (
 
     const data: LoginResponse = await response.json();
 
-    localStorage.setItem("access_token", data.access);
-    localStorage.setItem("refresh_token", data.refresh);
-    localStorage.setItem("user_id", String(data.id));
-    localStorage.setItem("is_staff", String(data.is_staff));
+    const { access, refresh, ...usuario } = data;
 
-    return { id: data.id, is_staff: data.is_staff };
+    localStorage.setItem("access_token", access);
+    localStorage.setItem("refresh_token", refresh);
+    localStorage.setItem("usuario", JSON.stringify(usuario))
+
+    return usuario as User;
 };
