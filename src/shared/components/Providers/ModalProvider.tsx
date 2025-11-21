@@ -21,9 +21,10 @@ import {
 import { useIsMobile } from '@components/hooks/use-mobile';
 
 export interface ModalOptions {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   buttons?: BotonBaseProps[]; 
+  content?: React.ReactNode;
 }
 
 interface IModalContext {
@@ -93,6 +94,8 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
                 )}
               </DialogHeader>
 
+              {modalOptions?.content && <div className="my-4">{modalOptions.content}</div>}
+
               {modalOptions?.buttons && modalOptions.buttons.length > 0 && (
                 <DialogFooter className="flex-row sm:justify-evenly sm:items-center">
                   {modalOptions.buttons.map((buttonProps, index) => (
@@ -125,7 +128,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
                 )}
               </DrawerHeader>
 
-              
+              {modalOptions?.content && <div className="my-4">{modalOptions.content}</div>}
 
               {modalOptions?.buttons && modalOptions.buttons.length > 0 && (
                 <DrawerFooter className="mx-auto mt-4 w-full max-w-sm">
