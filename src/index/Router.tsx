@@ -31,6 +31,7 @@ import PaginaUsuarios from '@usuarios/PaginaUsuarios/PaginaUsuarios'
 import PlanEstudioAgregar from '@academic/PlanDeEstudio/PlanEstudioAgregar'
 import PaginaPlanEstudio from '@academic/PlanDeEstudio/PaginaPlanEstudio'
 import PaginaCrearUsuario from '@usuarios/PaginaCrearUsuario/PaginaCrearUsuarios'
+import PaginaDesignaciones from '../modules/Designaciones/PaginaDesignaciones'
 
 export default function Router() {
 	const rutas: Route[] = [
@@ -107,7 +108,7 @@ export default function Router() {
 							label: 'Designaciones',
 							icon: 'icon-[material-symbols--pending-actions]',
 							children: [
-								{ path: 'gestion', label: 'Gestión', icon: 'icon-[fluent--document-person-16-filled]', menu: true, },
+								{ path: 'gestion', label: 'Gestión', Component: PaginaDesignaciones, icon: 'icon-[fluent--document-person-16-filled]', menu: true, },
 							],
 							menu: true,
 						},
