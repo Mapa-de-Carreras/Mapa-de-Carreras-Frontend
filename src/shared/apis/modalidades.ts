@@ -1,5 +1,5 @@
 import { URL_API } from './constantes'
-import { useGet } from './hooks/useGet'
+import useGet from './hooks/useGet'
 import { IModalidad } from '@globalTypes/modalidades'
 
 export default function useGetModalidades() {

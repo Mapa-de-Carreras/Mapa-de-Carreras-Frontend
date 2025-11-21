@@ -14,10 +14,12 @@ import NotificacionesPage from '@users/NotificacionesPage/NotificacionesPage'
 import DegreePage from '@academic/DegreePage/DegreePage'
 import InstitutesPage from '@academic/InstitutesPage/InstitutesPage'
 import DegreeDetail from '@academic/DegreePage/DegreeDetail'
-import SubjectPage from '@academic/SubjectPage/SubjecPage'
+import SubjectPage from '@academic/SubjectPage/SubjectPage'
 import InstitutesDetail from '@academic/InstitutesPage/InstitutesDetail'
 import PlanEstudioDetalle from '@academic/PlanDeEstudio/PlanEstudioDetalle'
-import AsignaturaDetalle from '@academic/Asignaturas/AsignaturaDetalle'
+import SubjectDetail from '@academic/SubjectPage/SubjectDetail'
+import SubjectAdd from '@academic/SubjectPage/SubjectAdd'
+import SubjectEdit from '@academic/SubjectPage/SubjectEdit'
 import InstitutesAdd from '@academic/InstitutesPage/InstitutesAdd'
 import InstitutesEdit from '@academic/InstitutesPage/InsitutesEdit'
 import DegreeAdd from '@academic/DegreePage/DegreeAdd'
@@ -83,7 +85,9 @@ export default function Router() {
 								{ path: 'carreras/agregar', Component: DegreeAdd, menu: false },
 								{ path: 'carreras/editar/:id', Component: DegreeEdit, menu: false },
 								{ path: 'asignaturas', label: 'Asignaturas', icon: 'icon-[octicon--book-16]', Component: SubjectPage, menu: true,},
-								{ path: 'asignaturas/detalle', Component: AsignaturaDetalle, menu: false },
+								{ path: 'asignaturas/detalle:id', Component: SubjectDetail, menu: false },
+								{ path: 'asignaturas/agregar', Component: SubjectAdd, menu: false },
+								{ path: 'asignaturas/editar:id', Component: SubjectEdit, menu: false },
 								{ path: 'planes', label: 'Planes de Estudio',Component:PaginaPlanEstudio, icon: 'icon-[basil--document-outline]', menu: true, },
 								{ path: 'planes/detalle', Component: PlanEstudioDetalle, menu: false },
 								{ path: 'planes/agregar', Component: PlanEstudioAgregar, menu: false },

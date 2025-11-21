@@ -12,7 +12,7 @@ type UseGetProps<TData, TParams> = {
 	configAxios?: AxiosRequestConfig
 }
 
-export function useGet<TData = unknown, TParams extends Record<string, any> = {}>({
+export default function useGet<TData = unknown, TParams extends Record<string, any> = {}>({
 	key,
 	urlApi,
 	params = {} as TParams,

@@ -1,6 +1,6 @@
 import { Usuario } from '@globalTypes/usuario'
 import { URL_API } from './constantes'
-import { useGet } from './hooks/useGet'
+import useGet from './hooks/useGet'
 import usePost, { UsePostProps } from './hooks/usePost'
 import { ParamsBase } from './hooks/types'
 

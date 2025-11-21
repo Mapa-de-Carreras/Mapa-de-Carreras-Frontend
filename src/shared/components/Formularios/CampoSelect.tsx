@@ -39,7 +39,7 @@ export function CampoSelect({
     descripcion,
     obligatorio,
     disabled,
-    options,
+    options, 
 }: CampoSelectProps) {
     const { control } = useFormContext();
 

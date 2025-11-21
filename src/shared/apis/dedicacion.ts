@@ -1,6 +1,6 @@
 import { IDedicacion } from '@globalTypes/dedicaciones'
 import { URL_API } from './constantes'
-import { useGet } from './hooks/useGet'
+import  useGet  from './hooks/useGet'
 
 export default function useGetDedicaciones() {
     return useGet<IDedicacion[]>({

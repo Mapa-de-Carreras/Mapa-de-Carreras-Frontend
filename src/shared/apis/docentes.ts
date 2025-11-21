@@ -1,6 +1,6 @@
 import {IDocente} from '@globalTypes/docentes'; 
 import { URL_API } from "./constantes";
-import { useGet } from './hooks/useGet';
+import  useGet  from './hooks/useGet';
 
 const DETAIL_KEY_NAME = "useGetDocenteCarrera";
 const DOCENTE_DETALLE_KEY = "useGetDocenteDetalle";
@@ -14,7 +14,7 @@ export function useGetDocenteCarrera(id: number) {
         params: { id },
     });
 }
-// --- GET detalle de un docente (retorna objeto) ---
+
 export function useGetDocenteDetalle(id: number) {
   return useGet<IDocente>({
     key: `${DOCENTE_DETALLE_KEY}-${id}`, 

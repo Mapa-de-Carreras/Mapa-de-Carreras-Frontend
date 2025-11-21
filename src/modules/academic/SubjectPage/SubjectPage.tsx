@@ -41,7 +41,7 @@ export default function SubjectPage() {
 		]
 
 	return (
-		<PageBase titulo="Página de Asignaturas" subtitulo="Listado de Asignaturas">
+		<PageBase titulo="Asignaturas">
 			{loading && <ComponenteCarga />}
 
 			{error && <p className="text-center text-red-500">{error.message}</p>}
@@ -69,7 +69,6 @@ export default function SubjectPage() {
 									}
 									/>
 								)}
-								mensajeSinDatos="No hay institutos."
 							/>
 						)}
 					</div>
@@ -77,7 +76,7 @@ export default function SubjectPage() {
 			)}
 
 			{asignaturas && asignaturas.length === 0 &&
-				<p className="text-center">No hay institutos</p>
+				<p className="text-center">No hay asignaturas</p>
 			}				
 		</PageBase>
 	)

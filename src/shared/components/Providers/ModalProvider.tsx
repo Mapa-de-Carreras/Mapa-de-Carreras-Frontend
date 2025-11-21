@@ -1,6 +1,5 @@
-import { createContext, useContext, useState, ReactNode, useCallback } from 'react';
-// 1. Importa los props de tu componente (asumo que está en un tipo)
-import BotonBase, { BotonBaseProps }  from '@components/Botones/BotonBase'; // Asegúrate de exportar este tipo
+import { createContext, useContext, useState, ReactNode, useCallback, useMemo } from 'react';
+import BotonBase, { BotonBaseProps }  from '@components/Botones/BotonBase';
 import {
   Drawer,
   DrawerContent,
@@ -19,12 +18,15 @@ import {
   DialogTitle,
 } from "@components/ui/dialog"
 import { useIsMobile } from '@components/hooks/use-mobile';
+import ComponenteCarga from '@components/ComponenteCarga/Componentecarga';
 
 export interface ModalOptions {
   title?: string;
   description?: string;
-  buttons?: BotonBaseProps[]; 
+  buttons?: (BotonBaseProps & { autoClose?: boolean })[]; 
   content?: React.ReactNode;
+  isLoading?: boolean;
+  msg?: string;
 }
 
 interface IModalContext {
@@ -71,41 +73,55 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
     setIsOpen(false);
   }, []);
 
-
-  const handleActionClick = (onClickFromButton?: () => void) => {
+  
+  const handleActionClick = (onClickFromButton?: () => void, autoClose: boolean = true) => {
     if (onClickFromButton) {
       onClickFromButton();
     }
-    hideModal(); 
+ 
+    if (autoClose) {
+        hideModal(); 
+    }
   };
 
   function DesktopModal(){
     return(
           <Dialog open={isOpen} onOpenChange={(open) => !open && hideModal()}>
-            <DialogContent className='flex-col h-min'>
+            <DialogContent className='flex-col h-min sm:max-w-[425px]'>
               <DialogHeader>
                 <DialogTitle className="text-center text-xl font-bold">
                   {modalOptions?.title}
                 </DialogTitle>
+                
+   
                 {modalOptions?.description && (
-                  <DialogDescription className="text-center">
+                  <DialogDescription className="text-center mt-2">
                     {modalOptions.description}
                   </DialogDescription>
                 )}
               </DialogHeader>
 
-              {modalOptions?.content && <div className="my-4">{modalOptions.content}</div>}
 
-              {modalOptions?.buttons && modalOptions.buttons.length > 0 && (
-                <DialogFooter className="flex-row sm:justify-evenly sm:items-center">
-                  {modalOptions.buttons.map((buttonProps, index) => (
-                    <BotonBase
-                      key={index}
-                      {...buttonProps} 
-                      onClick={() => handleActionClick(buttonProps.onClick)}
-                    />
-                  ))}
-                </DialogFooter>
+              {modalOptions?.isLoading ? (
+                 <ComponenteCarga mensaje={modalOptions?.msg} /> 
+                  
+              ) : (
+  
+                 <>
+                    {modalOptions?.content && <div className="my-4">{modalOptions.content}</div>}
+
+                    {modalOptions?.buttons && modalOptions.buttons.length > 0 && (
+                        <DialogFooter className="flex-row justify-center gap-2 sm:justify-evenly sm:items-center">
+                        {modalOptions.buttons.map((buttonProps, index) => (
+                            <BotonBase
+                            key={index}
+                            {...buttonProps} 
+                            onClick={() => handleActionClick(buttonProps.onClick, buttonProps.autoClose)}
+                            />
+                        ))}
+                        </DialogFooter>
+                    )}
+                 </>
               )}
             </DialogContent>
           </Dialog>
@@ -114,7 +130,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
 
   function MovilModal(){
     return(
-              <Drawer open={isOpen} onOpenChange={(open) => !open && hideModal()} >
+          <Drawer open={isOpen} onOpenChange={(open) => !open && hideModal()} >
             <DrawerContent className="rounded-t-3xl p-6">
               <DrawerHeader>
                 <DrawerTitle className="text-center text-xl font-bold">
@@ -122,35 +138,50 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
                 </DrawerTitle>
 
                 {modalOptions?.description && (
-                  <DrawerDescription className="text-center">
+                  <DrawerDescription className="text-center mt-2">
                     {modalOptions.description}
                   </DrawerDescription>
                 )}
               </DrawerHeader>
 
-              {modalOptions?.content && <div className="my-4">{modalOptions.content}</div>}
+  
+               {modalOptions?.isLoading ? (
+                    <ComponenteCarga mensaje={modalOptions?.msg} /> 
+              ) : (
+                 <>
+                    {modalOptions?.content && <div className="my-4">{modalOptions.content}</div>}
 
-              {modalOptions?.buttons && modalOptions.buttons.length > 0 && (
-                <DrawerFooter className="mx-auto mt-4 w-full max-w-sm">
-                  {modalOptions.buttons.map((buttonProps, index) => (
-                    <BotonBase
-                      key={index}
-                      {...buttonProps} 
-                      onClick={() => handleActionClick(buttonProps.onClick)}
-                    />
-                  ))}
-                </DrawerFooter>
+                    {modalOptions?.buttons && modalOptions.buttons.length > 0 && (
+                        <DrawerFooter className="mx-auto mt-4 w-full max-w-sm flex-row gap-2">
+                        {modalOptions.buttons.map((buttonProps, index) => (
+                            <BotonBase
+                            key={index}
+                            {...buttonProps} 
+                            onClick={() => handleActionClick(buttonProps.onClick, buttonProps.autoClose)}
+                            />
+                        ))}
+                        </DrawerFooter>
+                    )}
+                 </>
               )}
             </DrawerContent>
           </Drawer>
     )
   }
 
+
+  const contextValue = useMemo(() => ({
+    isOpen,
+    showModal,
+    hideModal,
+    modalContent: modalOptions
+  }), [isOpen, showModal, hideModal, modalOptions]);
+
   return (
-    <ModalContext.Provider value={{ isOpen, showModal, hideModal, modalContent: modalOptions }}>
+
+    <ModalContext.Provider value={contextValue}>
       {children}
       {isMobile ? <MovilModal /> : <DesktopModal />}
     </ModalContext.Provider>
   );
 };
-

@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router'
-import { useGetInstituto, useDeleteInstituto } from '@apis/intitutos' 
+import { useGetInstituto, useDeleteInstituto } from '@apis/intitutos'
 import BotonBase from '@components/Botones/BotonBase'
 import { DetailCard } from '@components/CardDetalles/DetailCard'
 import PageBase from '@components/PageBase/PageBase'
@@ -11,91 +11,91 @@ import BotonDetalle from '@components/Botones/BotonDetalle'
 import FeedCard from '@components/Tarjetas/FeedCard'
 import { DetailList } from '@components/CardDetalles/DetailList'
 
-
 export default function InstitutesDetail() {
 	const { showModal } = useModal()
-	const { id } = useParams<{ id: string }>()
+	const id = Number(useParams<{ id: string }>().id); 
 	const navigate = useNavigate()
 
-	const { data: instituto, isLoading: loading, error } = useGetInstituto(Number(id))
+	const {data: instituto, isLoading: loadingInstituto, error: errorInstituto } = useGetInstituto(id)
 
-	const { mutate: deleteInstituto, isPending: isDeleting } = useDeleteInstituto()
+	const { mutate: deleteInstituto } = useDeleteInstituto()
 
-	const { data: carreras, isLoading: loadingCarreras, error: errorCarreras } = useGetCarrerasPorInstituto(Number(id))
+	const { data: carreras, isLoading: loadingCarreras, error: errorCarreras, } = useGetCarrerasPorInstituto(id)
 
-	const handleConfirmDelete = () => {
-		if (!id) return
-		deleteInstituto(Number(id), {
-			onSuccess: () => {
-				showModal({
-					title: 'Éxito',
-					description: 'Instituto eliminado correctamente.',
-					buttons: [
-						{
-							variant: 'aceptar',
-							onClick: () => navigate(-1),
-						},
-					],
-				})
-			},
-			onError: (err) => {
-				
-				showModal({
-					title: 'Error',
-					description: err.message || 'No se pudo eliminar el instituto.',
-					buttons: [
-						{
-							variant: 'error',
-							onClick: () => {},
-						},
-					],
-				})
-			},
-		})
-	}
+    const handleConfirmDelete = () => {
+        if (!id) return
 
-	const handleClickModal = () => {
-		showModal({
-			title: 'Eliminar Instituto',
-			description: '¿Está seguro que desea eliminar este instituto?',
-			buttons: [
-				{
-					variant: 'eliminar',
-					onClick: handleConfirmDelete,
-				},
-				{
-					variant: 'cancelar',
-					onClick: () => {},
-				},
-			],
-		})
-	}
+        showModal({
+            isLoading: true,
+			msg: 'Eliminando Instituto...',
+        })
+
+        
+        deleteInstituto(
+            {
+                params: { id: id },
+            },
+            {
+                onSuccess: () => {
+                   
+                    showModal({
+                        title: 'Éxito',
+                        description: 'Instituto eliminado correctamente.',
+                        isLoading: false,
+                        buttons: [{ variant: 'aceptar', onClick: () => navigate(-1) }],
+                    })
+                },
+                onError: (errorDeleting) => {
+                    
+                    showModal({
+                        title: 'Error',
+                        description: errorDeleting.message || 'No se pudo eliminar.',
+                        isLoading: false, 
+                        buttons: [{ variant: 'error', onClick: () => {} }],
+                    })
+                },
+            }
+        )
+    }
+
+    // 2. La función que ABRE la confirmación inicial
+    const handleClickModal = () => {
+        showModal({
+            title: 'Eliminar Instituto',
+            description: '¿Está seguro que desea eliminar este instituto?',
+            buttons: [
+                {
+                    variant: 'eliminar',
+                    autoClose: false, 
+                    onClick: handleConfirmDelete,
+                },
+                {
+                    variant: 'cancelar',
+                    onClick: () => {}, 
+                },
+            ],
+        })
+    }
 
 	const handlelClickEditar = () => {
 		navigate(`/academica/institutos/editar/${id}`)
 	}
 
-	function handleVerDetalle(id: string | number): void {
+	function handleVerDetalle(id: number){
 		navigate(`/academica/carreras/detalle/${id}`)
 	}
 
 	return (
-		<PageBase>
+		<PageBase titulo="Detalle">
+
 			<div className="mb-4">
-				{' '} 
-				<BotonBase
-					variant="regresar"
-					onClick={() => navigate(-1)}
-				/>
+				<BotonBase variant="regresar" onClick={() => navigate(-1)} />
 			</div>
 
-			{loading && isDeleting && <ComponenteCarga />}
+			{loadingInstituto && <ComponenteCarga mensaje="Cargando instituto..." />}
+			{errorInstituto && <p>Error al cargar las instituto: {errorInstituto.message}</p>}
 
-			{error && <p>Error al cargar el instituto: {error.message}</p>}
-
-			{!loading && !error && !instituto && <p>Instituto no encontrado.</p>}
-
-			{!loading && !error && instituto && (
+			{!loadingInstituto && !errorInstituto && instituto && (
 				<DetailCard
 					titulo={`${instituto.codigo}`}
 					icono={<Icon type="instituosIcon" className="text-3xl" />}
@@ -107,12 +107,15 @@ export default function InstitutesDetail() {
 						</>
 					}
 				>
-
-				<DetailList label="Carreras" scrollable={true}>
-					{loadingCarreras && <ComponenteCarga />}
-					{errorCarreras && <p>Error al cargar las carreras: {errorCarreras.message}</p>}
-					{!loadingCarreras && !errorCarreras && carreras && (
-							carreras.length > 0 ? (								
+					<DetailList label="Carreras" scrollable={true}>
+						{loadingCarreras && <ComponenteCarga mensaje="Cargado carreras..." />}
+						{errorCarreras && (
+							<p>Error al cargar las carreras: {errorCarreras.message}</p>
+						)}
+						{!loadingCarreras &&
+							!errorCarreras &&
+							carreras &&
+							(carreras.length > 0 ? (
 								carreras.map((carrera) => (
 									<FeedCard
 										key={carrera.id}
@@ -125,13 +128,13 @@ export default function InstitutesDetail() {
 										}
 									/>
 								))
-							) : (									
-								<p className="text-sm text-gray-500">Este instituto no tiene carreras asociadas.</p>
-							)
-						)}
+							) : (
+								<p className="text-sm text-gray-500">
+									Este instituto no tiene carreras asociadas.
+								</p>
+							))}
 					</DetailList>
 				</DetailCard>
-
 			)}
 		</PageBase>
 	)

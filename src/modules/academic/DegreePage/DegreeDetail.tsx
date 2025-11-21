@@ -20,37 +20,39 @@ import {Accordion,AccordionItem,AccordionTrigger,AccordionContent} from "@compon
 export default function DegreeDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-
-  // --- Lógica de Hooks (Sin cambios) ---
   const { showModal } = useModal();
-  const { data: carrera, isLoading: loading, error } = useGetCarrera(Number(id));
+  const { data: carrera, isLoading: loadingCarrera, error: errorGetingCarrera } = useGetCarrera(Number(id));
   
-  const { mutate: deleteCarrera, isPending: isDeleting } = useDeleteCarrera();
+  const { mutate: deleteCarrera } = useDeleteCarrera();
   const { data: docente } = useGetDocenteCarrera(Number(id));
 
-  // --- Handlers (Sin cambios) ---
   const handleEditar = () => {
     navigate(`/academica/carreras/editar/${id}`);
   }
 
   const handleVerPlanEstudio = (idPlan: number) => {
-   console.log("Ver plan de estudio id: ", idPlan);
    navigate("/academica/planes/detalle", { state: { id: idPlan } });
   };
 
   const handleVerDocente = (idDocente: number) => {
-   console.log("Ver docente id: ", idDocente);
- navigate(`/docentes/detalle/${idDocente}`);
+    navigate(`/docentes/detalle/${idDocente}`);
   };
 
   const handleConfirmDelete = () => {
     if (!id) return;
-    deleteCarrera(Number(id), {
+
+    showModal({
+        isLoading: true,
+        msg: 'Eliminando Instituto...',
+    })
+
+    deleteCarrera({ params: { id : Number(id)}}, {
         onSuccess: () => {
             showModal({
                 title: 'Éxito',
                 description: 'La carrera se ha eliminado correctamente.',
                 buttons: [{ variant: 'aceptar', onClick: () => navigate(-1) }],
+                isLoading: false,
             });
         },
         onError: (err) => {
@@ -58,6 +60,7 @@ export default function DegreeDetail() {
                 title: 'Error',
                 description: err.message || 'No se pudo eliminar la carrera.',
                 buttons: [{ variant: 'error', onClick: () => {} }],
+                isLoading: false,
             });
         },
     });
@@ -70,6 +73,7 @@ export default function DegreeDetail() {
         buttons: [
             { 
               variant: 'eliminar', 
+              autoClose: false,
               onClick: handleConfirmDelete, 
              },
             { 
@@ -80,35 +84,10 @@ export default function DegreeDetail() {
     });
   };
 
-  // --- Renderizado (Loading y Error) ---
-  if (loading || isDeleting) {
-    return <ComponenteCarga mensaje="Cargando información de la carrera..." />;
-  }
- 
-  if (error) {
-    return (
-      <PageBase>
-        <p className="text-center text-red-600">{error.message}</p>
-      </PageBase>
-    );
-  }
- 
-  if (!carrera) {
-    return (
-        <PageBase>
-            {/* Botón Volver (como en tu InstitutesDetail) */}
-            <div className="mb-4">
-                <BotonBase variant="regresar" onClick={() => navigate(-1)} />
-            </div>
-            <p className="text-center text-gray-500">Carrera no encontrada.</p>
-        </PageBase>
-    );
-  }
 
-  // --- 3. Renderizado Principal ) ---
   return (
     <PageBase>
-        {/* Botón Volver  */}
+        
         <div className="mb-4">
             <BotonBase
                 variant="regresar"
@@ -116,107 +95,110 @@ export default function DegreeDetail() {
             />
         </div>
 
-        <DetailCard
-            titulo={`${carrera.codigo} - Detalles`}
-            icono={<Icon type="carrera" className="text-5xl" />}
-            descripcion={carrera.nombre}
-            actions={
-                <>
-                    <BotonBase 
-                        variant="editar" 
-                        onClick={handleEditar} 
-                
-                    />
-                    <BotonBase 
-                        variant="eliminar" 
-                        onClick={handleClickModalEliminar} 
-                    />
-                </>
-            }
-        >
-            {/* --- Campos de Detalle --- */}
-            <DetailField label="Instituto">
-                {carrera.instituto?.nombre || "No disponible"}
-            </DetailField>
-            <DetailField label="Nivel">
-                {carrera.nivel}
-            </DetailField>
-            <DetailField label="Vigente">
-                {carrera.esta_vigente ? "Sí" : "No"}
-            </DetailField>
-            <DetailField label="Coordinador actual">
-                {carrera.coordinador_actual
-                  ? carrera.coordinador_actual.nombre_completo
-                  : "Sin asignar"}
-            </DetailField>
+        {loadingCarrera && <ComponenteCarga />}
+        {errorGetingCarrera && <p>Error al obtener la carrera</p>}
 
-            {/* --- Lista de Planes --- HACERLO UN COMPONENTE */}
-            <DetailList label="Planes" scrollable={false}>
-                {carrera.planes && carrera.planes.length > 0 ? (
-                    carrera.planes.map((plan) => (
-                        <FeedCard
-                            key={plan.id}
-                            titulo={`Plan ${plan.fecha_inicio}`}
-                            descripcion={plan.esta_vigente ? "Plan Vigente" : "Plan no vigente"}
-                            actions={
-                                <BotonDetalle
-                                    onClick={() => handleVerPlanEstudio(plan.id)}
-                                />
-                            }
+        {!loadingCarrera && !errorGetingCarrera && carrera && 
+            <DetailCard
+                titulo={`${carrera.codigo} - Detalles`}
+                icono={<Icon type="carrera" className="text-5xl" />}
+                descripcion={carrera.nombre}
+                actions={
+                    <>
+                        <BotonBase 
+                            variant="editar" 
+                            onClick={handleEditar} 
+                    
                         />
-                    ))
-                ) : (
-                    <p className="text-sm text-gray-500">Esta carrera no tiene planes de estudio asociados.</p>
-                )}
-            </DetailList>
-                
-         {/* --- Docentes asignados --- */}
-            <Accordion type="single" collapsible className="mt-6">
-            <AccordionItem value="docentes">
-                <AccordionTrigger className="text-lg font-semibold text-foreground">
-                Docentes a Cargo
-                </AccordionTrigger>
+                        <BotonBase 
+                            variant="eliminar" 
+                            onClick={handleClickModalEliminar} 
+                        />
+                    </>
+                }
+            >
+                {/* --- Campos de Detalle --- */}
+                <DetailField label="Instituto">
+                    {carrera.instituto?.nombre || "No disponible"}
+                </DetailField>
+                <DetailField label="Nivel">
+                    {carrera.nivel}
+                </DetailField>
+                <DetailField label="Vigente">
+                    {carrera.esta_vigente ? "Sí" : "No"}
+                </DetailField>
+                <DetailField label="Coordinador actual">
+                    {carrera.coordinador_actual
+                    ? carrera.coordinador_actual.nombre_completo
+                    : "Sin asignar"}
+                </DetailField>
 
-                <AccordionContent>
-                {docente && docente.length > 0 ? (
-                    <ul className="space-y-2">
-                    {docente.map((d) => (
-                        <li
-                        key={d.id}
-                        onClick={() => handleVerDocente(d.usuario.id)}
-                        className="
-                            border 
-                            rounded-lg 
-                            p-3 
-                            shadow-sm 
-                            cursor-pointer 
-                            transition
-                            bg-card 
-                            hover:bg-accent
-                            text-foreground
-                        "
-                        >
-                        <p className="font-medium text-foreground">
-                            {d.usuario.first_name} {d.usuario.last_name}
-                        </p>
+                {/* --- Lista de Planes --- HACERLO UN COMPONENTE */}
+                <DetailList label="Planes" scrollable={false}>
+                    {carrera.plan_de_estudio && carrera.plan_de_estudio.length > 0 ? (
+                        carrera.plan_de_estudio.map((plan) => (
+                            <FeedCard
+                                key={plan.id}
+                                titulo={`Plan ${plan.fecha_inicio}`}
+                                descripcion={plan.esta_vigente ? "Plan Vigente" : "Plan no vigente"}
+                                actions={
+                                    <BotonDetalle
+                                        onClick={() => handleVerPlanEstudio(plan.id)}
+                                    />
+                                }
+                            />
+                        ))
+                    ) : (
+                        <p className="text-sm text-gray-500">Esta carrera no tiene planes de estudio asociados.</p>
+                    )}
+                </DetailList>
+                    
 
+                <Accordion type="single" collapsible className="mt-6">
+                <AccordionItem value="docentes">
+                    <AccordionTrigger className="text-lg font-semibold text-foreground">
+                    Docentes a Cargo
+                    </AccordionTrigger>
+
+                    <AccordionContent>
+                    {docente && docente.length > 0 ? (
+                        <ul className="space-y-2">
+                        {docente.map((d) => (
+                            <li
+                            key={d.id}
+                            onClick={() => handleVerDocente(d.usuario.id)}
+                            className="
+                                border 
+                                rounded-lg 
+                                p-3 
+                                shadow-sm 
+                                cursor-pointer 
+                                transition
+                                bg-card 
+                                hover:bg-accent
+                                text-foreground
+                            "
+                            >
+                            <p className="font-medium text-foreground">
+                                {d.usuario.first_name} {d.usuario.last_name}
+                            </p>
+
+                            <p className="text-sm text-muted-foreground">
+                                {d.usuario.email}
+                            </p>
+                            </li>
+                        ))}
+                        </ul>
+                    ) : (
                         <p className="text-sm text-muted-foreground">
-                            {d.usuario.email}
+                        No hay docentes asignados a esta carrera.
                         </p>
-                        </li>
-                    ))}
-                    </ul>
-                ) : (
-                    <p className="text-sm text-muted-foreground">
-                    No hay docentes asignados a esta carrera.
-                    </p>
-                )}
-                </AccordionContent>
-            </AccordionItem>
-            </Accordion>
-
-
-        </DetailCard>
+                    )}
+                    </AccordionContent>
+                </AccordionItem>
+                </Accordion>
+            </DetailCard>
+        }
     </PageBase>
   );
 }

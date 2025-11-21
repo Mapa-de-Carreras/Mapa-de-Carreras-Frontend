@@ -6,22 +6,14 @@ import { CampoSelect } from '@components/Formularios/CampoSelect';
 import { Button } from '@components/ui/button';
 import PageBase from '@components/PageBase/PageBase';
 import { usePostCarrera } from '@apis/carreras'; // 1. Cambiado
-import useGetInstitutos from '@apis/intitutos'; // 2. Añadido
+import {useGetInstitutos} from '@apis/intitutos'; // 2. Añadido
 import { useModal } from '@components/Providers/ModalProvider';
 import { useEffect } from 'react';
 import BotonBase from '@components/Botones/BotonBase';
 import { Card, CardContent, CardFooter } from '@components/ui/card';
-import { CarreraPostPayload, Nivel } from '@globalTypes/carrera'; // 3. Importa tipos
+import { CarreraForm, CarreraSchema, opcionesNivel } from './constraints'
+import ComponenteCarga from '@components/ComponenteCarga/Componentecarga';
 
-// Opciones para el <select> de Nivel
-const opcionesNivel = [
-    { value: 'TECNICATURA', label: 'Tecnicatura' },
-    { value: 'DIPLOMATURA', label: 'Diplomatura' },
-    { value: 'PREGRADO', label: 'Pregrado' },
-    { value: 'GRADO', label: 'Grado' },
-    { value: 'POSGRADO', label: 'Posgrado' },
-    { value: 'MAESTRIA', label: 'Maestría' },
-];
 
 export default function DegreeAdd() {
     const navigate = useNavigate();
@@ -59,27 +51,22 @@ export default function DegreeAdd() {
         }
     }, [isSuccess, isError, error, showModal, navigate]);
 
-    const handleSubmit = ({nombre, codigo, nivel, instituto_id}: CarreraPostPayload) => {
-        
-        const payload = {
-            nombre,
-            codigo,
-            nivel,
-            instituto_id
-        };
-        mutate(payload);
+    const handleSubmit = (data : CarreraForm) => {
+        mutate({data: data});
     };
     
 
     const valoresIniciales = {
         nombre: '',
         codigo: '',
-        nivel: 'GRADO' as Nivel, // 'as Nivel' ayuda a TypeScript
-        instituto_id: 0,
+        nivel: '',
+        instituto_id:'',
     };
 
     return (
         <PageBase titulo="Agregar Nueva Carrera">
+            {isLoadingInstitutos && isPending && <ComponenteCarga/>}
+
             <div className="mb-4">
                 <BotonBase variant="regresar" onClick={() => navigate(-1)} />
             </div>
@@ -87,9 +74,11 @@ export default function DegreeAdd() {
             <div className="mx-auto max-w-lg">
                 <Card className="shadow-lg">
                     <Formulario
-                        onSubmit={handleSubmit}
+                        onSubmit={(data)=>{handleSubmit(data)}}
                         valoresIniciales={valoresIniciales}
-                    >
+                        schema={CarreraSchema}
+                        
+					>
     
                         <CardContent className="space-y-4 pt-6">
                             <CampoInput label="Nombre de la Carrera" nombre="nombre" />
@@ -98,6 +87,7 @@ export default function DegreeAdd() {
                             <CampoSelect
                                 label="Nivel"
                                 nombre="nivel"
+                                placeholder="Seleccione un nivel..."
                                 options={opcionesNivel}
                             />
                             
@@ -106,9 +96,10 @@ export default function DegreeAdd() {
                                 nombre="instituto_id"
             
                                 options={institutos?.map(inst => ({
-                                    value: inst.id.toString(), 
+                                    value: inst.id, 
                                     label: inst.nombre
                                 })) || []}
+                                
                                 placeholder="Seleccione un instituto..."
                                 disabled={isLoadingInstitutos}
                             />

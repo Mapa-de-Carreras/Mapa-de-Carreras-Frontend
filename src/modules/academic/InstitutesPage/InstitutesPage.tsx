@@ -3,8 +3,8 @@ import { Tabla } from '@components/Tabla/Tabla'
 import { ColumnDef } from '@tanstack/react-table'
 import TituloTabla from '@components/Tabla/TituloTabla'
 import AccionTabla from '@components/Tabla/AccionTabla'
-import {Instituto} from '@globalTypes/instituto'
-import useGetInstitutos from '@apis/intitutos'
+import {GET_TYPE_INSTITUTO} from '@globalTypes/instituto'
+import {useGetInstitutos} from '@apis/intitutos'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 import { useNavigate } from 'react-router'
 import Listado from '@components/Lista/Listado'
@@ -12,15 +12,15 @@ import FeedCard from '@components/Tarjetas/FeedCard'
 import BotonDetalle from '@components/Botones/BotonDetalle'
 
 export default function InstitutesPage() {
-	const { data: institutos, isLoading: loading, error } = useGetInstitutos()
+	const { data: institutos, isLoading: loadingInstitutos, error: errorInstitutos } = useGetInstitutos()
 	const navigate = useNavigate()
 
 	const handleVerDetalle = (id: number) => {
-		console.log('Instituto a ver detalle id: ', id)
+		if (!id) return
 		navigate(`/academica/institutos/detalle/${id}`)
 	}
 
-	const columns: ColumnDef<Instituto>[] = [
+	const columns: ColumnDef<GET_TYPE_INSTITUTO>[] = [
 		{
 			accessorKey: 'nombre',
 			header: ({ column }) => <TituloTabla column={column} titulo="Nombre" />,
@@ -43,9 +43,9 @@ export default function InstitutesPage() {
 
 	return (
 		<PageBase titulo="Institutos">
-			{loading && <ComponenteCarga />}
-			{error && <p className="text-center text-red-500">{error.message}</p>}
-
+			{loadingInstitutos && <ComponenteCarga />}
+			{errorInstitutos && <p className="text-center text-red-500">{errorInstitutos.message}</p>}
+			
 			{institutos && institutos.length > 0 && (
 				<div>
 					<div className="hidden sm:block">

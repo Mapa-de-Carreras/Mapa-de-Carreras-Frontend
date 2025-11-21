@@ -5,11 +5,10 @@ import TituloTabla from '@components/Tabla/TituloTabla'
 import AccionTabla from '@components/Tabla/AccionTabla'
 import { useNavigate } from 'react-router'
 import Listado from '@components/Lista/Listado'
-import institutos from '@data/institutos'
 
-// --- 2. Importa el hook y los tipos correctos ---
+
 import useGetCarreras from '@apis/carreras'
-import { CarreraListItem } from '@globalTypes/carrera' // El tipo que devuelve la API
+import { GET_TYPE_CARRERAS } from '@globalTypes/carrera'
 import BotonDetalle from '@components/Botones/BotonDetalle'
 import FeedCard from '@components/Tarjetas/FeedCard'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
@@ -17,38 +16,37 @@ import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 export default function DegreePage() {
     const navigate = useNavigate()
 
-    const { data: carreras, isLoading: loading, error } = useGetCarreras()
+    const { data: carreras, isLoading: loadingCarreras, error: errorGetingCarreras } = useGetCarreras()
 
-    const handleVerDetalle = (id: string | number) => {//lo hago asi porque la posta no se que será el id
-        navigate(`/academica/carreras/detalle/${Number(id)}`)
+    const handleVerDetalle = (id: number) => {
+		if (!id) return
+        navigate(`/academica/carreras/detalle/${id}`)
     }
 
-    const columns : ColumnDef<CarreraListItem>[] = 
+    const columns : ColumnDef<GET_TYPE_CARRERAS>[] = 
 		[
-            {
-                accessorFn: (row) => row.instituto?.codigo || '—',
-                id: 'instituto',
-                header: ({ column }) => <TituloTabla column={column} titulo="Instituto" />,
-                cell: ({ row }) => (
-                    <div className="text-center font-medium">{row.getValue('instituto')}</div>
-                ),
-                size: 1,
-            },
+            
             {
                 accessorKey: 'nombre',
-                header: ({ column }) => <TituloTabla column={column} titulo="Carrera" />,
-                cell: ({ row }) => (
-                    <div className="flex flex-wrap">
-                        {row.getValue('nombre')}
-                    </div>
-                ),
-                size: 3,
+				accessorFn: (row) => `${row.nombre}`,
+                header: ({ column }) => <TituloTabla column={column} titulo="Nombre" />,
+				size: 1000
+            },
+			{
+				accessorKey: 'codigo',
+				accessorFn: (row) => `${row.codigo}`,
+                header: ({ column }) => <TituloTabla column={column} titulo="Codigo" />,
+				size: 100,
+				minSize: 100,
+                maxSize: 100,
             },
             {
                 id: 'actions',
                 header: 'Acciones',
                 cell: ({ row }) => <AccionTabla onClick={() => handleVerDetalle(row.original.id)} />,
-                size: 1,
+                size: 80,
+				minSize: 80,
+                maxSize: 80,
             },
         ]
 
@@ -60,12 +58,11 @@ export default function DegreePage() {
         <PageBase titulo="Carreras">
             
   
-            {loading && <ComponenteCarga mensaje="Cargando carreras..." />}
+            {loadingCarreras && <ComponenteCarga/>}
             
 
-            {error && <p className="text-center text-red-500">{error.message}</p>}
-            {
-				!loading && !error && carreras && institutos && (
+            {errorGetingCarreras && <p className="text-center text-red-500">{errorGetingCarreras.message}</p>}
+            {!loadingCarreras && !errorGetingCarreras && carreras && (
 				<div>
 					<div className="hidden sm:block"> 
 						<Tabla
@@ -73,36 +70,32 @@ export default function DegreePage() {
 							data={carreras} 
 							habilitarBuscador
 							habilitarPaginado
-							columnasFijas={false}
 							funcionAgregado={handleAgregar}
 						/>
 					</div>
 					<div className="block sm:hidden">
-						{carreras && institutos && (
-							<Listado
-								data={carreras} 
-								orderData={institutos}
-								dataRender={(carrera) => (
-									<FeedCard
-										titulo={carrera.nombre}
-										descripcion={carrera.codigo}
-										actions={
-											<BotonDetalle
-												onClick={() => handleVerDetalle(carrera.id)}
-											/>
-										}
-									/>
-								)}
-								onClick={handleAgregar}
-							/>
-						)}
+						<Listado
+							data={carreras} 
+							dataRender={(carrera) => (
+								<FeedCard
+									titulo={carrera.nombre}
+									descripcion={carrera.codigo}
+									actions={
+										<BotonDetalle
+											onClick={() => handleVerDetalle(carrera.id)}
+										/>
+									}
+								/>
+							)}
+							onClick={handleAgregar}
+						/>
 					</div>				
 				</div>
 				)
 			}
 			
 			{
-				carreras && carreras.length === 0 && (
+				!carreras || carreras.length === 0 && (
 					<p className="text-center text-gray-500">No se encontraron carreras.</p>
 				)
 			}

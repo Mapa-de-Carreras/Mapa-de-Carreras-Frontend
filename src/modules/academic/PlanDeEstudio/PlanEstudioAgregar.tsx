@@ -82,16 +82,16 @@ export default function PlanEstudioAgregar() {
                                 ]}
                             />
 
-                            <CampoSelect
+                            {/* <CampoSelect
                                 label="Carrera"
                                 nombre="carrera_id"
-                                options={carreras?.map(c => ({
+                                options={carreras?.map((c) => ({
                                     value: c.id.toString(),
                                     label: c.nombre
                                 })) || []}
                                 placeholder="Seleccione una carrera..."
                                 disabled={loading}
-                            />
+                            /> */}
     
                             <CampoSelect
                                 label="Documento"

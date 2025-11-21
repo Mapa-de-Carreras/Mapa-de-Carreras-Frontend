@@ -1,7 +1,6 @@
 import { useGetRoles } from '@apis/roles'
 import MensajeError from '@components/Mensajes/MensajeError'
 import PageBase from '@components/PageBase/PageBase'
-import { Loading } from '@components/Templates/Loading'
 import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card'
 import FormularioUsuario from './componentes/FormularioUsuario'
 import { useNavigate } from 'react-router'
@@ -11,6 +10,7 @@ import { extraerMensajeDeError } from '@lib/errores'
 import { useCallback, useState } from 'react'
 import DialogoFormulario from '@components/Modal/DialogoFormulario'
 import { CampoInput } from '@components/Formularios/CampoInput'
+import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 
 export default function PaginaCrearUsuario() {
 	const { data: roles, isLoading: isLoadingRoles, isError: isErrorRoles } = useGetRoles()
@@ -55,7 +55,7 @@ export default function PaginaCrearUsuario() {
 	return (
 		<PageBase>
 			{isLoadingRoles ? (
-				<Loading titulo="Cargando" descripcion="Obteniendo los datos del servidor..." />
+				<ComponenteCarga mensaje='Obteniendo los datos del servidor...' />
 			) : isErrorRoles ? (
 				<MensajeError
 					titulo="Error del servidor"

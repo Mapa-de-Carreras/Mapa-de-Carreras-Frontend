@@ -1,6 +1,6 @@
 import { IDesignacion } from "@globalTypes/designaciones";
 import { URL_API } from "./constantes";
-import { useGet } from "./hooks/useGet";
+import  useGet  from "./hooks/useGet";
 import { IPlanEstudio, IPlanEstudioDetalle } from "@globalTypes/planesestudio";
 
 const DESIGNACIONES_KEY = "useGetDesignaciones";
