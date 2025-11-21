@@ -27,6 +27,7 @@ export default defineConfig({
 
       // Modules
       "@academic": path.resolve(__dirname, "./src/modules/academic"),
+      "@academica": path.resolve(__dirname, "./src/modules/academica"),
       "@designations": path.resolve(__dirname, "./src/modules/designations"),
       "@statistics": path.resolve(__dirname, "./src/modules/statistics"),
       "@teachers": path.resolve(__dirname, "./src/modules/teachers"),
