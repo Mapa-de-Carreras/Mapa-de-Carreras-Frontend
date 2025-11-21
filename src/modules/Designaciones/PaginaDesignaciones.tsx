@@ -84,6 +84,7 @@ export default function PaginaDesignaciones() {
               columnas={columnas}
               handleAccion={handleVerDetalle}
               habilitarBuscador
+          //    funcionAgregado={esAdmin ? handleAgregarPlan : undefined}
             />
           </div>
 
