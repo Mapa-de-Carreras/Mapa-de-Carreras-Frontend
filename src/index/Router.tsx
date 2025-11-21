@@ -12,7 +12,6 @@ import UserDetail from '@users/UserDetail/UserDetail'
 import UserEdit from '@users/UserEdit/UserEdit'
 import NotificacionesPage from '@users/NotificacionesPage/NotificacionesPage'
 import DegreePage from '@academic/DegreePage/DegreePage'
-import InstitutesPage from '@academic/InstitutesPage/InstitutesPage'
 import DegreeDetail from '@academic/DegreePage/DegreeDetail'
 import SubjectPage from '@academic/SubjectPage/SubjectPage'
 import InstitutesDetail from '@academic/InstitutesPage/InstitutesDetail'
@@ -36,6 +35,7 @@ import PaginaCrearUsuario from '@usuarios/PaginaCrearUsuario/PaginaCrearUsuarios
 import PaginaDesignaciones from '../modules/Designaciones/PaginaDesignaciones'
 import DesignacionDetalle from '../modules/Designaciones/DesignacionesDetalle'
 import DesignacionesAgregar from '../modules/Designaciones/DesignacionesAgregar'
+import PaginaInstitutos from '@academica/PaginaInstitutos/PaginaInstitutos'
 
 export default function Router() {
 	const rutas: Route[] = [
@@ -78,7 +78,7 @@ export default function Router() {
 							label: 'Académica',
 							icon: 'icon-[cil--institution]',
 							children: [
-								{ path: 'institutos', label: 'Institutos', icon: 'icon-[cil--institution]', Component: InstitutesPage, menu: true, },
+								{ path: 'institutos', label: 'Institutos', icon: 'icon-[cil--institution]', Component: PaginaInstitutos, menu: true, },
 								{ path: 'institutos/detalle/:id', Component:  InstitutesDetail, menu: false},
 								{path: 'institutos/agregar', Component: InstitutesAdd, menu: false},
 								{path: 'institutos/editar/:id', Component: InstitutesEdit, menu: false},

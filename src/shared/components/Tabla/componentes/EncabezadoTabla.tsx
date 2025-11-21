@@ -19,7 +19,7 @@ export default function EncabezadoTabla<TData>({
 	funcionFiltro,
 }: EncabezadoTablaProps<TData>) {
 	return (
-		<div className="encabezado-tabla flex grow justify-between p-4 flex-row">
+		<div className="encabezado-tabla flex grow justify-between p-4 flex-row sm:flex-wrap sm:gap-2 md:gap-0 md:flex-nowrap">
 			<div className="w-full flex gap-2">
 				{funcionAgregado && <BotonBase variant="agregar" onClick={funcionAgregado} />}
 				{habilitarBuscador && <BuscadorTabla tabla={tabla} />}

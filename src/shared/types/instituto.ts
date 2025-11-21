@@ -26,3 +26,11 @@ export type PUT_TYPE_INSTITUTO = {
   nombre: string;
 }
 
+export type Instituto = {
+	id: number
+	codigo: string
+	nombre: string
+	activo: boolean
+	created_at: string
+	updated_at: string
+}
