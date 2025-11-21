@@ -44,3 +44,15 @@ export interface IDesignacion {
   updated_at: string;
   activo: boolean;
 }
+
+export type POST_TYPE_DESIGNACION = {
+  fecha_inicio: string;       
+  fecha_fin?: string | null;   
+  tipo_designacion: string;    
+  docente_id: number;          
+  comision_id?: number | null; 
+  cargo_id: number;            
+  observacion?: string | null; 
+  documento_id?: number | null;
+  dedicacion_id?: number | null;
+};

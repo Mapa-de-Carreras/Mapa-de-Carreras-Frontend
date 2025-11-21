@@ -19,6 +19,9 @@ export default function PaginaDesignaciones() {
   // Verifica si el usuario es administrador
   const esAdmin = usuario?.roles?.some((r) => r.nombre === "Administrador") ?? false;
   
+  const handleAgregarDesignacion = () => {
+    navigate(`/designaciones/agregar/`);
+};
 
   const handleVerDetalle = (row: IDesignacion) => {
     navigate(`/designaciones/detalle/${row.id}`);
@@ -84,7 +87,7 @@ export default function PaginaDesignaciones() {
               columnas={columnas}
               handleAccion={handleVerDetalle}
               habilitarBuscador
-          //    funcionAgregado={esAdmin ? handleAgregarPlan : undefined}
+              funcionAgregado={esAdmin ? handleAgregarDesignacion : undefined}
             />
           </div>
 
@@ -103,6 +106,7 @@ export default function PaginaDesignaciones() {
                     }
                   />
                 )}
+                onClick={handleAgregarDesignacion}
               />
             )}
           </div>

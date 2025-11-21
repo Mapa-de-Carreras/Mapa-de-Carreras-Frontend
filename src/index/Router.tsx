@@ -35,6 +35,7 @@ import PaginaPlanEstudio from '@academic/PlanDeEstudio/PaginaPlanEstudio'
 import PaginaCrearUsuario from '@usuarios/PaginaCrearUsuario/PaginaCrearUsuarios'
 import PaginaDesignaciones from '../modules/Designaciones/PaginaDesignaciones'
 import DesignacionDetalle from '../modules/Designaciones/DesignacionesDetalle'
+import DesignacionesAgregar from '../modules/Designaciones/DesignacionesAgregar'
 
 export default function Router() {
 	const rutas: Route[] = [
@@ -115,6 +116,7 @@ export default function Router() {
 							children: [
 								{ path: 'gestion', label: 'Gestión', Component: PaginaDesignaciones, icon: 'icon-[fluent--document-person-16-filled]', menu: true, },
 								{ path: 'detalle/:id', Component: DesignacionDetalle, menu: false },
+								{ path: 'agregar', Component: DesignacionesAgregar, menu: false },
 							],
 							menu: true,
 						},

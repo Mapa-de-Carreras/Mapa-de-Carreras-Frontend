@@ -1,7 +1,7 @@
-import { IDesignacion } from "@globalTypes/designaciones";
+import { IDesignacion, POST_TYPE_DESIGNACION } from "@globalTypes/designaciones";
 import { URL_API } from "./constantes";
 import  useGet  from "./hooks/useGet";
-import { IPlanEstudio, IPlanEstudioDetalle } from "@globalTypes/planesestudio";
+import usePost from "./hooks/usePost";
 
 const DESIGNACIONES_KEY = "useGetDesignaciones";
 export function useGetDesignaciones() {
@@ -20,4 +20,11 @@ export function useGetDesignacionesDetalle(id: number) {
     urlApi: `${URL_API}designaciones-docentes/${id}/`,
 
   });
+}
+
+export function usePostDesignacion() {
+    return usePost<POST_TYPE_DESIGNACION >({
+        key: 'usePostDesignacion',
+        urlApi: `${URL_API}designaciones-docentes/`,
+    });
 }

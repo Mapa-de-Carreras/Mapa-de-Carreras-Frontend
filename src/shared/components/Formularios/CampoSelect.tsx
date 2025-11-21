@@ -30,6 +30,7 @@ interface CampoSelectProps {
     obligatorio?: boolean;
     disabled?: boolean;
     options: Option[]; 
+    className?: string; // <-- AGREGADO
 }
 
 export function CampoSelect({ 
@@ -39,7 +40,8 @@ export function CampoSelect({
     descripcion,
     obligatorio,
     disabled,
-    options, 
+    options,
+    className,
 }: CampoSelectProps) {
     const { control } = useFormContext();
 
@@ -57,35 +59,34 @@ export function CampoSelect({
                         </FormLabel>
                         
                         <Select
-                            onValueChange={field.onChange} // RHF se encarga de actualizar
-                            value={displayValue} // 3. Pasa el valor transformado
+                            onValueChange={field.onChange}
+                            value={displayValue}
                             disabled={disabled}
-                            // 4. 'defaultValue' se elimina. 'value' es suficiente
-                            //    cuando se usa con RHF 'control'.
                         >
                             <FormControl>
-                                <SelectTrigger>
+                                <SelectTrigger className={className}>
                                     <SelectValue placeholder={placeholder} />
                                 </SelectTrigger>
                             </FormControl>
+
                             <SelectContent>
                                 {options.map((option) => (
                                     <SelectItem 
-                                      key={option.value} 
-                                      value={String(option.value)} 
+                                        key={option.value} 
+                                        value={String(option.value)}
                                     >
                                         {option.label}
                                     </SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
-                        
+
                         {descripcion && (
                             <FormDescription className="text-sm mt-1">
                                 {descripcion}
                             </FormDescription>
                         )}
-                        
+
                         <FormMessage />
                     </FormItem>
                 );
