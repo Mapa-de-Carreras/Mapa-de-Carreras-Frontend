@@ -1,4 +1,4 @@
-import useGetInstitutos from "@apis/intitutos";
+import { useGetInstitutos } from "@apis/intitutos";
 import BotonDetalle from "@components/Botones/BotonDetalle";
 import ComponenteCarga from "@components/ComponenteCarga/Componentecarga";
 import Listado from "@components/Lista/Listado";

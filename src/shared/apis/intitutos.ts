@@ -3,11 +3,11 @@ import useGet from './hooks/useGet';
 import usePost from './hooks/usePost';
 import usePut from './hooks/usePut';
 import useDelete from './hooks/useDelete';
-import { GET_TYPE_INSTITUTO, GET_TYPE_INSTITUTOS, POST_TYPE_INSTITUTO, PUT_TYPE_INSTITUTO } from "@globalTypes/instituto";
+import { GET_TYPE_INSTITUTO, Instituto, POST_TYPE_INSTITUTO, PUT_TYPE_INSTITUTO } from "@globalTypes/instituto";
 
 
 export function useGetInstitutos() {
-    return useGet<GET_TYPE_INSTITUTOS>({
+    return useGet<Instituto[]>({
         key: 'useGetInstitutos', 
         urlApi: `${URL_API}institutos/`,
         isEnabled: true,
