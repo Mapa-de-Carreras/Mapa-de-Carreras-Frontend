@@ -12,13 +12,12 @@ export function useGetDesignaciones() {
   });
 }
 
-/*
+
 const DESIGNACIONES_DETALLE_KEY = "useGetDesignacionesDetalle";
 export function useGetDesignacionesDetalle(id: number) {
-  return useGet<IPlanEstudioDetalle>({
+  return useGet<IDesignacion>({
     key: `${DESIGNACIONES_DETALLE_KEY}`, 
     urlApi: `${URL_API}designaciones-docentes/${id}/`,
 
   });
 }
-  */
