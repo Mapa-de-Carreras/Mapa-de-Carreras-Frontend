@@ -7,8 +7,8 @@ import { UsuarioListItem } from '@globalTypes/usuario'
 import Listado from '@components/Lista/Listado'
 import FeedCard from '@components/Tarjetas/FeedCard'
 import BotonDetalle from '@components/Botones/BotonDetalle'
-import { Loading } from '@components/Templates/Loading'
 import MensajeError from '@components/Mensajes/MensajeError'
+import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 
 export default function PaginaUsuarios() {
 	const { data: usuarios, isLoading: isLoadingUsuarios, isError: isErrorUsuarios } = useGetUsuarios()
@@ -44,10 +44,7 @@ export default function PaginaUsuarios() {
 	return (
 		<PageBase titulo="Listado de Usuarios" subtitulo="Usuarios ordenados por nombre">
 			{isLoadingUsuarios ? (
-				<Loading
-					titulo="Buscando Usuarios"
-					descripcion="Esperando al servidor de la UNTDF..."
-				/>
+				<ComponenteCarga />
 			) :  (isErrorUsuarios) ? (
                 <MensajeError titulo='Error del Servidor' descripcion='No se pudo obtener los usuarios' />
             ) : (
