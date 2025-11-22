@@ -13,7 +13,6 @@ export default function useGetCarreras() {
     return useGet<GET_TYPE_CARRERAS_LIST>({
         key: 'useGetCarreras', 
         urlApi: `${URL_API}carreras/`,
-        isEnabled: true,
     });
 }
 
@@ -21,7 +20,6 @@ export function useGetCarrera(id: number) {
     return useGet<GET_TYPE_CARRERA>({
         key: 'useGetCarrera', 
         urlApi: `${URL_API}carreras/${id}/`,
-        isEnabled: true,
     });
 }
 

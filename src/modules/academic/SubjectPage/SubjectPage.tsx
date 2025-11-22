@@ -3,9 +3,9 @@ import { Tabla } from '@components/Tabla/Tabla'
 import { ColumnDef } from '@tanstack/react-table'
 import TituloTabla from '@components/Tabla/TituloTabla'
 import AccionTabla from '@components/Tabla/AccionTabla'
-import Asignatura from '@globalTypes/asignatura'
+import { GET_TYPE_ASIGNATURA } from '@globalTypes/asignatura'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
-import  useGetAsignaturas from '@apis/asignaturas'
+import  {useGetAsignaturas} from '@apis/asignaturas'
 import Listado from '@components/Lista/Listado'
 import FeedCard from '@components/Tarjetas/FeedCard'
 import BotonDetalle from '@components/Botones/BotonDetalle'
@@ -18,7 +18,7 @@ export default function SubjectPage() {
 	}
 
 	
-	const columns: ColumnDef<Asignatura>[] = 
+	const columns: ColumnDef<GET_TYPE_ASIGNATURA>[] = 
 		[
 			{
 				accessorKey: 'nombre',
