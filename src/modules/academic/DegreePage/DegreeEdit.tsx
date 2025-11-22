@@ -29,6 +29,23 @@ export default function DegreeEdit() {
             buttons: [], 
         })
 
+        if(carrera?.nombre == formData.nombre && 
+            carrera?.nivel == formData.nivel && 
+            carrera?.codigo == formData.codigo &&
+            carrera?.instituto.id == Number(formData.instituto_id)
+        ) {
+            showModal({
+                title: 'Éxito',
+                description: 'La carrera se ha actualizado correctamente.',
+                buttons: [
+                    {
+                        variant: 'aceptar',
+                        onClick: () => navigate(-1),
+                    },
+                ],
+                isLoading: false,
+            })
+        }
 
         actualizarCarrera({ 
             data: formData, 
@@ -84,7 +101,7 @@ export default function DegreeEdit() {
                                     codigo: carrera.codigo,
                                     nombre: carrera.nombre,
                                     nivel: carrera.nivel,
-                                    instituto_id: carrera.instituto.nombre
+                                    instituto_id: ''
                                 }
                             }
                             schema={CarreraSchema}

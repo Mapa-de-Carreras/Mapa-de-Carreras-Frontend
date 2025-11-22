@@ -18,13 +18,13 @@ import { useGetDocenteCarrera } from "@apis/docentes";
 import {Accordion,AccordionItem,AccordionTrigger,AccordionContent} from "@components/ui/accordion";
 
 export default function DegreeDetail() {
-  const { id } = useParams<{ id: string }>();
+  const id = Number(useParams<{ id: string }>().id); 
   const navigate = useNavigate();
   const { showModal } = useModal();
-  const { data: carrera, isLoading: loadingCarrera, error: errorGetingCarrera } = useGetCarrera(Number(id));
+  const { data: carrera, isLoading: loadingCarrera, error: errorGetingCarrera } = useGetCarrera(id);
   
   const { mutate: deleteCarrera } = useDeleteCarrera();
-  const { data: docente } = useGetDocenteCarrera(Number(id));
+  const { data: docente } = useGetDocenteCarrera(id);
 
   const handleEditar = () => {
     navigate(`/academica/carreras/editar/${id}`);
@@ -46,7 +46,7 @@ export default function DegreeDetail() {
         msg: 'Eliminando Instituto...',
     })
 
-    deleteCarrera({ params: { id : Number(id)}}, {
+    deleteCarrera({ params: { id : id}}, {
         onSuccess: () => {
             showModal({
                 title: 'Éxito',

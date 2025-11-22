@@ -9,12 +9,15 @@ import  {useGetAsignaturas} from '@apis/asignaturas'
 import Listado from '@components/Lista/Listado'
 import FeedCard from '@components/Tarjetas/FeedCard'
 import BotonDetalle from '@components/Botones/BotonDetalle'
+import { useNavigate } from 'react-router'
 
 export default function SubjectPage() {
 	const { data: asignaturas, isLoading: loading, error } = useGetAsignaturas()
+	const navigate = useNavigate()
 
-	const handleVerDetalle = (codigo: string) => {
-		console.log('Asignatura a ver detalle codigo: ', codigo)
+	const handleVerDetalle = (id: number) => {
+		console.log(id)
+		navigate(`/academica/asignaturas/detalle/${id}`)
 	}
 
 	
@@ -34,7 +37,7 @@ export default function SubjectPage() {
 			{
 				id: 'actions',
 				cell: ({ row }) => (
-					<AccionTabla onClick={() => handleVerDetalle(row.original.codigo)} />
+					<AccionTabla onClick={() => handleVerDetalle(row.original.id)} />
 				),size: 1
 				
 			},
@@ -65,7 +68,7 @@ export default function SubjectPage() {
 								dataRender={(asignaturas) => (
 									<FeedCard titulo={asignaturas.nombre} descripcion={asignaturas.codigo}
 									actions={
-										<BotonDetalle onClick={() => handleVerDetalle(asignaturas.codigo)} />
+										<BotonDetalle onClick={() => handleVerDetalle(asignaturas.id)} />
 									}
 									/>
 								)}

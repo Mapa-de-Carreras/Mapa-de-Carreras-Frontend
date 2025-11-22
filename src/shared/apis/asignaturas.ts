@@ -20,7 +20,7 @@ export function useGetAsignaturas(activas?: boolean) {
     });
 }
 
-export function useGetAsingnatura(id: number){
+export function useGetAsignatura(id: number){
 	return useGet<GET_TYPE_ASIGNATURA>({
 		key: 'useGetAsignatura',
 		urlApi: `${URL_API}asignaturas/${id}`
