@@ -52,7 +52,7 @@ const CamposLogicos = () => {
     );
 };
 
-export default function SubjectEdit() {
+export default function EditarAsignatura() {
     const id = Number(useParams<{ id: string }>().id);
     const navigate = useNavigate()
     const { showModal } = useModal()
@@ -82,6 +82,7 @@ export default function SubjectEdit() {
                 ],
                 isLoading: false,
             })
+            return
         }
 
         editarAsignatura(
@@ -91,7 +92,7 @@ export default function SubjectEdit() {
                 onSuccess: () => {
                     showModal({
                         title: 'Asignatura Agregada',
-                        description: 'La asignatura se ha agregado correctamente',
+                        description: 'La asignatura se ha actualizado correctamente',
                         buttons: [
                             {
                                 variant: 'aceptar',
@@ -104,7 +105,7 @@ export default function SubjectEdit() {
                 onError: (errorPosting) => {
                     showModal({
                         title: 'Error',
-                        description: errorPosting.message || 'No se pudo agregar la asignatura',
+                        description: errorPosting.message || 'No se pudo actualizar la asignatura',
                         buttons: [
                             {
                                 variant: 'error',

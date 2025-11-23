@@ -51,7 +51,7 @@ const CamposLogicos = () => {
     );
 };
 
-export default function SubjectAdd() {
+export default function AgregarAsignatura() {
 	const navigate = useNavigate()
 	const { showModal } = useModal()
 	const { mutate: agregarAsignatura, isPending: isPendingAsignatura } = usePostAsignatura()

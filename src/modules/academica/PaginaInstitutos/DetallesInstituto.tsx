@@ -11,7 +11,7 @@ import BotonDetalle from '@components/Botones/BotonDetalle'
 import FeedCard from '@components/Tarjetas/FeedCard'
 import { DetailList } from '@components/CardDetalles/DetailList'
 
-export default function InstitutesDetail() {
+export default function DetallesInstituto() {
 	const { showModal } = useModal()
 	const id = Number(useParams<{ id: string }>().id); 
 	const navigate = useNavigate()

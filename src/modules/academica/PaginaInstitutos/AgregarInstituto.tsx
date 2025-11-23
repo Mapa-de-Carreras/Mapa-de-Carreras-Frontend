@@ -9,7 +9,7 @@ import BotonBase from '@components/Botones/BotonBase'
 import { Card, CardContent, CardFooter } from '@components/ui/card'
 import { InstitutoForm, InstitutoSchema } from './contraints';
 
-export default function InstitutesAdd() {
+export default function AgregarInstituto() {
 	const navigate = useNavigate()
 	const { showModal } = useModal()
 	const { mutate: crearIntituto, isPending: isPendingInsituto} = usePostInstituto()

@@ -2,11 +2,9 @@ import PageBase from "@components/PageBase/PageBase";
 import { useNavigate, useParams } from "react-router";
 import ComponenteCarga from "@components/ComponenteCarga/Componentecarga";
 
-// --- 1. Hooks de API y Lógica  ---
 import { useGetCarrera, useDeleteCarrera } from "@apis/carreras";
 import { useModal } from "@components/Providers/ModalProvider"; 
 
-// --- 2. Componentes de UI " ---
 import BotonBase from '@components/Botones/BotonBase';
 import { DetailCard } from '@components/CardDetalles/DetailCard';
 import { DetailField } from '@components/CardDetalles/DetailField'; 
@@ -15,9 +13,9 @@ import Icon from '@components/const/icons';
 import FeedCard from '@components/Tarjetas/FeedCard';
 import BotonDetalle from '@components/Botones/BotonDetalle';
 import { useGetDocenteCarrera } from "@apis/docentes";
-import {Accordion,AccordionItem,AccordionTrigger,AccordionContent} from "@components/ui/accordion";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@components/ui/accordion";
 
-export default function DegreeDetail() {
+export default function DetallesCarrera() {
   const id = Number(useParams<{ id: string }>().id); 
   const navigate = useNavigate();
   const { showModal } = useModal();

@@ -8,7 +8,7 @@ import { DetailCard } from "@components/CardDetalles/DetailCard";
 import Icon from "@components/const/icons";
 import { DetailField } from "@components/CardDetalles/DetailField";
 
-export default function SubjectDetail() { 
+export default function DetallesAsignatura() { 
     const id = Number(useParams<{id:string}>().id);
     const navigate = useNavigate();
     const { showModal } = useModal();

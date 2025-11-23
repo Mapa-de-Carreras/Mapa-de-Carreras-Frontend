@@ -18,7 +18,7 @@ import { Button } from '@components/ui/button';
 import { InstitutoForm, InstitutoSchema } from './contraints';
 
 
-export default function InstitutesEdit() {
+export default function EditarInstituto() {
     const { id } = useParams<{ id: string }>();  
     const navigate = useNavigate();
     const { showModal } = useModal();
@@ -47,6 +47,7 @@ export default function InstitutesEdit() {
                 ],
                 isLoading: false,
             })
+            return
         }
 
         actualizarInstituto({ 

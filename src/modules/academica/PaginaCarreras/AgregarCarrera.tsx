@@ -15,7 +15,8 @@ import { CarreraForm, CarreraSchema, opcionesNivel } from './constraints'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga';
 
 
-export default function DegreeAdd() {
+
+export default function AgregarCarrera() {
     const navigate = useNavigate();
     const { showModal } = useModal();
     

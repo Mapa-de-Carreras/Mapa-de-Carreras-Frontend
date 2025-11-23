@@ -11,31 +11,38 @@ import RecoverPassword3 from '@users/RecoverPassword/RecoverPassword3'
 import UserDetail from '@users/UserDetail/UserDetail'
 import UserEdit from '@users/UserEdit/UserEdit'
 import NotificacionesPage from '@users/NotificacionesPage/NotificacionesPage'
-import DegreePage from '@academic/DegreePage/DegreePage'
-import DegreeDetail from '@academic/DegreePage/DegreeDetail'
-import SubjectPage from '@academic/SubjectPage/SubjectPage'
-import InstitutesDetail from '@academic/InstitutesPage/InstitutesDetail'
-import PlanEstudioDetalle from '@academic/PlanDeEstudio/PlanEstudioDetalle'
-import SubjectDetail from '@academic/SubjectPage/SubjectDetail'
-import SubjectAdd from '@academic/SubjectPage/SubjectAdd'
-import SubjectEdit from '@academic/SubjectPage/SubjectEdit'
-import InstitutesAdd from '@academic/InstitutesPage/InstitutesAdd'
-import InstitutesEdit from '@academic/InstitutesPage/InsitutesEdit'
-import DegreeAdd from '@academic/DegreePage/DegreeAdd'
-import DegreeEdit from '@academic/DegreePage/DegreeEdit'
+
+import PaginaCarreras from '@academica/PaginaCarreras/PaginaCarreras'
+import DetallesCarrera from '@academica/PaginaCarreras/DetallesCarrera'
+import EditarCarrera from '@academica/PaginaCarreras/EditarCarrera'
+import AgregarCarrera from '@academica/PaginaCarreras/AgregarCarrera'
+
+import PaginaInstitutos from '@academica/PaginaInstitutos/PaginaInstitutos'
+import DetalleInstituto from '@academica/PaginaInstitutos/DetallesInstituto'
+import EditarInstituto from '@academica/PaginaInstitutos/EditarInstituto'
+import AgregarInstituto from '@academica/PaginaInstitutos/AgregarInstituto'
+
+import PaginaAsignaturas from '@academica/PaginaAsignaturas/PaginaAsignaturas'
+import DetallesAsignatura from '@academica/PaginaAsignaturas/DetallesAsignatura'
+import EditarAsignatura from '@academica/PaginaAsignaturas/EditarAsignatura'
+import AgregarAsignatura from '@academica/PaginaAsignaturas/AgregarAsignatura'
+
+import PlanEstudioDetalle from '@academica/PaginaPlanesEstudio/PlanEstudioDetalle'
+
 import DocenteDetalle from '../modules/Docentes/DocenteDetalle'
 import PaginaDocentes from '../modules/Docentes/PaginaDocentes'
 import CrearDocente from '../modules/Docentes/CrearDocente'
 import EditarDocente from '../modules/Docentes/EditarDocente'
 import PaginaIniciarSesion from '@usuarios/PaginaIniciarSesion/PaginaIniciarSesion'
 import PaginaUsuarios from '@usuarios/PaginaUsuarios/PaginaUsuarios'
-import PlanEstudioAgregar from '@academic/PlanDeEstudio/PlanEstudioAgregar'
-import PaginaPlanEstudio from '@academic/PlanDeEstudio/PaginaPlanEstudio'
+import PlanEstudioAgregar from '@academica/PaginaPlanesEstudio/PlanEstudioAgregar'
+import PaginaPlanEstudio from '@academica/PaginaPlanesEstudio/PaginaPlanEstudio'
 import PaginaCrearUsuario from '@usuarios/PaginaCrearUsuario/PaginaCrearUsuarios'
 import PaginaDesignaciones from '../modules/Designaciones/PaginaDesignaciones'
 import DesignacionDetalle from '../modules/Designaciones/DesignacionesDetalle'
 import DesignacionesAgregar from '../modules/Designaciones/DesignacionesAgregar'
-import PaginaInstitutos from '@academica/PaginaInstitutos/PaginaInstitutos'
+import NotFoundPage from './NotFoundPage'
+
 
 export default function Router() {
 	const rutas: Route[] = [
@@ -79,17 +86,17 @@ export default function Router() {
 							icon: 'icon-[cil--institution]',
 							children: [
 								{ path: 'institutos', label: 'Institutos', icon: 'icon-[cil--institution]', Component: PaginaInstitutos, menu: true, },
-								{ path: 'institutos/detalle/:id', Component:  InstitutesDetail, menu: false},
-								{path: 'institutos/agregar', Component: InstitutesAdd, menu: false},
-								{path: 'institutos/editar/:id', Component: InstitutesEdit, menu: false},
-								{ path: 'carreras', label: 'Carreras', icon: 'icon-[icon-park-outline--degree-hat]', Component: DegreePage, menu: true, },
-								{ path: 'carreras/detalle/:id', Component: DegreeDetail, menu: false },
-								{ path: 'carreras/agregar', Component: DegreeAdd, menu: false },
-								{ path: 'carreras/editar/:id', Component: DegreeEdit, menu: false },
-								{ path: 'asignaturas', label: 'Asignaturas', icon: 'icon-[octicon--book-16]', Component: SubjectPage, menu: true,},
-								{ path: 'asignaturas/detalle/:id', Component: SubjectDetail, menu: false },
-								{ path: 'asignaturas/agregar', Component: SubjectAdd, menu: false },
-								{ path: 'asignaturas/editar/:id', Component: SubjectEdit, menu: false },
+								{ path: 'institutos/detalle/:id', Component:  DetalleInstituto, menu: false},
+								{path: 'institutos/agregar', Component: AgregarInstituto, menu: false},
+								{path: 'institutos/editar/:id', Component: EditarInstituto, menu: false},
+								{ path: 'carreras', label: 'Carreras', icon: 'icon-[icon-park-outline--degree-hat]', Component: PaginaCarreras, menu: true, },
+								{ path: 'carreras/detalle/:id', Component: DetallesCarrera, menu: false },
+								{ path: 'carreras/agregar', Component: AgregarCarrera, menu: false },
+								{ path: 'carreras/editar/:id', Component: EditarCarrera, menu: false },
+								{ path: 'asignaturas', label: 'Asignaturas', icon: 'icon-[octicon--book-16]', Component: PaginaAsignaturas, menu: true,},
+								{ path: 'asignaturas/detalle/:id', Component: DetallesAsignatura, menu: false },
+								{ path: 'asignaturas/agregar', Component: AgregarAsignatura, menu: false },
+								{ path: 'asignaturas/editar/:id', Component: EditarAsignatura, menu: false },
 								{ path: 'planes', label: 'Planes de Estudio',Component:PaginaPlanEstudio, icon: 'icon-[basil--document-outline]', menu: true, },
 								{ path: 'planes/detalle', Component: PlanEstudioDetalle, menu: false },
 								{ path: 'planes/agregar', Component: PlanEstudioAgregar, menu: false },
@@ -134,7 +141,7 @@ export default function Router() {
 				},
 			],
 		},
-		{ path: '*', element: <div>Error</div> },
+		{ path: '*', element: <NotFoundPage/> },
 	]
 
 	return <RouterMapa rutas={rutas} />
