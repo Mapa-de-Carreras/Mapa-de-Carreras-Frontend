@@ -13,11 +13,13 @@ import BotonGenerico from '@components/Botones/BotonGenerico';
 import { URL_API } from '@apis/constantes';
 import { useGetPlanDetalle } from '@apis/planestudio';
 import MensajeError from '@components/Mensajes/MensajeError';
+import { useGetDocumentos } from '@apis/documentos';
 
 export default function PlanEstudioEditar() {
     const navigate = useNavigate();
     const id = Number(useParams<{ id: string }>().id); 
     const { data: plan,isLoading} = useGetPlanDetalle(id);
+    const { data: document} = useGetDocumentos();
     const [mostrarModal, setMostrarModal] = useState(false);
     const [valoresIniciales, setValoresIniciales] = useState<any | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -41,10 +43,6 @@ export default function PlanEstudioEditar() {
     if (!valoresIniciales) {
     return <PantallaCarga mensaje="Cargando datos del plan..." />;
     }
-    const documentos = [
-        { id: null, nombre: "Sin asignar" },
-        { id: 1, nombre: "Resolución 2025" }
-    ];
 
         const handleSubmit = async (data: any) => {
         const token = localStorage.getItem("access_token");
@@ -121,15 +119,29 @@ export default function PlanEstudioEditar() {
                         <p className="mb-4">{plan?.carrera?.nombre}</p>
                         <input type="hidden" name="carrera_id" value={plan?.carrera?.id} />
     
-                            <CampoSelect
-                                label="Documento"
-                                nombre="documento_id"
-                                options={documentos?.map(d => ({
-                                    value: d.id === null ? "null" : d.id.toString(),
-                                    label: d.nombre
-                                })) || []}
-                                placeholder="Seleccione un documento..."
-                            />
+                           <CampoSelect
+                                    label="Documento"
+                                    nombre="documento_id"
+                                    options={[
+                                        { value: "null", label: "Sin asignar" },
+                                        ...(document
+                                            ?.filter((d): d is { id: number; tipo?: string; emisor?: string; numero?: string; anio?: number } => d.id != null)
+                                            .map(d => {
+                                                const partes = [
+                                                    d.tipo || "",
+                                                    d.emisor || "",
+                                                    d.numero ? `Nº ${d.numero}` : "",
+                                                    d.anio ?? ""
+                                                ].filter(Boolean);
+
+                                                return {
+                                                    value: d.id.toString(),
+                                                    label: partes.join(" ")
+                                                };
+                                            }) || [])
+                                    ]}
+                                    placeholder="Seleccione un documento..."
+                                />
                         </CardContent>
                         <CardFooter className="flex justify-between">
                        

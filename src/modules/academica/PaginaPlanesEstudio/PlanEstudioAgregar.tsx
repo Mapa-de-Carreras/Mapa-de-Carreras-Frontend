@@ -13,10 +13,12 @@ import BotonGenerico from '@components/Botones/BotonGenerico';
 import { URL_API } from '@apis/constantes';
 import useAuth from '@hooks/useAuth';
 import MensajeError from '@components/Mensajes/MensajeError';
+import { useGetDocumentos } from '@apis/documentos';
 
 export default function PlanEstudioAgregar() {
     const navigate = useNavigate();
     const { data: carreras, isLoading: loading, error } = useGetCarreras()
+    const { data: document} = useGetDocumentos();
     const [mostrarModal, setMostrarModal] = useState(false);
     const { user: usuario } = useAuth();
     const ROLES_PERMITIDOS = ["Administrador", "Coordinador"];
@@ -24,7 +26,7 @@ export default function PlanEstudioAgregar() {
     const [errorCrear, setErrorCrear] = useState<string | null>(null);
   const handleCerrarModal = () => {
     setMostrarModal(false);
-    navigate("/docentes/gestion");
+    navigate("/academica/planes/");
   };
   
     const valoresIniciales = {
@@ -33,11 +35,6 @@ export default function PlanEstudioAgregar() {
         carrera_id: "",
         documento_id: "",
     };
-
-    const documentos = [
-        { id: null, nombre: "Sin asignar" },
-        { id: 1, nombre: "Resolución 2025" }
-    ];
 
    const handleSubmit = async (data: any) => {
         const token = localStorage.getItem("access_token");
@@ -120,13 +117,27 @@ export default function PlanEstudioAgregar() {
                                 disabled={loading}
                             />
     
-                            <CampoSelect
+                  <CampoSelect
                                 label="Documento"
                                 nombre="documento_id"
-                                options={documentos?.map(d => ({
-                                    value: d.id === null ? "null" : d.id.toString(),
-                                    label: d.nombre
-                                })) || []}
+                                options={[
+                                    { value: "null", label: "Sin asignar" },
+                                    ...(document
+                                        ?.filter((d): d is { id: number; tipo?: string; emisor?: string; numero?: string; anio?: number } => d.id != null)
+                                        .map(d => {
+                                            const partes = [
+                                                d.tipo || "",
+                                                d.emisor || "",
+                                                d.numero ? `Nº ${d.numero}` : "",
+                                                d.anio ?? ""
+                                            ].filter(Boolean);
+
+                                            return {
+                                                value: d.id.toString(),
+                                                label: partes.join(" ")
+                                            };
+                                        }) || [])
+                                ]}
                                 placeholder="Seleccione un documento..."
                                 disabled={loading}
                             />
