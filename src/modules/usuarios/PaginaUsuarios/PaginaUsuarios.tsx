@@ -12,11 +12,15 @@ import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 
 export default function PaginaUsuarios() {
 	const { data: usuarios, isLoading: isLoadingUsuarios, isError: isErrorUsuarios } = useGetUsuarios()
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	const columnas: ColumnDef<UsuarioListItem>[] = [
-		{ accessorKey: 'first_name', header: 'Nombre', size: 1 },
-		{ accessorKey: 'last_name', header: 'Apellido', size: 1 },
+		{
+			accessorFn: (row) => `${row.first_name} ${row.last_name}`,
+			id:'Nombre Completo',
+			header: 'Nombre Completo',
+			size: 2
+		},
 		{
 			accessorFn: (row) =>  row.roles.map((rol) => rol.nombre).join(','),
 			id: 'roles',
@@ -56,6 +60,7 @@ export default function PaginaUsuarios() {
 							handleAccion={handleVerDetalle}
 							habilitarBuscador
 							funcionAgregado={handleAgregar}
+							columnasFijas={false}
 						/>
 					</div>
 					<div className="block sm:hidden">

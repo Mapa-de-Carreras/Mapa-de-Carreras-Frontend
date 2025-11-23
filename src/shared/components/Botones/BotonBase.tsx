@@ -10,7 +10,8 @@ export type BotonBaseProps = {
 		'agregar' | 'guardar' | 'cancelar' |
 		'eliminar' | 'editar' | 'filtro' |
 		'default' | 'aceptar' | 'regresar' |
-		'error'
+		'error',
+	isLoading?: boolean
 }
 
 export default function BotonBase({
@@ -19,6 +20,7 @@ export default function BotonBase({
 	className = '',
 	variant = 'default',
 	type = 'button',
+	isLoading = false,
 }: BotonBaseProps) {
 	const iconsVariants = {
 		agregar: 'icon-[mdi--plus]',
@@ -64,8 +66,9 @@ export default function BotonBase({
 			className={`cursor-pointer text-white ${colorVariants[variant]} ${className}`}
 			onClick={onClick}
 			type={type}
+			disabled={isLoading}
 		>
-			{variant !== 'default' && <span className={`text-2xl ${iconsVariants[variant]} `} />}
+			{variant !== 'default' && <span className={`text-2xl ${ isLoading ? "icon-[line-md--loading-twotone-loop]" : iconsVariants[variant]} `} />}
 			{children || textVariants[variant]}
 		</Button>
 	)

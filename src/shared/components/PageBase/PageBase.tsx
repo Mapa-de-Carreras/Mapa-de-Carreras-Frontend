@@ -3,39 +3,71 @@ import TituloDePagina from '@components/Tipografia/TItuloDePagina'
 import FONDO from '@assets/fondo.jpg'
 import FONDO_OSCURO from '@assets/fondo-oscuro.jpg'
 import { useTheme } from '@hooks/useTheme'
+import { ReactNode } from 'react'
+import { useNavigate } from 'react-router'
 
 type props = {
-	children: React.ReactNode
+	children: ReactNode
 	className?: string
 	titulo?: string
 	subtitulo?: string
-    fondo?: boolean
+	fondo?: boolean
+	path?: string
+	volver?: boolean
 }
 
-export default function PageBase({ children, className, titulo, subtitulo, fondo = false }: props) {
-	const { theme } = useTheme();
-    
-    return (
+export default function PageBase({
+	children,
+	className,
+	titulo,
+	subtitulo,
+	fondo = false,
+	volver = false,
+	path = '',
+}: props) {
+	const navigate = useNavigate()
+	const onClick = () => {
+		if (path) navigate(path)
+		else navigate(-1)
+	}
+	const { theme } = useTheme()
+
+	return (
 		<div
 			className={`relative h-full w-full bg-cover bg-center p-2 sm:p-4 lg:p-8 ${className} overflow-y-auto`}
-			style={fondo ? {
-				backgroundImage: `url(${theme.includes("dark") ? FONDO_OSCURO : FONDO})`,
-			} : {}}
+			style={
+				fondo
+					? {
+							backgroundImage: `url(${theme.includes('dark') ? FONDO_OSCURO : FONDO})`,
+						}
+					: {}
+			}
 		>
 			{(titulo || subtitulo) && (
-				<div className="">
-					{titulo && (
-						<>
-							<TituloDePagina>{titulo}</TituloDePagina>
-							<br />
-						</>
+				<div className="flex items-start gap-10">
+					{volver && (
+						<button
+							type="button"
+							onClick={onClick}
+							className="bg-accent item-center flex cursor-pointer justify-center rounded-full p-2"
+						>
+							<span className="icon-[material-symbols--arrow-back-rounded] text-2xl" />
+						</button>
 					)}
-					{subtitulo && (
-						<>
-							<DescripcionDePagina>{subtitulo}</DescripcionDePagina>
-							<br />
-						</>
-					)}
+					<div>
+						{titulo && (
+							<>
+								<TituloDePagina>{titulo}</TituloDePagina>
+								<br />
+							</>
+						)}
+						{subtitulo && (
+							<>
+								<DescripcionDePagina>{subtitulo}</DescripcionDePagina>
+								<br />
+							</>
+						)}
+					</div>
 				</div>
 			)}
 			{children}

@@ -45,9 +45,12 @@ import NotFoundPage from './NotFoundPage'
 import PlanEstudioEditar from '@academica/PaginaPlanesEstudio/PlanEstudioEditar'
 import PaginaDocumentos from '../modules/Documentos/PaginaDocumentos'
 import AgregarDocumentos from '../modules/Documentos/AgregarDocumentos'
+import useRol from '@hooks/useRol'
 
 
 export default function Router() {
+	const esAdmin = useRol('Administrador');
+
 	const rutas: Route[] = [
 		{
 			path: '/authentication',
@@ -69,20 +72,20 @@ export default function Router() {
 					Component: App,
 					children: [
 						{ index: true, Component: Home, menu: true, label: "Home", icon: "icon-[material-symbols--home]" },
-						{
-							path: 'administracion',
-							label: 'Administración',
-							icon: 'icon-[eos-icons--admin-outlined]',
-							children: [
-								{ path: 'usuarios', label: 'Usuarios', icon: 'icon-[mdi--user-group]', Component: PaginaUsuarios, menu: true, },
-								{ path: 'usuarios/crear', Component: PaginaCrearUsuario, menu: false },
-								{ path: 'usuarios/detalle', Component: UserDetail, menu: false },
-								{ path: 'usuarios/editar', Component: UserEdit, menu: false },
-								{ path: 'notificaciones', Component: NotificacionesPage, menu: false, },
-								{ path: 'roles', label: 'Roles', icon: 'icon-[clarity--lock-solid]', menu: true, },
-							],
-							menu: true,
-						},
+						...(esAdmin ? [{
+								path: 'administracion',
+								label: 'Administración',
+								icon: 'icon-[eos-icons--admin-outlined]',
+								children: [
+									{ path: 'usuarios', label: 'Usuarios', icon: 'icon-[mdi--user-group]', Component: PaginaUsuarios, menu: true, },
+									{ path: 'usuarios/crear', Component: PaginaCrearUsuario, menu: false },
+									{ path: 'usuarios/detalle', Component: UserDetail, menu: false },
+									{ path: 'usuarios/editar', Component: UserEdit, menu: false },
+								],
+								menu: true,
+							}] : []
+						),
+						{ path: 'notificaciones', Component: NotificacionesPage, menu: false, },
 						{
 							path: 'academica',
 							label: 'Académica',

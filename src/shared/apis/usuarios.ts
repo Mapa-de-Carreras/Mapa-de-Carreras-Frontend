@@ -54,27 +54,7 @@ export function usePostUsuario(
 ) {
 	return usePost({
 		key: 'usePostUsuario',
-		urlApi: `${URL_API}auth/registrar-usuario/`,
-		...options,
-	})
-}
-
-export type ActivarCuentaResponse = {
-    email: string
-    code: string
-};
-
-export type ActivarCuentaPayload = {
-    email: string
-    code: string
-};
-
-export function usePostVerificarUsuario(
-    options: UsePostUsuarioOptions<ActivarCuentaResponse, Error, ParamsBase, ActivarCuentaPayload>
-) {
-	return usePost({
-		key: 'usePostVerificarUsuario',
-		urlApi: `${URL_API}auth/registrar/activar-cuenta/`,
+		urlApi: `${URL_API}usuarios/`,
 		...options,
 	})
 }
