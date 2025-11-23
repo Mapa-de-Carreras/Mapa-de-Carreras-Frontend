@@ -43,13 +43,11 @@ export default function PaginaDocumentos() {
 
   const handleVerDocumento = (id: number) => {
     console.log("Ver documento", id);
-    // Aquí podés navegar al detalle:
-    // navigate(`/academica/documentos/detalle/${id}`);
+    navigate(`/documentos/detalle/${id}`);
   };
 
     const handleAgregarDocumento = () => {
         console.log("Agregar documento");
-        // Aquí podés navegar al detalle:
          navigate(`/documentos/agregar/`);
   };
 

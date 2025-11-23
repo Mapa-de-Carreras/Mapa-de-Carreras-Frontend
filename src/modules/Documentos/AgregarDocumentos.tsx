@@ -5,6 +5,10 @@ import BotonBase from "@components/Botones/BotonBase";
 import MensajeError from "@components/Mensajes/MensajeError";
 import { URL_API } from "@apis/constantes";
 import BotonGenerico from "@components/Botones/BotonGenerico";
+import { CampoSelect } from "@components/Formularios/CampoSelect";
+import ModalGenerico from "@components/Modal/ModalGenerico";
+import { useNavigate } from "react-router";
+import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
 
 
 export default function AgregarDocumentos() {
@@ -13,53 +17,76 @@ export default function AgregarDocumentos() {
   const [emisor, setEmisor] = useState("");
   const [anio, setAnio] = useState("");
   const [numero, setNumero] = useState("");
-
+  const [mostrarModal, setMostrarModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [cargando, setCargando] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!file) return setError("Debes seleccionar un archivo PDF");
-
-    if (!tipo || !emisor || !anio || !numero)
-      return setError("Todos los campos son obligatorios");
-
-    setError(null);
-    setCargando(true);
-
-    try {
-      const formData = new FormData();
-      formData.append("archivo", file);
-      formData.append("tipo", tipo);
-      formData.append("emisor", emisor);
-      formData.append("anio", anio);
-      formData.append("numero", numero);
-
-      const res = await fetch(`${URL_API}documentos/`, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!res.ok) throw new Error("No se pudo guardar el documento.");
-
-      alert("Documento cargado correctamente.");
-
-      // Limpiar formulario
-      setFile(null);
-      setTipo("");
-      setEmisor("");
-      setAnio("");
-      setNumero("");
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setCargando(false);
-    }
+    const handleCerrarModal = () => {
+    setMostrarModal(false);
+    navigate("/documentos/gestion");
   };
 
+
+ const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+
+      if (!file) return setError("Debes seleccionar un archivo PDF");
+
+      if (!tipo || !emisor || !anio || !numero)
+        return setError("Todos los campos son obligatorios");
+
+      setError(null);
+      setCargando(true);
+
+      try {
+        const formData = new FormData();
+        formData.append("archivo", file);
+        formData.append("tipo", tipo);
+        formData.append("emisor", emisor);
+        formData.append("anio", anio);
+        formData.append("numero", numero);
+
+        const token = localStorage.getItem("access_token");
+
+        const res = await fetch(`${URL_API}documentos/`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
+
+        // si la API devuelve error
+        if (!res.ok) {
+          const errorData = await res.json();
+          if (errorData?.non_field_errors) {
+            throw new Error(errorData.non_field_errors[0]);
+          } else {
+            throw new Error("No se pudo guardar el documento.");
+          }
+        }
+
+        // EXITO: mostrar modal
+        setMostrarModal(true);
+
+        // limpiar campos
+        setFile(null);
+        setTipo("");
+        setEmisor("");
+        setAnio("");
+        setNumero("");
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Ocurrió un error desconocido");
+        }
+      }
+    };
   return (
     <PageBase titulo="Agregar Documento" subtitulo="Cargar un nuevo documento">
+       {cargando && <PantallaCarga mensaje="Cargando..." />}
       <Card className="max-w-xl mx-auto mt-4 p-4 flex flex-col gap-4">
         {error && <MensajeError titulo="Error" descripcion={error} />}
 
@@ -107,16 +134,18 @@ export default function AgregarDocumentos() {
             </div>
 
           {/* Tipo */}
-          <div>
-            <label className="font-semibold">Tipo</label>
-            <input
+      
+            <CampoSelect
+              label="Tipo"
+              nombre="tipo"
+              placeholder="Seleccione un tipo..."
               value={tipo}
-              onChange={(e) => setTipo(e.target.value)}
-              placeholder="Ej: RESOLUCIÓN"
-              className="border p-2 rounded w-full"
+              onChange={(v) => setTipo(v)}
+              options={[
+                { value: "ORDENANZA", label: "Ordenanza" },
+                { value: "RESOLUCION", label: "Resolución" },
+              ]}
             />
-          </div>
-
           {/* Emisor */}
           <div>
             <label className="font-semibold">Emisor</label>
@@ -131,11 +160,13 @@ export default function AgregarDocumentos() {
           {/* Año */}
           <div>
             <label className="font-semibold">Año</label>
-            <input
+          <input
               type="number"
               value={anio}
               onChange={(e) => setAnio(e.target.value)}
               placeholder="Ej: 2025"
+              min={1900}
+              max={new Date().getFullYear()}
               className="border p-2 rounded w-full"
             />
           </div>
@@ -159,6 +190,18 @@ export default function AgregarDocumentos() {
                                                />
         </form>
       </Card>
+              <ModalGenerico
+                          abierto={mostrarModal}
+                          onClose={handleCerrarModal}
+                          icono={
+                            <span className="icon-[mdi--check-bold] text-green-600 text-5xl" />
+                          }
+                          titulo="Éxito"
+                          mensaje="Documento subido correctamente."
+                          textoBoton="Aceptar"
+                          colorBoton="#47ADA4"
+                          onConfirmar={handleCerrarModal}
+                        />
     </PageBase>
   );
 }
