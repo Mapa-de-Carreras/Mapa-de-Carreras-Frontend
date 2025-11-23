@@ -6,3 +6,14 @@ export interface IDocumento {
   anio?: number | null;   
   created_at?: string;   
 }
+
+export interface IDocumentoDetalle {
+  id: number;
+  tipo: string;
+  emisor: string;
+  numero: string;
+  anio: number;
+  archivo: string;       
+  archivo_url: string;  
+  created_at: string;   
+}

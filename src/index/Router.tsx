@@ -45,6 +45,7 @@ import NotFoundPage from './NotFoundPage'
 import PlanEstudioEditar from '@academica/PaginaPlanesEstudio/PlanEstudioEditar'
 import PaginaDocumentos from '../modules/Documentos/PaginaDocumentos'
 import AgregarDocumentos from '../modules/Documentos/AgregarDocumentos'
+import DetalleDocumentos from '../modules/Documentos/DetalleDocumentos'
 
 
 export default function Router() {
@@ -146,8 +147,9 @@ export default function Router() {
 							label: 'Documentos',
 							icon: 'icon-[mdi--file-document-outline]',
 							children: [
-								{ path: 'Documentos', label: 'Documentos', Component: PaginaDocumentos,icon: 'icon-[mdi--file-document-outline]', menu: true, },
+								{ path: 'gestion', label: 'Documentos', Component: PaginaDocumentos,icon: 'icon-[mdi--file-document-outline]', menu: true, },
 								{ path: 'agregar', Component:AgregarDocumentos, menu: false },
+								{ path: 'detalle/:id', Component: DetalleDocumentos, menu: false },
 							],
 							menu: true,
 						},
