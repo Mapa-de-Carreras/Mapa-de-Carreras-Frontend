@@ -42,7 +42,8 @@ import PaginaDesignaciones from '../modules/Designaciones/PaginaDesignaciones'
 import DesignacionDetalle from '../modules/Designaciones/DesignacionesDetalle'
 import DesignacionesAgregar from '../modules/Designaciones/DesignacionesAgregar'
 import NotFoundPage from './NotFoundPage'
-import PlanEstudioEditar from '@academic/PlanDeEstudio/PlanEstudioEditar'
+import PlanEstudioEditar from '@academica/PaginaPlanesEstudio/PlanEstudioEditar'
+
 
 export default function Router() {
 	const rutas: Route[] = [
