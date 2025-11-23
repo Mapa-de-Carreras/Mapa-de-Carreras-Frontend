@@ -7,6 +7,7 @@ import { useGetPlanDetalle } from "@apis/planestudio";
 import BotonBase from "@components/Botones/BotonBase";
 import { useDeletePlan} from "@apis/planestudio";
 import useAuth from "@hooks/useAuth";
+import TablaAsignaturas from "./TablaAsignaturas";
 
 export default function PlanEstudioDetalle() {
   const location = useLocation();
@@ -108,85 +109,11 @@ return (
               </h3>
 
               <div className="overflow-x-auto">
-                <table className="min-w-full border 
-                                  border-gray-300 dark:border-gray-700 
-                                  rounded-xl overflow-hidden">
-                  
-                  <thead className="bg-gray-100 dark:bg-gray-700">
-                    <tr>
-                      <th className="px-4 py-3 text-left 
-                                    text-gray-700 dark:text-gray-200 
-                                    font-semibold 
-                                    border-b border-gray-300 dark:border-gray-600">
-                        Asignatura
-                      </th>
-                      <th className="px-4 py-3 text-left 
-                                    text-gray-700 dark:text-gray-200 
-                                    font-semibold 
-                                    border-b border-gray-300 dark:border-gray-600">
-                        Correlativa
-                      </th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {plan.asignaturas && plan.asignaturas.length > 0 ? (
-                      plan.asignaturas.map((a) => (
-                        <tr
-                          key={a.id}
-                          className="hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer"
-                        >
-                          {/* Asignatura */}
-                          <td
-                            className="px-4 py-3 
-                                      border-b border-gray-200 dark:border-gray-700 
-                                      text-gray-700 dark:text-gray-200 
-                                      hover:underline"
-                            onClick={() => handleVerAsignatura(a.id)}
-                          >
-                            {a.nombre}
-                          </td>
-
-                          {/* Correlativas */}
-                          <td className="px-4 py-3 
-                                        border-b border-gray-200 dark:border-gray-700 
-                                        text-gray-800 dark:text-gray-200">
-                            {a.correlativas.length > 0 ? (
-                              <div className="flex flex-col gap-1">
-                                {a.correlativas.map((c) => (
-                                  <span
-                                    key={c.id}
-                                    className="hover:underline cursor-pointer 
-                                              text-gray-800 dark:text-gray-300"
-                                    onClick={() => handleVerAsignatura(c.id)}
-                                  >
-                                    {c.nombre}
-                                  </span>
-                                ))}
-                              </div>
-                            ) : (
-                              <span className="text-gray-600 dark:text-gray-400">
-                                — Sin correlativas —
-                              </span>
-                            )}
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td
-                          colSpan={2}
-                          className="text-center 
-                                    text-gray-600 dark:text-gray-400 
-                                    py-4 
-                                    border-b border-gray-200 dark:border-gray-700"
-                        >
-                          No hay asignaturas registradas.
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
+               
+                     <TablaAsignaturas
+                asignaturas={plan.asignaturas}
+                onVerAsignatura={handleVerAsignatura}
+              />
               </div>
             </CardContent>
 

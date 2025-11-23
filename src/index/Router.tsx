@@ -43,6 +43,8 @@ import DesignacionDetalle from '../modules/Designaciones/DesignacionesDetalle'
 import DesignacionesAgregar from '../modules/Designaciones/DesignacionesAgregar'
 import NotFoundPage from './NotFoundPage'
 import PlanEstudioEditar from '@academica/PaginaPlanesEstudio/PlanEstudioEditar'
+import PaginaDocumentos from '../modules/Documentos/PaginaDocumentos'
+import AgregarDocumentos from '../modules/Documentos/AgregarDocumentos'
 
 
 export default function Router() {
@@ -136,6 +138,16 @@ export default function Router() {
 							children: [
 								{ path: 'estadisticas', label: 'Estadísticas', icon: 'icon-[akar-icons--statistic-up]', menu: true, },
 								{ path: 'reportes', label: 'Reportes', icon: 'icon-[mdi--report-bar-stacked]', menu: true, },
+							],
+							menu: true,
+						},
+							{
+							path: 'documentos',
+							label: 'Documentos',
+							icon: 'icon-[mdi--file-document-outline]',
+							children: [
+								{ path: 'Documentos', label: 'Documentos', Component: PaginaDocumentos,icon: 'icon-[mdi--file-document-outline]', menu: true, },
+								{ path: 'agregar', Component:AgregarDocumentos, menu: false },
 							],
 							menu: true,
 						},
