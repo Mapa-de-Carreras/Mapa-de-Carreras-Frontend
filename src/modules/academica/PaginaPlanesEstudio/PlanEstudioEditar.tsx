@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { Formulario } from '@components/Formularios/Formulario';
 import { CampoInput } from '@components/Formularios/CampoInput';
 import { CampoSelect } from '@components/Formularios/CampoSelect'; 
@@ -12,14 +12,15 @@ import PantallaCarga from '@components/PantallaCarga/PantallaCarga';
 import BotonGenerico from '@components/Botones/BotonGenerico';
 import { URL_API } from '@apis/constantes';
 
-export default function PlanEstudioAgregar() {
+export default function PlanEstudioEditar() {
     const navigate = useNavigate();
+    const id = Number(useParams<{ id: string }>().id); 
     const { data: carreras, isLoading: loading, error } = useGetCarreras()
     const [mostrarModal, setMostrarModal] = useState(false);
 
   const handleCerrarModal = () => {
     setMostrarModal(false);
-    navigate("/docentes/gestion");
+    navigate("/academica/planes/");
   };
   
     const valoresIniciales = {
@@ -43,8 +44,8 @@ export default function PlanEstudioAgregar() {
         carrera_id: Number(data.carrera_id),
         esta_vigente: data.esta_vigente === "true"
     };
-        const res = await fetch(`${URL_API}planes/`, {
-            method: "POST",
+        const res = await fetch(`${URL_API}planes/${id}`, {
+            method: "PATCH",
              headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -57,11 +58,11 @@ export default function PlanEstudioAgregar() {
             return;
         }
 
-        alert("Plan de estudio creado con exito");
+        alert("Plan de estudio editado con exito");
     };
 
     return (
-        <PageBase titulo="Crear Plan de Estudio">
+        <PageBase titulo="Editar Plan de Estudio">
          {loading && <PantallaCarga mensaje="Cargando..." />}
             <div className="mb-4">
                 <BotonBase variant="regresar" onClick={() => navigate(-1)} />
