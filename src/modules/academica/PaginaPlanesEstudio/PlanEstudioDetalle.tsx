@@ -1,19 +1,24 @@
 import PageBase from "@components/PageBase/PageBase";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import BotonGenerico from "@components/Botones/BotonGenerico";
 import { useGetPlanDetalle } from "@apis/planestudio";
 import BotonBase from "@components/Botones/BotonBase";
+import { useDeletePlan} from "@apis/planestudio";
+import useAuth from "@hooks/useAuth";
 
 export default function PlanEstudioDetalle() {
   const location = useLocation();
   const { id } = (location.state as { id: number }) || {};
   const navigate = useNavigate();
-
+  const { deletePlan, loading: deleting, error: deleteError, success } = useDeletePlan();
   const { data: plan} = useGetPlanDetalle(id);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { user: usuario } = useAuth();
+  const ROLES_PERMITIDOS = ["Administrador", "Coordinador"];
+  const esAdmin = usuario?.roles?.some((r) => ROLES_PERMITIDOS.includes(r.nombre)) ?? false;
 
   if (error) {
     return (
@@ -33,26 +38,30 @@ export default function PlanEstudioDetalle() {
   };
 
   const handleEditar = () => {
+ //    const carreraId= data.carrera.id;
        navigate(`/academica/planes/editar/${id}`);
   }
-
-   const handleEliminar = async () => {
-      console.log("Eliminar");
+  const handleEliminar = async () => {
+    console.log("Eliminar plan");
+    await deletePlan(id);
+    navigate("/academica/planes");
   };
 
 return (
     <PageBase>
       
-                <div className="flex justify-center gap-4 mt-6 mb-4">
-                <BotonBase 
-                  variant="editar" 
-                  onClick={handleEditar} 
-                />
-                <BotonBase 
-                  variant="eliminar" 
-                  onClick={handleEliminar} 
-                />
-              </div>
+                {esAdmin && (
+                  <div className="flex justify-center gap-4 mt-6 mb-4">
+                    <BotonBase 
+                      variant="editar" 
+                      onClick={handleEditar} 
+                    />
+                    <BotonBase 
+                      variant="eliminar" 
+                      onClick={handleEliminar} 
+                    />
+                  </div>
+                )}
       {plan && (
         <div className="flex flex-col items-center justify-start min-h-screen 
                         bg-gray-50 dark:bg-gray-900 

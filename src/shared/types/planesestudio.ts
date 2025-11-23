@@ -1,3 +1,5 @@
+import { GET_TYPE_CARRERA } from "./carrera";
+
 export interface IAsignatura {
   id: number;
   codigo: string;
@@ -24,6 +26,7 @@ export interface IPlanEstudioDetalle {
   fecha_inicio: string;
   esta_vigente: boolean;
   documento: IDocumento | null;
+  carrera: GET_TYPE_CARRERA
   asignaturas: IAsignatura[];
 }
 
@@ -34,5 +37,5 @@ export interface IPlanEstudio {
   creado_por?: string;       
   created_at?: string;       
   updated_at?: string;    
-  documento: IDocumento | null;    
+  documento: IDocumento | null;  
 }

@@ -7,63 +7,89 @@ import BotonBase from '@components/Botones/BotonBase';
 import { Card, CardContent, CardFooter } from '@components/ui/card';
 import useGetCarreras from '@apis/carreras';
 import ModalGenerico from '@components/Modal/ModalGenerico';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PantallaCarga from '@components/PantallaCarga/PantallaCarga';
 import BotonGenerico from '@components/Botones/BotonGenerico';
 import { URL_API } from '@apis/constantes';
+import { useGetPlanDetalle } from '@apis/planestudio';
+import MensajeError from '@components/Mensajes/MensajeError';
 
 export default function PlanEstudioEditar() {
     const navigate = useNavigate();
     const id = Number(useParams<{ id: string }>().id); 
-    const { data: carreras, isLoading: loading, error } = useGetCarreras()
+    const { data: plan,isLoading} = useGetPlanDetalle(id);
     const [mostrarModal, setMostrarModal] = useState(false);
-
+    const [valoresIniciales, setValoresIniciales] = useState<any | null>(null);
+    const [error, setError] = useState<string | null>(null);
   const handleCerrarModal = () => {
     setMostrarModal(false);
     navigate("/academica/planes/");
   };
   
-    const valoresIniciales = {
-        fecha_inicio: "",
-        esta_vigente: true,
-        carrera_id: "",
-        documento_id: "",
-    };
+    useEffect(() => {
+  if (plan) {
+    setValoresIniciales({
+      fecha_inicio: plan.fecha_inicio || "",
+      esta_vigente: plan.esta_vigente ? "true" : "false",
+      carrera_id: plan.carrera?.id?.toString() || "",
+      documento_id: plan.documento?.id?.toString() || "null",
+    });
+  }
+}, [plan]);
 
+
+    if (!valoresIniciales) {
+    return <PantallaCarga mensaje="Cargando datos del plan..." />;
+    }
     const documentos = [
         { id: null, nombre: "Sin asignar" },
         { id: 1, nombre: "Resolución 2025" }
     ];
 
-    const handleSubmit = async (data: any) => {
+        const handleSubmit = async (data: any) => {
         const token = localStorage.getItem("access_token");
 
-          const payload = {
-        ...data,
-        documento_id: data.documento_id === "null" ? null : Number(data.documento_id),
-        carrera_id: Number(data.carrera_id),
-        esta_vigente: data.esta_vigente === "true"
-    };
-        const res = await fetch(`${URL_API}planes/${id}`, {
-            method: "PATCH",
-             headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+        const payload = {
+            ...data,
+            documento_id: data.documento_id === "null" ? null : Number(data.documento_id),
+            carrera_id: Number(data.carrera_id),
+            esta_vigente: data.esta_vigente === "true",
+        };
+
+        try {
+            const res = await fetch(`${URL_API}planes/${id}/`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(payload),
-        });
+            });
 
-        if (!res.ok) {
-            console.error("Error al guardar Plan de Estudio");
+            if (!res.ok) {
+            const mensaje = await res.json(); 
+            setError(`No se pudo editar el plan de estudio. ${mensaje}`);
             return;
+            }
+
+            // Si todo sale bien, mostramos modal de éxito
+            setError(null);
+            setMostrarModal(true);
+
+        } catch (err) {
+            console.error(err);
+            setError("Ocurrió un error al comunicarse con el servidor.");
         }
-
-        alert("Plan de estudio editado con exito");
-    };
-
+        };
     return (
         <PageBase titulo="Editar Plan de Estudio">
-         {loading && <PantallaCarga mensaje="Cargando..." />}
+         {isLoading && <PantallaCarga mensaje="Cargando..." />}
+         {error && (
+            <MensajeError 
+                titulo="Error del servidor" 
+                descripcion={error} 
+            />
+            )}
             <div className="mb-4">
                 <BotonBase variant="regresar" onClick={() => navigate(-1)} />
             </div>
@@ -91,16 +117,9 @@ export default function PlanEstudioEditar() {
                                 ]}
                             />
 
-                            <CampoSelect
-                                label="Carrera"
-                                nombre="carrera_id"
-                                options={carreras?.map((c) => ({
-                                    value: c.id.toString(),
-                                    label: c.nombre
-                                })) || []}
-                                placeholder="Seleccione una carrera..." 
-                                disabled={loading}
-                            />
+                       <p className="text-gray-700 dark:text-gray-300 font-medium mb-1">Carrera</p>
+                        <p className="mb-4">{plan?.carrera?.nombre}</p>
+                        <input type="hidden" name="carrera_id" value={plan?.carrera?.id} />
     
                             <CampoSelect
                                 label="Documento"
@@ -110,7 +129,6 @@ export default function PlanEstudioEditar() {
                                     label: d.nombre
                                 })) || []}
                                 placeholder="Seleccione un documento..."
-                                disabled={loading}
                             />
                         </CardContent>
                         <CardFooter className="flex justify-between">
@@ -133,7 +151,7 @@ export default function PlanEstudioEditar() {
                       <span className="icon-[mdi--check-bold] text-green-600 text-5xl" />
                     }
                     titulo="Éxito"
-                    mensaje="Plan de estudio creado correctamente."
+                    mensaje="Plan de estudio editado correctamente."
                     textoBoton="Aceptar"
                     colorBoton="#47ADA4"
                     onConfirmar={handleCerrarModal}

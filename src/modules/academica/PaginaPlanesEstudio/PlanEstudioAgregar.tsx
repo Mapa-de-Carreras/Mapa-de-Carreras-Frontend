@@ -11,12 +11,17 @@ import { useState } from 'react';
 import PantallaCarga from '@components/PantallaCarga/PantallaCarga';
 import BotonGenerico from '@components/Botones/BotonGenerico';
 import { URL_API } from '@apis/constantes';
+import useAuth from '@hooks/useAuth';
+import MensajeError from '@components/Mensajes/MensajeError';
 
 export default function PlanEstudioAgregar() {
     const navigate = useNavigate();
     const { data: carreras, isLoading: loading, error } = useGetCarreras()
     const [mostrarModal, setMostrarModal] = useState(false);
-
+    const { user: usuario } = useAuth();
+    const ROLES_PERMITIDOS = ["Administrador", "Coordinador"];
+    const esAdmin = usuario?.roles?.some((r) => ROLES_PERMITIDOS.includes(r.nombre)) ?? false;
+    const [errorCrear, setErrorCrear] = useState<string | null>(null);
   const handleCerrarModal = () => {
     setMostrarModal(false);
     navigate("/docentes/gestion");
@@ -34,34 +39,48 @@ export default function PlanEstudioAgregar() {
         { id: 1, nombre: "Resolución 2025" }
     ];
 
-    const handleSubmit = async (data: any) => {
+   const handleSubmit = async (data: any) => {
         const token = localStorage.getItem("access_token");
 
-          const payload = {
-        ...data,
-        documento_id: data.documento_id === "null" ? null : Number(data.documento_id),
-        carrera_id: Number(data.carrera_id),
-        esta_vigente: data.esta_vigente === "true"
-    };
-        const res = await fetch(`${URL_API}planes/`, {
+        const payload = {
+            ...data,
+            documento_id: data.documento_id === "null" ? null : Number(data.documento_id),
+            carrera_id: Number(data.carrera_id),
+            esta_vigente: data.esta_vigente === "true",
+        };
+
+        try {
+            const res = await fetch(`${URL_API}planes/`, {
             method: "POST",
-             headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(payload),
-        });
+            });
 
-        if (!res.ok) {
-            console.error("Error al guardar Plan de Estudio");
+            if (!res.ok) {
+            const mensaje = await res.json();
+            setErrorCrear(mensaje || "No se pudo crear el plan de estudio.");
             return;
+            }
+            // Si todo sale bien, reseteamos error y mostramos modal
+            setErrorCrear(null);
+            setMostrarModal(true);
+        } catch (err) {
+            console.error(err);
+            setErrorCrear("Ocurrió un error al comunicarse con el servidor.");
         }
-
-        alert("Plan de estudio creado con exito");
-    };
+        };
 
     return (
         <PageBase titulo="Crear Plan de Estudio">
+              {errorCrear && (
+                      <MensajeError 
+                          titulo="Error del servidor" 
+                          descripcion={errorCrear} 
+                      />
+                      )}
          {loading && <PantallaCarga mensaje="Cargando..." />}
             <div className="mb-4">
                 <BotonBase variant="regresar" onClick={() => navigate(-1)} />
