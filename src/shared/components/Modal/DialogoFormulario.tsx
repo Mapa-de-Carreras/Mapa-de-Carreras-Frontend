@@ -22,6 +22,7 @@ type DialogoProps<T extends Record<string, any>> = {
 	onError?: SubmitErrorHandler<T>
 	valoresIniciales: T
 	children: ReactNode
+	isLoading?: boolean
 }
 
 export default function DialogoFormulario<T extends Record<string, any>>({
@@ -34,6 +35,7 @@ export default function DialogoFormulario<T extends Record<string, any>>({
 	onError,
 	valoresIniciales,
 	children,
+	isLoading = false,
 }: DialogoProps<T>) {
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
@@ -52,7 +54,7 @@ export default function DialogoFormulario<T extends Record<string, any>>({
 						<DialogClose asChild>
 							<BotonBase variant="cancelar" onClick={onCancel} />
 						</DialogClose>
-						<BotonBase variant="guardar" type="submit" />
+						<BotonBase variant="guardar" type="submit" isLoading={isLoading} />
 					</DialogFooter>
 				</Formulario>
 			</DialogContent>
