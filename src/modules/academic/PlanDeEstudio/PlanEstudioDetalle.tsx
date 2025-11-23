@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import BotonGenerico from "@components/Botones/BotonGenerico";
 import { useGetPlanDetalle } from "@apis/planestudio";
+import BotonBase from "@components/Botones/BotonBase";
 
 export default function PlanEstudioDetalle() {
   const location = useLocation();
@@ -31,8 +32,27 @@ export default function PlanEstudioDetalle() {
     });
   };
 
+  const handleEditar = () => {
+       navigate(`/academica/planes/editar/${id}`);
+  }
+
+   const handleEliminar = async () => {
+      console.log("Eliminar");
+  };
+
 return (
     <PageBase>
+      
+                <div className="flex justify-center gap-4 mt-6 mb-4">
+                <BotonBase 
+                  variant="editar" 
+                  onClick={handleEditar} 
+                />
+                <BotonBase 
+                  variant="eliminar" 
+                  onClick={handleEliminar} 
+                />
+              </div>
       {plan && (
         <div className="flex flex-col items-center justify-start min-h-screen 
                         bg-gray-50 dark:bg-gray-900 

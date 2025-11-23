@@ -36,6 +36,7 @@ import PaginaDesignaciones from '../modules/Designaciones/PaginaDesignaciones'
 import DesignacionDetalle from '../modules/Designaciones/DesignacionesDetalle'
 import DesignacionesAgregar from '../modules/Designaciones/DesignacionesAgregar'
 import PaginaInstitutos from '@academica/PaginaInstitutos/PaginaInstitutos'
+import PlanEstudioEditar from '@academic/PlanDeEstudio/PlanEstudioEditar'
 
 export default function Router() {
 	const rutas: Route[] = [
@@ -92,6 +93,7 @@ export default function Router() {
 								{ path: 'asignaturas/editar/:id', Component: SubjectEdit, menu: false },
 								{ path: 'planes', label: 'Planes de Estudio',Component:PaginaPlanEstudio, icon: 'icon-[basil--document-outline]', menu: true, },
 								{ path: 'planes/detalle', Component: PlanEstudioDetalle, menu: false },
+								{ path: 'planes/editar/:id', Component:PlanEstudioEditar, menu: false },
 								{ path: 'planes/agregar', Component: PlanEstudioAgregar, menu: false },
 							],
 							menu: true,
