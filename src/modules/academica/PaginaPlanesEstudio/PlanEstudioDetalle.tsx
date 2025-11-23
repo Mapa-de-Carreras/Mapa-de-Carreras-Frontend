@@ -28,15 +28,13 @@ export default function PlanEstudioDetalle() {
     );
   }
 
- const handleVerAsignatura = (asignaturaId: number) => {
-    navigate("/academica/asignaturas/detalle", { 
+const handleVerAsignatura = (asignaturaId: number) => {
+    navigate(`/academica/asignaturas/detalle/${asignaturaId}`, { 
       state: { 
-        asignaturaId,
         planId: plan?.id
       }
     });
-  };
-
+};
   const handleEditar = () => {
  //    const carreraId= data.carrera.id;
        navigate(`/academica/planes/editar/${id}`);
@@ -88,6 +86,12 @@ return (
                   : "Plan sin nombre"
                 }
               </CardTitle>
+
+                {plan.carrera && (
+                  <p className="text-gray-700 dark:text-gray-300 text-base">
+                    Carrera: {plan.carrera.nombre}
+                  </p>
+                )}
 
                 <p className="text-gray-600 dark:text-gray-300 text-base">
                   Vigente: {plan.esta_vigente ? "Sí" : "No"} | Inicio:{" "}
@@ -204,5 +208,4 @@ return (
       )}
     </PageBase>
   );
-
 }

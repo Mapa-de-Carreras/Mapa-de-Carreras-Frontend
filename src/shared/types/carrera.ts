@@ -67,7 +67,7 @@ export type GET_TYPE_CARRERA = {
   esta_vigente: boolean;
   coordinador_actual: COORDINADOR_ACTUAL | null;
   coordinadores_historial: COORDINADOR_ACTUAL[];
-  plan_de_estudio: PLAN_DE_ESTUDIO;
+  planes: PLAN_DE_ESTUDIO;
   instituto: INSTITUTO;
   created_at: string;
   updated_at: string;

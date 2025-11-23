@@ -133,8 +133,8 @@ export default function DetallesCarrera() {
 
                 {/* --- Lista de Planes --- HACERLO UN COMPONENTE */}
                 <DetailList label="Planes" scrollable={false}>
-                    {carrera.plan_de_estudio && carrera.plan_de_estudio.length > 0 ? (
-                        carrera.plan_de_estudio.map((plan) => (
+                    {carrera.planes && carrera.planes.length > 0 ? (
+                        carrera.planes.map((plan) => (
                             <FeedCard
                                 key={plan.id}
                                 titulo={`Plan ${plan.fecha_inicio}`}

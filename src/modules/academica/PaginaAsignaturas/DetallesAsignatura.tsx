@@ -95,15 +95,15 @@ export default function DetallesAsignatura() {
                     }
 
                 >
-                <DetailField label="tipoAsignatura">
+                <DetailField label="Tipo de Asignatura">
                     {asignatura.tipo_asignatura}
                 </DetailField>
-                <DetailField label="tipoDuracion">
+                <DetailField label="Tipo de Duracion">
                     {asignatura.tipo_duracion}
                 </DetailField>
                 {
                     asignatura.tipo_duracion === 'CUATRIMESTRAL' && (
-                        <DetailField label="cuatrimestre">
+                        <DetailField label="Cuatrimestre">
                             {asignatura.cuatrimestre}
                         </DetailField>
                     )
