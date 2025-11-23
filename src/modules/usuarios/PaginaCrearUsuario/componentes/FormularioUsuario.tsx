@@ -12,12 +12,14 @@ type FormularioUsuarioProps = {
 	roles: Rol[]
 	onSubmit: SubmitHandler<UsuarioPost>
 	handleCancelar: () => void
+	isLoading?: boolean
 }
 
 export default function FormularioUsuario({
 	roles,
 	onSubmit,
 	handleCancelar,
+	isLoading = false,
 }: FormularioUsuarioProps) {
 
 	const valoresIniciales = {
@@ -44,6 +46,7 @@ export default function FormularioUsuario({
 						nombre="email"
 						type="email"
 						placeholder="Ingrese el correo electrónico"
+						obligatorio
 					/>
 					<CampoInput
 						label="Nombre de Usuario"
@@ -76,12 +79,14 @@ export default function FormularioUsuario({
 						placeholder="Ingrese el nombre"
 						autoComplete="off"
 						type="text"
+						obligatorio
 					/>
 					<CampoInput
 						label="Apellidos"
 						nombre="last_name"
 						type="text"
 						placeholder="Ingrese el apellido"
+						obligatorio
 					/>
 					<CampoInput
 						label="Legajo"
@@ -94,7 +99,6 @@ export default function FormularioUsuario({
 						nombre="fecha_nacimiento"
 						label="Fecha de Nacimiento"
 						placeholder="01/01/2000"
-						obligatorio
 					/>
                     <CampoInput
 						label="Celular"
@@ -120,7 +124,7 @@ export default function FormularioUsuario({
 
 			<div className="flex justify-between">
 				<BotonBase variant="cancelar" type="button" onClick={handleCancelar} />
-				<BotonBase variant="guardar" type="submit" />
+				<BotonBase variant="guardar" type="submit" isLoading={isLoading} />
 			</div>
 		</Formulario>
 	)
