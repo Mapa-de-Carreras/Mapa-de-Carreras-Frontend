@@ -55,7 +55,7 @@ export default function BotonBase({
 		eliminar: 'Eliminar',
 		editar: 'Editar',
 		filtro: 'Filtros',
-		default: 'Click',
+		default: 'Cerrar',
 		regresar: 'Regresar',
 		error: 'Entendido',
 		aceptar: 'Aceptar',
