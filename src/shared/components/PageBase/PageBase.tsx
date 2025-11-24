@@ -43,7 +43,7 @@ export default function PageBase({
 					: {}
 			}
 		>
-			{(titulo || subtitulo) && (
+			{(titulo || subtitulo || volver) && (
 				<div className="flex items-start gap-10">
 					{volver && (
 						<button
