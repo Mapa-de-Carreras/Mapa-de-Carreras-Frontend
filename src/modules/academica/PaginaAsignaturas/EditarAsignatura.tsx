@@ -7,7 +7,7 @@ import { Formulario } from '@components/Formularios/Formulario'
 import PageBase from '@components/PageBase/PageBase'
 import { Card, CardContent, CardFooter } from '@components/ui/card'
 import { Button } from '@components/ui/button'
-import { CampoSelect } from '@components/Formularios/CampoSelect'
+import { CampoSelect } from '@components/Formularios/CampoSelectAntiguo'
 import {
     AsignaturaForm,
     AsignaturaSchema,
@@ -18,6 +18,7 @@ import {
 import { useFormContext } from 'react-hook-form'
 import { useEffect } from 'react'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
+import useRol from '@hooks/useRol'
 
 
 
@@ -58,6 +59,17 @@ export default function EditarAsignatura() {
     const { showModal } = useModal()
     const { data: asignatura, isLoading: isLoadingAsignatura, error: errorGetingAsignatura } = useGetAsignatura(id)
     const { mutate: editarAsignatura, isPending: isPendingAsignatura } = usePutAsignatura()
+
+    const isAdmin = useRol('Administrador')
+    const isCoordinador = useRol('Coordinador')
+
+    useEffect(() => {
+        if (!isAdmin && !isCoordinador) {
+            navigate('/'); 
+        }
+    }, [isAdmin, isCoordinador, navigate]);
+
+    if (!isAdmin && !isCoordinador) return <ComponenteCarga />;
 
     const handleAgregarAsignatura = (formData: AsignaturaForm) => {
         showModal({

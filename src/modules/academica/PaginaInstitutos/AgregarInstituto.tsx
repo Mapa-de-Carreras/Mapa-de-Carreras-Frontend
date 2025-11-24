@@ -8,11 +8,24 @@ import { useModal } from '@components/Providers/ModalProvider'
 import BotonBase from '@components/Botones/BotonBase'
 import { Card, CardContent, CardFooter } from '@components/ui/card'
 import { InstitutoForm, InstitutoSchema } from './contraints';
+import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
+import useRol from '@hooks/useRol'
+import { useEffect } from 'react'
 
 export default function AgregarInstituto() {
 	const navigate = useNavigate()
 	const { showModal } = useModal()
 	const { mutate: crearIntituto, isPending: isPendingInsituto} = usePostInstituto()
+
+	const isAdmin = useRol('Administrador')
+
+	useEffect(() => {
+		if (!isAdmin) {
+			navigate('/'); 
+		}
+	}, [isAdmin, navigate]);
+
+	if (!isAdmin) return <ComponenteCarga />
 
 	const handleSubmit = (data: InstitutoForm) => {
             

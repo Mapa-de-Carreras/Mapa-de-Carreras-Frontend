@@ -14,6 +14,7 @@ import FeedCard from '@components/Tarjetas/FeedCard';
 import BotonDetalle from '@components/Botones/BotonDetalle';
 import { useGetDocenteCarrera } from "@apis/docentes";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@components/ui/accordion";
+import useRol from "@hooks/useRol";
 
 export default function DetallesCarrera() {
   const id = Number(useParams<{ id: string }>().id); 
@@ -23,6 +24,9 @@ export default function DetallesCarrera() {
   
   const { mutate: deleteCarrera } = useDeleteCarrera();
   const { data: docente } = useGetDocenteCarrera(id);
+
+  const isAdmin = useRol('Administrador');
+  const isCoordinador = useRol('Coordinador'); 
 
   const handleEditar = () => {
     navigate(`/academica/carreras/editar/${id}`);
@@ -103,15 +107,20 @@ export default function DetallesCarrera() {
                 descripcion={carrera.nombre}
                 actions={
                     <>
+                    {
+                        (isAdmin || isCoordinador)&& 
                         <BotonBase 
                             variant="editar" 
                             onClick={handleEditar} 
-                    
                         />
+                    }
+                    {
+                        isAdmin && 
                         <BotonBase 
                             variant="eliminar" 
                             onClick={handleClickModalEliminar} 
                         />
+                    }
                     </>
                 }
             >

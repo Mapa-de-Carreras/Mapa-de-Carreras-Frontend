@@ -87,7 +87,7 @@ export type PUT_TYPE_CARRERA = {
   instituto_id: number; 
 }
 
-export type PATHC_TYPE_CARRERA = {
+export type PATCH_TYPE_CARRERA = {
 esta_vigente: boolean
 }
 

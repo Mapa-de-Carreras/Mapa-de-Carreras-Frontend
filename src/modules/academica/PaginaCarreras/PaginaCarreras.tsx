@@ -12,10 +12,12 @@ import { GET_TYPE_CARRERAS } from '@globalTypes/carrera'
 import BotonDetalle from '@components/Botones/BotonDetalle'
 import FeedCard from '@components/Tarjetas/FeedCard'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
+import useRol from '@hooks/useRol'
 
 export default function PaginaCarreras() {
     const navigate = useNavigate()
 
+	const isAdmin = useRol('Administrador')
     const { data: carreras, isLoading: loadingCarreras, error: errorGetingCarreras } = useGetCarreras()
 
     const handleVerDetalle = (id: number) => {
@@ -27,12 +29,14 @@ export default function PaginaCarreras() {
 		[
             
             {
+				id: 'nombre',
                 accessorKey: 'nombre',
 				accessorFn: (row) => `${row.nombre}`,
                 header: ({ column }) => <TituloTabla column={column} titulo="Nombre" />,
 				size: 1000
             },
 			{
+				id: 'codigo',
 				accessorKey: 'codigo',
 				accessorFn: (row) => `${row.codigo}`,
                 header: ({ column }) => <TituloTabla column={column} titulo="Codigo" />,
@@ -70,7 +74,9 @@ export default function PaginaCarreras() {
 							data={carreras} 
 							habilitarBuscador
 							habilitarPaginado
-							funcionAgregado={handleAgregar}
+							funcionAgregado={
+								(isAdmin? handleAgregar:undefined)
+							}
 						/>
 					</div>
 					<div className="block sm:hidden">
@@ -78,6 +84,7 @@ export default function PaginaCarreras() {
 							data={carreras} 
 							dataRender={(carrera) => (
 								<FeedCard
+									key={carrera.id}
 									titulo={carrera.nombre}
 									descripcion={carrera.codigo}
 									actions={
@@ -87,7 +94,7 @@ export default function PaginaCarreras() {
 									}
 								/>
 							)}
-							onClick={handleAgregar}
+							onClick={(isAdmin? handleAgregar:undefined)}
 						/>
 					</div>				
 				</div>

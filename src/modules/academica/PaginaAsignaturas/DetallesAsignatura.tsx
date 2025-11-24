@@ -7,6 +7,7 @@ import BotonBase from "@components/Botones/BotonBase";
 import { DetailCard } from "@components/CardDetalles/DetailCard";
 import Icon from "@components/const/icons";
 import { DetailField } from "@components/CardDetalles/DetailField";
+import useRol from "@hooks/useRol";
 
 export default function DetallesAsignatura() { 
     const id = Number(useParams<{id:string}>().id);
@@ -16,6 +17,8 @@ export default function DetallesAsignatura() {
     const { data: asignatura, isLoading: isLoadingAsignatura, error: errorGetingAsignatura } = useGetAsignatura(id);
     const { mutate: deleteAsignatura } = useDeleteAsignatura();
 
+    const isAdmin = useRol('Administrador')
+    const isCoordinador = useRol('Coordinador')
 
     const handlelClickEditar = () => {
         navigate(`/academica/asignaturas/editar/${id}`);
@@ -87,13 +90,23 @@ export default function DetallesAsignatura() {
                     icono={<Icon type="instituosIcon" className="text-5xl" />}
                     titulo={asignatura.nombre}
                     descripcion={asignatura.codigo}
-                    actions={
+                    actions={ 
                         <>
-                            <BotonBase variant="editar" onClick={handlelClickEditar} />
-                            <BotonBase variant="eliminar" onClick={handleClickModalEliminar} />
+                            {(isAdmin || isCoordinador) && (
+                                <BotonBase
+                                    variant="editar"
+                                    onClick={handlelClickEditar}
+                                />
+                            )}
+                            
+                            {(isAdmin || isCoordinador) && (
+                                <BotonBase
+                                    variant="eliminar"
+                                    onClick={handleClickModalEliminar}
+                                />
+                            )}
                         </>
                     }
-
                 >
                 <DetailField label="Tipo de Asignatura">
                     {asignatura.tipo_asignatura}

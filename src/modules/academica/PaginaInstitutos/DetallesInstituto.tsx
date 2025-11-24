@@ -10,6 +10,7 @@ import { useGetCarrerasPorInstituto } from '@apis/carreras'
 import BotonDetalle from '@components/Botones/BotonDetalle'
 import FeedCard from '@components/Tarjetas/FeedCard'
 import { DetailList } from '@components/CardDetalles/DetailList'
+import useRol from '@hooks/useRol'
 
 export default function DetallesInstituto() {
 	const { showModal } = useModal()
@@ -21,6 +22,8 @@ export default function DetallesInstituto() {
 	const { mutate: deleteInstituto } = useDeleteInstituto()
 
 	const { data: carreras, isLoading: loadingCarreras, error: errorCarreras, } = useGetCarrerasPorInstituto(id)
+
+	const isAdmin = useRol('Administrador')
 
     const handleConfirmDelete = () => {
         if (!id) return
@@ -102,8 +105,16 @@ export default function DetallesInstituto() {
 					descripcion={instituto.nombre}
 					actions={
 						<>
-							<BotonBase variant="editar" onClick={handlelClickEditar} />
-							<BotonBase variant="eliminar" onClick={handleClickModal} />
+							{
+								isAdmin && (
+									<BotonBase variant="editar" onClick={handlelClickEditar} />
+								)
+							}
+							{
+								isAdmin && (
+									<BotonBase variant="eliminar" onClick={handleClickModal} />
+								)
+							}
 						</>
 					}
 				>

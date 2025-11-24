@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router'
 import { Formulario } from '@components/Formularios/Formulario'
 import { CampoInput } from '@components/Formularios/CampoInput'
-import { CampoSelect } from '@components/Formularios/CampoSelect'
+import { CampoSelect } from '@components/Formularios/CampoSelectAntiguo'
 import { Button } from '@components/ui/button'
 import PageBase from '@components/PageBase/PageBase'
 import { usePutCarrera, useGetCarrera } from '@apis/carreras'
@@ -11,9 +11,11 @@ import { Card, CardContent, CardFooter } from '@components/ui/card'
 import { CarreraForm, CarreraSchema, opcionesNivel } from './constraints'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 import { useGetInstitutos } from '@apis/intitutos'
+import useRol from '@hooks/useRol'
+import { useEffect } from 'react'
 
 export default function EditarCarrera() {
-	// Truco para asegurar que es número
+	
 	const id = Number(useParams<{ id: string }>().id)
 	const navigate = useNavigate()
 	const { showModal } = useModal()
@@ -22,7 +24,24 @@ export default function EditarCarrera() {
 	const { mutate: actualizarCarrera, isPending: isPendingCarrera } = usePutCarrera()
 	const { data: institutos, isLoading: loadingInstitutos } = useGetInstitutos()
 
-	const handleSubmit = (formData: CarreraForm) => {
+	const isAdmin = useRol('Administrador')
+	const isCoordinador = useRol('Coordinador')
+
+	useEffect(() => {
+		if (!isAdmin && !isCoordinador) {
+			navigate('/'); 
+		}
+	}, [isAdmin, isCoordinador, navigate]);
+
+	if (!isAdmin && !isCoordinador) return <ComponenteCarga />;
+
+	const handleSubmit = (data: CarreraForm) => {
+
+		const payload = {
+            ...data,
+            instituto_id: parseInt(data.instituto_id, 10)
+        };
+
 		showModal({
 			isLoading: true,
 			msg: 'Guardando cambios...',
@@ -30,10 +49,10 @@ export default function EditarCarrera() {
 		})
 
 		if (
-			carrera?.nombre == formData.nombre &&
-			carrera?.nivel == formData.nivel &&
-			carrera?.codigo == formData.codigo &&
-			carrera?.instituto.id == Number(formData.instituto_id)
+			carrera?.nombre == payload.nombre &&
+			carrera?.nivel == payload.nivel &&
+			carrera?.codigo == payload.codigo &&
+			carrera?.instituto.id == payload.instituto_id
 		) {
 			showModal({
 				title: 'Éxito',
@@ -51,7 +70,7 @@ export default function EditarCarrera() {
 
 		actualizarCarrera(
 			{
-				data: formData,
+				data: payload,
 				params: { id: id },
 			},
 			{
@@ -125,7 +144,7 @@ export default function EditarCarrera() {
 									disabled={loadingInstitutos}
 									options={
 										institutos.map((inst) => ({
-											value: inst.id,
+											value: String(inst.id),
 											label: inst.nombre,
 										})) || []
 									}
