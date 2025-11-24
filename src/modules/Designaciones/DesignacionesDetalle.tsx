@@ -92,7 +92,7 @@ export default function DesignacionDetalle() {
                 <p><strong>Turno:</strong> {designacion.comision.turno}</p>
                 <p>
                   <strong>Plan Asignatura:</strong>{" "}
-                  {designacion.comision.plan_asignatura}
+                  {designacion.comision.plan_asignatura_str}
                 </p>
               </>
             ) : (

@@ -47,6 +47,7 @@ import PaginaDocumentos from '../modules/Documentos/PaginaDocumentos'
 import AgregarDocumentos from '../modules/Documentos/AgregarDocumentos'
 import useRol from '@hooks/useRol'
 import DetalleDocumentos from '../modules/Documentos/DetalleDocumentos'
+import PaginaComisiones from '@academica/Comisiones/PaginaComisiones'
 
 
 export default function Router() {
@@ -108,6 +109,7 @@ export default function Router() {
 								{ path: 'planes/detalle', Component: PlanEstudioDetalle, menu: false },
 								{ path: 'planes/editar/:id', Component:PlanEstudioEditar, menu: false },
 								{ path: 'planes/agregar', Component: PlanEstudioAgregar, menu: false },
+								{ path: 'comisiones', label: 'Comisiones', icon: 'icon-[mdi--bookshelf]', Component: PaginaComisiones, menu: true, },
 							],
 							menu: true,
 						},
