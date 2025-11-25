@@ -20,7 +20,7 @@ export default function PlanAsignaturaDetalle() {
   const deletePlan = useDeletePlanAsignatura(Number(id));
 
   const handleClickEditar = () => {
-    navigate(`/planes-asignatura/editar/${id}`);
+    navigate(`/academica/planes-asignatura/editar/${id}`);
   };
 
   const handleClickModalEliminar = () => {
