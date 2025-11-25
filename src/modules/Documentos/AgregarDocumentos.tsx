@@ -5,7 +5,6 @@ import BotonBase from "@components/Botones/BotonBase";
 import MensajeError from "@components/Mensajes/MensajeError";
 import { URL_API } from "@apis/constantes";
 import BotonGenerico from "@components/Botones/BotonGenerico";
-import { CampoSelect } from "@components/Formularios/CampoSelect";
 import ModalGenerico from "@components/Modal/ModalGenerico";
 import { useNavigate } from "react-router";
 import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
@@ -135,17 +134,27 @@ export default function AgregarDocumentos() {
 
           {/* Tipo */}
       
-            <CampoSelect
-              label="Tipo"
-              nombre="tipo"
-              placeholder="Seleccione un tipo..."
-              value={tipo}
-              onChange={(v) => setTipo(v)}
-              options={[
-                { value: "ORDENANZA", label: "Ordenanza" },
-                { value: "RESOLUCION", label: "Resolución" },
-              ]}
-            />
+      <div className="flex flex-col gap-1">
+        <label className="font-semibold">
+          Tipo <span className="text-red-500">*</span>
+        </label>
+
+        <select
+          className="
+            border border-gray-300 rounded-md px-3 py-2 w-full
+            bg-gray-50 text-gray-900
+            dark:bg-neutral-800 dark:text-gray-100 dark:border-neutral-700
+            focus:outline-none focus:ring-2 focus:ring-primary
+            transition-colors
+          "
+          value={tipo}
+          onChange={(e) => setTipo(e.target.value)}
+        >
+          <option value="">Seleccione un tipo...</option>
+          <option value="ORDENANZA">Ordenanza</option>
+          <option value="RESOLUCION">Resolución</option>
+        </select>
+      </div>
           {/* Emisor */}
           <div>
             <label className="font-semibold">Emisor</label>

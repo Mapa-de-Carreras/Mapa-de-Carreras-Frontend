@@ -1,15 +1,26 @@
 import {
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage
+} from "@components/ui/form";
+import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
 } from "@components/ui/select";
+import { useFormContext } from "react-hook-form";
+
 
 interface Option {
     value: string | number;
     label: string;
 }
+
 
 interface CampoSelectProps {
     label: string;
@@ -18,13 +29,11 @@ interface CampoSelectProps {
     descripcion?: string;
     obligatorio?: boolean;
     disabled?: boolean;
-    options: Option[];
-    className?: string;
-    value?: string | number;
-    onChange?: (value: string) => void;
+    options: Option[]; 
+    className?: string; // <-- AGREGADO
 }
 
-export function CampoSelect({
+export function CampoSelect({ 
     label,
     nombre,
     placeholder,
@@ -33,37 +42,55 @@ export function CampoSelect({
     disabled,
     options,
     className,
-    value,
-    onChange,
 }: CampoSelectProps) {
+    const { control } = useFormContext();
 
     return (
-        <div className="flex flex-col gap-1">
-            <label className="font-medium">
-                {label} {obligatorio && <span className="text-red-500">*</span>}
-            </label>
+        <FormField
+            control={control}
+            name={nombre}
+            render={({ field }) => { 
+                const displayValue = field.value ? String(field.value) : undefined;
 
-            <Select
-                value={value?.toString()}
-                onValueChange={(val) => onChange?.(val)}
-                disabled={disabled}
-            >
-                <SelectTrigger className={className}>
-                    <SelectValue placeholder={placeholder} />
-                </SelectTrigger>
+                return (
+                    <FormItem>
+                        <FormLabel className="font-medium">
+                            {label} {obligatorio && <span className="text-red-500">*</span>}
+                        </FormLabel>
+                        
+                        <Select
+                            onValueChange={field.onChange}
+                            value={displayValue}
+                            disabled={disabled}
+                        >
+                            <FormControl>
+                                <SelectTrigger className={className}>
+                                    <SelectValue placeholder={placeholder} />
+                                </SelectTrigger>
+                            </FormControl>
 
-                <SelectContent>
-                    {options.map((option) => (
-                        <SelectItem key={option.value} value={String(option.value)}>
-                            {option.label}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
+                            <SelectContent>
+                                {options.map((option) => (
+                                    <SelectItem 
+                                        key={option.value} 
+                                        value={String(option.value)}
+                                    >
+                                        {option.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
 
-            {descripcion && (
-                <p className="text-sm mt-1 text-gray-500">{descripcion}</p>
-            )}
-        </div>
+                        {descripcion && (
+                            <FormDescription className="text-sm mt-1">
+                                {descripcion}
+                            </FormDescription>
+                        )}
+
+                        <FormMessage />
+                    </FormItem>
+                );
+            }}
+        />
     );
 }
