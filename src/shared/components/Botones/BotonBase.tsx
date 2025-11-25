@@ -10,7 +10,7 @@ export type BotonBaseProps = {
 		'agregar' | 'guardar' | 'cancelar' |
 		'eliminar' | 'editar' | 'filtro' |
 		'default' | 'aceptar' | 'regresar' |
-		'error',
+		'error'| 'exportar'
 	isLoading?: boolean
 }
 
@@ -31,7 +31,8 @@ export default function BotonBase({
 		aceptar: 'icon-[mdi--check]',
 		error: 'icon-[mdi--alert-circle]',
 		regresar: 'icon-[mdi--arrow-left]',
-		filtro: '',
+		exportar: 'icon-[tabler--download]',
+		filtro: 'icon-[mdi--filter]',
 		default: '',
 	}
 
@@ -45,6 +46,7 @@ export default function BotonBase({
 		aceptar: 'bg-aceptar hover:bg-aceptar-hover active:bg-aceptar-active',
 		error: 'bg-error hover:bg-error-hover active:bg-error-active',
 		regresar: 'bg-regresar hover:bg-regresar-hover active:bg-regresar-active',
+		exportar: 'bg-exportar hover:bg-exportar-hover active:bg-exportar-active',
 		default: 'bg-default hover:bg-default-hover active:bg-default-active',
 	}
 
@@ -59,6 +61,7 @@ export default function BotonBase({
 		regresar: 'Regresar',
 		error: 'Entendido',
 		aceptar: 'Aceptar',
+		exportar: 'Exportar',
 	}
 
 	return (
