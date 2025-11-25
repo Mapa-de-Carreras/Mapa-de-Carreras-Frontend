@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { URL_API } from "./constantes";
+import useDelete from "./hooks/useDelete";
 import useGet from "./hooks/useGet";
 import { IPlanAsignatura } from "@globalTypes/planasignatura";
 
@@ -19,4 +19,11 @@ export function useGetPlanAsignaturaDetalle(id: number) {
     urlApi: `${URL_API}plan-asignatura/${id}/`,
 
   });
+}
+
+export function useDeletePlanAsignatura(id: number) {
+  return useDelete({
+    key: 'useDeletePlanAsignatura',
+    urlApi: `${URL_API}plan-asignatura/${id}/`
+  })
 }

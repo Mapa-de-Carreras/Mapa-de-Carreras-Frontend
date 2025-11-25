@@ -38,4 +38,6 @@ export interface IPlanEstudio {
   created_at?: string;       
   updated_at?: string;    
   documento: IDocumento | null;  
+  carrera_nombre:string,
+  carrera_id:number,
 }
