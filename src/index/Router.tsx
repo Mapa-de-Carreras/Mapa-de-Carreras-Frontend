@@ -51,6 +51,9 @@ import PaginaComisiones from '@academica/Comisiones/PaginaComisiones'
 import ComisionesDetalle from '@academica/Comisiones/ComisionesDetalle'
 import ComisionEditar from '@academica/Comisiones/ComisionesEditar'
 import ComisionesAgregar from '@academica/Comisiones/ComisionesAgregar'
+import PaginaPlanAsignatura from '@academica/PlanAsignatura/PaginaPlanAsignatura'
+import PlanAsignaturaDetalle from '@academica/PlanAsignatura/PlanAsignaturaDetalle'
+import PlanAsignaturaAgregar from '@academica/PlanAsignatura/PlanAsignaturaAgregar'
 
 
 export default function Router() {
@@ -116,6 +119,9 @@ export default function Router() {
 								{ path: 'comisiones/agregar/', Component: ComisionesAgregar, menu: false },
 								{ path: 'comisiones/detalle/:id', Component: ComisionesDetalle, menu: false },
 								{ path: 'comisiones/editar/:id', Component:ComisionEditar, menu: false },
+								{ path: 'planes-asignatura', label: 'Planes de Asignatura',Component:PaginaPlanAsignatura, icon: 'icon-[basil--document-outline]', menu: true, },
+								{ path: 'planes-asignatura/agregar', Component: PlanAsignaturaAgregar, menu: false },
+								{ path: 'planes-asignatura/detalle/:id', Component: PlanAsignaturaDetalle, menu: false },
 							],
 							menu: true,
 						},
