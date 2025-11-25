@@ -8,6 +8,7 @@ import Icon from "@components/const/icons";
 import { DetailField } from "@components/CardDetalles/DetailField";
 import useRol from "@hooks/useRol";
 import { useGetComisionesDetalle } from "@apis/comisiones";
+import { useDeleteComision } from "@apis/comisiones";
 export default function ComisionesDetalle() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ export default function ComisionesDetalle() {
 
   const isAdmin = useRol("Administrador");
   const isCoordinador = useRol("Coordinador");
+  const deleteComision = useDeleteComision(Number(id));
 
   const handleClickEditar = () => {
     navigate(`/academica/comisiones/editar/${id}`);
@@ -42,14 +44,35 @@ export default function ComisionesDetalle() {
   };
 
   const handleConfirmDelete = () => {
+    if (!id) return;
+
     showModal({
       isLoading: true,
-      msg: "Eliminando comisión...",
+      msg: 'Eliminando Comisión...',
     });
 
-    // Lógica real de delete
+    deleteComision.mutate(
+      { params: { id: id } },
+      {
+        onSuccess: () => {
+          showModal({
+            title: 'Éxito',
+            description: 'La comisión se ha eliminado correctamente.',
+            buttons: [{ variant: 'aceptar', onClick: () => navigate(-1) }],
+            isLoading: false,
+          });
+        },
+        onError: (err) => {
+          showModal({
+            title: 'Error',
+            description: err.message || 'No se pudo eliminar la comisión.',
+            buttons: [{ variant: 'error', onClick: () => {} }],
+            isLoading: false,
+          });
+        },
+      }
+    );
   };
-
   return (
     <PageBase titulo="Detalles de Comisión">
       <div className="mb-4">

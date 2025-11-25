@@ -1,26 +1,27 @@
 import PageBase from "@components/PageBase/PageBase";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import BotonGenerico from "@components/Botones/BotonGenerico";
-import { useGetPlanDetalle } from "@apis/planestudio";
+import { useDeletePlanEstudio, useGetPlanDetalle } from "@apis/planestudio";
 import BotonBase from "@components/Botones/BotonBase";
-import { useDeletePlan} from "@apis/planestudio";
 import useAuth from "@hooks/useAuth";
 import TablaAsignaturas from "./TablaAsignaturas";
+import { useModal } from "@components/Providers/ModalProvider";
 
 export default function PlanEstudioDetalle() {
   const location = useLocation();
   const { id } = (location.state as { id: number }) || {};
   const navigate = useNavigate();
-  const { deletePlan, loading: deleting, error: deleteError, success } = useDeletePlan();
   const { data: plan} = useGetPlanDetalle(id);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { user: usuario } = useAuth();
   const ROLES_PERMITIDOS = ["Administrador", "Coordinador"];
   const esAdmin = usuario?.roles?.some((r) => ROLES_PERMITIDOS.includes(r.nombre)) ?? false;
-
+  const { showModal } = useModal();
+  const deletePlanEstudio = useDeletePlanEstudio(Number(id));
+  
   if (error) {
     return (
       <PageBase>
@@ -37,13 +38,53 @@ const handleVerAsignatura = (asignaturaId: number) => {
     });
 };
   const handleEditar = () => {
- //    const carreraId= data.carrera.id;
        navigate(`/academica/planes/editar/${id}`);
   }
-  const handleEliminar = async () => {
-    console.log("Eliminar plan");
-    await deletePlan(id);
-    navigate("/academica/planes");
+
+  const handleClickModalEliminar = () => {
+    showModal({
+      title: "Eliminar plan de estudio",
+      description: "¿Está seguro que desea eliminar este plan de estudio?",
+      buttons: [
+        {
+          variant: "eliminar",
+          autoClose: false,
+          onClick: handleConfirmDelete,
+        },
+        { variant: "cancelar", onClick: () => {} },
+      ],
+    });
+  };
+
+  const handleConfirmDelete = () => {
+    if (!id) return;
+
+    showModal({
+      isLoading: true,
+      msg: 'Eliminando Comisión...',
+    });
+
+    deletePlanEstudio.mutate(
+      { params: { id: id } },
+      {
+        onSuccess: () => {
+          showModal({
+            title: 'Éxito',
+            description: 'El plan de estudio se ha eliminado correctamente.',
+            buttons: [{ variant: 'aceptar', onClick: () => navigate(-1) }],
+            isLoading: false,
+          });
+        },
+        onError: (err) => {
+          showModal({
+            title: 'Error',
+            description: err.message || 'No se pudo eliminar el plan de estudio.',
+            buttons: [{ variant: 'error', onClick: () => {} }],
+            isLoading: false,
+          });
+        },
+      }
+    );
   };
 
 return (
@@ -57,7 +98,7 @@ return (
                     />
                     <BotonBase 
                       variant="eliminar" 
-                      onClick={handleEliminar} 
+                      onClick={handleClickModalEliminar} 
                     />
                   </div>
                 )}

@@ -6,6 +6,7 @@ import BotonBase from "@components/Botones/BotonBase";
 import BotonGenerico from "@components/Botones/BotonGenerico";
 import MensajeError from "@components/Mensajes/MensajeError";
 import useAuth from "@hooks/useAuth";
+import { useModal } from "@components/Providers/ModalProvider";
 
 export default function DetalleDocumentos() {
   const { id } = useParams<{ id: string }>();
@@ -15,18 +16,60 @@ export default function DetalleDocumentos() {
   const ROLES_PERMITIDOS = ["Administrador", "Coordinador"];
   const esAdmin =
     usuario?.roles?.some((r) => ROLES_PERMITIDOS.includes(r.nombre)) ?? false;
-  const { deleteDocumento, loading, success } = useDeleteDocumento();
-
-   const handleEliminar = async () => {
-    console.log("Eliminar documento");
-    await deleteDocumento(Number(id));
-    navigate("/documentos/gestion");
-  };
+  const deleteDocumento = useDeleteDocumento(Number(id));
+  const { showModal } = useModal();
+  
 
   const descargarArchivo = () => {
     if (documento?.archivo_url) {
       window.open(documento.archivo_url, "_blank");
     }
+  };
+
+    const handleClickModalEliminar = () => {
+    showModal({
+      title: "Eliminar documento",
+      description: "¿Está seguro que desea eliminar este documento?",
+      buttons: [
+        {
+          variant: "eliminar",
+          autoClose: false,
+          onClick: handleConfirmDelete,
+        },
+        { variant: "cancelar", onClick: () => {} },
+      ],
+    });
+  };
+
+  const handleConfirmDelete = () => {
+    if (!id) return;
+
+    showModal({
+      isLoading: true,
+      msg: 'Eliminando Comisión...',
+    });
+
+    deleteDocumento.mutate(
+      { params: { id: id } },
+      {
+        onSuccess: () => {
+          showModal({
+            title: 'Éxito',
+            description: 'El documento se ha eliminado correctamente.',
+            buttons: [{ variant: 'aceptar', onClick: () => navigate(-1) }],
+            isLoading: false,
+          });
+        },
+        onError: (err) => {
+          showModal({
+            title: 'Error',
+            description: err.message || 'No se pudo eliminar el documento.',
+            buttons: [{ variant: 'error', onClick: () => {} }],
+            isLoading: false,
+          });
+        },
+      }
+    );
   };
 
   return (
@@ -79,7 +122,7 @@ export default function DetalleDocumentos() {
 
                 {esAdmin && (
                   <div className="flex justify-center gap-4 mt-6">
-                    <BotonBase variant="eliminar" onClick={handleEliminar} />
+                    <BotonBase variant="eliminar" onClick={handleClickModalEliminar} />
                   </div>
                 )}
 

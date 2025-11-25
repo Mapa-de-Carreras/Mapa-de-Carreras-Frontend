@@ -2,6 +2,7 @@ import { useState } from "react";
 import { URL_API } from "./constantes";
 import useGet from "./hooks/useGet";
 import { IPlanEstudio, IPlanEstudioDetalle } from "@globalTypes/planesestudio";
+import useDelete from "./hooks/useDelete";
 
 const PLANES_KEY = "useGetPlanes";
 export function useGetPlanes() {
@@ -21,6 +22,7 @@ export function useGetPlanDetalle(id: number) {
   });
 }
 
+/*
 export function useDeletePlan() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -54,4 +56,11 @@ export function useDeletePlan() {
   };
 
   return { deletePlan, loading, error, success };
+}
+*/
+export function useDeletePlanEstudio(id: number) {
+  return useDelete({
+    key: 'useDeletePlanEstudio',
+    urlApi: `${URL_API}planes/${id}/`
+  })
 }

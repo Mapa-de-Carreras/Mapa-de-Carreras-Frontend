@@ -1,4 +1,5 @@
 import { URL_API } from "./constantes";
+import useDelete from "./hooks/useDelete";
 import  useGet  from "./hooks/useGet";
 import { IComision } from "@globalTypes/comisiones";
 
@@ -19,4 +20,11 @@ export function useGetComisionesDetalle(id: number) {
     urlApi: `${URL_API}comisiones/${id}/`,
 
   });
+}
+
+export function useDeleteComision(id: number) {
+  return useDelete({
+    key: 'useDeleteComision',
+    urlApi: `${URL_API}comisiones/${id}/`
+  })
 }
