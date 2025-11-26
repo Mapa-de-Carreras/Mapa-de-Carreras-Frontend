@@ -23,6 +23,7 @@ interface TablaProps<TData, TValue> {
 	habilitarPaginado?: boolean
 	columnasFijas?: boolean // Indica si las columnas tienen todas el mismo tamaño, si es false debe indicar el tamaño con size
 	handleAccion?: (_row: TData) => void
+	funcionExportar?: () => void
 }
 
 export function Tabla<TData, TValue>({
@@ -34,12 +35,13 @@ export function Tabla<TData, TValue>({
 	habilitarPaginado = false,
 	columnasFijas = true,
 	handleAccion,
+	funcionExportar,
 }: TablaProps<TData, TValue>) {
 	const [sorting, setSorting] = useState<SortingState>([])
 	const [globalFilter, setGlobalFilter] = useState('')
 	const tabla = useReactTable({
 		data,
-		columns: handleAccion ? enhanceColumns<TData, TValue>(columnas, { onActionClick: handleAccion,}) : columnas,
+		columns: handleAccion ? enhanceColumns<TData, TValue>(columnas, { onActionClick: handleAccion, }) : columnas,
 		state: {
 			sorting,
 			globalFilter,
@@ -59,6 +61,7 @@ export function Tabla<TData, TValue>({
 				tabla={tabla}
 				funcionAgregado={funcionAgregado}
 				funcionFiltro={funcionFiltro}
+				funcionExportar={funcionExportar}
 				habilitarBuscador={habilitarBuscador}
 				habilitarPaginado={habilitarPaginado}
 			/>

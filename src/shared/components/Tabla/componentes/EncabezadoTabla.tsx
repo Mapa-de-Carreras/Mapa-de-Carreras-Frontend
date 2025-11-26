@@ -9,6 +9,7 @@ type EncabezadoTablaProps<TData> = {
 	habilitarPaginado: boolean
 	funcionAgregado?: () => void
 	funcionFiltro?: () => void
+	funcionExportar?: () => void
 }
 
 export default function EncabezadoTabla<TData>({
@@ -17,12 +18,14 @@ export default function EncabezadoTabla<TData>({
 	habilitarPaginado,
 	funcionAgregado,
 	funcionFiltro,
+	funcionExportar,
 }: EncabezadoTablaProps<TData>) {
 	return (
 		<div className="encabezado-tabla flex grow justify-between p-4 flex-row sm:flex-wrap sm:gap-2 md:gap-0 md:flex-nowrap">
 			<div className="w-full flex gap-2">
 				{funcionAgregado && <BotonBase variant="agregar" onClick={funcionAgregado} />}
-				{habilitarBuscador && <BuscadorTabla tabla={tabla} />}
+				{funcionExportar && <BotonBase variant='exportar' onClick={funcionExportar} />}
+				{habilitarBuscador && <div className='flex-1 min-w-0'> <BuscadorTabla tabla={tabla} /></div>}
 			</div>
 			<div className="w-full">{habilitarPaginado && <PaginadoTabla tabla={tabla} />}</div>
 		</div>
