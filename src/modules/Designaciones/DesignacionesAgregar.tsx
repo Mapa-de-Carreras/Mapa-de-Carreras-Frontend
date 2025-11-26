@@ -10,12 +10,13 @@ import ComponenteCarga from "@components/ComponenteCarga/Componentecarga";
 import { useGetDocentes } from "@apis/docentes";
 import { useGetCargos} from "@apis/cargos";
 import  useGetDedicaciones  from "@apis/dedicacion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useModal } from "@components/Providers/ModalProvider";
 import {  DesignacionSchema, DesignacionForm,} from "./constraintsDesignacion";
 import { usePostDesignacion } from "@apis/designaciones";
 import { useGetComisiones } from "@apis/comisiones";
 import { useGetDocumentos } from "@apis/documentos";
+import MensajeError from "@components/Mensajes/MensajeError";
 
 export default function DesignacionesAgregar() {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ export default function DesignacionesAgregar() {
   const { data: comisiones } = useGetComisiones();
   const { data: dedicaciones } = useGetDedicaciones();
   const { data: documentos } = useGetDocumentos();
+  const [errorCrear, setErrorCrear] = useState<string | null>(null);
 
   useEffect(() => {
     if (isSuccess) {
@@ -43,15 +45,7 @@ export default function DesignacionesAgregar() {
         ],
       });
     }
-
-    if (isError) {
-      showModal({
-        title: "Error",
-        description: error?.message ?? "No se pudo crear la designación.",
-        buttons: [{ variant: "error", onClick: () => {} }],
-      });
-    }
-  }, [isSuccess, isError, error, navigate, showModal]);
+  }, [isSuccess, navigate, showModal]);
 
     const inicial: DesignacionForm = {
     fecha_inicio: "",
@@ -64,18 +58,43 @@ export default function DesignacionesAgregar() {
     dedicacion_id: null,
     observacion: null,
     };
+  
+const handleSubmit = (data: DesignacionForm) => {
+  setErrorCrear(null);
 
-  const handleSubmit = (data: DesignacionForm) => {
-    mutate({ data });
-  };
+  mutate(
+    {
+      data: {
+        ...data,
+        documento_id: data.documento_id === 0 ? null : data.documento_id,
+      },
+    },
+    {
+      onError: (err: any) => {
+        const backend = err?.response?.data;
+
+        const mensaje =
+          backend?.non_field_errors?.[0] ||   
+          backend?.detail ||                  
+          backend?.message ||                
+          err?.message ||
+          "Error desconocido.";
+
+        setErrorCrear(mensaje);
+      },
+    }
+  );
+};
+
 
   const isLoading =
-   // !docentes || !cargos || !comisiones || !dedicaciones || isPending; //cuando comisiones este listo
-      !docentes || !cargos || !dedicaciones || isPending
+    !docentes || !cargos || !comisiones || !dedicaciones || isPending; 
   return (
     <PageBase titulo="Nueva Designación">
       {isLoading && <ComponenteCarga />}
-
+      {errorCrear && (
+        <MensajeError titulo="Error del servidor" descripcion={errorCrear} />
+      )}
       <div className="mb-4">
         <BotonBase variant="regresar" onClick={() => navigate(-1)} />
       </div>
@@ -98,15 +117,15 @@ export default function DesignacionesAgregar() {
                                 nombre="fecha_fin"
                                 type="date"
                             />
-          <CampoSelect
-                label="Tipo Designación"
-                nombre="tipo_designacion"
-                options={[
-                  { value: "Teorico", label: "Teórico" },
-                  { value: "Practico", label: "Práctico" },
-                  { value: "Teorico+Practico", label: "Teórico + Práctico" },
-                ]}
-              />
+        <CampoSelect
+            label="Tipo Designación"
+            nombre="tipo_designacion"
+            options={[
+              { value: "TEORICO", label: "Teórico" },
+              { value: "PRACTICO", label: "Práctico" },
+              { value: "TEORICO + PRACTICO", label: "Teórico + Práctico" },
+            ]}
+          />
 
          <CampoSelect
             label="Docente"

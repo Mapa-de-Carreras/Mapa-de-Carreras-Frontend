@@ -55,6 +55,7 @@ import PaginaPlanAsignatura from '@academica/PlanAsignatura/PaginaPlanAsignatura
 import PlanAsignaturaDetalle from '@academica/PlanAsignatura/PlanAsignaturaDetalle'
 import PlanAsignaturaAgregar from '@academica/PlanAsignatura/PlanAsignaturaAgregar'
 import PlanAsignaturaEditar from '@academica/PlanAsignatura/PlanAsignaturaEditar'
+import DesignacionesEditar from '../modules/Designaciones/DesignacionesEditar'
 
 
 export default function Router() {
@@ -148,6 +149,7 @@ export default function Router() {
 								{ path: 'gestion', label: 'Gestión', Component: PaginaDesignaciones, icon: 'icon-[fluent--document-person-16-filled]', menu: true, },
 								{ path: 'detalle/:id', Component: DesignacionDetalle, menu: false },
 								{ path: 'agregar', Component: DesignacionesAgregar, menu: false },
+								{ path: 'editar/:id', Component:DesignacionesEditar, menu: false },
 							],
 							menu: true,
 						},
