@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router'
 import Router from './Router'
 import './index.css'
 import QueryProvider from '@components/Providers/QueryProvider'
+import VentanaProvider from '@components/Providers/VentanaProvider'
 
 const root = document.getElementById('root')
 
@@ -14,9 +15,11 @@ createRoot(root!).render(
 		<ThemeProvider>
 			<AuthProvider>
 				<QueryProvider>
-					<ModalProvider>
-						<Router />
-					</ModalProvider>
+					<VentanaProvider>
+						<ModalProvider>
+							<Router />
+						</ModalProvider>
+					</VentanaProvider>
 				</QueryProvider>
 			</AuthProvider>
 		</ThemeProvider>

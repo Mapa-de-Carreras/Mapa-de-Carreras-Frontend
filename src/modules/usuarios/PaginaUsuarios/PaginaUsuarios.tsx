@@ -38,7 +38,7 @@ export default function PaginaUsuarios() {
 	]
 
 	const handleVerDetalle = (row: UsuarioListItem) => {
-		navigate(`/administracion/usuarios/detalle/`, { state: { id: row.id } })
+		navigate(`/administracion/usuarios/detalle/${row.id}`, { state: { id: row.id } })
 	}
 
 	const handleAgregar = () => {

@@ -8,8 +8,6 @@ import RecoverUsername from '@users/RecoverUserName/RecoverUsername'
 import RecoverPassword1 from '@users/RecoverPassword/RecoverPassword1'
 import RecoverPassword2 from '@users/RecoverPassword/RecoverPassword2'
 import RecoverPassword3 from '@users/RecoverPassword/RecoverPassword3'
-import UserDetail from '@users/UserDetail/UserDetail'
-import UserEdit from '@users/UserEdit/UserEdit'
 import NotificacionesPage from '@users/NotificacionesPage/NotificacionesPage'
 
 import PaginaCarreras from '@academica/PaginaCarreras/PaginaCarreras'
@@ -46,6 +44,7 @@ import PlanEstudioEditar from '@academica/PaginaPlanesEstudio/PlanEstudioEditar'
 import PaginaDocumentos from '../modules/Documentos/PaginaDocumentos'
 import AgregarDocumentos from '../modules/Documentos/AgregarDocumentos'
 import useRol from '@hooks/useRol'
+<<<<<<< HEAD
 import DetalleDocumentos from '../modules/Documentos/DetalleDocumentos'
 import PaginaComisiones from '@academica/Comisiones/PaginaComisiones'
 import ComisionesDetalle from '@academica/Comisiones/ComisionesDetalle'
@@ -56,6 +55,10 @@ import PlanAsignaturaDetalle from '@academica/PlanAsignatura/PlanAsignaturaDetal
 import PlanAsignaturaAgregar from '@academica/PlanAsignatura/PlanAsignaturaAgregar'
 import PlanAsignaturaEditar from '@academica/PlanAsignatura/PlanAsignaturaEditar'
 
+=======
+import PaginaDetalleUsuario from '@usuarios/PaginaDetalleUsuario/PaginaDetalleUsuario'
+import PaginaEditarUsuario from '@usuarios/PaginaEditarUsuario/PaginaEditarUsuario'
+>>>>>>> f277f0b (refactor: se ajusta el módulo 4 para que usen VentanaProvider y el Tema)
 
 export default function Router() {
 	const esAdmin = useRol('Administrador');
@@ -86,10 +89,10 @@ export default function Router() {
 								label: 'Administración',
 								icon: 'icon-[eos-icons--admin-outlined]',
 								children: [
-									{ path: 'usuarios', label: 'Usuarios', icon: 'icon-[mdi--user-group]', Component: PaginaUsuarios, menu: true, },
-									{ path: 'usuarios/crear', Component: PaginaCrearUsuario, menu: false },
-									{ path: 'usuarios/detalle', Component: UserDetail, menu: false },
-									{ path: 'usuarios/editar', Component: UserEdit, menu: false },
+									{ path: 'usuarios', label: 'Usuarios', headerkey: 'usuarios', icon: 'icon-[mdi--user-group]', Component: PaginaUsuarios, menu: true, },
+									{ path: 'usuarios/crear', label: 'Agregar Usuario', headerkey: 'usuarios/crear', Component: PaginaCrearUsuario, menu: false },
+									{ path: 'usuarios/detalle/:id', label: 'Usuario', headerkey: 'usuarios/detalle', Component: PaginaDetalleUsuario, menu: false },
+									{ path: 'usuarios/editar/:id', label: 'Editar Usuario', headerkey: 'usuarios/editar', Component: PaginaEditarUsuario, menu: false },
 								],
 								menu: true,
 							}] : []
@@ -100,22 +103,22 @@ export default function Router() {
 							label: 'Académica',
 							icon: 'icon-[cil--institution]',
 							children: [
-								{ path: 'institutos', label: 'Institutos', icon: 'icon-[cil--institution]', Component: PaginaInstitutos, menu: true, },
-								{ path: 'institutos/detalle/:id', Component:  DetalleInstituto, menu: false},
-								{path: 'institutos/agregar', Component: AgregarInstituto, menu: false},
-								{path: 'institutos/editar/:id', Component: EditarInstituto, menu: false},
-								{ path: 'carreras', label: 'Carreras', icon: 'icon-[icon-park-outline--degree-hat]', Component: PaginaCarreras, menu: true, },
-								{ path: 'carreras/detalle/:id', Component: DetallesCarrera, menu: false },
-								{ path: 'carreras/agregar', Component: AgregarCarrera, menu: false },
-								{ path: 'carreras/editar/:id', Component: EditarCarrera, menu: false },
-								{ path: 'asignaturas', label: 'Asignaturas', icon: 'icon-[octicon--book-16]', Component: PaginaAsignaturas, menu: true,},
-								{ path: 'asignaturas/detalle/:id', Component: DetallesAsignatura, menu: false },
-								{ path: 'asignaturas/agregar', Component: AgregarAsignatura, menu: false },
-								{ path: 'asignaturas/editar/:id', Component: EditarAsignatura, menu: false },
-								{ path: 'planes', label: 'Planes de Estudio',Component:PaginaPlanEstudio, icon: 'icon-[basil--document-outline]', menu: true, },
-								{ path: 'planes/detalle', Component: PlanEstudioDetalle, menu: false },
-								{ path: 'planes/editar/:id', Component:PlanEstudioEditar, menu: false },
-								{ path: 'planes/agregar', Component: PlanEstudioAgregar, menu: false },
+								{ path: 'institutos', label: 'Institutos', headerkey: 'institutos', icon: 'icon-[cil--institution]', Component: PaginaInstitutos, menu: true, },
+								{ path: 'institutos/detalle/:id', label: 'Instituto', headerkey: 'institutos/detalle', Component:  DetalleInstituto, menu: false},
+								{ path: 'institutos/agregar', label: 'Agregar Instituto', headerkey: 'institutos/agregar', Component: AgregarInstituto, menu: false},
+								{ path: 'institutos/editar/:id', label: 'Editar Instituto', headerkey: 'institutos/editar', Component: EditarInstituto, menu: false},
+								{ path: 'carreras', label: 'Carreras', headerkey: 'carreras', icon: 'icon-[icon-park-outline--degree-hat]', Component: PaginaCarreras, menu: true, },
+								{ path: 'carreras/detalle/:id', label: 'Institutos', headerkey: 'carreras/detalle', Component: DetallesCarrera, menu: false },
+								{ path: 'carreras/agregar', label: 'Institutos', headerkey: 'carreras/agregar', Component: AgregarCarrera, menu: false },
+								{ path: 'carreras/editar/:id', label: 'Institutos', headerkey: 'carreras/editar', Component: EditarCarrera, menu: false },
+								{ path: 'asignaturas', label: 'Asignaturas', headerkey: 'asignaturas', icon: 'icon-[octicon--book-16]', Component: PaginaAsignaturas, menu: true,},
+								{ path: 'asignaturas/detalle/:id', label: 'Institutos', headerkey: 'asignaturas/detalle', Component: DetallesAsignatura, menu: false },
+								{ path: 'asignaturas/agregar', label: 'Institutos', headerkey: 'asignaturas/agregar', Component: AgregarAsignatura, menu: false },
+								{ path: 'asignaturas/editar/:id', label: 'Institutos', headerkey: 'asignaturas/editar', Component: EditarAsignatura, menu: false },
+								{ path: 'planes', label: 'Planes', headerkey: 'planes',Component:PaginaPlanEstudio, icon: 'icon-[basil--document-outline]', menu: true, },
+								{ path: 'planes/detalle', label: 'Institutos', headerkey: 'planes/detalle', Component: PlanEstudioDetalle, menu: false },
+								{ path: 'planes/editar/:id', label: 'Institutos', headerkey: 'planes/editar', Component:PlanEstudioEditar, menu: false },
+								{ path: 'planes/agregar', label: 'Institutos', headerkey: 'planes/agregar', Component: PlanEstudioAgregar, menu: false },
 								{ path: 'comisiones', label: 'Comisiones', icon: 'icon-[mdi--bookshelf]', Component: PaginaComisiones, menu: true, },
 								{ path: 'comisiones/agregar/', Component: ComisionesAgregar, menu: false },
 								{ path: 'comisiones/detalle/:id', Component: ComisionesDetalle, menu: false },
@@ -132,8 +135,8 @@ export default function Router() {
 							label: 'Docentes',
 							icon: 'icon-[hugeicons--teacher]',
 							children: [
-								{ path: 'gestion', label: 'Gestionar Docentes', Component: PaginaDocentes, icon: 'icon-[mdi--account-student]', menu: true, },
-								{ path: 'parametros', label: 'Parámetros de Régimen', icon: 'icon-[material-symbols--rule]', menu: true, },
+								{ path: 'gestion', label: 'Docentes', Component: PaginaDocentes, icon: 'icon-[mdi--account-student]', menu: true, },
+								{ path: 'parametros', label: 'Régimen', icon: 'icon-[material-symbols--rule]', menu: true, },
 								{ path: 'detalle/:id', Component: DocenteDetalle, menu: false },
 								{ path: 'agregar', Component: CrearDocente, menu: false },
 								{ path: 'editar', Component: EditarDocente, menu: false },
@@ -145,7 +148,7 @@ export default function Router() {
 							label: 'Designaciones',
 							icon: 'icon-[material-symbols--pending-actions]',
 							children: [
-								{ path: 'gestion', label: 'Gestión', Component: PaginaDesignaciones, icon: 'icon-[fluent--document-person-16-filled]', menu: true, },
+								{ path: 'gestion', label: 'Designaciones', Component: PaginaDesignaciones, icon: 'icon-[fluent--document-person-16-filled]', menu: true, },
 								{ path: 'detalle/:id', Component: DesignacionDetalle, menu: false },
 								{ path: 'agregar', Component: DesignacionesAgregar, menu: false },
 							],
