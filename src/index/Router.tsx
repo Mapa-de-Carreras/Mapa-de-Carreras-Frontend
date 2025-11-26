@@ -55,6 +55,8 @@ import PlanAsignaturaAgregar from '@academica/PlanAsignatura/PlanAsignaturaAgreg
 import PlanAsignaturaEditar from '@academica/PlanAsignatura/PlanAsignaturaEditar'
 import PaginaDetalleUsuario from '@usuarios/PaginaDetalleUsuario/PaginaDetalleUsuario'
 import PaginaEditarUsuario from '@usuarios/PaginaEditarUsuario/PaginaEditarUsuario'
+import DesignacionesEditar from '../modules/Designaciones/DesignacionesEditar'
+
 
 export default function Router() {
 	const esAdmin = useRol('Administrador');
@@ -147,6 +149,7 @@ export default function Router() {
 								{ path: 'gestion', label: 'Designaciones', Component: PaginaDesignaciones, icon: 'icon-[fluent--document-person-16-filled]', menu: true, },
 								{ path: 'detalle/:id', Component: DesignacionDetalle, menu: false },
 								{ path: 'agregar', Component: DesignacionesAgregar, menu: false },
+								{ path: 'editar/:id', Component:DesignacionesEditar, menu: false },
 							],
 							menu: true,
 						},
