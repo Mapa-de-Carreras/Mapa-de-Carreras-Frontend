@@ -27,7 +27,11 @@ export type GET_TYPE_COORDINADOR = {
   creado_por_id: number
 }
 
-
+export interface ICoordinador {
+  id: number;               
+  carreras_coordinadas: string; 
+  usuario_id: number;         
+}
 export type PUT_TYPE_COORDINADOR = {
   carreras_asignadas_ids: number[]
 }
