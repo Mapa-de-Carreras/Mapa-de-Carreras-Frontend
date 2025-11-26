@@ -37,3 +37,25 @@ export type PATCH_TYPE_COORDINADOR = {
 }
 
 //POST no se que paso
+
+export type CarrerasCoordinadas = {
+  id: number;
+  carrera: string;
+  coordinador: string;
+  fecha_inicio: string;
+  fecha_fin: string | null;
+  activo: boolean;
+  creado_por: string | null;
+}
+
+export type Coordinador = {
+  id: number;
+  carreras_coordinadas: CarrerasCoordinadas[];
+  usuario_id: number;
+}
+
+export type CoordinadorResponse = Coordinador;
+
+export type CoordinadorPatchPayload = {
+  carreras_coordinadas_ids: number[]
+}
