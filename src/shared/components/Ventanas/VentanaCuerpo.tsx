@@ -17,7 +17,7 @@ export default function VentanaCuerpo({
 				className={`${icono} text-6xl `}
 			/>
 			<DialogTitle className="text-center">{titulo}</DialogTitle>
-			<DialogDescription className='text-center'>
+			<DialogDescription className='text-center w-80'>
 				{descripcion}
 			</DialogDescription>
 		</div>
