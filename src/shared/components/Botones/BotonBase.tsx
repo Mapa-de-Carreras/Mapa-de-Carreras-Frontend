@@ -12,6 +12,7 @@ export type BotonBaseProps = {
 		'default' | 'aceptar' | 'regresar' |
 		'error',
 	isLoading?: boolean
+	icono?: string
 }
 
 export default function BotonBase({
@@ -21,6 +22,7 @@ export default function BotonBase({
 	variant = 'default',
 	type = 'button',
 	isLoading = false,
+	icono,
 }: BotonBaseProps) {
 	const iconsVariants = {
 		agregar: 'icon-[mdi--plus]',
@@ -68,7 +70,7 @@ export default function BotonBase({
 			type={type}
 			disabled={isLoading}
 		>
-			{variant !== 'default' && <span className={`text-2xl ${ isLoading ? "icon-[line-md--loading-twotone-loop]" : iconsVariants[variant]} `} />}
+			{variant !== 'default' && <span className={`text-2xl ${ isLoading ? "icon-[line-md--loading-twotone-loop]" : icono || iconsVariants[variant]} `} />}
 			{children || textVariants[variant]}
 		</Button>
 	)
