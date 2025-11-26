@@ -1,15 +1,23 @@
-//import { useGetRoles } from "@apis/roles";
-import { useGetUsuario, usePutUsuario } from "@apis/usuarios";
+import { useGetRoles } from "@apis/roles";
+import { useGetUsuario, usePatchUsuario, usePutUsuario } from "@apis/usuarios";
 import ComponenteCarga from "@components/ComponenteCarga/Componentecarga";
 import MensajeError from "@components/Mensajes/MensajeError";
 import PageBase from "@components/PageBase/PageBase";
 import { useVentana } from "@components/Providers/VentanaProvider";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
-import { UsuarioEditForm, UsuarioPutPayload } from "@globalTypes/usuario";
+import { UsuarioEditForm, UsuarioPatchPayload, UsuarioPutPayload } from "@globalTypes/usuario";
 import { extraerMensajeDeError } from "@lib/errores";
 import { useNavigate, useParams } from "react-router";
 import FormularioEditarUsuario from "./componentes/FormularioEditarUsuario";
 import { formatDate } from "@lib/fechas";
+import useGetCarreras from "@apis/carreras";
+import { useGetCoordinador, usePatchCoordinador } from "@apis/coordinadores";
+
+
+interface Option {
+    value: string | number;
+    label: string;
+}
 
 export default function PaginaEditarUsuario() {
     // Ventana y Navegación
@@ -28,6 +36,7 @@ export default function PaginaEditarUsuario() {
         username: usuario.username,
         celular: usuario.celular || "",
         fecha_nacimiento: usuario.fecha_nacimiento ? formatDate(new Date(usuario.fecha_nacimiento)) : "",
+        roles: usuario.roles,
     } : null;
 
     // Función para volver al Listado
@@ -37,17 +46,33 @@ export default function PaginaEditarUsuario() {
 	};
 
     // Obtiene los roles
-    // const { data: roles, isLoading: isLoadingRoles, isError: isErrorRoles } = useGetRoles();
+    const { data: roles, isLoading: isLoadingRoles, isError: isErrorRoles } = useGetRoles();
+
+    // Obtiene las carreras
+    const { data: carreras, isLoading: isLoadingCarreras, isError: isErrorCarreras } = useGetCarreras();
+
+    // Obtiene el los datos del coordinador
+    const { data: coordinador, isPending: isLoadingGetCoordinador, isError: isErrorGetCoordinador } = useGetCoordinador({
+        id: id,
+        habilitado:  !!id,
+    });
 
     // Configuación para editar un usuario
-    const { mutate: modificarUsuario, isPending: isLoadingPut, isError: isErrorPut, error: errorPut } = usePutUsuario();
+    const { mutate: modificarUsuario, isPending: isLoadingPut, isError: isErrorPut, error: errorPut } = usePatchUsuario({});
 
-    const onConfirmActivar = (editForm: UsuarioPutPayload) => {
+    const onConfirmActivar = (editForm: UsuarioEditForm) => {
         if (editForm) {
-            const usuarioPutPayload: UsuarioPutPayload = editForm;
-            usuarioPutPayload.fecha_nacimiento = editForm.fecha_nacimiento?.split('/').reverse().join('-') || "";
+            const {roles, ...rest} = editForm;
+            const usuarioPutPayload: UsuarioPatchPayload = {
+                ...rest,
+				roles_ids: roles.map(rol => rol.id),
+				fecha_nacimiento:
+					editForm.fecha_nacimiento
+					? editForm.fecha_nacimiento.split('/').reverse().join('-')
+					: null,
+            }
             modificarUsuario(
-                { params: { id: Number(id) }, data: editForm },
+                { params: { id: Number(id) }, data: usuarioPutPayload },
                 {
                     onError: (error: Error) =>
                         abrirVentana({
@@ -85,6 +110,10 @@ export default function PaginaEditarUsuario() {
         navigate(-1);
     };
 
+    // Configuación para editar las carreras controladas por el usuario
+   
+    const { mutate: modificarCoordinador, isPending: isLoadingPatch, isError: isErrorPacth, error: errorPacth } = usePatchCoordinador();
+
     return (
         <PageBase
             volver
@@ -107,11 +136,12 @@ export default function PaginaEditarUsuario() {
 						)}
                         <br />
 						<FormularioEditarUsuario
-                            //roles={roles || []} ?? No se puede mandar los roles en usuario todavía
+                            roles={roles}
                             onSubmit={onSubmit}
                             handleCancelar={handleCancelar}
                             isLoading={isLoadingPut}
                             valoresIniciales={valoresIniciales}
+                            carreras={carreras}
                         />
 					</CardContent>
 				</Card>

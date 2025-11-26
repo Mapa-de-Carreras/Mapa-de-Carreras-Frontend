@@ -17,6 +17,11 @@ export type Usuario = {
     fecha_nacimiento: string | null
     celular: string | null
     roles: Rol[]
+    coordinador_data?: {
+        id: number,
+        carreras_coordinadas: number[],
+        usuario_id: number,
+    } | null,
 }
 
 // --- 2. VARIANTES DE USO (Utility Types) ---
@@ -60,6 +65,7 @@ export type UsuarioEditForm = {
     last_name: string
     fecha_nacimiento: string
     celular: string | null
+    roles: Rol[]
 };
 
 // --- 3. VARIANTES DE RESPUESTA (Response Types) ---
@@ -106,5 +112,13 @@ export type UsuarioPutPayload = {
  * Tipo para el payload de actualización (PATCH).
  */
 export type UsuarioPatchPayload = {
-    is_active: boolean
+    legajo?: string
+    username?: string
+    email?: string
+    first_name?: string
+    last_name?: string
+    fecha_nacimiento?: string | null
+    celular?: string | null
+    is_active?: boolean
+    roles_ids?: number[]
 }

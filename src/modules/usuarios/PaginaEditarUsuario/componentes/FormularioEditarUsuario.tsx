@@ -4,12 +4,18 @@ import { CampoInput } from '@components/Formularios/CampoInput'
 import { Formulario } from '@components/Formularios/Formulario'
 import { SubmitHandler } from 'react-hook-form'
 import { UsuarioEditForm } from '@globalTypes/usuario'
+import { Rol } from '@globalTypes/rol'
+import CampoCheckboxGroup from '@components/Formularios/CampoCheckBoxGroup'
+import { CampoSelect } from '@components/Formularios/CampoSelect'
+import { GET_TYPE_CARRERAS_LIST } from '@globalTypes/carrera'
 
 type FormularioEditarUsuarioProps = {
     onSubmit: SubmitHandler<UsuarioEditForm>
     handleCancelar: () => void
     isLoading?: boolean
     valoresIniciales?: UsuarioEditForm | null
+    roles?: Rol[]
+    carreras?: GET_TYPE_CARRERAS_LIST
 }
 
 export default function FormularioEditarUsuario({
@@ -17,6 +23,8 @@ export default function FormularioEditarUsuario({
     handleCancelar,
     isLoading = false,
     valoresIniciales = null,
+    roles = [],
+    carreras = [],
 }: FormularioEditarUsuarioProps) {
 
     const valoresInicialesEdit: UsuarioEditForm = {
@@ -27,6 +35,7 @@ export default function FormularioEditarUsuario({
         last_name: '',
         fecha_nacimiento: '',
         celular: '',
+        roles: [],
     }
 
     return (
@@ -55,6 +64,7 @@ export default function FormularioEditarUsuario({
 						placeholder="Ingrese el legajo"
 						obligatorio
 					/>
+                    
                 </div>
                 <div className="flex w-full flex-col gap-4 md:w-[45%]">
                     <CampoInput
@@ -85,6 +95,27 @@ export default function FormularioEditarUsuario({
                         type="text"
                     />
                 </div>
+            </div>
+            <CampoSelect
+                className='w-full'
+                label='Carrera a Coordinar'
+                nombre='carreras'
+                placeholder='Seleccione alguna Carrera'
+                options={carreras.map(carrera => ({ value: carrera.id, label: carrera.nombre })
+                )}
+            />
+
+            <div className="flex flex-wrap gap-5">
+                {roles &&
+                    roles.map((rol) => (
+                        <CampoCheckboxGroup
+                            key={`campo-rol-${rol.id}`}
+                            label={`Es ${rol.nombre}?`}
+                            nombre={"roles"}
+                            value={rol}
+                            keyField="id"
+                        />
+                    ))}
             </div>
 
             <div className="flex justify-between">
