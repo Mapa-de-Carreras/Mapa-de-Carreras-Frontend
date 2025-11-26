@@ -4,13 +4,13 @@ import { CampoInput } from '@components/Formularios/CampoInput'
 import CampoPassword from '@components/Formularios/CampoPassword'
 import { Formulario } from '@components/Formularios/Formulario'
 import { SubmitHandler } from 'react-hook-form'
-import { UsuarioPost } from './types'
 import { Rol } from '@globalTypes/rol'
-import CampoCheckbox from '@components/Formularios/CampoCheckBox'
+import CampoCheckboxGroup from '@components/Formularios/CampoCheckBoxGroup'
+import { UsuarioCreateForm } from '@globalTypes/usuario'
 
 type FormularioUsuarioProps = {
 	roles: Rol[]
-	onSubmit: SubmitHandler<UsuarioPost>
+	onSubmit: SubmitHandler<UsuarioCreateForm>
 	handleCancelar: () => void
 	isLoading?: boolean
 }
@@ -22,7 +22,7 @@ export default function FormularioUsuario({
 	isLoading = false,
 }: FormularioUsuarioProps) {
 
-	const valoresIniciales = {
+	const valoresInicialesCreate: UsuarioCreateForm = {
 		email: '',
 		username: '',
 		password: '',
@@ -37,7 +37,7 @@ export default function FormularioUsuario({
 	}
 
 	return (
-		<Formulario onSubmit={onSubmit} valoresIniciales={valoresIniciales}>
+		<Formulario onSubmit={onSubmit} valoresIniciales={valoresInicialesCreate}>
 			<div className="flex flex-col flex-wrap justify-between gap-2 md:flex-row md:gap-0">
 				<div className="flex w-full flex-col gap-4 md:w-[45%]">
 					<h2 className="font-bold">Datos de la cuenta</h2>
@@ -113,11 +113,12 @@ export default function FormularioUsuario({
 			<div className="flex flex-wrap gap-5">
 				{roles &&
 					roles.map((rol) => (
-						<CampoCheckbox
+						<CampoCheckboxGroup
 							key={`campo-rol-${rol.id}`}
 							label={`Es ${rol.nombre}?`}
 							nombre={"roles"}
-                            value={rol.nombre}
+							value={rol}
+							keyField="id"
 						/>
 					))}
 			</div>

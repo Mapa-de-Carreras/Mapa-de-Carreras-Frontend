@@ -1,8 +1,10 @@
-import { Usuario } from '@globalTypes/usuario'
+import { Usuario, UsuarioPostPayload, UsuarioPutPayload, UsuarioResponse } from '@globalTypes/usuario'
 import { URL_API } from './constantes'
 import useGet from './hooks/useGet'
-import usePost, { UsePostProps } from './hooks/usePost'
-import { ParamsBase } from './hooks/types'
+import usePost from './hooks/usePost'
+import useDelete from './hooks/useDelete'
+import usePatch from './hooks/usePatch'
+import usePut from './hooks/usePut'
 
 export function useGetUsuarios() {
 	return useGet<Usuario[]>({
@@ -14,12 +16,12 @@ export function useGetUsuarios() {
 }
 
 type useGetUsuarioProps = {
-	id: number
+	id: string
 	habilitado: boolean
 }
 
 export function useGetUsuario({ id, habilitado }: useGetUsuarioProps) {
-	return useGet<Usuario>({
+	return useGet<UsuarioResponse>({
 		key: 'useGetUsuario',
 		urlApi: `${URL_API}usuarios/{id}`,
 		isEnabled: habilitado,
@@ -27,34 +29,35 @@ export function useGetUsuario({ id, habilitado }: useGetUsuarioProps) {
 	})
 }
 
-export function useGetUsuarioActual({ id, habilitado }: useGetUsuarioProps) {
-	return useGet<Usuario>({
-		key: 'useGetUsuarioActual',
-		urlApi: `${URL_API}usuarios/{id}`,
-		isEnabled: habilitado,
-		params: { id },
-	})
-}
-
-type UsePostUsuarioOptions<
-	TData = unknown,
-	TError = Error,
-	TBody = unknown,
-	TContext = unknown,
-> = Omit<UsePostProps<TData, TError, ParamsBase, TBody, TContext>, 'urlApi' | 'key' | 'params'>
-
-export type UsuarioResponse = Usuario
-
-export type UsuarioCreatePayload = Omit<Usuario, 'id' | 'is_active'| 'roles'> & {
-	roles: string[]
-}
-
-export function usePostUsuario(
-    options: UsePostUsuarioOptions<UsuarioResponse, Error, ParamsBase, UsuarioCreatePayload>
-) {
-	return usePost({
+export function usePostUsuario() {
+	return usePost<UsuarioResponse, Error>({
 		key: 'usePostUsuario',
 		urlApi: `${URL_API}usuarios/`,
-		...options,
 	})
+}
+
+export function usePutUsuario() {
+	return usePut<UsuarioResponse, Error, {id: number}, UsuarioPutPayload>({
+		key: 'usePutUsuario',
+		urlApi: `${URL_API}usuarios/{id}/`,
+	});
+}
+
+type usePatchUsuarioProps = {
+	queriesToInvalidate?: string[]
+};
+
+export function usePatchUsuario({queriesToInvalidate}: usePatchUsuarioProps) {
+	return usePatch<UsuarioPostPayload>({
+		key: 'usePatchUsuario',
+		urlApi: `${URL_API}usuarios/{id}/`,
+		queriesToInvalidate: queriesToInvalidate,
+	});
+}
+
+export function useDeleteUsuario() {
+	return useDelete({
+		key: 'useDeleteUsuario',
+		urlApi: `${URL_API}usuarios/{id}/`,
+	});
 }
