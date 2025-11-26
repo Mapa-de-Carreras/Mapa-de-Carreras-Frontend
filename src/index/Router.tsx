@@ -57,6 +57,8 @@ import PaginaDetalleUsuario from '@usuarios/PaginaDetalleUsuario/PaginaDetalleUs
 import PaginaEditarUsuario from '@usuarios/PaginaEditarUsuario/PaginaEditarUsuario'
 import DesignacionesEditar from '../modules/Designaciones/DesignacionesEditar'
 
+import Reportes from '../modules/Estadisticas/Reportes'
+
 
 export default function Router() {
 	const esAdmin = useRol('Administrador');
@@ -83,17 +85,18 @@ export default function Router() {
 					children: [
 						{ index: true, Component: Home, menu: true, label: "Home", icon: "icon-[material-symbols--home]" },
 						...(esAdmin ? [{
-								path: 'administracion',
-								label: 'Administración',
-								icon: 'icon-[eos-icons--admin-outlined]',
-								children: [
-									{ path: 'usuarios', label: 'Usuarios', headerkey: 'usuarios', icon: 'icon-[mdi--user-group]', Component: PaginaUsuarios, menu: true, },
-									{ path: 'usuarios/crear', label: 'Agregar Usuario', headerkey: 'usuarios/crear', Component: PaginaCrearUsuario, menu: false },
-									{ path: 'usuarios/detalle/:id', label: 'Usuario', headerkey: 'usuarios/detalle', Component: PaginaDetalleUsuario, menu: false },
-									{ path: 'usuarios/editar/:id', label: 'Editar Usuario', headerkey: 'usuarios/editar', Component: PaginaEditarUsuario, menu: false },
-								],
-								menu: true,
-							}] : []
+							path: 'administracion',
+							label: 'Administración',
+							icon: 'icon-[eos-icons--admin-outlined]',
+							children: [
+								{ path: 'usuarios', label: 'Usuarios', headerkey: 'usuarios', icon: 'icon-[mdi--user-group]', Component: PaginaUsuarios, menu: true, },
+								{ path: 'usuarios/crear', label: 'Agregar Usuario', headerkey: 'usuarios/crear', Component: PaginaCrearUsuario, menu: false },
+								{ path: 'usuarios/detalle/:id', label: 'Usuario', headerkey: 'usuarios/detalle', Component: PaginaDetalleUsuario, menu: false },
+								{ path: 'usuarios/editar/:id', label: 'Editar Usuario', headerkey: 'usuarios/editar', Component: PaginaEditarUsuario, menu: false },
+							],
+							menu: true,
+						}] : []
+
 						),
 						{ path: 'notificaciones', Component: NotificacionesPage, menu: false, },
 						{
@@ -102,29 +105,29 @@ export default function Router() {
 							icon: 'icon-[cil--institution]',
 							children: [
 								{ path: 'institutos', label: 'Institutos', headerkey: 'institutos', icon: 'icon-[cil--institution]', Component: PaginaInstitutos, menu: true, },
-								{ path: 'institutos/detalle/:id', label: 'Instituto', headerkey: 'institutos/detalle', Component:  DetalleInstituto, menu: false},
-								{ path: 'institutos/agregar', label: 'Agregar Instituto', headerkey: 'institutos/agregar', Component: AgregarInstituto, menu: false},
-								{ path: 'institutos/editar/:id', label: 'Editar Instituto', headerkey: 'institutos/editar', Component: EditarInstituto, menu: false},
+								{ path: 'institutos/detalle/:id', label: 'Instituto', headerkey: 'institutos/detalle', Component: DetalleInstituto, menu: false },
+								{ path: 'institutos/agregar', label: 'Agregar Instituto', headerkey: 'institutos/agregar', Component: AgregarInstituto, menu: false },
+								{ path: 'institutos/editar/:id', label: 'Editar Instituto', headerkey: 'institutos/editar', Component: EditarInstituto, menu: false },
 								{ path: 'carreras', label: 'Carreras', headerkey: 'carreras', icon: 'icon-[icon-park-outline--degree-hat]', Component: PaginaCarreras, menu: true, },
 								{ path: 'carreras/detalle/:id', label: 'Institutos', headerkey: 'carreras/detalle', Component: DetallesCarrera, menu: false },
 								{ path: 'carreras/agregar', label: 'Institutos', headerkey: 'carreras/agregar', Component: AgregarCarrera, menu: false },
 								{ path: 'carreras/editar/:id', label: 'Institutos', headerkey: 'carreras/editar', Component: EditarCarrera, menu: false },
-								{ path: 'asignaturas', label: 'Asignaturas', headerkey: 'asignaturas', icon: 'icon-[octicon--book-16]', Component: PaginaAsignaturas, menu: true,},
+								{ path: 'asignaturas', label: 'Asignaturas', headerkey: 'asignaturas', icon: 'icon-[octicon--book-16]', Component: PaginaAsignaturas, menu: true, },
 								{ path: 'asignaturas/detalle/:id', label: 'Institutos', headerkey: 'asignaturas/detalle', Component: DetallesAsignatura, menu: false },
 								{ path: 'asignaturas/agregar', label: 'Institutos', headerkey: 'asignaturas/agregar', Component: AgregarAsignatura, menu: false },
 								{ path: 'asignaturas/editar/:id', label: 'Institutos', headerkey: 'asignaturas/editar', Component: EditarAsignatura, menu: false },
-								{ path: 'planes', label: 'Planes', headerkey: 'planes',Component:PaginaPlanEstudio, icon: 'icon-[basil--document-outline]', menu: true, },
+								{ path: 'planes', label: 'Planes', headerkey: 'planes', Component: PaginaPlanEstudio, icon: 'icon-[basil--document-outline]', menu: true, },
 								{ path: 'planes/detalle', label: 'Institutos', headerkey: 'planes/detalle', Component: PlanEstudioDetalle, menu: false },
-								{ path: 'planes/editar/:id', label: 'Institutos', headerkey: 'planes/editar', Component:PlanEstudioEditar, menu: false },
+								{ path: 'planes/editar/:id', label: 'Institutos', headerkey: 'planes/editar', Component: PlanEstudioEditar, menu: false },
 								{ path: 'planes/agregar', label: 'Institutos', headerkey: 'planes/agregar', Component: PlanEstudioAgregar, menu: false },
 								{ path: 'comisiones', label: 'Comisiones', icon: 'icon-[mdi--bookshelf]', Component: PaginaComisiones, menu: true, },
 								{ path: 'comisiones/agregar/', Component: ComisionesAgregar, menu: false },
 								{ path: 'comisiones/detalle/:id', Component: ComisionesDetalle, menu: false },
-								{ path: 'comisiones/editar/:id', Component:ComisionEditar, menu: false },
-								{ path: 'planes-asignatura', label: 'Planes de Asignatura',Component:PaginaPlanAsignatura,icon: 'icon-[basil--book-outline]', menu: true, },
+								{ path: 'comisiones/editar/:id', Component: ComisionEditar, menu: false },
+								{ path: 'planes-asignatura', label: 'Planes de Asignatura', Component: PaginaPlanAsignatura, icon: 'icon-[basil--book-outline]', menu: true, },
 								{ path: 'planes-asignatura/agregar', Component: PlanAsignaturaAgregar, menu: false },
 								{ path: 'planes-asignatura/detalle/:id', Component: PlanAsignaturaDetalle, menu: false },
-								{ path: 'planes-asignatura/editar/:id', Component:PlanAsignaturaEditar, menu: false },
+								{ path: 'planes-asignatura/editar/:id', Component: PlanAsignaturaEditar, menu: false },
 							],
 							menu: true,
 						},
@@ -149,7 +152,7 @@ export default function Router() {
 								{ path: 'gestion', label: 'Designaciones', Component: PaginaDesignaciones, icon: 'icon-[fluent--document-person-16-filled]', menu: true, },
 								{ path: 'detalle/:id', Component: DesignacionDetalle, menu: false },
 								{ path: 'agregar', Component: DesignacionesAgregar, menu: false },
-								{ path: 'editar/:id', Component:DesignacionesEditar, menu: false },
+								{ path: 'editar/:id', Component: DesignacionesEditar, menu: false },
 							],
 							menu: true,
 						},
@@ -159,17 +162,17 @@ export default function Router() {
 							icon: 'icon-[akar-icons--statistic-up]',
 							children: [
 								{ path: 'estadisticas', label: 'Estadísticas', icon: 'icon-[akar-icons--statistic-up]', menu: true, },
-								{ path: 'reportes', label: 'Reportes', icon: 'icon-[mdi--report-bar-stacked]', menu: true, },
+								{ path: 'reportes', label: 'Reportes', Component: Reportes, icon: 'icon-[mdi--report-bar-stacked]', menu: true, },
 							],
 							menu: true,
 						},
-							{
+						{
 							path: 'documentos',
 							label: 'Documentos',
 							icon: 'icon-[mdi--file-document-outline]',
 							children: [
-								{ path: 'gestion', label: 'Documentos', Component: PaginaDocumentos,icon: 'icon-[mdi--file-document-outline]', menu: true, },
-								{ path: 'agregar', Component:AgregarDocumentos, menu: false },
+								{ path: 'gestion', label: 'Documentos', Component: PaginaDocumentos, icon: 'icon-[mdi--file-document-outline]', menu: true, },
+								{ path: 'agregar', Component: AgregarDocumentos, menu: false },
 								{ path: 'detalle/:id', Component: DetalleDocumentos, menu: false },
 							],
 							menu: true,
@@ -178,7 +181,7 @@ export default function Router() {
 				},
 			],
 		},
-		{ path: '*', element: <NotFoundPage/> },
+		{ path: '*', element: <NotFoundPage /> },
 	]
 
 	return <RouterMapa rutas={rutas} />
