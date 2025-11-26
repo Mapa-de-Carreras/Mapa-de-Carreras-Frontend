@@ -6,6 +6,7 @@ import { useState } from "react";
 import ModalGenerico from "@components/Modal/ModalGenerico";
 import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
 import { URL_API } from "@apis/constantes";
+import useAuth from "@hooks/useAuth";
 
 export default function DocenteDetalle() {
   const { id } = useParams();
@@ -16,8 +17,9 @@ export default function DocenteDetalle() {
   const [errorEliminar, setErrorEliminar] = useState<string | null>(null);
 
   // Obtener rol del usuario logueado
-  const isStaff = localStorage.getItem("is_staff") === "true";
-  console.log("Rol ,es staff?: ",isStaff);
+  const { user: usuario } = useAuth();
+  const ROLES_PERMITIDOS = ["Administrador", "Coordinador"];
+  const esAdmin = usuario?.roles?.some((r) => ROLES_PERMITIDOS.includes(r.nombre)) ?? false;
 
   if (isLoading) return <p>Cargando docente...</p>;
   if (error) return <p>Error al cargar el docente.</p>;
@@ -158,11 +160,12 @@ export default function DocenteDetalle() {
       </div>
 
       {/* Botones */}
-      <BotonBase variant="editar" onClick={handleEditar} />
-
-      {/* Solo mostrar si es staff */}
-      {isStaff && (
-        <BotonBase variant="eliminar" onClick={handleEliminar} />
+      {/* Solo mostrar si es admin o coordinador */}
+        {esAdmin && (
+        <div>
+          <BotonBase variant="editar" onClick={handleEditar} />
+          <BotonBase variant="eliminar" onClick={handleEliminar} />
+        </div>
       )}
 
          {/* Modal de éxito */}

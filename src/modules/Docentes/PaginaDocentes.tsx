@@ -8,6 +8,7 @@ import { Tabla } from "@components/Tabla/Tabla";
 import TituloTabla from "@components/Tabla/TituloTabla";
 import FeedCard from "@components/Tarjetas/FeedCard";
 import { IDocente } from "@globalTypes/docentes";
+import useAuth from "@hooks/useAuth";
 import { ColumnDef } from "@tanstack/react-table";
 import { useNavigate } from "react-router";
 
@@ -15,8 +16,10 @@ export default function PaginaDocentes() {
   const { data: docentes, isLoading, error } = useGetDocentes();
   const navigate = useNavigate();
 
-  const isAdmin = localStorage.getItem("is_staff") === "true";
-
+  const { user: usuario } = useAuth();
+  const ROLES_PERMITIDOS = ["Administrador", "Coordinador"];
+  const esAdmin = usuario?.roles?.some((r) => ROLES_PERMITIDOS.includes(r.nombre)) ?? false;
+   console.log("Es admin ",esAdmin);
 const handleAgregarDocente = () => {
     navigate(`/docentes/agregar/`);
 };
@@ -63,7 +66,7 @@ return (
                         data={docentesActivos}
                         habilitarBuscador={true}
                         habilitarPaginado={true}
-                        funcionAgregado={isAdmin ? handleAgregarDocente : undefined}
+                        funcionAgregado={esAdmin ? handleAgregarDocente : undefined}
                     />
                 </div>
                 <div className="block sm:hidden">
@@ -82,7 +85,7 @@ return (
                                 }
                             />
                         )}
-                        onClick={isAdmin ? handleAgregarDocente : undefined}
+                        onClick={esAdmin ? handleAgregarDocente : undefined}
                     />
                 </div>
             </div>
