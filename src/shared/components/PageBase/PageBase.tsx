@@ -1,7 +1,6 @@
 import DescripcionDePagina from '@components/Tipografia/DescripcionDePagina'
 import TituloDePagina from '@components/Tipografia/TItuloDePagina'
-import FONDO from '@assets/fondo.jpg'
-import FONDO_OSCURO from '@assets/fondo-oscuro.jpg'
+import FONDO from '@assets/fondo.png'
 import { useTheme } from '@hooks/useTheme'
 import { ReactNode } from 'react'
 import { useNavigate } from 'react-router'
@@ -38,7 +37,7 @@ export default function PageBase({
 			style={
 				fondo
 					? {
-							backgroundImage: `url(${theme.includes('dark') ? FONDO_OSCURO : FONDO})`,
+							backgroundImage: `url(${FONDO})`,
 						}
 					: {}
 			}
