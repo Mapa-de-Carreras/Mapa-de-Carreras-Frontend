@@ -44,7 +44,6 @@ import PlanEstudioEditar from '@academica/PaginaPlanesEstudio/PlanEstudioEditar'
 import PaginaDocumentos from '../modules/Documentos/PaginaDocumentos'
 import AgregarDocumentos from '../modules/Documentos/AgregarDocumentos'
 import useRol from '@hooks/useRol'
-<<<<<<< HEAD
 import DetalleDocumentos from '../modules/Documentos/DetalleDocumentos'
 import PaginaComisiones from '@academica/Comisiones/PaginaComisiones'
 import ComisionesDetalle from '@academica/Comisiones/ComisionesDetalle'
@@ -54,11 +53,8 @@ import PaginaPlanAsignatura from '@academica/PlanAsignatura/PaginaPlanAsignatura
 import PlanAsignaturaDetalle from '@academica/PlanAsignatura/PlanAsignaturaDetalle'
 import PlanAsignaturaAgregar from '@academica/PlanAsignatura/PlanAsignaturaAgregar'
 import PlanAsignaturaEditar from '@academica/PlanAsignatura/PlanAsignaturaEditar'
-
-=======
 import PaginaDetalleUsuario from '@usuarios/PaginaDetalleUsuario/PaginaDetalleUsuario'
 import PaginaEditarUsuario from '@usuarios/PaginaEditarUsuario/PaginaEditarUsuario'
->>>>>>> f277f0b (refactor: se ajusta el módulo 4 para que usen VentanaProvider y el Tema)
 
 export default function Router() {
 	const esAdmin = useRol('Administrador');
