@@ -17,7 +17,8 @@ export default function PaginaDesignaciones() {
   const { user: usuario } = useAuth();
   
   // Verifica si el usuario es administrador
-  const esAdmin = usuario?.roles?.some((r) => r.nombre === "Administrador") ?? false;
+  const ROLES_PERMITIDOS = ["Administrador", "Coordinador"];
+  const esAdmin = usuario?.roles?.some((r) => ROLES_PERMITIDOS.includes(r.nombre)) ?? false;
   
   const handleAgregarDesignacion = () => {
     navigate(`/designaciones/agregar/`);

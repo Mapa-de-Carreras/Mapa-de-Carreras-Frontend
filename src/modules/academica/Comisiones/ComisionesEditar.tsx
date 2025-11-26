@@ -52,19 +52,19 @@ export default function ComisionEditar() {
   const handleSubmit = async (data: any) => {
     const token = localStorage.getItem("access_token");
 
-        const payload = {
+      const payload = {
         nombre: data.nombre,
-        turno: comision.turno || "MATUTINO",
-        promocionable: comision.promocionable ? "true" : "false",
-        activo: comision.activo ? "true" : "false",
+        turno: data.turno,
+        promocionable: data.promocionable === "true",
+        activo: data.activo === "true",
         plan_asignatura: comision.plan_asignatura_id 
-        };
+      };
 
     console.log("Payload enviado:", payload);
 
     try {
       const res = await fetch(`${URL_API}comisiones/${id}/`, {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

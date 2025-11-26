@@ -1,18 +1,72 @@
 import { useParams, useNavigate } from "react-router";
 import PageBase from "@components/PageBase/PageBase";
-
-import { useGetDesignacionesDetalle } from "@apis/designaciones";
+import { useDeleteDesignacion, useGetDesignacionesDetalle } from "@apis/designaciones";
 import BotonBase from "@components/Botones/BotonBase";
 import { Loading } from "@components/Templates/Loading";
 import MensajeError from "@components/Mensajes/MensajeError";
 import { Card, CardHeader, CardTitle, CardContent } from "@components/ui/card";
-
+import useRol from "@hooks/useRol";
+import { useModal } from "@components/Providers/ModalProvider";
 
 export default function DesignacionDetalle() {
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const { showModal } = useModal();
   const { data: designacion, isLoading, isError } =  useGetDesignacionesDetalle(Number(id));
+  const isAdmin = useRol("Administrador");
+  const isCoordinador = useRol("Coordinador");
+  const deleteDesignacion = useDeleteDesignacion(Number(id));
+
+  const handleClickEditar = () => {
+    navigate(`/designaciones/editar/${id}`);
+  };
+
+    const handleClickModalEliminar = () => {
+    showModal({
+      title: "Eliminar designación",
+      description: "¿Está seguro que desea eliminar esta designación?",
+      buttons: [
+        {
+          variant: "eliminar",
+          autoClose: false,
+          onClick: handleConfirmDelete,
+        },
+        { variant: "cancelar", onClick: () => {} },
+      ],
+    });
+  };
+
+  const handleConfirmDelete = () => {
+    if (!id) return;
+
+    showModal({
+      isLoading: true,
+      msg: 'Eliminando Designación...',
+    });
+
+    deleteDesignacion.mutate(
+      { params: { id: id } },
+      {
+        onSuccess: () => {
+          showModal({
+            title: 'Éxito',
+            description: 'La designación se ha eliminado correctamente.',
+            buttons: [{ variant: 'aceptar', onClick: () => navigate(-1) }],
+            isLoading: false,
+          });
+        },
+        onError: (err) => {
+          showModal({
+            title: 'Error',
+            description: err.message || 'No se pudo eliminar la designación.',
+            buttons: [{ variant: 'error', onClick: () => {} }],
+            isLoading: false,
+          });
+        },
+      }
+    );
+  };
+
 
   if (isLoading)
   return <Loading titulo="Cargando designación" descripcion="Por favor espere..." />;
@@ -34,6 +88,15 @@ export default function DesignacionDetalle() {
         <h1 className="text-3xl font-bold">
           Detalle de Designación #{designacion.id}
         </h1>
+
+          <div className="flex justify-center gap-3 mt-3">
+                      {(isAdmin || isCoordinador) && (
+                        <BotonBase variant="editar" onClick={handleClickEditar} />
+                      )}
+                      {(isAdmin || isCoordinador) && (
+                        <BotonBase variant="eliminar" onClick={handleClickModalEliminar} />
+                      )}
+                    </div>
 
         {/* INFORMACIÓN GENERAL */}
         <Card>
