@@ -3,11 +3,11 @@ import HomeCard from './components/HomeCard'
 import useRoutes from '@hooks/useRoutes'
 
 export default function Home() {
-	const rutas = useRoutes();
+	const { rutasMenu } = useRoutes();
 
 	return (
 		<PageBase className="p-4">
-			{rutas
+			{rutasMenu
 				.filter((section) => section.menu)
 				.map((section) => (
 					<div key={`home-${section.path}`} className="mb-6">

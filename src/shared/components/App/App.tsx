@@ -4,12 +4,12 @@ import NavbarMobile from '@components/Navbar/NavbarMobile'
 import useRoutes from '@hooks/useRoutes'
 
 export default function App() {
-	const rutas = useRoutes();
+	const { rutasMenu } = useRoutes();
 
 	return (
 		<div className="flex h-full w-full flex-col sm:flex-row">
-			<Navbar rutas={rutas} />
-			<NavbarMobile rutas={rutas} />
+			<Navbar rutas={rutasMenu} />
+			<NavbarMobile rutasMenu={rutasMenu} />
 			<Outlet />
 		</div>
 	)

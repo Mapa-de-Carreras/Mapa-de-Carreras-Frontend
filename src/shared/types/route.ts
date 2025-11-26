@@ -8,4 +8,5 @@ export type Route = {
 	icon?: string
 	menu?: boolean
 	children?: Route[]
+	headerkey?: string
 }
