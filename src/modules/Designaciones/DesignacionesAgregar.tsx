@@ -9,12 +9,13 @@ import { Card, CardContent, CardFooter } from "@components/ui/card";
 import ComponenteCarga from "@components/ComponenteCarga/Componentecarga";
 import { useGetDocentes } from "@apis/docentes";
 import { useGetCargos} from "@apis/cargos";
-//import { useGetComisiones } from "@apis/comisiones";
 import  useGetDedicaciones  from "@apis/dedicacion";
 import { useEffect } from "react";
 import { useModal } from "@components/Providers/ModalProvider";
 import {  DesignacionSchema, DesignacionForm,} from "./constraintsDesignacion";
 import { usePostDesignacion } from "@apis/designaciones";
+import { useGetComisiones } from "@apis/comisiones";
+import { useGetDocumentos } from "@apis/documentos";
 
 export default function DesignacionesAgregar() {
   const navigate = useNavigate();
@@ -25,8 +26,9 @@ export default function DesignacionesAgregar() {
   // --- Peticiones al backend ---
   const { data: docentes } = useGetDocentes();
   const { data: cargos } = useGetCargos();
-//  const { data: comisiones } = useGetComisiones();
+  const { data: comisiones } = useGetComisiones();
   const { data: dedicaciones } = useGetDedicaciones();
+  const { data: documentos } = useGetDocumentos();
 
   useEffect(() => {
     if (isSuccess) {
@@ -86,17 +88,25 @@ export default function DesignacionesAgregar() {
             schema={DesignacionSchema}
           >
             <CardContent className="space-y-4 pt-6">
-              <CampoInput label="Fecha Inicio" nombre="fecha_inicio" />
-              <CampoInput label="Fecha Fin" nombre="fecha_fin" />
-                <CampoSelect
-                    label="Tipo Designación"
-                    nombre="tipo_designacion"
-                    options={[
-                        { value: "TEORICO", label: "Teórico" },
-                        { value: "PRACTICO", label: "Práctico" },
-                        { value: "TEORICO_PRACTICO", label: "Teórico + Práctico" },
-                    ]}
-                    />
+             <CampoInput
+                                label="Fecha de Inicio"
+                                nombre="fecha_inicio"
+                                type="date"
+                            />
+              <CampoInput
+                                label="Fecha Fin"
+                                nombre="fecha_fin"
+                                type="date"
+                            />
+          <CampoSelect
+                label="Tipo Designación"
+                nombre="tipo_designacion"
+                options={[
+                  { value: "Teorico", label: "Teórico" },
+                  { value: "Practico", label: "Práctico" },
+                  { value: "Teorico+Practico", label: "Teórico + Práctico" },
+                ]}
+              />
 
          <CampoSelect
             label="Docente"
@@ -122,7 +132,6 @@ export default function DesignacionesAgregar() {
             }
             />
 
-{/*
               <CampoSelect
                 label="Comisión"
                 nombre="comision_id"
@@ -133,7 +142,6 @@ export default function DesignacionesAgregar() {
                   })) || []
                 }
               />
-   */ }
 
               <CampoSelect
                     label="Dedicación"
@@ -146,9 +154,21 @@ export default function DesignacionesAgregar() {
                         })) || []
                     }
                     />
-
+                  <CampoSelect
+                    label="Documento"
+                    nombre="documento_id"
+                    className="h-12"
+                    options={[
+                      { value: 0, label: "Sin documento" },
+                      ...(
+                        documentos?.map((d) => ({
+                          value: d.id!,
+                          label: `${d.tipo} - ${d.emisor} - ${d.numero}/${d.anio}`,
+                        })) || []
+                      )
+                    ]}
+                  />
               <CampoInput label="Observación" nombre="observacion" />
-              <CampoInput label="Documento ID" nombre="documento_id" />
             </CardContent>
 
             <CardFooter className="flex justify-between">

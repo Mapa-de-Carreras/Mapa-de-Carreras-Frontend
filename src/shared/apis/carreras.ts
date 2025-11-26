@@ -1,5 +1,5 @@
 // Asumo que el tipo se llama 'Carrera' y está en esta ruta
-import { GET_TYPE_CARRERA, GET_TYPE_CARRERAS_LIST, POST_TYPE_CARRERA, PUT_TYPE_CARRERA } from '@globalTypes/carrera'; 
+import { GET_TYPE_CARRERA, GET_TYPE_CARRERAS_LIST, POST_TYPE_CARRERA, PUT_TYPE_CARRERA, PATCH_TYPE_CARRERA } from '@globalTypes/carrera'; 
 import { URL_API } from "./constantes";
 import useGet from './hooks/useGet';
 import usePost from './hooks/usePost';
@@ -55,11 +55,11 @@ export function useDeleteCarrera() {
 }
 
 export function usePatchCarrera(id : number) {
-    return usePatch<PUT_TYPE_CARRERA>({
+    return usePatch<PATCH_TYPE_CARRERA>({
         key: 'usePatchCarrera',
-        urlApi: `${URL_API}carreras/${id}/vagencia/`,
+        urlApi: `${URL_API}carreras/{id}/vigencia/`,
         params: {
-            queryParams : { id }
+            id: id
         }
     });
 }

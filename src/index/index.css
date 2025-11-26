@@ -109,6 +109,11 @@ body,
 	--color-default: var(--default);
 	--color-default-hover: var(--default-hover);
 	--color-default-active: var(--default-active);
+
+	--color-exportar: var(--exportar);
+    --color-exportar-hover: var(--exportar-hover);
+    --color-exportar-active: var(--exportar-active);
+	
 }
 
 :root {
@@ -215,6 +220,10 @@ body,
 	--default: #242222;
 	--default-hover: #696666;
 	--default-active: #0e0d0d;
+
+	--exportar: #2563eb;      
+    --exportar-hover: #1d4ed8;
+    --exportar-active: #1e40af;
 }
 
 .dark {
@@ -309,9 +318,13 @@ body,
 	--agregar-hover: #257a32;
 	--agregar-active: #1f6230;
 
-	--color-regresar: oklch(0.6 0.01 270); /* Gris Neutro (Dark) */
-	--color-regresar-hover: oklch(0.55 0.01 270); /* Más oscuro */
+	--color-regresar: oklch(0.6 0.01 270); 
+	--color-regresar-hover: oklch(0.55 0.01 270); 
 	--color-regresar-active: oklch(0.5 0.01 270);
+
+	--exportar: #3b82f6;      
+    --exportar-hover: #2563eb; 
+    --exportar-active: #1d4ed8;
 
 	--filtro: #444444;
 	--default: #313441;

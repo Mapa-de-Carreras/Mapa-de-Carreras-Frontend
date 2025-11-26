@@ -16,6 +16,8 @@ import { Card, CardContent, CardFooter } from '@components/ui/card';
 import BotonBase from '@components/Botones/BotonBase';
 import { Button } from '@components/ui/button';
 import { InstitutoForm, InstitutoSchema } from './contraints';
+import useRol from '@hooks/useRol';
+import { useEffect } from 'react';
 
 
 export default function EditarInstituto() {
@@ -26,6 +28,16 @@ export default function EditarInstituto() {
     const {data: instituto, isLoading: loadingInstituto, error: errorGeting } = useGetInstituto(Number(id));
 
     const { mutate: actualizarInstituto, isPending: isPendingInsituto } = usePutInstituto();
+
+    const isAdmin = useRol('Administrador')
+
+    useEffect(() => {
+        if (!isAdmin) {
+            navigate('/'); 
+        }
+    }, [isAdmin, navigate]);
+
+    if (!isAdmin) return <ComponenteCarga />
 
     const handleSubmit = (formData: InstitutoForm) => {
         if (!id) return;

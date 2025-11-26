@@ -44,6 +44,15 @@ import PlanEstudioEditar from '@academica/PaginaPlanesEstudio/PlanEstudioEditar'
 import PaginaDocumentos from '../modules/Documentos/PaginaDocumentos'
 import AgregarDocumentos from '../modules/Documentos/AgregarDocumentos'
 import useRol from '@hooks/useRol'
+import DetalleDocumentos from '../modules/Documentos/DetalleDocumentos'
+import PaginaComisiones from '@academica/Comisiones/PaginaComisiones'
+import ComisionesDetalle from '@academica/Comisiones/ComisionesDetalle'
+import ComisionEditar from '@academica/Comisiones/ComisionesEditar'
+import ComisionesAgregar from '@academica/Comisiones/ComisionesAgregar'
+import PaginaPlanAsignatura from '@academica/PlanAsignatura/PaginaPlanAsignatura'
+import PlanAsignaturaDetalle from '@academica/PlanAsignatura/PlanAsignaturaDetalle'
+import PlanAsignaturaAgregar from '@academica/PlanAsignatura/PlanAsignaturaAgregar'
+import PlanAsignaturaEditar from '@academica/PlanAsignatura/PlanAsignaturaEditar'
 import PaginaDetalleUsuario from '@usuarios/PaginaDetalleUsuario/PaginaDetalleUsuario'
 import PaginaEditarUsuario from '@usuarios/PaginaEditarUsuario/PaginaEditarUsuario'
 
@@ -106,6 +115,14 @@ export default function Router() {
 								{ path: 'planes/detalle', label: 'Institutos', headerkey: 'planes/detalle', Component: PlanEstudioDetalle, menu: false },
 								{ path: 'planes/editar/:id', label: 'Institutos', headerkey: 'planes/editar', Component:PlanEstudioEditar, menu: false },
 								{ path: 'planes/agregar', label: 'Institutos', headerkey: 'planes/agregar', Component: PlanEstudioAgregar, menu: false },
+								{ path: 'comisiones', label: 'Comisiones', icon: 'icon-[mdi--bookshelf]', Component: PaginaComisiones, menu: true, },
+								{ path: 'comisiones/agregar/', Component: ComisionesAgregar, menu: false },
+								{ path: 'comisiones/detalle/:id', Component: ComisionesDetalle, menu: false },
+								{ path: 'comisiones/editar/:id', Component:ComisionEditar, menu: false },
+								{ path: 'planes-asignatura', label: 'Planes de Asignatura',Component:PaginaPlanAsignatura,icon: 'icon-[basil--book-outline]', menu: true, },
+								{ path: 'planes-asignatura/agregar', Component: PlanAsignaturaAgregar, menu: false },
+								{ path: 'planes-asignatura/detalle/:id', Component: PlanAsignaturaDetalle, menu: false },
+								{ path: 'planes-asignatura/editar/:id', Component:PlanAsignaturaEditar, menu: false },
 							],
 							menu: true,
 						},
@@ -148,8 +165,9 @@ export default function Router() {
 							label: 'Documentos',
 							icon: 'icon-[mdi--file-document-outline]',
 							children: [
-								{ path: 'Documentos', label: 'Documentos', Component: PaginaDocumentos,icon: 'icon-[mdi--file-document-outline]', menu: true, },
+								{ path: 'gestion', label: 'Documentos', Component: PaginaDocumentos,icon: 'icon-[mdi--file-document-outline]', menu: true, },
 								{ path: 'agregar', Component:AgregarDocumentos, menu: false },
+								{ path: 'detalle/:id', Component: DetalleDocumentos, menu: false },
 							],
 							menu: true,
 						},

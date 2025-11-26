@@ -7,12 +7,15 @@ import PageBase from "@components/PageBase/PageBase";
 import { Tabla } from "@components/Tabla/Tabla";
 import FeedCard from "@components/Tarjetas/FeedCard";
 import { Instituto } from "@globalTypes/instituto";
+import useRol from "@hooks/useRol";
 import { ColumnDef } from "@tanstack/react-table";
 import { useNavigate } from "react-router";
 
 export default function PaginaInstitutos() {
     const navigate = useNavigate();
     const { data: institutos, isLoading: isLoadingInstitutos, isError: isErrorInstitutos } = useGetInstitutos();
+
+    const isAdmin = useRol('Administrador')
 
     const handleAgregar = () => {
         navigate("/academica/institutos/agregar");
@@ -23,8 +26,8 @@ export default function PaginaInstitutos() {
 	}
 
     const columns: ColumnDef<Instituto>[] = [
-        { accessorKey: 'nombre', header: "Nombre", size: 3},
-        { accessorKey: 'codigo', header: "Código", size: 1},
+        { id: 'nombre', accessorKey: 'nombre', header: "Nombre", size: 3},
+        { id: 'codigo', accessorKey: 'codigo', header: "Código", size: 1},
         { id: 'actions', header: 'Acciones', size: 1 },
     ]
 
@@ -43,7 +46,7 @@ export default function PaginaInstitutos() {
                                 data={institutos}
                                 habilitarBuscador={true}
                                 habilitarPaginado={true}
-                                funcionAgregado={handleAgregar}
+                                funcionAgregado={isAdmin? handleAgregar : undefined}
                                 handleAccion={handleVerDetalle}
                                 columnasFijas={false}
                             />
@@ -54,6 +57,7 @@ export default function PaginaInstitutos() {
                                     data={institutos}
                                     dataRender={(instituto) => (
                                         <FeedCard
+                                            key={instituto.id}
                                             titulo={instituto.nombre}
                                             descripcion={instituto.codigo}
                                             actions={
@@ -63,7 +67,7 @@ export default function PaginaInstitutos() {
                                             }
                                         />
                                     )}
-                                    onClick={handleAgregar}
+                                    onClick={isAdmin? handleAgregar : undefined}
                                 />
                             )}
                         </div>
