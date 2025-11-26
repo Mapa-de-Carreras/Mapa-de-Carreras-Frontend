@@ -45,7 +45,7 @@ export default function ComisionesAgregar() {
         turno: data.turno,
         promocionable: data.promocionable === "true",
         activo: data.activo === "true",
-        plan_asignatura: Number(data.plan_asignatura), // ← ESTE ES EL CORRECTO
+        plan_asignatura: Number(data.plan_asignatura), 
     };
 
     try {
