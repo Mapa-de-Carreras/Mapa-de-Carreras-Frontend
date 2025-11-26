@@ -36,7 +36,7 @@ export default function FilasTabla<TData, TValue>({
 				)})
 			) : (
 				<div className="">
-					<div className="h-24 text-center">
+					<div className="text-center p-4">
 						No hay resultados.
 					</div>
 				</div>
