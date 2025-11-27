@@ -3,6 +3,7 @@ import { Coordinador, CoordinadorPatchPayload, CoordinadorResponse } from "@glob
 import { URL_API } from "./constantes";
 import usePatch from "./hooks/usePatch";
 import useGet from "./hooks/useGet";
+import { useQuery } from "@tanstack/react-query";
 
 type useGetCoordinadorProps = {
     id?: string,
@@ -19,15 +20,16 @@ export function useGetCoordinador({id, habilitado}: useGetCoordinadorProps) {
 }
 
 const COORDINADORES_DETALLE_KEY = "useGetCoordinadoresDetalle";
-export function useGetCoordinadoresDetalle(id: number) {
+export const useGetCoordinadoresDetalle = (
+  coordinadorId: number,
+  options?: { isEnabled?: boolean }
+) => {
   return useGet<Coordinador>({
-    key: `${COORDINADORES_DETALLE_KEY}`, 
-    urlApi: `${URL_API}coordinadores/${id}/`,
-
+    key: "coordinador-detalle",
+    urlApi: `${URL_API}coordinadores/${coordinadorId}/`,
+    isEnabled: (options?.isEnabled ?? true) && !isNaN(coordinadorId),
   });
-}
-
-
+};
 export function usePatchCoordinador() {
     return usePatch<CoordinadorPatchPayload, Error>({
         key: 'usePatchCoordinador',
