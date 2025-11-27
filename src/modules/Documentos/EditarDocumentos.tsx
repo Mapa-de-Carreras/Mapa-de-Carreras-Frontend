@@ -70,17 +70,12 @@ const handleSubmit = async (e: React.FormEvent) => {
   } 
   // Si NO seleccionó archivo → NO mandar "archivo": null
   // Django mantiene el archivo actual automáticamente
-  else {
-    // Solo si tu backend requiere explícitamente el campo:
-    // formData.append("archivo", "");
-  }
-
+ 
   try {
     const res = await fetch(`${URL_API}documentos/${id}/`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
-        // ❗ NO poner Content-Type aquí, fetch lo arma solo
       },
       body: formData,
     });
@@ -179,7 +174,6 @@ const handleSubmit = async (e: React.FormEvent) => {
                  <div className="flex flex-col gap-2">
   <label className="font-semibold">Archivo PDF (opcional)</label>
 
-        {/* Botón verde que abre el selector de archivos */}
         <label className="cursor-pointer inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg shadow">
             <span className="icon-[mdi--file-upload-outline] text-xl" />
             Seleccionar archivo PDF
@@ -191,7 +185,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             />
         </label>
 
-        {/* Nombre temporal si cargan uno nuevo */}
+    
         {form.archivo && (
             <p className="text-xs text-gray-600 dark:text-gray-300">
             Archivo seleccionado: <span className="font-medium">{form.archivo.name}</span>
