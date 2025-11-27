@@ -13,85 +13,78 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useNavigate } from "react-router";
 
 export default function PaginaDocentes() {
-  const { data: docentes, isLoading, error } = useGetDocentes();
-  const navigate = useNavigate();
+	const { data: docentes, isLoading, error } = useGetDocentes()
+	const navigate = useNavigate()
 
-  const isAdmin = useRol('Administrador');
+  	const isAdmin = useRol('Administrador');
 
-const handleAgregarDocente = () => {
-    navigate(`/docentes/agregar/`);
-};
+	const handleAgregarDocente = () => {
+		navigate(`/docentes/gestion/agregar/`)
+	}
 
-const handleVerDocente = (id: number) => {
-    navigate(`/docentes/detalle/${id}`);
-};
+	const handleVerDocente = (id: number) => {
+		navigate(`/docentes/gestion/detalle/${id}`)
+	}
 
-const docentesActivos = docentes?.filter((d) => d.activo === true) ?? [];
+	const docentesActivos = docentes?.filter((d) => d.activo === true) ?? []
 
-const columns : ColumnDef<IDocente>[] = [
-    {
-        id: 'nombre',
-        accessorFn: (row) => `${row.usuario.first_name} ${row.usuario.last_name}`,
-        header: ({ column }) => <TituloTabla column={column} titulo="Nombre" />,
-    },
-    {
-        id: 'email',
-        accessorFn: (row) => row.usuario.email,
-        header: ({ column }) => <TituloTabla column={column} titulo="Email" />,
-    },
-    {
-        id: 'legajo',
-        accessorFn: (row) => row.usuario.legajo,
-        header: ({ column }) => <TituloTabla column={column} titulo="Legajo" />,
-    },
-    {
-        id: 'actions',
-        header: 'Detalle',
-        cell: ({ row }) => <AccionTabla onClick={() => handleVerDocente(row.original.usuario.id)} />,
-    },
-]
+	const columns: ColumnDef<IDocente>[] = [
+		{
+			id: 'nombre',
+			accessorFn: (row) => `${row.usuario.first_name} ${row.usuario.last_name}`,
+			header: ({ column }) => <TituloTabla column={column} titulo="Nombre" />,
+		},
+		{
+			id: 'email',
+			accessorFn: (row) => row.usuario.email,
+			header: ({ column }) => <TituloTabla column={column} titulo="Email" />,
+		},
+		{
+			id: 'legajo',
+			accessorFn: (row) => row.usuario.legajo,
+			header: ({ column }) => <TituloTabla column={column} titulo="Legajo" />,
+		},
+		{
+			id: 'actions',
+			header: 'Detalle',
+			cell: ({ row }) => (
+				<AccionTabla onClick={() => handleVerDocente(row.original.usuario.id)} />
+			),
+		},
+	]
 
-return (
-    <PageBase titulo="Listado de Docentes">
-        {isLoading && <ComponenteCarga />}
-        {error && <p className="text-center text-red-500">Error al cargar los docentes.</p>}
-
-        {docentesActivos && docentesActivos.length > 0 && (
-            <div>
-                <div className="hidden sm:block">
-                    <Tabla
-                        columnas={columns}
-                        data={docentesActivos}
-                        habilitarBuscador={true}
-                        habilitarPaginado={true}
-                        funcionAgregado={isAdmin ? handleAgregarDocente : undefined}
-                    />
-                </div>
-                <div className="block sm:hidden">
-                    <Listado
-                        data={docentesActivos}
-                        orderData={docentesActivos}
-                        orderKey={(d) => d.usuario.last_name}
-                        dataRender={(d) => (
-                            <FeedCard
-                                titulo={`${d.usuario.first_name} ${d.usuario.last_name}`}
-                                descripcion={d.usuario.email}
-                                actions={
-                                    <BotonDetalle
-                                        onClick={() => handleVerDocente(d.usuario.id)}
-                                    />
-                                }
-                            />
-                        )}
-                        onClick={isAdmin ? handleAgregarDocente : undefined}
-                    />
-                </div>
-            </div>
-        )}
-
-        {docentesActivos && docentesActivos.length === 0 && (
-            <p className="text-center">No hay docentes activos.</p>
-        )}
-    </PageBase>
-  );
+	return (
+		<PageBase titulo="Listado de Docentes">
+			{isLoading && <ComponenteCarga />}
+			{error && <p className="text-center text-red-500">Error al cargar los docentes.</p>}
+			<div>
+				<div className="hidden sm:block">
+					<Tabla
+						columnas={columns}
+						data={docentesActivos}
+						habilitarBuscador={true}
+						habilitarPaginado={true}
+						funcionAgregado={isAdmin ? handleAgregarDocente : undefined}
+					/>
+				</div>
+				<div className="block sm:hidden">
+					<Listado
+						data={docentesActivos}
+						orderData={docentesActivos}
+						orderKey={(d) => d.usuario.last_name}
+						dataRender={(d) => (
+							<FeedCard
+								titulo={`${d.usuario.first_name} ${d.usuario.last_name}`}
+								descripcion={d.usuario.email}
+								actions={
+									<BotonDetalle onClick={() => handleVerDocente(d.usuario.id)} />
+								}
+							/>
+						)}
+						onClick={isAdmin ? handleAgregarDocente : undefined}
+					/>
+				</div>
+			</div>
+		</PageBase>
+	)
 }

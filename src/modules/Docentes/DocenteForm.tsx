@@ -1,5 +1,4 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import useGetCaracteres from "@apis/caracteres";
 import useGetModalidades from "@apis/modalidades";
 import { useGetUsuarios } from "@apis/usuarios";
 import { Input } from "@components/ui/input";
@@ -8,6 +7,7 @@ import BotonGenerico from "@components/Botones/BotonGenerico";
 import BotonBase from "@components/Botones/BotonBase";
 import { useNavigate } from "react-router";
 import useGetDedicaciones from "@apis/dedicacion";
+import { useGetCaracteres } from "@apis/caracteres";
 
 export interface IDocenteForm {
   usuario_id: number;

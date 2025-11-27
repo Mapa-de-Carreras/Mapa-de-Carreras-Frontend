@@ -3,7 +3,6 @@ import { IDocenteForm } from "../Docentes/DocenteForm";
 import BotonGenerico from "@components/Botones/BotonGenerico";
 import BotonBase from "@components/Botones/BotonBase";
 import { useNavigate } from "react-router";
-import useGetCaracteres from "@apis/caracteres";
 import useGetModalidades from "@apis/modalidades";
 import useGetDedicaciones from "@apis/dedicacion";
 import {
@@ -13,6 +12,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@components/ui/select";
+import { useGetCaracteres } from "@apis/caracteres";
 
 interface EditarDocenteFormProps {
   onSubmit: SubmitHandler<IDocenteForm>;

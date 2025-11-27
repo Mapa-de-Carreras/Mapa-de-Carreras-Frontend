@@ -1,8 +1,8 @@
 import { ICargo } from "./cargos";
 import { IModalidad } from "./modalidades";
-import { ICaracter } from "./caracter";
 import { IDedicacion } from "./dedicaciones";
 import { IComision } from "./comisiones";
+import { Caracter } from "./caracter";
 
 //No queria modificar el Idocente del archivo docentes
 export interface IDocente {
@@ -18,7 +18,7 @@ export interface IDocente {
     celular: string;
   };
   modalidad: IModalidad;
-  caracter: ICaracter
+  caracter: Caracter
   dedicacion:IDedicacion;
   cantidad_materias: number;
   activo: boolean;

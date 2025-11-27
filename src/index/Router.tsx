@@ -58,6 +58,8 @@ import PaginaEditarUsuario from '@usuarios/PaginaEditarUsuario/PaginaEditarUsuar
 import DesignacionesEditar from '../modules/Designaciones/DesignacionesEditar'
 
 import Reportes from '../modules/Estadisticas/Reportes'
+import PaginaCaracteres from '../modules/Docentes/caracteres/PaginaCaracteres'
+import PaginaCaracter from '../modules/Docentes/caracteres/PaginaCaracter'
 
 
 export default function Router() {
@@ -120,14 +122,14 @@ export default function Router() {
 								{ path: 'planes/detalle', label: 'Institutos', headerkey: 'planes/detalle', Component: PlanEstudioDetalle, menu: false },
 								{ path: 'planes/editar/:id', label: 'Institutos', headerkey: 'planes/editar', Component: PlanEstudioEditar, menu: false },
 								{ path: 'planes/agregar', label: 'Institutos', headerkey: 'planes/agregar', Component: PlanEstudioAgregar, menu: false },
-								{ path: 'comisiones', label: 'Comisiones', icon: 'icon-[mdi--bookshelf]', Component: PaginaComisiones, menu: true, },
-								{ path: 'comisiones/agregar/', Component: ComisionesAgregar, menu: false },
-								{ path: 'comisiones/detalle/:id', Component: ComisionesDetalle, menu: false },
-								{ path: 'comisiones/editar/:id', Component: ComisionEditar, menu: false },
-								{ path: 'planes-asignatura', label: 'Planes de Asignatura', Component: PaginaPlanAsignatura, icon: 'icon-[basil--book-outline]', menu: true, },
-								{ path: 'planes-asignatura/agregar', Component: PlanAsignaturaAgregar, menu: false },
-								{ path: 'planes-asignatura/detalle/:id', Component: PlanAsignaturaDetalle, menu: false },
-								{ path: 'planes-asignatura/editar/:id', Component: PlanAsignaturaEditar, menu: false },
+								{ path: 'comisiones', label: 'Comisiones', headerkey: 'comisiones', icon: 'icon-[mdi--bookshelf]', Component: PaginaComisiones, menu: true, },
+								{ path: 'comisiones/agregar/', label: 'Agregar Comisión', headerkey: 'comisiones/agregar/', Component: ComisionesAgregar, menu: false },
+								{ path: 'comisiones/detalle/:id', label: 'Comisión', headerkey: 'comisiones/detalle', Component: ComisionesDetalle, menu: false },
+								{ path: 'comisiones/editar/:id', label: 'Editar Comisión', headerkey: 'comisiones/editar', Component: ComisionEditar, menu: false },
+								{ path: 'planes-asignatura', label: 'Planes de Asignatura', headerkey: 'planes-asignatura', Component: PaginaPlanAsignatura, icon: 'icon-[basil--book-outline]', menu: true, },
+								{ path: 'planes-asignatura/agregar', label: 'Planes de Asignatura', headerkey: 'planes-asignatura/agregar', Component: PlanAsignaturaAgregar, menu: false },
+								{ path: 'planes-asignatura/detalle/:id', label: 'Planes de Asignatura', headerkey: 'planes-asignatura/detalle', Component: PlanAsignaturaDetalle, menu: false },
+								{ path: 'planes-asignatura/editar/:id', label: 'Planes de Asignatura', headerkey: 'planes-asignatura/editar', Component: PlanAsignaturaEditar, menu: false },
 							],
 							menu: true,
 						},
@@ -136,11 +138,14 @@ export default function Router() {
 							label: 'Docentes',
 							icon: 'icon-[hugeicons--teacher]',
 							children: [
-								{ path: 'gestion', label: 'Docentes', Component: PaginaDocentes, icon: 'icon-[mdi--account-student]', menu: true, },
-								{ path: 'parametros', label: 'Régimen', icon: 'icon-[material-symbols--rule]', menu: true, },
-								{ path: 'detalle/:id', Component: DocenteDetalle, menu: false },
-								{ path: 'Agregar', Component: CrearDocente, menu: false },
-								{ path: 'editar/:id', Component: EditarDocente, menu: false },
+								{ path: 'gestion', label: 'Docentes', headerkey: 'gestion', Component: PaginaDocentes, icon: 'icon-[mdi--account-student]', menu: true, },
+								{ path: 'gestion/detalle/:id', label: 'Docente', headerkey: 'gestion/detalle', Component: DocenteDetalle, menu: false },
+								{ path: 'gestion/agregar', label: 'Agregar Docente', headerkey: 'gestion/agregar', Component: CrearDocente, menu: false },
+								{ path: 'gestion/editar', label: 'Editar Docente', headerkey: 'gestion/editar', Component: EditarDocente, menu: false },
+								{ path: 'parametros', label: 'Régimenes', headerkey: 'parametros', icon: 'icon-[material-symbols--rule]', menu: true, },
+								{ path: 'caracteres', label: 'Caracteres', headerkey: 'caracteres', Component: PaginaCaracteres, icon: 'icon-[material-symbols--rule]', menu: true, },
+								{ path: 'caracteres/agregar', label: 'Agregar Caracter', headerkey: 'caracteres/agregar', Component: PaginaCaracter, icon: 'icon-[material-symbols--rule]', menu: false, },
+								{ path: 'caracteres/editar/:id', label: 'Editar Caracter', headerkey: 'caracteres/editar', Component: PaginaCaracter, icon: 'icon-[material-symbols--rule]', menu: false, },
 							],
 							menu: true,
 						},
