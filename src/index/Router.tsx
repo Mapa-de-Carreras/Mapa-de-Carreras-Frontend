@@ -60,6 +60,7 @@ import DesignacionesEditar from '../modules/Designaciones/DesignacionesEditar'
 import Reportes from '../modules/Estadisticas/Reportes'
 import PaginaCaracteres from '../modules/Docentes/caracteres/PaginaCaracteres'
 import PaginaCaracter from '../modules/Docentes/caracteres/PaginaCaracter'
+import EditarDocumentos from '../modules/Documentos/EditarDocumentos'
 
 
 export default function Router() {
@@ -179,6 +180,7 @@ export default function Router() {
 								{ path: 'gestion', label: 'Documentos', Component: PaginaDocumentos, icon: 'icon-[mdi--file-document-outline]', menu: true, },
 								{ path: 'agregar', Component: AgregarDocumentos, menu: false },
 								{ path: 'detalle/:id', Component: DetalleDocumentos, menu: false },
+								{ path: 'editar/:id', Component: EditarDocumentos, menu: false },
 							],
 							menu: true,
 						},
