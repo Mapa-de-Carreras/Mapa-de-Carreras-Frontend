@@ -21,6 +21,18 @@ export interface IDocumento {
   created_at: string;
 }
 
+export interface IPlan {
+  id: number;
+  fecha_inicio: string;
+  esta_vigente: boolean;
+  creado_por: string | null;
+  created_at: string; 
+  updated_at: string;
+  documento?: IDocumento; 
+  carrera_nombre: string;
+  carrera_id: number;
+}
+
 export interface IPlanEstudioDetalle {
   id: number;
   fecha_inicio: string;
@@ -28,6 +40,7 @@ export interface IPlanEstudioDetalle {
   documento: IDocumento | null;
   carrera: GET_TYPE_CARRERA
   asignaturas: IAsignatura[];
+  planes: IPlan[];
 }
 
 export interface IPlanEstudio {
