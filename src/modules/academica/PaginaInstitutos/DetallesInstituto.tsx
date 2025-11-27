@@ -89,11 +89,7 @@ export default function DetallesInstituto() {
 	}
 
 	return (
-		<PageBase titulo="Detalle">
-
-			<div className="mb-4">
-				<BotonBase variant="regresar" onClick={() => navigate(-1)} />
-			</div>
+		<PageBase titulo="Detalle" volver>
 
 			{loadingInstituto && <ComponenteCarga mensaje="Cargando instituto..." />}
 			{errorInstituto && <p>Error al cargar las instituto: {errorInstituto.message}</p>}

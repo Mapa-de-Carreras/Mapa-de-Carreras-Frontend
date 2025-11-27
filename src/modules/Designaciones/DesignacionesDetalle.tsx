@@ -81,7 +81,7 @@ export default function DesignacionDetalle() {
   if (!designacion) return null;
  
   return (
-    <PageBase>
+    <PageBase volver>
       <div className="p-4 space-y-6">
 
         {/* TITULO */}

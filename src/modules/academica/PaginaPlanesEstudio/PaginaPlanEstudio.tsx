@@ -63,7 +63,7 @@ export default function PaginaPlanEstudio() {
     );
 
   return (
-    <PageBase titulo="Planes de Estudio" subtitulo="Listado general de planes">
+    <PageBase>
       <>
         {/* Vista Desktop */}
         <div className="hidden sm:block">

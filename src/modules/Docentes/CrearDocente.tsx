@@ -3,8 +3,8 @@ import { URL_API } from "@apis/constantes";
 import DocenteForm, { IDocenteForm } from "./DocenteForm";
 import PageBase from "@components/PageBase/PageBase";
 import { useState } from "react";
-import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
 import ModalGenerico from "@components/Modal/ModalGenerico";
+import ComponenteCarga from "@components/ComponenteCarga/Componentecarga";
 
 export default function CrearDocente() {
   const navigate = useNavigate();
@@ -53,11 +53,10 @@ export default function CrearDocente() {
   };
 
   return (
-    <PageBase>
-      {loading && <PantallaCarga mensaje="Cargando..." />}
+    <PageBase titulo='Crear Docente' volver={true}>
+      {loading && <ComponenteCarga />}
 
       <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6">Crear Docente</h1>
 
         <DocenteForm onSubmit={crearDocente} />
       </div>

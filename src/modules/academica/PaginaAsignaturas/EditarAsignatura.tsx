@@ -132,10 +132,7 @@ export default function EditarAsignatura() {
     }
 
     return (
-        <PageBase titulo="Editar Asignatura">
-            <div className="mb-4">
-                <BotonBase variant="regresar" onClick={() => navigate(-1)} />
-            </div>
+        <PageBase titulo="Editar Asignatura" volver>
 
             {isLoadingAsignatura && <ComponenteCarga/>}
             {errorGetingAsignatura && <p>Error: {errorGetingAsignatura.message}</p>}

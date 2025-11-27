@@ -14,6 +14,7 @@ export const icons = {
     eliminar: 'icon-[mdi--trash-can]',
     editar: 'icon-[ph--note-pencil]',
     carrera:'icon-[mdi--school-outline]',
+    usuario:'icon-[mdi--account]',
     filtro: '',
     default: '',
 } as const; // 'as const' es clave para que TS entienda las claves exactas

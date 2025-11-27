@@ -8,7 +8,7 @@ import { Card, CardContent, CardFooter } from '@components/ui/card';
 import useGetCarreras from '@apis/carreras';
 import ModalGenerico from '@components/Modal/ModalGenerico';
 import { useState } from 'react';
-import PantallaCarga from '@components/PantallaCarga/PantallaCarga';
+import ComponenteCarga from '@components/ComponenteCarga/Componentecarga';
 import BotonGenerico from '@components/Botones/BotonGenerico';
 import { URL_API } from '@apis/constantes';
 import useAuth from '@hooks/useAuth';
@@ -71,17 +71,14 @@ export default function PlanEstudioAgregar() {
         };
 
     return (
-        <PageBase titulo="Crear Plan de Estudio">
+        <PageBase titulo="Crear Plan de Estudio" volver>
               {errorCrear && (
                       <MensajeError 
                           titulo="Error del servidor" 
                           descripcion={errorCrear} 
                       />
                       )}
-         {loading && <PantallaCarga mensaje="Cargando..." />}
-            <div className="mb-4">
-                <BotonBase variant="regresar" onClick={() => navigate(-1)} />
-            </div>
+         {loading && <ComponenteCarga mensaje="Cargando..." />}
 
             <div className="mx-auto max-w-lg">
                 <Card className="shadow-lg">

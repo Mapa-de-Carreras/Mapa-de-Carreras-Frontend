@@ -74,13 +74,7 @@ export default function DetallesAsignatura() {
         
 
     return (
-        <PageBase titulo='Detalles'>
-             <div className="mb-4">
-                <BotonBase
-                    variant="regresar"
-                    onClick={() => navigate(-1)}
-                />
-            </div>
+        <PageBase titulo='Detalles' volver>
 
             {isLoadingAsignatura && <ComponenteCarga/>}
             {errorGetingAsignatura && <p>{errorGetingAsignatura.message}</p>}

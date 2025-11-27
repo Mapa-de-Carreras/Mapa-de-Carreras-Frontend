@@ -88,7 +88,7 @@ export default function PlanAsignaturaAgregar() {
   if (loadingPlanes || loadingAsignaturas) return <PantallaCarga mensaje="Cargando..." />;
 
   return (
-    <PageBase titulo="Crear Plan de Asignatura">
+    <PageBase titulo="Crear Plan de Asignatura" volver>
       {errorCrear && <MensajeError titulo="Error del servidor" descripcion={errorCrear} />}
       {(errorPlanes || errorAsignaturas) && (
         <MensajeError
@@ -97,9 +97,6 @@ export default function PlanAsignaturaAgregar() {
         />
       )}
 
-      <div className="mb-4">
-        <BotonBase variant="regresar" onClick={() => navigate(-1)} />
-      </div>
 
       <div className="mx-auto max-w-lg">
         <Card className="shadow-lg">

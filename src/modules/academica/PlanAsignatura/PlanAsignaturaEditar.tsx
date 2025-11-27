@@ -88,13 +88,9 @@ export default function PlanAsignaturaEditar() {
     };
 
     return (
-        <PageBase titulo="Editar Plan Asignatura">
+        <PageBase titulo="Editar Plan Asignatura" volver>
             {isLoading && <PantallaCarga mensaje="Cargando..." />}
             {error && <MensajeError titulo="Error del servidor" descripcion={error} />}
-
-            <div className="mb-4">
-                <BotonBase variant="regresar" onClick={() => navigate(-1)} />
-            </div>
 
             <div className="mx-auto max-w-lg">
                 <Card className="shadow-lg">

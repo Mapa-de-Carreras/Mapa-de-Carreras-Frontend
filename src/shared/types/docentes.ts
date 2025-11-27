@@ -75,3 +75,4 @@ export interface IDesignacion {
   updated_at: string;
   activo: boolean;
 }
+

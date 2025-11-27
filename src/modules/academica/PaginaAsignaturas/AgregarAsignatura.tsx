@@ -117,10 +117,7 @@ export default function AgregarAsignatura() {
 	}
 
 	return (
-		<PageBase titulo="Agregar Nueva Asignatura">
-			<div className="mb-4">
-				<BotonBase variant="regresar" onClick={() => navigate(-1)} />
-			</div>
+		<PageBase titulo="Agregar Nueva Asignatura" volver>
 
 			<div className="mx-auto max-w-lg">
 				<Card className="shadow-lg">

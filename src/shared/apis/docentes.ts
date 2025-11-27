@@ -1,10 +1,10 @@
 import {IDocente} from '@globalTypes/docentes'; 
 import { URL_API } from "./constantes";
 import  useGet  from './hooks/useGet';
+import usePut from './hooks/usePut';
 
 const DETAIL_KEY_NAME = "useGetDocenteCarrera";
 const DOCENTE_DETALLE_KEY = "useGetDocenteDetalle";
-const DOCENTES_KEY = "useGetDocentes";
 // --- GET (Detalle por ID) ---
 export function useGetDocenteCarrera(id: number) {
     return useGet<IDocente[]>({ 
@@ -31,3 +31,10 @@ export function useGetDocentes() {
 
   });
 }
+
+export function usePutDocente(){
+  return usePut<IDocente>({
+    key: 'usePutDocente',
+    urlApi: `${URL_API}docentes/{id}/`,
+  });
+} 

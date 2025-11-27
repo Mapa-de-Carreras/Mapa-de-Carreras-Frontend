@@ -6,10 +6,12 @@ import { useState } from "react";
 import ModalGenerico from "@components/Modal/ModalGenerico";
 import PantallaCarga from "@components/PantallaCarga/PantallaCarga";
 import { URL_API } from "@apis/constantes";
-import useAuth from "@hooks/useAuth";
+import useRol from "@hooks/useRol";
+import { Card, CardContent } from "@components/ui/card";
 
 export default function DocenteDetalle() {
   const { id } = useParams();
+  console.log(id)
   const { data: docente, isLoading, error } = useGetDocenteDetalle(Number(id));
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
@@ -17,9 +19,10 @@ export default function DocenteDetalle() {
   const [errorEliminar, setErrorEliminar] = useState<string | null>(null);
 
   // Obtener rol del usuario logueado
-  const { user: usuario } = useAuth();
-  const ROLES_PERMITIDOS = ["Administrador", "Coordinador"];
-  const esAdmin = usuario?.roles?.some((r) => ROLES_PERMITIDOS.includes(r.nombre)) ?? false;
+  const isStaff = useRol('Administrador')
+  console.log("Rol ,es staff?: ",isStaff);
+
+
 
   if (isLoading) return <p>Cargando docente...</p>;
   if (error) return <p>Error al cargar el docente.</p>;
@@ -27,14 +30,7 @@ export default function DocenteDetalle() {
 
   const handleEditar = () => {
     if (!docente) return;
-    const nombreCompleto = `${docente.usuario.first_name} ${docente.usuario.last_name}`;
-
-    navigate(`/docentes/editar/`, {
-      state: {
-        id: docente.id,
-        nombreCompleto,
-      },
-    });
+    navigate(`/docentes/editar/${id}/`)
   };
 
     const handleCerrarModal = () => {
@@ -93,8 +89,10 @@ export default function DocenteDetalle() {
     if (errorEliminar) return <p>Error al eliminar el docente.</p>;
 
   return (
-    <PageBase>
-      <div className="p-6 space-y-6 mt-14">
+    <PageBase titulo='Detalle' volver={true}>
+      <Card>
+        <CardContent>
+            <div className="p-6 space-y-6 mt-14">
         <h1 className="text-2xl font-bold">
           {docente.usuario.first_name} {docente.usuario.last_name}
         </h1>
@@ -161,12 +159,15 @@ export default function DocenteDetalle() {
 
       {/* Botones */}
       {/* Solo mostrar si es admin o coordinador */}
-        {esAdmin && (
-        <div>
+        {isStaff && (
+        <div className="flex justify-evenly gap-2 px-4 pb-6">
           <BotonBase variant="editar" onClick={handleEditar} />
           <BotonBase variant="eliminar" onClick={handleEliminar} />
         </div>
       )}
+        </CardContent> 
+      </Card>
+      
 
          {/* Modal de éxito */}
               <ModalGenerico

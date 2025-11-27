@@ -88,14 +88,7 @@ export default function DetallesCarrera() {
 
 
   return (
-    <PageBase>
-        
-        <div className="mb-4">
-            <BotonBase
-                variant="regresar"
-                onClick={() => navigate(-1)}
-            />
-        </div>
+    <PageBase titulo='Detalles' volver>
 
         {loadingCarrera && <ComponenteCarga />}
         {errorGetingCarrera && <p>Error al obtener la carrera</p>}

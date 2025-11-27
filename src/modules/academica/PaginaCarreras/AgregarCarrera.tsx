@@ -77,13 +77,8 @@ export default function AgregarCarrera() {
     };
 
     return (
-        <PageBase titulo="Agregar Nueva Carrera">
+        <PageBase titulo="Agregar Nueva Carrera" volver>
             {(isLoadingInstitutos || isPendingCarrera) && <ComponenteCarga/>}
-
-            <div className="mb-4">
-                <BotonBase variant="regresar" onClick={() => navigate(-1)} />
-            </div>
-
             <div className="mx-auto max-w-lg">
                 <Card className="shadow-lg">
                     <Formulario

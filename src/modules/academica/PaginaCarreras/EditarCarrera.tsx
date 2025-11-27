@@ -105,10 +105,7 @@ export default function EditarCarrera() {
 	}
 
 	return (
-		<PageBase titulo={'Editar Carrera'}>
-			<div className="mb-4">
-				<BotonBase variant="regresar" onClick={() => navigate(-1)} />
-			</div>
+		<PageBase titulo='Editar Carrera' volver>
 
 			{(isLoadingCarrera || loadingInstitutos) && <ComponenteCarga />}
 			{errorGeting && <div>{errorGeting.message}</div>}

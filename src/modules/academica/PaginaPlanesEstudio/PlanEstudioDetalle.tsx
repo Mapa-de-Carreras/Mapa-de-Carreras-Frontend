@@ -88,20 +88,9 @@ const handleVerAsignatura = (asignaturaId: number) => {
   };
 
 return (
-    <PageBase>
+    <PageBase titulo='Detalle' volver>
       
-                {esAdmin && (
-                  <div className="flex justify-center gap-4 mt-6 mb-4">
-                    <BotonBase 
-                      variant="editar" 
-                      onClick={handleEditar} 
-                    />
-                    <BotonBase 
-                      variant="eliminar" 
-                      onClick={handleClickModalEliminar} 
-                    />
-                  </div>
-                )}
+                
       {plan && (
         <div className="flex flex-col items-center justify-start min-h-screen 
                         bg-gray-50 dark:bg-gray-900 
@@ -140,6 +129,19 @@ return (
                   {new Date(plan.fecha_inicio).toLocaleDateString()}
                 </p>
               </div>
+
+              {esAdmin && (
+                  <div className="flex justify-center gap-4 mt-6 mb-4">
+                    <BotonBase 
+                      variant="editar" 
+                      onClick={handleEditar} 
+                    />
+                    <BotonBase 
+                      variant="eliminar" 
+                      onClick={handleClickModalEliminar} 
+                    />
+                  </div>
+                )}
             </CardHeader>
 
             <CardContent className="mt-6 space-y-6">
@@ -158,19 +160,7 @@ return (
               </div>
             </CardContent>
 
-            <div className="flex justify-center mt-6">
-              <BotonGenerico
-                texto="Volver"
-                color="#49454F"
-                icono={
-                  <span className="w-6 h-6 flex items-center justify-center 
-                                  text-white dark:text-white text-xl">
-                    <span className="icon-[mdi--arrow-left]" />
-                  </span>
-                }
-                onClick={() => navigate(-1)}
-              />
-            </div>
+            
           </Card>
         </div>
       )}

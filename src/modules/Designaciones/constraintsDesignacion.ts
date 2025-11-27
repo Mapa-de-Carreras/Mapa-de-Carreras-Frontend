@@ -3,8 +3,7 @@ import * as z from "zod";
 export const DesignacionSchema = z.object({
   fecha_inicio: z.string().min(1, "Requerido"),
   fecha_fin: z.string().nullable(),
-  tipo_designacion: z.enum(["TEORICO", "PRACTICO", "TEORICO + PRACTICO"])
-  .or(z.literal("")),
+  tipo_designacion: z.string().min(1, "Requerido"),
   docente_id: z.coerce.number(),
   comision_id: z.coerce.number().nullable(),
   cargo_id: z.coerce.number(),

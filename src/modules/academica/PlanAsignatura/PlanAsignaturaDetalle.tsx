@@ -63,10 +63,7 @@ export default function PlanAsignaturaDetalle() {
   };
 
   return (
-    <PageBase titulo="Detalle de Plan de Asignatura">
-      <div className="mb-4">
-        <BotonBase variant="regresar" onClick={() => navigate(-1)} />
-      </div>
+    <PageBase titulo="Detalle de Plan de Asignatura" volver>
 
       {isLoading && <ComponenteCarga />}
       {error && <p className="text-center text-red-500">{error.message}</p>}

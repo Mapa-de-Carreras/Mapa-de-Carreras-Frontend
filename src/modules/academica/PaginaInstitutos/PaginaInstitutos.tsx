@@ -32,7 +32,7 @@ export default function PaginaInstitutos() {
     ]
 
     return (
-        <PageBase titulo="Listado de Institutos">
+        <PageBase titulo="Listado de Institutos" volver={true}>
             {isLoadingInstitutos ? (
                 <ComponenteCarga />
             ) : isErrorInstitutos ? (

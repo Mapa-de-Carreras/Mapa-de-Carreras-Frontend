@@ -3,17 +3,15 @@ import { Formulario } from '@components/Formularios/Formulario';
 import { CampoInput } from '@components/Formularios/CampoInput';
 import { CampoSelect } from '@components/Formularios/CampoSelect'; 
 import PageBase from '@components/PageBase/PageBase';
-import BotonBase from '@components/Botones/BotonBase';
 import { Card, CardContent, CardFooter } from '@components/ui/card';
-import useGetCarreras from '@apis/carreras';
 import ModalGenerico from '@components/Modal/ModalGenerico';
 import { useEffect, useState } from 'react';
-import PantallaCarga from '@components/PantallaCarga/PantallaCarga';
 import BotonGenerico from '@components/Botones/BotonGenerico';
 import { URL_API } from '@apis/constantes';
 import { useGetPlanDetalle } from '@apis/planestudio';
 import MensajeError from '@components/Mensajes/MensajeError';
 import { useGetDocumentos } from '@apis/documentos';
+import ComponenteCarga from '@components/ComponenteCarga/Componentecarga';
 
 export default function PlanEstudioEditar() {
     const navigate = useNavigate();
@@ -41,56 +39,56 @@ export default function PlanEstudioEditar() {
 
 
     if (!valoresIniciales) {
-    return <PantallaCarga mensaje="Cargando datos del plan..." />;
+    return <ComponenteCarga />;
     }
 
         const handleSubmit = async (data: any) => {
-        const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("access_token");
+   
+    const carreraIdReal = plan?.carrera?.id; 
 
-        const payload = {
-            ...data,
-            documento_id: data.documento_id === "null" ? null : Number(data.documento_id),
-            carrera_id: Number(data.carrera_id),
-            esta_vigente: data.esta_vigente === "true",
-        };
+    const payload = {
+        ...data,
+        documento_id: data.documento_id === "null" ? null : Number(data.documento_id),
+       
+        carrera_id: carreraIdReal ? Number(carreraIdReal) : null, 
+        esta_vigente: data.esta_vigente === "true",
+    };
 
-        try {
-            const res = await fetch(`${URL_API}planes/${id}/`, {
+    try {
+        const res = await fetch(`${URL_API}planes/${id}/`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(payload),
-            });
+        });
 
-            if (!res.ok) {
-            const mensaje = await res.json(); 
-            setError(`No se pudo editar el plan de estudio. ${mensaje}`);
+        if (!res.ok) {
+            const mensaje = await res.json();
+           
+            setError(`No se pudo editar: ${JSON.stringify(mensaje.errors || mensaje)}`); 
             return;
-            }
-
-            // Si todo sale bien, mostramos modal de éxito
-            setError(null);
-            setMostrarModal(true);
-
-        } catch (err) {
-            console.error(err);
-            setError("Ocurrió un error al comunicarse con el servidor.");
         }
-        };
+
+        setError(null);
+        setMostrarModal(true);
+
+    } catch (err) {
+        console.error(err);
+        setError("Ocurrió un error al comunicarse con el servidor.");
+    }
+    };
     return (
-        <PageBase titulo="Editar Plan de Estudio">
-         {isLoading && <PantallaCarga mensaje="Cargando..." />}
+        <PageBase titulo="Editar Plan de Estudio" volver>
+         {isLoading && <ComponenteCarga  />}
          {error && (
             <MensajeError 
                 titulo="Error del servidor" 
                 descripcion={error} 
             />
             )}
-            <div className="mb-4">
-                <BotonBase variant="regresar" onClick={() => navigate(-1)} />
-            </div>
 
             <div className="mx-auto max-w-lg">
                 <Card className="shadow-lg">
@@ -98,7 +96,7 @@ export default function PlanEstudioEditar() {
                         onSubmit={handleSubmit}
                         valoresIniciales={valoresIniciales}
                     >
-                        <CardContent className="space-y-4 pt-6">
+                    <CardContent className="space-y-4 pt-6">
                             
                             <CampoInput
                                 label="Fecha de Inicio"
@@ -115,9 +113,8 @@ export default function PlanEstudioEditar() {
                                 ]}
                             />
 
-                       <p className="text-gray-700 dark:text-gray-300 font-medium mb-1">Carrera</p>
+                        <p className="text-gray-700 dark:text-gray-300 font-medium mb-1">Carrera</p>
                         <p className="mb-4">{plan?.carrera?.nombre}</p>
-                        <input type="hidden" name="carrera_id" value={plan?.carrera?.id} />
     
                            <CampoSelect
                                     label="Documento"
