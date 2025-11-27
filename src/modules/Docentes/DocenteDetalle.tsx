@@ -22,14 +22,16 @@ export default function DocenteDetalle() {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [errorEliminar, setErrorEliminar] = useState<string | null>(null);
   const rolesDocente = docente?.usuario.roles ?? [];
-  const rolCoordinador = docente?.usuario.roles?.find(r => r.nombre === "Coordinador");
+  const rolCoordinador = rolesDocente.find(r => r.nombre === "Coordinador");
   const coordinadorId = rolCoordinador?.id;
-  // Si no hay ID → no llamamos al hook
-  const datosCoordinadorQuery = coordinadorId
-    ? useGetCoordinadoresDetalle(Number(coordinadorId))
-    : { data: null, isLoading: false };
-  const { data: datosCoordinador, isLoading: cargandoCoordinador } = datosCoordinadorQuery;
+  const {
+    data: datosCoordinador,
+    isLoading: cargandoCoordinador,
+  } = useGetCoordinadoresDetalle(Number(coordinadorId), {
+    isEnabled: !!coordinadorId,
+  });
   const carrerasCoordinadas = datosCoordinador?.carreras_coordinadas ?? [];
+
   console.log("Data coordinador",datosCoordinador);
   // Obtener rol del usuario logueado
   const isStaff = useRol('Administrador')
