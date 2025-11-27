@@ -15,12 +15,12 @@ import useRol from "@hooks/useRol";
 
 
 import useGetModalidades from "@apis/modalidades";
-import useGetCaracteres from "@apis/caracteres";
 import useGetDedicaciones from "@apis/dedicacion";
 
 
 import { DocenteSchema, DocenteForm } from "./constrainst";
 import { CampoSelect } from "@components/Formularios/CampoSelectAntiguo";
+import { useGetCaracteres } from "@apis/caracteres";
 
 
 
