@@ -26,6 +26,10 @@ export default function DetalleDocumentos() {
     }
   };
 
+    const handleClickEditar = () => {
+    navigate(`/documentos/editar/${id}`);
+  };
+
     const handleClickModalEliminar = () => {
     showModal({
       title: "Eliminar documento",
@@ -122,6 +126,7 @@ export default function DetalleDocumentos() {
 
                 {esAdmin && (
                   <div className="flex justify-center gap-4 mt-6">
+                      <BotonBase variant="editar" onClick={handleClickEditar} />
                     <BotonBase variant="eliminar" onClick={handleClickModalEliminar} />
                   </div>
                 )}
