@@ -7,7 +7,6 @@ import AccionTabla from "@components/Tabla/AccionTabla";
 import { Tabla } from "@components/Tabla/Tabla";
 import TituloTabla from "@components/Tabla/TituloTabla";
 import FeedCard from "@components/Tarjetas/FeedCard";
-import { IDocente } from "@globalTypes/docentes";
 import { IPlanAsignatura } from "@globalTypes/planasignatura";
 import useRol from "@hooks/useRol";
 import { ColumnDef } from "@tanstack/react-table";
@@ -35,21 +34,25 @@ export default function PaginaPlanesAsignatura() {
       id: "descripcion",
       accessorFn: (row) => row.descripcion,
       header: ({ column }) => <TituloTabla column={column} titulo="Nombre" />,
+      size: 8,
     },
     {
       id: "anio",
       accessorFn: (row) => row.anio ?? "-",
       header: ({ column }) => <TituloTabla column={column} titulo="Año" />,
+      size: 1,
     },
     {
       id: "horas_totales",
       accessorFn: (row) => row.horas_totales ?? "-",
       header: ({ column }) => <TituloTabla column={column} titulo="Horas totales" />,
+      size: 2,
     },
     {
       id: "actions",
       header: "Detalle",
       cell: ({ row }) => <AccionTabla onClick={() => handleVerPlan(row.original.id)} />,
+      size: 1,
     },
   ];
 
@@ -67,6 +70,7 @@ export default function PaginaPlanesAsignatura() {
               habilitarBuscador={true}
               habilitarPaginado={true}
               funcionAgregado={isAdmin || isCoordinador ? handleAgregarPlan : undefined}
+              columnasFijas={false}
             />
           </div>
           <div className="block sm:hidden">
