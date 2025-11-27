@@ -8,6 +8,7 @@ import BotonBase from "@components/Botones/BotonBase";
 import useAuth from "@hooks/useAuth";
 import TablaAsignaturas from "./TablaAsignaturas";
 import { useModal } from "@components/Providers/ModalProvider";
+import { useGetDocumento } from "@apis/documentos";
 
 export default function PlanEstudioDetalle() {
   const location = useLocation();
@@ -21,6 +22,8 @@ export default function PlanEstudioDetalle() {
   const esAdmin = usuario?.roles?.some((r) => ROLES_PERMITIDOS.includes(r.nombre)) ?? false;
   const { showModal } = useModal();
   const deletePlanEstudio = useDeletePlanEstudio(Number(id));
+  const { data: documento} = useGetDocumento(id);
+
   
   if (error) {
     return (
@@ -140,6 +143,14 @@ return (
                       variant="eliminar" 
                       onClick={handleClickModalEliminar} 
                     />
+                  {documento?.archivo_url && (
+                        <BotonGenerico
+                          texto="Ver Documento"
+                          icono={<span className="icon-[mdi--eye] text-xl" />}
+                          color="#3B82F6" 
+                          onClick={() => window.open(documento.archivo_url, "_blank")}
+                        />
+                      )}
                   </div>
                 )}
             </CardHeader>
