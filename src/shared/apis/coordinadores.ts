@@ -1,5 +1,5 @@
 
-import { CoordinadorPatchPayload, CoordinadorResponse } from "@globalTypes/coordinador";
+import { Coordinador, CoordinadorPatchPayload, CoordinadorResponse } from "@globalTypes/coordinador";
 import { URL_API } from "./constantes";
 import usePatch from "./hooks/usePatch";
 import useGet from "./hooks/useGet";
@@ -17,6 +17,16 @@ export function useGetCoordinador({id, habilitado}: useGetCoordinadorProps) {
         params: { id },
     })
 }
+
+const COORDINADORES_DETALLE_KEY = "useGetCoordinadoresDetalle";
+export function useGetCoordinadoresDetalle(id: number) {
+  return useGet<Coordinador>({
+    key: `${COORDINADORES_DETALLE_KEY}`, 
+    urlApi: `${URL_API}coordinadores/${id}/`,
+
+  });
+}
+
 
 export function usePatchCoordinador() {
     return usePatch<CoordinadorPatchPayload, Error>({
