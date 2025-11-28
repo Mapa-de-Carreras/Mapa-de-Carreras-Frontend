@@ -1,3 +1,5 @@
+import { IPlanAsignatura } from "./planasignatura"
+
 export type GET_TYPE_ASINGATURAS = {
 	id: number
 	codigo: string
@@ -30,6 +32,7 @@ export type GET_TYPE_ASIGNATURA = {
 	tipo_duracion: 'ANUAL' | 'CUATRIMESTRAL'
 	created_at: string
 	updated_at: string
+	planes_asignatura?:IPlanAsignatura[]
 }
 
 export type PUT_TYPE_ASIGNATURA = {
