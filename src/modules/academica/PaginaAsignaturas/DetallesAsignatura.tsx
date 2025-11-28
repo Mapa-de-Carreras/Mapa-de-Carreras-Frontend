@@ -8,6 +8,7 @@ import { DetailCard } from "@components/CardDetalles/DetailCard";
 import Icon from "@components/const/icons";
 import { DetailField } from "@components/CardDetalles/DetailField";
 import useRol from "@hooks/useRol";
+import { useGetPlanAsignaturaDetalle } from "@apis/planasignatura";
 
 export default function DetallesAsignatura() { 
     const id = Number(useParams<{id:string}>().id);
@@ -16,7 +17,12 @@ export default function DetallesAsignatura() {
 
     const { data: asignatura, isLoading: isLoadingAsignatura, error: errorGetingAsignatura } = useGetAsignatura(id);
     const { mutate: deleteAsignatura } = useDeleteAsignatura();
+    const planAsignaturaId = asignatura?.planes_asignatura?.[0]?.id ?? null;
 
+    const { data: planAsignatura } = useGetPlanAsignaturaDetalle(planAsignaturaId ?? 0, {
+    isEnabled: !!planAsignaturaId,
+    });
+    console.log("PLan asignatura obtenido: ",{planAsignatura});
     const isAdmin = useRol('Administrador')
     const isCoordinador = useRol('Coordinador')
 
@@ -71,53 +77,77 @@ export default function DetallesAsignatura() {
         });
     }
 
-        
-
     return (
-        <PageBase titulo='Detalles' volver>
+    <PageBase titulo='Detalles' volver>
 
-            {isLoadingAsignatura && <ComponenteCarga/>}
-            {errorGetingAsignatura && <p>{errorGetingAsignatura.message}</p>}
+        {isLoadingAsignatura && <ComponenteCarga />}
+        {errorGetingAsignatura && <p>{errorGetingAsignatura.message}</p>}
 
-            {!isLoadingAsignatura && !errorGetingAsignatura && asignatura && (
-                <DetailCard
-                    icono={<Icon type="instituosIcon" className="text-5xl" />}
-                    titulo={asignatura.nombre}
-                    descripcion={asignatura.codigo}
-                    actions={ 
-                        <>
-                            {(isAdmin || isCoordinador) && (
-                                <BotonBase
-                                    variant="editar"
-                                    onClick={handlelClickEditar}
-                                />
-                            )}
-                            
-                            {(isAdmin || isCoordinador) && (
-                                <BotonBase
-                                    variant="eliminar"
-                                    onClick={handleClickModalEliminar}
-                                />
-                            )}
-                        </>
-                    }
-                >
+        {!isLoadingAsignatura && !errorGetingAsignatura && asignatura && (
+            <DetailCard
+                icono={<Icon type="instituosIcon" className="text-5xl" />}
+                titulo={asignatura.nombre}
+                descripcion={asignatura.codigo}
+                actions={
+                    <>
+                        {(isAdmin || isCoordinador) && (
+                            <BotonBase
+                                variant="editar"
+                                onClick={handlelClickEditar}
+                            />
+                        )}
+
+                        {(isAdmin || isCoordinador) && (
+                            <BotonBase
+                                variant="eliminar"
+                                onClick={handleClickModalEliminar}
+                            />
+                        )}
+                    </>
+                }
+            >
                 <DetailField label="Tipo de Asignatura">
                     {asignatura.tipo_asignatura}
                 </DetailField>
-                <DetailField label="Tipo de Duracion">
+
+                <DetailField label="Tipo de Duración">
                     {asignatura.tipo_duracion}
                 </DetailField>
-                {
-                    asignatura.tipo_duracion === 'CUATRIMESTRAL' && (
-                        <DetailField label="Cuatrimestre">
-                            {asignatura.cuatrimestre}
+
+                {asignatura.tipo_duracion === 'CUATRIMESTRAL' && (
+                    <DetailField label="Cuatrimestre">
+                        {asignatura.cuatrimestre}
+                    </DetailField>
+                )}
+
+                {/* DETALLES DEL PLAN DE ASIGNATURA  */}
+                {planAsignatura && (
+                    <>
+                        <DetailField label="Año">
+                            {planAsignatura.anio}
                         </DetailField>
-                    )
-                }
-                </DetailCard>
-            )}
-            
-        </PageBase>
-    )
+
+                        <DetailField label="Horas Totales">
+                            {planAsignatura.horas_totales}
+                        </DetailField>
+
+                        <DetailField label="Horas Teoría">
+                            {planAsignatura.horas_teoria}
+                        </DetailField>
+
+                        <DetailField label="Horas Práctica">
+                            {planAsignatura.horas_practica}
+                        </DetailField>
+
+                        <DetailField label="Horas Semanales">
+                            {planAsignatura.horas_semanales}
+                        </DetailField>
+                    </>
+                )}
+                {/* ----------------------------------------------- */}
+            </DetailCard>
+        )}
+
+    </PageBase>
+);
 }
