@@ -1,3 +1,5 @@
+import { Rol } from "./rol";
+
 export interface IDocente {
   id: number;
   usuario: {
@@ -8,6 +10,7 @@ export interface IDocente {
     email: string;
     legajo: string;
     celular: string;
+    roles:Rol[];
   };
   modalidad: string | null;
   caracter: string | null;

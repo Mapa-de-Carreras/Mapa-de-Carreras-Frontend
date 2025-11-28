@@ -13,11 +13,14 @@ export function useGetPlanesAsignatura() {
 }
 
 const PLAN_DETALLE_KEY = "useGetPlanAsignaturaDetalle";
-export function useGetPlanAsignaturaDetalle(id: number) {
+export function useGetPlanAsignaturaDetalle(
+  id: number,
+  options?: { isEnabled?: boolean }
+) {
   return useGet<IPlanAsignatura>({
-    key: `${PLAN_DETALLE_KEY}`, 
+    key: `${PLAN_DETALLE_KEY}-${id}`, 
     urlApi: `${URL_API}plan-asignatura/${id}/`,
-
+    isEnabled: (options?.isEnabled ?? true) && !isNaN(id) && id > 0,
   });
 }
 
