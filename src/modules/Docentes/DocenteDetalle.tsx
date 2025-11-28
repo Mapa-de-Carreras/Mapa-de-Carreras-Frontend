@@ -45,7 +45,7 @@ export default function DocenteDetalle() {
 
   const handleEditar = () => {
     if (!docente) return;
-    navigate(`/docentes/editar/${id}/`)
+    navigate(`/docentes/gestion/editar/${id}`);
   };
 
     const handleCerrarModal = () => {
