@@ -24,6 +24,7 @@ import PaginaAsignaturas from '@academica/PaginaAsignaturas/PaginaAsignaturas'
 import DetallesAsignatura from '@academica/PaginaAsignaturas/DetallesAsignatura'
 import EditarAsignatura from '@academica/PaginaAsignaturas/EditarAsignatura'
 import AgregarAsignatura from '@academica/PaginaAsignaturas/AgregarAsignatura'
+import AgregarCorrelativas from '@academica/PaginaAsignaturas/AgregarCorrelativa'
 
 import PlanEstudioDetalle from '@academica/PaginaPlanesEstudio/PlanEstudioDetalle'
 
@@ -118,6 +119,7 @@ export default function Router() {
 								{ path: 'asignaturas/detalle/:id', label: 'Institutos', headerkey: 'asignaturas/detalle', Component: DetallesAsignatura, menu: false },
 								{ path: 'asignaturas/agregar', label: 'Institutos', headerkey: 'asignaturas/agregar', Component: AgregarAsignatura, menu: false },
 								{ path: 'asignaturas/editar/:id', label: 'Institutos', headerkey: 'asignaturas/editar', Component: EditarAsignatura, menu: false },
+								{ path: 'asignaturas/:asignaturaId/plan/:planId/correlativas', headerkey: 'asignaturas/correlativas', Component: AgregarCorrelativas, menu: false },
 								{ path: 'planes', label: 'Planes', headerkey: 'planes', Component: PaginaPlanEstudio, icon: 'icon-[basil--document-outline]', menu: true, },
 								{ path: 'planes/detalle', label: 'Institutos', headerkey: 'planes/detalle', Component: PlanEstudioDetalle, menu: false },
 								{ path: 'planes/editar/:id', label: 'Institutos', headerkey: 'planes/editar', Component: PlanEstudioEditar, menu: false },
