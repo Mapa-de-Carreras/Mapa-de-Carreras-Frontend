@@ -144,7 +144,7 @@ export default function PlanEstudioDetalle() {
               </div>
 
               {esAdmin && (
-                <div className="flex justify-center gap-4 mt-6 mb-4">
+                <div className="flex flex-wrap justify-center gap-4 mt-6 mb-4">
                   <BotonBase
                     variant="editar"
                     onClick={handleEditar}
