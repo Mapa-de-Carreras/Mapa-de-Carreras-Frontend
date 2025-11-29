@@ -62,6 +62,7 @@ import Reportes from '../modules/Estadisticas/Reportes'
 import PaginaCaracteres from '../modules/Docentes/caracteres/PaginaCaracteres'
 import PaginaCaracter from '../modules/Docentes/caracteres/PaginaCaracter'
 import EditarDocumentos from '../modules/Documentos/EditarDocumentos'
+import PerfilUsuarioDetalle from '@usuarios/PerfilUsuario/PerfilUsuarioDetalle'
 
 
 export default function Router() {
@@ -186,6 +187,15 @@ export default function Router() {
 							],
 							menu: true,
 						},
+					{
+						path: 'perfil',
+						label: 'Perfil Usuario', //RUTA NO protegida por el menu, solo para redireccionar al perfil del usuario logueado
+						children: [
+							{ path: ':id', Component: PerfilUsuarioDetalle, menu: false },   
+							{ path: 'editar/:id', Component: PaginaEditarUsuario, menu: false }, 
+						],
+						menu: false,
+					},
 					],
 				},
 			],
