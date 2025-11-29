@@ -1,4 +1,4 @@
-import { ColumnDef, flexRender, Table } from '@tanstack/react-table'
+import { ColumnDef, Table } from '@tanstack/react-table'
 
 type ColumnasTablaProps<TData, TValue> = {
 	tabla: Table<TData>,
@@ -18,7 +18,12 @@ export default function ColumnasTabla<TData, TValue>({ tabla, columnas, columnas
 				headerGroup.headers.map((header) => {
 					return (
 						<div key={`table-${header.id}`} className='tabla-fila flex'>
-							{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+							{header.isPlaceholder ?
+								null :
+								typeof header.column.columnDef.header === 'function'
+										? header.column.columnDef.header(header.getContext())
+										: header.column.columnDef.header
+							}
 						</div>
 					)
 				})
