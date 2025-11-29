@@ -30,7 +30,7 @@ export default defineConfig({
       "@academica": path.resolve(__dirname, "./src/modules/academica"),
       "@designations": path.resolve(__dirname, "./src/modules/designations"),
       "@statistics": path.resolve(__dirname, "./src/modules/statistics"),
-      "@teachers": path.resolve(__dirname, "./src/modules/teachers"),
+      "@docentes": path.resolve(__dirname, "./src/modules/docentes"),
       "@users": path.resolve(__dirname, "./src/modules/users"),
       "@usuarios": path.resolve(__dirname, "./src/modules/usuarios"),
       "@assets": path.resolve(__dirname, "./src/assets"),

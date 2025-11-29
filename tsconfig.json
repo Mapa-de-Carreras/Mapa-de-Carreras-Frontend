@@ -38,7 +38,7 @@
       "@academica/*":["./src/modules/academica/*"],
       "@designations/*":["./src/modules/designations/*"],
       "@statistics/*":["./src/modules/statistics/*"],
-      "@teachers/*":["./src/modules/teachers/*"],
+      "@docentes/*":["./src/modules/docentes/*"],
       "@users/*":["./src/modules/users/*"],
       "@usuarios/*":["./src/modules/usuarios/*"],
     }
