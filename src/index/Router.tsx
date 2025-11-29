@@ -27,10 +27,6 @@ import AgregarAsignatura from '@academica/PaginaAsignaturas/AgregarAsignatura'
 
 import PlanEstudioDetalle from '@academica/PaginaPlanesEstudio/PlanEstudioDetalle'
 
-import DocenteDetalle from '../modules/Docentes/DocenteDetalle'
-import PaginaDocentes from '../modules/Docentes/PaginaDocentes'
-import CrearDocente from '../modules/Docentes/CrearDocente'
-import EditarDocente from '../modules/Docentes/EditarDocente'
 import PaginaIniciarSesion from '@usuarios/PaginaIniciarSesion/PaginaIniciarSesion'
 import PaginaUsuarios from '@usuarios/PaginaUsuarios/PaginaUsuarios'
 import PlanEstudioAgregar from '@academica/PaginaPlanesEstudio/PlanEstudioAgregar'
@@ -57,9 +53,14 @@ import PaginaDetalleUsuario from '@usuarios/PaginaDetalleUsuario/PaginaDetalleUs
 import PaginaEditarUsuario from '@usuarios/PaginaEditarUsuario/PaginaEditarUsuario'
 import DesignacionesEditar from '../modules/Designaciones/DesignacionesEditar'
 
+import PaginaRegimenes from '@docentes/regimenes/PaginaRegimenes'
+import PaginaDocentes from '@docentes/PaginaDocentes'
+import DocenteDetalle from '@docentes/DocenteDetalle'
+import CrearDocente from '@docentes/CrearDocente'
+import EditarDocente from '@docentes/EditarDocente'
+import PaginaCaracteres from '@docentes/caracteres/PaginaCaracteres'
+import PaginaCaracter from '@docentes/caracteres/PaginaCaracter'
 import Reportes from '../modules/Estadisticas/Reportes'
-import PaginaCaracteres from '../modules/Docentes/caracteres/PaginaCaracteres'
-import PaginaCaracter from '../modules/Docentes/caracteres/PaginaCaracter'
 
 
 export default function Router() {
@@ -142,7 +143,7 @@ export default function Router() {
 								{ path: 'gestion/detalle/:id', label: 'Docente', headerkey: 'gestion/detalle', Component: DocenteDetalle, menu: false },
 								{ path: 'gestion/agregar', label: 'Agregar Docente', headerkey: 'gestion/agregar', Component: CrearDocente, menu: false },
 								{ path: 'gestion/editar', label: 'Editar Docente', headerkey: 'gestion/editar', Component: EditarDocente, menu: false },
-								{ path: 'parametros', label: 'Régimenes', headerkey: 'parametros', icon: 'icon-[material-symbols--rule]', menu: true, },
+								{ path: 'parametros', label: 'Régimenes', headerkey: 'parametros', Component: PaginaRegimenes, icon: 'icon-[material-symbols--rule]', menu: true, },
 								{ path: 'caracteres', label: 'Caracteres', headerkey: 'caracteres', Component: PaginaCaracteres, icon: 'icon-[material-symbols--rule]', menu: true, },
 								{ path: 'caracteres/agregar', label: 'Agregar Caracter', headerkey: 'caracteres/agregar', Component: PaginaCaracter, icon: 'icon-[material-symbols--rule]', menu: false, },
 								{ path: 'caracteres/editar/:id', label: 'Editar Caracter', headerkey: 'caracteres/editar', Component: PaginaCaracter, icon: 'icon-[material-symbols--rule]', menu: false, },

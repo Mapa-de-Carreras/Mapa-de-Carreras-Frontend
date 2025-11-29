@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { IDocenteForm } from "../Docentes/DocenteForm";
+import { IDocenteForm } from "./DocenteForm";
 import BotonGenerico from "@components/Botones/BotonGenerico";
 import BotonBase from "@components/Botones/BotonBase";
 import { useNavigate } from "react-router";
