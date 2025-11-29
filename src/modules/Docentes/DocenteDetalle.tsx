@@ -207,7 +207,7 @@ return (
               ))}
             </DetailList>
           )}
-      </CardContent> {/* ✅ AHORA ESTÁ CERRADO */}
+      </CardContent> 
 
     </Card>
 
