@@ -38,6 +38,7 @@ import DesignacionDetalle from '../modules/Designaciones/DesignacionesDetalle'
 import DesignacionesAgregar from '../modules/Designaciones/DesignacionesAgregar'
 import NotFoundPage from './NotFoundPage'
 import PlanEstudioEditar from '@academica/PaginaPlanesEstudio/PlanEstudioEditar'
+import AgregarAsignaturaAPlan from '@academica/PaginaPlanesEstudio/AgregarAsignaturaAPlan'
 import PaginaDocumentos from '../modules/Documentos/PaginaDocumentos'
 import AgregarDocumentos from '../modules/Documentos/AgregarDocumentos'
 import useRol from '@hooks/useRol'
@@ -128,6 +129,7 @@ export default function Router() {
 								{ path: 'planes/detalle', label: 'Institutos', headerkey: 'planes/detalle', Component: PlanEstudioDetalle, menu: false },
 								{ path: 'planes/editar/:id', label: 'Institutos', headerkey: 'planes/editar', Component: PlanEstudioEditar, menu: false },
 								{ path: 'planes/agregar', label: 'Institutos', headerkey: 'planes/agregar', Component: PlanEstudioAgregar, menu: false },
+								{ path: 'planes/:planId/agregar-asignatura', headerkey: 'planes/agregar-asignatura', Component: AgregarAsignaturaAPlan, menu: false },
 								{ path: 'comisiones', label: 'Comisiones', headerkey: 'comisiones', icon: 'icon-[mdi--bookshelf]', Component: PaginaComisiones, menu: true, },
 								{ path: 'comisiones/agregar/', label: 'Agregar Comisión', headerkey: 'comisiones/agregar/', Component: ComisionesAgregar, menu: false },
 								{ path: 'comisiones/detalle/:id', label: 'Comisión', headerkey: 'comisiones/detalle', Component: ComisionesDetalle, menu: false },

@@ -26,9 +26,9 @@ export interface IPlan {
   fecha_inicio: string;
   esta_vigente: boolean;
   creado_por: string | null;
-  created_at: string; 
+  created_at: string;
   updated_at: string;
-  documento?: IDocumento; 
+  documento?: IDocumento;
   carrera_nombre: string;
   carrera_id: number;
 }
@@ -44,13 +44,13 @@ export interface IPlanEstudioDetalle {
 }
 
 export interface IPlanEstudio {
-  id: number;                
-  fecha_inicio: string;      
+  id: number;
+  fecha_inicio: string;
   esta_vigente: boolean;
-  creado_por?: string;       
-  created_at?: string;       
-  updated_at?: string;    
-  documento: IDocumento | null;  
-  carrera_nombre:string,
-  carrera_id:number,
+  creado_por?: string;
+  created_at?: string;
+  updated_at?: string;
+  documento: IDocumento | null;
+  carrera_nombre: string,
+  carrera_id: number,
 }
