@@ -52,8 +52,8 @@ export function UserMenu({ collapsed, side, align, className }: UserMenuProps) {
 	const { user: usuario } = useAuth();
 
 	const handleIrPerfil = () => {
-		const id = localStorage.getItem("user_id");
-		navigate("/administracion/usuarios/detalle", { state: { id } });
+		const id = usuario?.id;
+		navigate(`/perfil/${id}`);
 	};
 
 

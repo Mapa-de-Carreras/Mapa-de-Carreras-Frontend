@@ -15,8 +15,9 @@ export default function PaginaPlanEstudio() {
   const navigate = useNavigate();
   const { user: usuario } = useAuth();
 
-  // Verifica si el usuario es administrador
-  const esAdmin = usuario?.roles?.some((r) => r.nombre === "Administrador") ?? false;
+  // Verifica si el usuario es administrador o coordinador
+  const ROLES_PERMITIDOS = ["Administrador", "Coordinador"];
+  const esAdmin = usuario?.roles?.some((r) => ROLES_PERMITIDOS.includes(r.nombre)) ?? false;
 
   const handleAgregarPlan = () => {
     navigate(`/academica/planes/agregar`);

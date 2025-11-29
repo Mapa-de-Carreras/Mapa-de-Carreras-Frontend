@@ -24,6 +24,7 @@ import PaginaAsignaturas from '@academica/PaginaAsignaturas/PaginaAsignaturas'
 import DetallesAsignatura from '@academica/PaginaAsignaturas/DetallesAsignatura'
 import EditarAsignatura from '@academica/PaginaAsignaturas/EditarAsignatura'
 import AgregarAsignatura from '@academica/PaginaAsignaturas/AgregarAsignatura'
+import AgregarCorrelativas from '@academica/PaginaAsignaturas/AgregarCorrelativa'
 
 import PlanEstudioDetalle from '@academica/PaginaPlanesEstudio/PlanEstudioDetalle'
 
@@ -61,7 +62,8 @@ import EditarDocente from '@docentes/EditarDocente'
 import PaginaCaracteres from '@docentes/caracteres/PaginaCaracteres'
 import PaginaCaracter from '@docentes/caracteres/PaginaCaracter'
 import Reportes from '../modules/Estadisticas/Reportes'
-
+import EditarDocumentos from '../modules/Documentos/EditarDocumentos'
+import PerfilUsuarioDetalle from '@usuarios/PerfilUsuario/PerfilUsuarioDetalle'
 
 export default function Router() {
 	const esAdmin = useRol('Administrador');
@@ -119,6 +121,7 @@ export default function Router() {
 								{ path: 'asignaturas/detalle/:id', label: 'Institutos', headerkey: 'asignaturas/detalle', Component: DetallesAsignatura, menu: false },
 								{ path: 'asignaturas/agregar', label: 'Institutos', headerkey: 'asignaturas/agregar', Component: AgregarAsignatura, menu: false },
 								{ path: 'asignaturas/editar/:id', label: 'Institutos', headerkey: 'asignaturas/editar', Component: EditarAsignatura, menu: false },
+								{ path: 'asignaturas/:asignaturaId/plan/:planId/correlativas', headerkey: 'asignaturas/correlativas', Component: AgregarCorrelativas, menu: false },
 								{ path: 'planes', label: 'Planes', headerkey: 'planes', Component: PaginaPlanEstudio, icon: 'icon-[basil--document-outline]', menu: true, },
 								{ path: 'planes/detalle', label: 'Institutos', headerkey: 'planes/detalle', Component: PlanEstudioDetalle, menu: false },
 								{ path: 'planes/editar/:id', label: 'Institutos', headerkey: 'planes/editar', Component: PlanEstudioEditar, menu: false },
@@ -142,7 +145,7 @@ export default function Router() {
 								{ path: 'gestion', label: 'Docentes', headerkey: 'gestion', Component: PaginaDocentes, icon: 'icon-[mdi--account-student]', menu: true, },
 								{ path: 'gestion/detalle/:id', label: 'Docente', headerkey: 'gestion/detalle', Component: DocenteDetalle, menu: false },
 								{ path: 'gestion/agregar', label: 'Agregar Docente', headerkey: 'gestion/agregar', Component: CrearDocente, menu: false },
-								{ path: 'gestion/editar', label: 'Editar Docente', headerkey: 'gestion/editar', Component: EditarDocente, menu: false },
+								{ path: 'gestion/editar:id', label: 'Editar Docente', headerkey: 'gestion/editar', Component: EditarDocente, menu: false },
 								{ path: 'parametros', label: 'Régimenes', headerkey: 'parametros', Component: PaginaRegimenes, icon: 'icon-[material-symbols--rule]', menu: true, },
 								{ path: 'caracteres', label: 'Caracteres', headerkey: 'caracteres', Component: PaginaCaracteres, icon: 'icon-[material-symbols--rule]', menu: true, },
 								{ path: 'caracteres/agregar', label: 'Agregar Caracter', headerkey: 'caracteres/agregar', Component: PaginaCaracter, icon: 'icon-[material-symbols--rule]', menu: false, },
@@ -180,9 +183,19 @@ export default function Router() {
 								{ path: 'gestion', label: 'Documentos', Component: PaginaDocumentos, icon: 'icon-[mdi--file-document-outline]', menu: true, },
 								{ path: 'agregar', Component: AgregarDocumentos, menu: false },
 								{ path: 'detalle/:id', Component: DetalleDocumentos, menu: false },
+								{ path: 'editar/:id', Component: EditarDocumentos, menu: false },
 							],
 							menu: true,
 						},
+					{
+						path: 'perfil',
+						label: 'Perfil Usuario', //RUTA NO protegida por el menu, solo para redireccionar al perfil del usuario logueado
+						children: [
+							{ path: ':id', Component: PerfilUsuarioDetalle, menu: false },   
+							{ path: 'editar/:id', Component: PaginaEditarUsuario, menu: false }, 
+						],
+						menu: false,
+					},
 					],
 				},
 			],
