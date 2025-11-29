@@ -14,21 +14,22 @@ import { ColumnDef } from '@tanstack/react-table'
 import { useNavigate } from 'react-router'
 
 export default function PaginaCaracteres() {
+	// Ventana y Navegación
 	const { abrirVentana, cerrarVentana } = useVentana()
 	const navigate = useNavigate()
+	
+	// Obtiene los datos de los Caracteres
 	const {
 		data: caracteres,
 		isError: isErrorCaracteres,
 		isLoading: isLoadingCaracteres,
 	} = useGetCaracteres()
+
+	// Configuación para eliminar un Caracter
 	const {
 		mutate: eliminarCaracter,
 		isPending: isLoadingEliminar,
 	} = useDeleteCaracter({ queriesToInvalidate: ['useGetCaracteres'] })
-
-	const handleEditar = (id: number) => {
-		navigate(`/docentes/caracteres/editar/${id}`)
-	}
 
 	const onConfirmDelete = (caracter: Caracter) => {
 		eliminarCaracter(
@@ -54,6 +55,7 @@ export default function PaginaCaracteres() {
 		)
 	}
 
+	// Funciones de manejo de eventos
 	const handleEliminar = (caracter: Caracter) => {
 		abrirVentana({
 			tipoVentana: 'eliminar',
@@ -65,6 +67,15 @@ export default function PaginaCaracteres() {
 		});
 	}
 
+	const handleEditar = (id: number) => {
+		navigate(`/docentes/caracteres/editar/${id}`)
+	}
+
+	const handleAgregar = () => {
+		navigate('/docentes/caracteres/agregar')
+	}
+
+	// Columnas de la tabla
 	const columnas: ColumnDef<Caracter>[] = [
 		{ accessorKey: 'id', header: 'Codigo', size: 1 },
 		{ accessorKey: 'nombre', header: 'Nombre', size: 4 },
@@ -80,10 +91,6 @@ export default function PaginaCaracteres() {
 			size: 2,
 		},
 	]
-
-	const handleAgregar = () => {
-		navigate('/docentes/caracteres/agregar')
-	}
 
 	return (
 		<PageBase titulo='Caracteres del Docente'>

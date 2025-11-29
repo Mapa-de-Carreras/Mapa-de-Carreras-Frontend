@@ -64,6 +64,8 @@ import PaginaCaracter from '@docentes/caracteres/PaginaCaracter'
 import Reportes from '../modules/Estadisticas/Reportes'
 import EditarDocumentos from '../modules/Documentos/EditarDocumentos'
 import PerfilUsuarioDetalle from '@usuarios/PerfilUsuario/PerfilUsuarioDetalle'
+import PaginaModalidades from '@docentes/modalidades/PaginaModalidades'
+import PaginaModalidad from '@docentes/modalidades/PaginaModalidad'
 
 export default function Router() {
 	const esAdmin = useRol('Administrador');
@@ -150,6 +152,9 @@ export default function Router() {
 								{ path: 'caracteres', label: 'Caracteres', headerkey: 'caracteres', Component: PaginaCaracteres, icon: 'icon-[material-symbols--rule]', menu: true, },
 								{ path: 'caracteres/agregar', label: 'Agregar Caracter', headerkey: 'caracteres/agregar', Component: PaginaCaracter, icon: 'icon-[material-symbols--rule]', menu: false, },
 								{ path: 'caracteres/editar/:id', label: 'Editar Caracter', headerkey: 'caracteres/editar', Component: PaginaCaracter, icon: 'icon-[material-symbols--rule]', menu: false, },
+								{ path: 'modalidades', label: 'Modalidades', headerkey: 'modalidades', Component: PaginaModalidades, icon: 'icon-[material-symbols--rule]', menu: true, },
+								{ path: 'modalidades/agregar', label: 'Agregar Modalidad', headerkey: 'modalidades/agregar', Component: PaginaModalidad, icon: 'icon-[material-symbols--rule]', menu: false, },
+								{ path: 'modalidades/editar/:id', label: 'Editar Modalidad', headerkey: 'modalidades/editar', Component: PaginaModalidad, icon: 'icon-[material-symbols--rule]', menu: false, },
 							],
 							menu: true,
 						},
