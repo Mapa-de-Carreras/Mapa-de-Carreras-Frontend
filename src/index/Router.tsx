@@ -63,6 +63,7 @@ import EditarDocente from '@docentes/EditarDocente'
 import PaginaCaracteres from '@docentes/caracteres/PaginaCaracteres'
 import PaginaCaracter from '@docentes/caracteres/PaginaCaracter'
 import Reportes from '../modules/Estadisticas/Reportes'
+import PaginaEstadisticas from '../modules/Estadisticas/PaginaEstadisticas';
 import EditarDocumentos from '../modules/Documentos/EditarDocumentos'
 import PerfilUsuarioDetalle from '@usuarios/PerfilUsuario/PerfilUsuarioDetalle'
 import PaginaModalidades from '@docentes/modalidades/PaginaModalidades'
@@ -177,7 +178,7 @@ export default function Router() {
 							label: 'Estadísticas',
 							icon: 'icon-[akar-icons--statistic-up]',
 							children: [
-								{ path: 'estadisticas', label: 'Estadísticas', icon: 'icon-[akar-icons--statistic-up]', menu: true, },
+								{ path: 'estadisticas', label: 'Estadísticas', Component: PaginaEstadisticas, icon: 'icon-[akar-icons--statistic-up]', menu: true, },
 								{ path: 'reportes', label: 'Reportes', Component: Reportes, icon: 'icon-[mdi--report-bar-stacked]', menu: true, },
 							],
 							menu: true,
