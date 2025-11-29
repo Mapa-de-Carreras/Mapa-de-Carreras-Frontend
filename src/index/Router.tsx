@@ -144,7 +144,7 @@ export default function Router() {
 								{ path: 'gestion', label: 'Docentes', headerkey: 'gestion', Component: PaginaDocentes, icon: 'icon-[mdi--account-student]', menu: true, },
 								{ path: 'gestion/detalle/:id', label: 'Docente', headerkey: 'gestion/detalle', Component: DocenteDetalle, menu: false },
 								{ path: 'gestion/agregar', label: 'Agregar Docente', headerkey: 'gestion/agregar', Component: CrearDocente, menu: false },
-								{ path: 'gestion/editar', label: 'Editar Docente', headerkey: 'gestion/editar', Component: EditarDocente, menu: false },
+								{ path: 'gestion/editar/:id', label: 'Editar Docente', headerkey: 'gestion/editar', Component: EditarDocente, menu: false },
 								{ path: 'parametros', label: 'Régimenes', headerkey: 'parametros', icon: 'icon-[material-symbols--rule]', menu: true, },
 								{ path: 'caracteres', label: 'Caracteres', headerkey: 'caracteres', Component: PaginaCaracteres, icon: 'icon-[material-symbols--rule]', menu: true, },
 								{ path: 'caracteres/agregar', label: 'Agregar Caracter', headerkey: 'caracteres/agregar', Component: PaginaCaracter, icon: 'icon-[material-symbols--rule]', menu: false, },

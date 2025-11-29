@@ -1,8 +1,40 @@
 import PageBase from "../../../shared/components/PageBase/PageBase";
 import { Card, CardContent } from "@components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import { useActivarNotificacion, useMateriaSinResponsable } from "@apis/notificaciones";
+import BotonBase from "@components/Botones/BotonBase";
+import Listado from "@components/Lista/Listado";
 
 export default function NotificacionesPage() {
+  const {mutate: activarNotificacion} = useActivarNotificacion()
+  const {mutate: activarNotificacionSinMateria} = useMateriaSinResponsable()
+
+
+  const handleActivarNotificacion = () => {
+    activarNotificacion({}, {
+      onSuccess: () => {
+        alert("Notificaciones Activadas")
+      },
+      onError: () => {
+        alert("Error al activar notificaciones")
+      }
+    })
+
+    activarNotificacionSinMateria({}, {
+      onSuccess: () => {
+        alert("Notificaciones sin materias Activadas")
+      },
+      onError: () => {
+        alert("Error al activar notificaciones")
+      }
+    })
+  };
+
+  type Notificacion = {
+    id: number;
+    nombre: string;
+    imagenUrl: string;
+  }
   const notificaciones = [
     {
       id: 1,
@@ -17,55 +49,31 @@ export default function NotificacionesPage() {
     {
       id: 3,
       nombre: "Juan Pérez",
-      imagenUrl: "",
+      imagenUrl: "https://randomuser.me/api/portraits/men/1.jpg",
     },
   ];
 
   return (
-    <PageBase>
-      <div className="flex justify-center items-start min-h-screen bg-gray-50 p-8 md:p-14">
-        <Card className="w-full max-w-5xl bg-white rounded-2xl shadow-lg border border-gray-300">
-          <div className="p-8 border-b border-gray-200">
-            <h1 className="text-4xl font-bold text-gray-800 text-center">
-              Notificaciones
-            </h1>
-          </div>
-
-          <CardContent className="space-y-6 p-8">
-            {notificaciones.map((user) => (
-              <div
-                key={user.id}
-                className="flex items-center gap-6 p-5 rounded-xl hover:bg-gray-100 transition"
-              >
-                {/* Avatar del usuario */}
-                <Avatar className="w-16 h-16 border border-gray-300">
-                  {user.imagenUrl ? (
-                    <AvatarImage src={user.imagenUrl} alt={user.nombre} />
-                  ) : (
-                    <AvatarFallback className="text-lg">
-                      {user.nombre
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")
-                        .toUpperCase()}
-                    </AvatarFallback>
-                  )}
-                </Avatar>
-
-                {/* Texto */}
-                <div className="flex flex-col">
-                  <span className="font-semibold text-gray-800 text-xl">
-                    {user.nombre}
-                  </span>
-                  <span className="text-gray-600 text-base md:text-lg">
-                    Te dejó un mensaje 📩
-                  </span>
+    <PageBase volver titulo="Notificaciones">
+        <Card>
+            <CardContent className="flex flex-col gap-2">
+                <div className="flex flex-row items-center gap-2">
+                    <BotonBase onClick={handleActivarNotificacion}>Activar Notificaciones</BotonBase>
                 </div>
-              </div>
-            ))}
-          </CardContent>
+                <Listado
+                    data={notificaciones}
+                    dataRender={(item: Notificacion) => (
+                        <div className="flex flex-row items-center gap-2 border-2 p-2 rounded-2xl" key={item.id}>
+                            <Avatar>
+                                <AvatarImage src={item.imagenUrl} />
+                                <AvatarFallback>{item.nombre}</AvatarFallback>
+                            </Avatar>
+                            <span>{item.nombre}</span>
+                        </div>
+                    )}
+                />
+            </CardContent>
         </Card>
-      </div>
     </PageBase>
   );
 }

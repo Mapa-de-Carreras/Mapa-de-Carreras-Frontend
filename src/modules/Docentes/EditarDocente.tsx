@@ -21,6 +21,7 @@ import useGetDedicaciones from "@apis/dedicacion";
 import { DocenteSchema, DocenteForm } from "./constrainst";
 import { CampoSelect } from "@components/Formularios/CampoSelectAntiguo";
 import { useGetCaracteres } from "@apis/caracteres";
+import { useGetUsuario } from "@apis/usuarios";
 
 
 
@@ -38,8 +39,7 @@ interface IBackendError {
 }
 
 export default function EditarDocente() {
-  const params = useParams<{ id: string }>();
-  const id = Number(params.id);
+  const id = useParams<{ id: string }>().id?.toString() || '';
   const navigate = useNavigate();
   const { showModal } = useModal();
   
@@ -47,8 +47,9 @@ export default function EditarDocente() {
   const isCoordinador = useRol('Coordinador');
 
 
-  const { data: docente, isLoading: isLoadingDocente, error: ErrorDocente } = useGetDocenteDetalle(id);
-  const { mutate: updateDocente } = usePutDocente();
+  const { data: usr } = useGetUsuario({id: id, habilitado: true});
+  const { data : docente, isLoading: isLoadingDocente, error: ErrorDocente } = useGetDocenteDetalle(usr?.id || 0);
+  const { mutateAsync: updateDocente } = usePutDocente();
 
   //raro pero no encuentro los typados correctos
   const { data: listModalidades } = useGetModalidades() as { data: ICatalogoItem[] | undefined };
