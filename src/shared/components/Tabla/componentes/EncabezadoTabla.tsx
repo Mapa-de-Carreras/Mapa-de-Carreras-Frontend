@@ -25,9 +25,9 @@ export default function EncabezadoTabla<TData>({
 			<div className="w-full flex gap-2">
 				{funcionAgregado && <BotonBase variant="agregar" onClick={funcionAgregado} />}
 				{funcionExportar && <BotonBase variant='exportar' onClick={funcionExportar} />}
-				{habilitarBuscador && <div className='flex-1 min-w-0'> <BuscadorTabla tabla={tabla} /></div>}
+				{habilitarBuscador && <div className="flex-1 min-w-0"> <BuscadorTabla tabla={tabla} /></div>}
 			</div>
-			<div className="w-full">{habilitarPaginado && <PaginadoTabla tabla={tabla} />}</div>
+			{habilitarPaginado && <div className="w-full"> <PaginadoTabla tabla={tabla} /></div>}
 		</div>
 	)
 }
