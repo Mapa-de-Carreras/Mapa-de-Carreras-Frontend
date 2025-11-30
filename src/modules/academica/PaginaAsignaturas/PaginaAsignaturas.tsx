@@ -87,6 +87,9 @@ export default function PaginaAsignaturas() {
 									/>
 								)}
 								onClick={((isAdmin || isCoordinador)? handleAgregar: undefined)}
+								enableSearch={true}
+              					searchFields={["nombre", "codigo"]}
+              					searchPlaceholder="Buscar asignatura por nombre o codigo"
 							/>
 						)}
 					</div>
