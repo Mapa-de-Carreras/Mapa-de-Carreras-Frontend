@@ -10,6 +10,7 @@ type UseGetProps<TData, TParams> = {
 	params?: TParams
 	isEnabled?: boolean
 	configAxios?: AxiosRequestConfig
+	refetchInterval?: number | false
 }
 
 export default function useGet<TData = unknown, TParams extends Record<string, any> = {}>({
@@ -18,6 +19,7 @@ export default function useGet<TData = unknown, TParams extends Record<string, a
 	params = {} as TParams,
 	isEnabled = true,
 	configAxios = {},
+	refetchInterval = false,
 }: UseGetProps<TData, TParams>): UseQueryResult<TData, Error> {
 	const queryKey = generarQueryKey(key, params)
 	const token = useToken()
@@ -34,5 +36,6 @@ export default function useGet<TData = unknown, TParams extends Record<string, a
 		gcTime: 1000 * 60 * 60,
 		enabled: isEnabled,
 		refetchOnWindowFocus: false,
+		refetchInterval: refetchInterval,
 	})
 }

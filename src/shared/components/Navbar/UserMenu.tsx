@@ -1,3 +1,4 @@
+import { useGetNotificaciones } from '@apis/notificaciones'
 import useAuth from '@components/hooks/useAuth'
 import { useTheme } from '@hooks/useTheme'
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
@@ -51,6 +52,8 @@ export function UserMenu({ collapsed, side, align, className }: UserMenuProps) {
 	const { theme, toggleTheme } = useTheme();
 	const { user: usuario } = useAuth();
 
+	const { data: notificaciones} = useGetNotificaciones({leida: false, pageSize: 1, refetch: 30000 });
+
 	const handleIrPerfil = () => {
 		const id = usuario?.id;
 		navigate(`/perfil/${id}`);
@@ -65,9 +68,13 @@ export function UserMenu({ collapsed, side, align, className }: UserMenuProps) {
 		}
 	}
 
+	function handleIrNotificacion(): void {
+		navigate("/notificaciones/")	
+	}
+
 	return (
 		<DropdownMenu>
-		<DropdownMenuTrigger asChild>
+		<DropdownMenuTrigger asChild className='relative'>
 			<button
 			className={`
 				hover:bg-sidebar-accent/20 flex cursor-pointer
@@ -76,6 +83,10 @@ export function UserMenu({ collapsed, side, align, className }: UserMenuProps) {
 				${className ?? "w-full"}
 			`}
 			>
+			{
+				notificaciones && notificaciones.count > 0 &&
+					<div className="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-500" />
+			}
 			<Avatar className='h-8 w-8 border border-sidebar-border shadow-sm'>
 				{!collapsed && (
 				<>
@@ -99,7 +110,7 @@ export function UserMenu({ collapsed, side, align, className }: UserMenuProps) {
 			align={align}
 			className="bg-sidebar border-sidebar-border w-60 border p-4 text-xl"
 		>
-			<DropdownMenuLabel className="flex items-center gap-2">
+			<DropDownItem icon="" onClick={handleIrPerfil}>
 			<img
 				src={usuario?.avatar || "/avatars/default.png"}
 				alt={usuario ? `${usuario.first_name} ${usuario.last_name}` : "Usuario"}
@@ -113,11 +124,18 @@ export function UserMenu({ collapsed, side, align, className }: UserMenuProps) {
 				{usuario?.email || "No disponible"}
 				</p>
 			</div>
-			</DropdownMenuLabel>
-			<DropdownMenuSeparator />
-			<DropDownItem icon="icon-[lucide--user]" onClick={handleIrPerfil}>
-			Perfil
 			</DropDownItem>
+			<DropdownMenuSeparator />
+			<div className='relative'>
+				{
+					notificaciones && notificaciones.count > 0 &&
+						<div className="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-500" />
+				}
+				
+				<DropDownItem icon="icon-[material-symbols--notifications]" onClick={handleIrNotificacion}>
+					Notificaciones
+				</DropDownItem>
+			</div>
 			<DropDownItem
 				icon={theme.includes("dark") ? "icon-[mynaui--sun-solid]" : "icon-[lucide--moon]"}
 				onClick={toggleTheme}
