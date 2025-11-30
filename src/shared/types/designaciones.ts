@@ -1,6 +1,6 @@
 import { ICargo } from "./cargos";
 import { Modalidad } from "./modalidades";
-import { IDedicacion } from "./dedicaciones";
+import { Dedicacion } from "./dedicaciones";
 import { IComision } from "./comisiones";
 import { Caracter } from "./caracter";
 
@@ -19,7 +19,7 @@ export interface IDocente {
   };
   modalidad: Modalidad;
   caracter: Caracter
-  dedicacion:IDedicacion;
+  dedicacion:Dedicacion;
   cantidad_materias: number;
   activo: boolean;
 
