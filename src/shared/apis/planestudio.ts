@@ -4,6 +4,7 @@ import useGet from "./hooks/useGet";
 import { IPlanEstudio, IPlanEstudioDetalle } from "@globalTypes/planesestudio";
 import useDelete from "./hooks/useDelete";
 import usePost from "./hooks/usePost";
+import usePatch from "./hooks/usePatch";
 
 const PLANES_KEY = "useGetPlanes";
 export function useGetPlanes() {
@@ -49,5 +50,19 @@ export function usePostPlanAsignatura() {
   return usePost({
     key: 'usePostPlanAsignatura',
     urlApi: `${URL_API}plan-asignatura/`
+  })
+}
+
+export function useDeletePlanAsignatura() {
+  return useDelete({
+    key: 'useDeletePlanAsignatura',
+    urlApi: `${URL_API}plan-asignatura/{id}/`
+  })
+}
+
+export function usePatchPlanVigencia() {
+  return usePatch({
+    key: 'usePatchPlanVigencia',
+    urlApi: `${URL_API}planes/{id}/vigencia/`,
   })
 }
