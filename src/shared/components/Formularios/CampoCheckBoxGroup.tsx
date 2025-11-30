@@ -47,7 +47,7 @@ export default function CampoCheckboxGroup<T>({
                     <FormItem className="flex flex-row items-start gap-3 space-y-0">
                         <FormControl>
                             <Checkbox
-                                className='cursor-pointer'
+                                className='cursor-pointer border-foreground/50'
                                 checked={checked}
                                 onCheckedChange={handleChange}
                             />

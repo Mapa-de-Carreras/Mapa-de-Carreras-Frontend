@@ -9,11 +9,15 @@ import { Tabla } from '@components/Tabla/Tabla'
 import Titulo from '@components/Tipografia/Titulo'
 import { Card } from '@components/ui/card'
 import { Caracter } from '@globalTypes/caracter'
+import useRol from '@hooks/useRol'
 import { extraerMensajeDeError } from '@lib/errores'
 import { ColumnDef } from '@tanstack/react-table'
 import { useNavigate } from 'react-router'
 
 export default function PaginaCaracteres() {
+	// Roles de Usuario
+	const esAdmin = useRol('Administrador');
+
 	// Ventana y Navegación
 	const { abrirVentana, cerrarVentana } = useVentana()
 	const navigate = useNavigate()
@@ -76,9 +80,7 @@ export default function PaginaCaracteres() {
 	}
 
 	// Columnas de la tabla
-	const columnas: ColumnDef<Caracter>[] = [
-		{ accessorKey: 'id', header: 'Codigo', size: 1 },
-		{ accessorKey: 'nombre', header: 'Nombre', size: 4 },
+	const columnaAccion: ColumnDef<Caracter>[] = [
 		{
 			id: 'Acciones',
 			header: 'Acciones',
@@ -90,6 +92,12 @@ export default function PaginaCaracteres() {
 			),
 			size: 2,
 		},
+	];
+	
+	const columnas: ColumnDef<Caracter>[] = [
+		{ accessorKey: 'id', header: 'Codigo', size: 1 },
+		{ accessorKey: 'nombre', header: 'Nombre', size: 4 },
+		...(esAdmin ? columnaAccion : []),
 	]
 
 	return (
@@ -105,7 +113,7 @@ export default function PaginaCaracteres() {
 							columnas={columnas}
 							data={caracteres || []}
 							columnasFijas={false}
-							funcionAgregado={handleAgregar}
+							funcionAgregado={esAdmin ? handleAgregar : undefined}
 						/>
 					</div>
 					<div className="sm:hidden">
@@ -113,19 +121,21 @@ export default function PaginaCaracteres() {
 							data={caracteres || []}
 							dataRender={(caracter) => {
 								return (
-									<Card key={caracter.id} className="justify-between px-2">
+									<Card key={caracter.id} className="justify-between p-2">
 										<Titulo>{caracter.nombre}</Titulo>
-										<div className="flex flex-row gap-2">
-											<BotonBase
-												variant="eliminar"
-												onClick={() => handleEliminar(caracter)}
-											/>
-											<BotonBase variant="editar" onClick={() => handleEditar(caracter.id)} />
-										</div>
+										{esAdmin && (
+											<div className="flex flex-row gap-2">
+												<BotonBase
+													variant="eliminar"
+													onClick={() => handleEliminar(caracter)}
+												/>
+												<BotonBase variant="editar" onClick={() => handleEditar(caracter.id)} />
+											</div>
+										)}
 									</Card>
 								)
 							}}
-							onClick={handleAgregar}
+							onClick={esAdmin ? handleAgregar : undefined}
 							mensajeSinDatos="No hay caracteres cargados"
 						/>
 					</div>

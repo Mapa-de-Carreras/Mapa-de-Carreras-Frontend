@@ -9,11 +9,15 @@ import { Tabla } from "@components/Tabla/Tabla";
 import Titulo from "@components/Tipografia/Titulo";
 import { Card } from "@components/ui/card";
 import { Modalidad } from "@globalTypes/modalidades";
+import useRol from "@hooks/useRol";
 import { extraerMensajeDeError } from "@lib/errores";
 import { ColumnDef } from "@tanstack/react-table";
 import { useNavigate } from "react-router";
 
 export default function PaginaModalidades() {
+    // Roles de Usuario
+    const esAdmin = useRol('Administrador');
+
     // Ventana y Navegación
 	const { abrirVentana, cerrarVentana } = useVentana();
 	const navigate = useNavigate();
@@ -76,9 +80,7 @@ export default function PaginaModalidades() {
     }
 
     // Columnas de la tabla
-    const columnas: ColumnDef<Modalidad>[] = [
-        { accessorKey: 'id', header: 'Codigo', size: 1 },
-        { accessorKey: 'nombre', header: 'Nombre', size: 4 },
+    const columnaAccion: ColumnDef<Modalidad>[] = [
         {
             id: 'Acciones',
             header: 'Acciones',
@@ -90,6 +92,12 @@ export default function PaginaModalidades() {
             ),
             size: 2,
         },
+    ];
+
+    const columnas: ColumnDef<Modalidad>[] = [
+        { accessorKey: 'id', header: 'Codigo', size: 1 },
+        { accessorKey: 'nombre', header: 'Nombre', size: 4 },
+        ...(esAdmin ? columnaAccion : []),
     ]
 
     return (
@@ -107,7 +115,7 @@ export default function PaginaModalidades() {
 							columnas={columnas}
 							data={modalidades || []}
 							columnasFijas={false}
-							funcionAgregado={handleAgregar}
+							funcionAgregado={esAdmin ? handleAgregar : undefined}
 						/>
 					</div>
 					<div className="sm:hidden">
@@ -117,17 +125,19 @@ export default function PaginaModalidades() {
 								return (
 									<Card key={modalidad.id} className="justify-between px-2">
 										<Titulo>{modalidad.nombre}</Titulo>
-										<div className="flex flex-row gap-2">
-											<BotonBase
-												variant="eliminar"
-												onClick={() => handleEliminar(modalidad)}
-											/>
-											<BotonBase variant="editar" onClick={() => handleEditar(modalidad.id)} />
-										</div>
+                                        {esAdmin && (
+                                            <div className="flex flex-row gap-2">
+                                                <BotonBase
+                                                    variant="eliminar"
+                                                    onClick={() => handleEliminar(modalidad)}
+                                                />
+                                                <BotonBase variant="editar" onClick={() => handleEditar(modalidad.id)} />
+                                            </div>
+                                        )}
 									</Card>
 								)
 							}}
-							onClick={handleAgregar}
+							onClick={esAdmin ? handleAgregar : undefined}
 							mensajeSinDatos="No hay modalidades cargadas"
 						/>
 					</div>

@@ -66,9 +66,14 @@ import EditarDocumentos from '../modules/Documentos/EditarDocumentos'
 import PerfilUsuarioDetalle from '@usuarios/PerfilUsuario/PerfilUsuarioDetalle'
 import PaginaModalidades from '@docentes/modalidades/PaginaModalidades'
 import PaginaModalidad from '@docentes/modalidades/PaginaModalidad'
+import PaginaDedicaciones from '@docentes/dedicaciones/PaginaDedicaciones'
+import PaginaCrearRegimen from '@docentes/regimenes/PaginaCrearRegimen'
+import PaginaDetalleRegimen from '@docentes/regimenes/PaginaDetalleRegimen'
+import PaginaEditarRegimen from '@docentes/regimenes/PaginaEditarRegimen'
 
 export default function Router() {
 	const esAdmin = useRol('Administrador');
+	const esCoordinador = useRol('Coordinador');
 
 	const rutas: Route[] = [
 		{
@@ -146,15 +151,27 @@ export default function Router() {
 							children: [
 								{ path: 'gestion', label: 'Docentes', headerkey: 'gestion', Component: PaginaDocentes, icon: 'icon-[mdi--account-student]', menu: true, },
 								{ path: 'gestion/detalle/:id', label: 'Docente', headerkey: 'gestion/detalle', Component: DocenteDetalle, menu: false },
-								{ path: 'gestion/agregar', label: 'Agregar Docente', headerkey: 'gestion/agregar', Component: CrearDocente, menu: false },
-								{ path: 'gestion/editar:id', label: 'Editar Docente', headerkey: 'gestion/editar', Component: EditarDocente, menu: false },
-								{ path: 'parametros', label: 'Régimenes', headerkey: 'parametros', Component: PaginaRegimenes, icon: 'icon-[material-symbols--rule]', menu: true, },
+								...(esAdmin || esCoordinador ? [
+									{ path: 'gestion/agregar', label: 'Agregar Docente', headerkey: 'gestion/agregar', Component: CrearDocente, menu: false },
+									{ path: 'gestion/editar:id', label: 'Editar Docente', headerkey: 'gestion/editar', Component: EditarDocente, menu: false },
+								] : []),
+								{ path: 'parametros', label: 'Regímenes', headerkey: 'parametros', Component: PaginaRegimenes, icon: 'icon-[material-symbols--rule]', menu: true, },
+								{ path: 'parametros/detalle/:id', label: 'Regímenes', headerkey: 'parametros/detalle', Component: PaginaDetalleRegimen, icon: 'icon-[material-symbols--rule]', menu: false, },
+								...(esAdmin ? [
+									{ path: 'parametros/agregar', label: 'Agregar Regimen', headerkey: 'parametros/agregar', Component: PaginaCrearRegimen, icon: 'icon-[material-symbols--rule]', menu: false, },
+									{ path: 'parametros/editar/:id', label: 'Editar Regimen', headerkey: 'parametros/editar', Component: PaginaEditarRegimen, icon: 'icon-[material-symbols--rule]', menu: false, },
+								] : []),
 								{ path: 'caracteres', label: 'Caracteres', headerkey: 'caracteres', Component: PaginaCaracteres, icon: 'icon-[material-symbols--rule]', menu: true, },
-								{ path: 'caracteres/agregar', label: 'Agregar Caracter', headerkey: 'caracteres/agregar', Component: PaginaCaracter, icon: 'icon-[material-symbols--rule]', menu: false, },
-								{ path: 'caracteres/editar/:id', label: 'Editar Caracter', headerkey: 'caracteres/editar', Component: PaginaCaracter, icon: 'icon-[material-symbols--rule]', menu: false, },
+								...(esAdmin ? [
+									{ path: 'caracteres/agregar', label: 'Agregar Caracter', headerkey: 'caracteres/agregar', Component: PaginaCaracter, icon: 'icon-[material-symbols--rule]', menu: false, },
+									{ path: 'caracteres/editar/:id', label: 'Editar Caracter', headerkey: 'caracteres/editar', Component: PaginaCaracter, icon: 'icon-[material-symbols--rule]', menu: false, },
+								] : []),
 								{ path: 'modalidades', label: 'Modalidades', headerkey: 'modalidades', Component: PaginaModalidades, icon: 'icon-[material-symbols--rule]', menu: true, },
-								{ path: 'modalidades/agregar', label: 'Agregar Modalidad', headerkey: 'modalidades/agregar', Component: PaginaModalidad, icon: 'icon-[material-symbols--rule]', menu: false, },
-								{ path: 'modalidades/editar/:id', label: 'Editar Modalidad', headerkey: 'modalidades/editar', Component: PaginaModalidad, icon: 'icon-[material-symbols--rule]', menu: false, },
+								...(esAdmin ? [
+									{ path: 'modalidades/agregar', label: 'Agregar Modalidad', headerkey: 'modalidades/agregar', Component: PaginaModalidad, icon: 'icon-[material-symbols--rule]', menu: false, },
+									{ path: 'modalidades/editar/:id', label: 'Editar Modalidad', headerkey: 'modalidades/editar', Component: PaginaModalidad, icon: 'icon-[material-symbols--rule]', menu: false, },
+								] : []),
+								{ path: 'dedicaciones', label: 'Dedicaciones', headerkey: 'dedicaciones', Component: PaginaDedicaciones, icon: 'icon-[material-symbols--rule]', menu: true, },
 							],
 							menu: true,
 						},
