@@ -13,7 +13,7 @@ type CardProps = {
 
 export default function FeedCard({ titulo, descripcion, texto, actions, className }: CardProps) {
 	return (
-		<Card className={cn('flex flex-row items-center rounded-sm px-6 snap-start', className)}>
+		<Card className={cn('flex flex-row items-center rounded-sm px-6 snap-start bg-table-background py-4', className)}>
 			<div className="grow">
 				<h3 className="text-xl font-semibold">{titulo}</h3>
 				<p className="mt-1 text-sm">{descripcion}</p>

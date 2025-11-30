@@ -104,6 +104,9 @@ export default function PaginaComisiones() {
                 />
               )}
               onClick={esAdmin ? handleAgregar : undefined}
+              enableSearch={true}
+              searchFields={["nombre", "plan_asignatura_str"]}
+              searchPlaceholder="Buscar comisiones por nombre o por plan / asignatura"
             />
           )}
         </div>

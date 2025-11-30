@@ -152,7 +152,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
                     {modalOptions?.content && <div className="my-4">{modalOptions.content}</div>}
 
                     {modalOptions?.buttons && modalOptions.buttons.length > 0 && (
-                        <DrawerFooter className="mx-auto mt-4 w-full max-w-sm flex-row gap-2">
+                        <DrawerFooter className="mx-auto mt-4 w-full max-w-sm flex-row gap-2 justify-evenly ">
                         {modalOptions.buttons.map((buttonProps, index) => (
                             <BotonBase
                             key={index}

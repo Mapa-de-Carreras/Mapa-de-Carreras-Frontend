@@ -68,6 +68,9 @@ export default function PaginaInstitutos() {
                                         />
                                     )}
                                     onClick={isAdmin? handleAgregar : undefined}
+                                    enableSearch={true}
+                                    searchFields={["nombre", "codigo"]}
+                                    searchPlaceholder="Buscar instituto por codigo o nombre"
                                 />
                             )}
                         </div>

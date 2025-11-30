@@ -38,6 +38,7 @@ import DesignacionDetalle from '../modules/Designaciones/DesignacionesDetalle'
 import DesignacionesAgregar from '../modules/Designaciones/DesignacionesAgregar'
 import NotFoundPage from './NotFoundPage'
 import PlanEstudioEditar from '@academica/PaginaPlanesEstudio/PlanEstudioEditar'
+import AgregarAsignaturaAPlan from '@academica/PaginaPlanesEstudio/AgregarAsignaturaAPlan'
 import PaginaDocumentos from '../modules/Documentos/PaginaDocumentos'
 import AgregarDocumentos from '../modules/Documentos/AgregarDocumentos'
 import useRol from '@hooks/useRol'
@@ -62,6 +63,7 @@ import EditarDocente from '@docentes/EditarDocente'
 import PaginaCaracteres from '@docentes/caracteres/PaginaCaracteres'
 import PaginaCaracter from '@docentes/caracteres/PaginaCaracter'
 import Reportes from '../modules/Estadisticas/Reportes'
+import PaginaEstadisticas from '../modules/Estadisticas/PaginaEstadisticas';
 import EditarDocumentos from '../modules/Documentos/EditarDocumentos'
 import PerfilUsuarioDetalle from '@usuarios/PerfilUsuario/PerfilUsuarioDetalle'
 import PaginaModalidades from '@docentes/modalidades/PaginaModalidades'
@@ -133,6 +135,7 @@ export default function Router() {
 								{ path: 'planes/detalle', label: 'Institutos', headerkey: 'planes/detalle', Component: PlanEstudioDetalle, menu: false },
 								{ path: 'planes/editar/:id', label: 'Institutos', headerkey: 'planes/editar', Component: PlanEstudioEditar, menu: false },
 								{ path: 'planes/agregar', label: 'Institutos', headerkey: 'planes/agregar', Component: PlanEstudioAgregar, menu: false },
+								{ path: 'planes/:planId/agregar-asignatura', headerkey: 'planes/agregar-asignatura', Component: AgregarAsignaturaAPlan, menu: false },
 								{ path: 'comisiones', label: 'Comisiones', headerkey: 'comisiones', icon: 'icon-[mdi--bookshelf]', Component: PaginaComisiones, menu: true, },
 								{ path: 'comisiones/agregar/', label: 'Agregar Comisión', headerkey: 'comisiones/agregar/', Component: ComisionesAgregar, menu: false },
 								{ path: 'comisiones/detalle/:id', label: 'Comisión', headerkey: 'comisiones/detalle', Component: ComisionesDetalle, menu: false },
@@ -192,7 +195,7 @@ export default function Router() {
 							label: 'Estadísticas',
 							icon: 'icon-[akar-icons--statistic-up]',
 							children: [
-								{ path: 'estadisticas', label: 'Estadísticas', icon: 'icon-[akar-icons--statistic-up]', menu: true, },
+								{ path: 'estadisticas', label: 'Estadísticas', Component: PaginaEstadisticas, icon: 'icon-[akar-icons--statistic-up]', menu: true, },
 								{ path: 'reportes', label: 'Reportes', Component: Reportes, icon: 'icon-[mdi--report-bar-stacked]', menu: true, },
 							],
 							menu: true,

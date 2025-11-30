@@ -44,3 +44,10 @@ export function useDeleteCorrelativa() {
     urlApi: `${URL_API}planes/correlativas/{id}/`,
   });
 }
+
+export function usePostPlanAsignatura() {
+  return usePost({
+    key: 'usePostPlanAsignatura',
+    urlApi: `${URL_API}plan-asignatura/`
+  })
+}

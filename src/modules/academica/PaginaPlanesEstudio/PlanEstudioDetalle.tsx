@@ -46,12 +46,13 @@ export default function PlanEstudioDetalle() {
     navigate(`/academica/planes/editar/${id}`);
   }
 
-  // CHANGE: handler para editar correlativas — navega a la pantalla que creamos
   const handleEditarCorrelativas = (asignaturaId: number) => {
-    // ruta: /academica/asignaturas/:asignaturaId/plan/:planId/correlativas
     navigate(`/academica/asignaturas/${asignaturaId}/plan/${id}/correlativas`);
   }
 
+  const handleAgregarAsignatura = () => {
+    navigate(`/academica/planes/${id}/agregar-asignatura`)
+  }
 
   const handleClickModalEliminar = () => {
     showModal({
@@ -143,7 +144,7 @@ export default function PlanEstudioDetalle() {
               </div>
 
               {esAdmin && (
-                <div className="flex justify-center gap-4 mt-6 mb-4">
+                <div className="flex flex-wrap justify-center gap-4 mt-6 mb-4">
                   <BotonBase
                     variant="editar"
                     onClick={handleEditar}
@@ -151,6 +152,12 @@ export default function PlanEstudioDetalle() {
                   <BotonBase
                     variant="eliminar"
                     onClick={handleClickModalEliminar}
+                  />
+                  <BotonGenerico
+                    texto="Agregar Asignatura"
+                    icono={<span className="icon-[mdi--plus-box] text-xl" />}
+                    color="#10B981"
+                    onClick={handleAgregarAsignatura}
                   />
                   {documento?.archivo_url && (
                     <BotonGenerico

@@ -97,6 +97,11 @@ export default function PaginaPlanEstudio() {
                 />
               )}
               onClick={esAdmin ? handleAgregarPlan : undefined}
+              enableSearch={true}
+              searchFields={["carrera_nombre", "fecha_inicio"]}
+              searchPlaceholder="Buscar instituto por codigo o nombre"
+              filterModalTitle="Filtrar Planes"
+              filterOptions={[{key: "esta_vigente", label: "Vigente",value: true}, {key: "esta_vigente", label: "No Vigente",value: false}]}
             />
           )}
         </div>

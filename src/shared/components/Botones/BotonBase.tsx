@@ -1,80 +1,80 @@
-import { Button } from '@components/ui/button'
-import { ReactNode } from 'react'
+	import { Button } from '@components/ui/button'
+	import { ReactNode } from 'react'
 
-export type BotonBaseProps = {
-	children?: ReactNode
-	onClick?: () => void
-	className?: string
-	type?: "button" | "submit" | "reset"
-	variant?:
-		'agregar' | 'guardar' | 'cancelar' |
-		'eliminar' | 'editar' | 'filtro' |
-		'default' | 'aceptar' | 'regresar' |
-		'error'| 'exportar'
-	isLoading?: boolean
-	icono?: string
-}
-
-export default function BotonBase({
-	children,
-	onClick,
-	className = '',
-	variant = 'default',
-	type = 'button',
-	isLoading = false,
-	icono,
-}: BotonBaseProps) {
-	const iconsVariants = {
-		agregar: 'icon-[mdi--plus]',
-		guardar: 'icon-[mdi--content-save]',
-		cancelar: 'icon-[mdi--close]',
-		eliminar: 'icon-[mdi--trash-can]',
-		editar: 'icon-[ph--note-pencil]',
-		aceptar: 'icon-[mdi--check]',
-		error: 'icon-[mdi--alert-circle]',
-		regresar: 'icon-[mdi--arrow-left]',
-		exportar: 'icon-[tabler--download]',
-		filtro: 'icon-[mdi--filter]',
-		default: '',
+	export type BotonBaseProps = {
+		children?: ReactNode
+		onClick?: () => void
+		className?: string
+		type?: "button" | "submit" | "reset"
+		variant?:
+			'agregar' | 'guardar' | 'cancelar' |
+			'eliminar' | 'editar' | 'filtro' |
+			'default' | 'aceptar' | 'regresar' |
+			'error'| 'exportar'
+		isLoading?: boolean
+		icono?: string
 	}
 
-	const colorVariants = {
-		agregar: 'bg-agregar hover:bg-agregar-hover active:bg-agregar-active',
-		guardar: 'bg-guardar hover:bg-guardar-hover active:bg-guardar-active',
-		cancelar: 'bg-cancelar hover:bg-cancelar-hover active:bg-cancelar-active',
-		eliminar: 'bg-eliminar hover:bg-eliminar-hover active:bg-eliminar-active',
-		editar: 'bg-editar hover:bg-editar-hover active:bg-editar-active',
-		filtro: 'bg-filtro',
-		aceptar: 'bg-aceptar hover:bg-aceptar-hover active:bg-aceptar-active',
-		error: 'bg-error hover:bg-error-hover active:bg-error-active',
-		regresar: 'bg-regresar hover:bg-regresar-hover active:bg-regresar-active',
-		exportar: 'bg-exportar hover:bg-exportar-hover active:bg-exportar-active',
-		default: 'bg-default hover:bg-default-hover active:bg-default-active',
-	}
+	export default function BotonBase({
+		children,
+		onClick,
+		className = '',
+		variant = 'default',
+		type = 'button',
+		isLoading = false,
+		icono,
+	}: BotonBaseProps) {
+		const iconsVariants = {
+			agregar: 'icon-[mdi--plus]',
+			guardar: 'icon-[mdi--content-save]',
+			cancelar: 'icon-[mdi--close]',
+			eliminar: 'icon-[mdi--trash-can]',
+			editar: 'icon-[ph--note-pencil]',
+			aceptar: 'icon-[mdi--check]',
+			error: 'icon-[mdi--alert-circle]',
+			regresar: 'icon-[mdi--arrow-left]',
+			exportar: 'icon-[tabler--download]',
+			filtro: 'icon-[mdi--filter]',
+			default: '',
+		}
 
-	const textVariants = {
-		agregar: 'Agregar',
-		guardar: 'Guardar',
-		cancelar: 'Cancelar',
-		eliminar: 'Eliminar',
-		editar: 'Editar',
-		filtro: 'Filtros',
-		default: 'Cerrar',
-		regresar: 'Regresar',
-		error: 'Entendido',
-		aceptar: 'Aceptar',
-		exportar: 'Exportar',
-	}
+		const colorVariants = {
+			agregar: 'bg-agregar hover:bg-agregar-hover active:bg-agregar-active',
+			guardar: 'bg-guardar hover:bg-guardar-hover active:bg-guardar-active',
+			cancelar: 'bg-cancelar hover:bg-cancelar-hover active:bg-cancelar-active',
+			eliminar: 'bg-eliminar hover:bg-eliminar-hover active:bg-eliminar-active',
+			editar: 'bg-editar hover:bg-editar-hover active:bg-editar-active',
+			filtro: 'bg-btn-filter hover:bg-btn-filter-hover active:bg-btn-filter-active',
+			aceptar: 'bg-aceptar hover:bg-aceptar-hover active:bg-aceptar-active',
+			error: 'bg-error hover:bg-error-hover active:bg-error-active',
+			regresar: 'bg-regresar hover:bg-regresar-hover active:bg-regresar-active',
+			exportar: 'bg-exportar hover:bg-exportar-hover active:bg-exportar-active',
+			default: 'bg-default hover:bg-default-hover active:bg-default-active',
+		}
 
-	return (
-		<Button
-			className={`cursor-pointer text-white ${colorVariants[variant]} ${className}`}
-			onClick={onClick}
-			type={type}
-			disabled={isLoading}
-		>
-			{variant !== 'default' && <span className={`text-2xl ${ isLoading ? "icon-[line-md--loading-twotone-loop]" : icono || iconsVariants[variant]} `} />}
-			{children || textVariants[variant]}
-		</Button>
-	)
-}
+		const textVariants = {
+			agregar: 'Agregar',
+			guardar: 'Guardar',
+			cancelar: 'Cancelar',
+			eliminar: 'Eliminar',
+			editar: 'Editar',
+			filtro: 'Filtros',
+			default: 'Cerrar',
+			regresar: 'Regresar',
+			error: 'Entendido',
+			aceptar: 'Aceptar',
+			exportar: 'Exportar',
+		}
+
+		return (
+			<Button
+				className={`cursor-pointer text-white ${colorVariants[variant]} ${className}`}
+				onClick={onClick}
+				type={type}
+				disabled={isLoading}
+			>
+				{variant !== 'default' && <span className={`text-2xl ${ isLoading ? "icon-[line-md--loading-twotone-loop]" : icono || iconsVariants[variant]} `} />}
+				{children || textVariants[variant]}
+			</Button>
+		)
+	}
