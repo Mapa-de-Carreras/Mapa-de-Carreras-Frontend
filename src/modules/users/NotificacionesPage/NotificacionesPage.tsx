@@ -172,6 +172,7 @@ export default function NotificacionesPage() {
 
   return (
     <PageBase volver titulo="Notificaciones">
+      <br />
       <Card>
         <CardContent className="flex flex-col gap-4 p-4">
           {cargandoNotificaciones && <ComponenteCarga />}

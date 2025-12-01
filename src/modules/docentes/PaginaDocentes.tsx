@@ -82,6 +82,9 @@ export default function PaginaDocentes() {
 							/>
 						)}
 						onClick={isAdmin ? handleAgregarDocente : undefined}
+						enableSearch
+						searchPlaceholder="Nombre o Correo"
+						searchFields={['usuario.first_name', 'usuario.last_name','usuario.email']}
 					/>
 				</div>
 			</div>

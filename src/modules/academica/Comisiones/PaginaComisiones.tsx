@@ -105,8 +105,13 @@ export default function PaginaComisiones() {
               )}
               onClick={esAdmin ? handleAgregar : undefined}
               enableSearch={true}
-              searchFields={["nombre", "plan_asignatura_str"]}
+              searchFields={["nombre"]}
               searchPlaceholder="Buscar comisiones por nombre o por plan / asignatura"
+              enableFilters
+              filterModalTitle="Filtrar comisiones por"
+              filterOptions={[{key: "turno", label: "Turno Matutino", value: "MATUTINO"},
+                {key: "turno", label: "Turno Vespertino", value: "VESPERTINO"},
+                {key: "turno", label: "Turno Nocturno", value: "NOCTURNO"},]}
             />
           )}
         </div>

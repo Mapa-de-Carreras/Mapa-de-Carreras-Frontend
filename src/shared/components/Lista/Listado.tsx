@@ -25,9 +25,12 @@ type ListadoProps<TOrden, TData> = {
     orderKey?: (orderData: TOrden) => string;
     compareTo?: (orderData: TOrden, data: TData) => boolean;
     mensajeSinDatos?: string;
+    // Buscador
     enableSearch?: boolean;
-    searchFields?: (keyof TData)[];
+    searchFields?: string[]; // Cambiado a string[] para permitir rutas con puntos
     searchPlaceholder?: string;
+    // Filtros
+    enableFilters?: boolean;
     filterOptions?: FilterOption<TData>[]; 
     filterModalTitle?: string;
 };
@@ -92,6 +95,7 @@ export default function Listado<TOrden, TData>({
     enableSearch = false,
     searchFields = [],
     searchPlaceholder = "Buscar...",
+    enableFilters = false, 
     filterOptions = [],
     filterModalTitle = "Filtrar resultados"
 }: ListadoProps<TOrden, TData>) {
@@ -137,20 +141,31 @@ export default function Listado<TOrden, TData>({
     const filteredData = useMemo(() => {
         let result = data;
 
-        if (appliedFilterIndices.length > 0) {
+        if (enableFilters && appliedFilterIndices.length > 0) {
             result = result.filter(item => {
                 return appliedFilterIndices.some(index => {
                     const option = filterOptions[index];
+                    // Comparación segura para strings (ignora mayúsculas/minúsculas en el filtro)
+                    if (typeof item[option.key] === 'string' && typeof option.value === 'string') {
+                         return String(item[option.key]).toLowerCase() === String(option.value).toLowerCase();
+                    }
                     return item[option.key] === option.value;
                 });
             });
         }
 
+      
         if (enableSearch && searchTerm.trim() && searchFields.length > 0) {
             const term = searchTerm.toLowerCase();
+
+ 
+            const getNestedValue = (obj: any, path: string) => {
+                return path.split('.').reduce((acc, part) => (acc ? acc[part] : undefined), obj);
+            };
+
             result = result.filter((item) => {
                 return searchFields.some((field) => {
-                    const value = item[field];
+                    const value = getNestedValue(item, field);
                     if (value == null) return false;
                     return String(value).toLowerCase().includes(term);
                 });
@@ -158,15 +173,16 @@ export default function Listado<TOrden, TData>({
         }
 
         return result;
-    }, [data, searchTerm, enableSearch, searchFields, appliedFilterIndices, filterOptions]);
+    }, [data, searchTerm, enableSearch, searchFields, appliedFilterIndices, filterOptions, enableFilters]);
 
     return (
-        <div className="flex flex-col gap-2 items-start w-full">
-            <div className="sticky top-0 z-2 bg-background py-2 flex w-full justify-between items-center gap-2 flex-wrap sm:flex-nowrap">
+        <div className="flex flex-col gap-2 items-start w-full px-2">
+            <div className="sticky top-0 z-2 bg-background flex w-full justify-between items-center gap-2 flex-wrap sm:flex-nowrap py-2">
+
                 <div className="flex gap-2 items-center shrink-0">
                     {onClick && <BotonBase variant="agregar" onClick={onClick} />}
                     
-                    {filterOptions.length > 0 && (
+                    {enableFilters && filterOptions.length > 0 && (
                         <BotonBase 
                             variant="filtro" 
                             onClick={handleOpenFilters}
@@ -176,6 +192,7 @@ export default function Listado<TOrden, TData>({
                     )}
                 </div>
 
+                {/* Buscador a la derecha */}
                 {enableSearch && (
                     <div className="w-full sm:max-w-xs relative">
                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 opacity-50 pointer-events-none">
@@ -194,7 +211,9 @@ export default function Listado<TOrden, TData>({
             {(orderData.length > 0 && orderKey && compareTo) ? (
                 orderData.map((order) => {
                     const dataFiltered = filteredData.filter((element) => compareTo(order, element));
-                    if ((enableSearch || appliedFilterIndices.length > 0) && dataFiltered.length === 0) return null;
+                    
+                    const hasActiveFilters = enableFilters && appliedFilterIndices.length > 0;
+                    if ((enableSearch || hasActiveFilters) && dataFiltered.length === 0) return null;
 
                     return (
                         <div key={orderKey(order)} className="w-full">
@@ -216,7 +235,7 @@ export default function Listado<TOrden, TData>({
                     ) : (
                         <div className="py-4 opacity-70 text-center w-full">
                             <Titulo>
-                                {searchTerm || appliedFilterIndices.length > 0 
+                                {(searchTerm || (enableFilters && appliedFilterIndices.length > 0))
                                     ? "No hay resultados con estos filtros." 
                                     : mensajeSinDatos}
                             </Titulo>

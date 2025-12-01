@@ -82,6 +82,9 @@ export default function PaginaUsuarios() {
 									/>
 								)}
 								onClick={handleAgregar}
+								enableSearch
+								searchPlaceholder='Nombre de usuario'
+								searchFields={['first_name','last_name']}
 							/>
 						)}
 					</div>

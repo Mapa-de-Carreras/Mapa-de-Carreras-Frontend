@@ -98,18 +98,12 @@ export default function PaginaCarreras() {
 							enableSearch={true}
               				searchFields={["nombre", "codigo"]}
               				searchPlaceholder="Buscar carreras por nombre o codigo"
+							mensajeSinDatos='No hay carreras disponibles'
 						/>
 					</div>				
 				</div>
 				)
 			}
-			
-			{
-				!carreras || carreras.length === 0 && (
-					<p className="text-center text-gray-500">No se encontraron carreras.</p>
-				)
-			}
-
         </PageBase>
     )
 }

@@ -33,7 +33,7 @@ export default function PageBase({
 
 	return (
 		<div
-			className={`relative h-full w-full bg-cover bg-center p-2 sm:p-4 lg:p-8 ${className} overflow-y-auto`}
+			className={`relative h-full w-full bg-cover bg-center p-0 sm:p-4 lg:p-8 ${className} overflow-y-auto`}
 			style={
 				fondo
 					? {

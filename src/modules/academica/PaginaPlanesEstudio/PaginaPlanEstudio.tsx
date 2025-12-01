@@ -97,11 +97,13 @@ export default function PaginaPlanEstudio() {
                 />
               )}
               onClick={esAdmin ? handleAgregarPlan : undefined}
-              enableSearch={true}
+              enableSearch
               searchFields={["carrera_nombre", "fecha_inicio"]}
               searchPlaceholder="Buscar instituto por codigo o nombre"
+              enableFilters
               filterModalTitle="Filtrar Planes"
               filterOptions={[{key: "esta_vigente", label: "Vigente",value: true}, {key: "esta_vigente", label: "No Vigente",value: false}]}
+              mensajeSinDatos="No hay planes de estudio disponibles"
             />
           )}
         </div>

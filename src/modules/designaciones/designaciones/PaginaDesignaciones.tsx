@@ -90,6 +90,8 @@ export default function PaginaDesignaciones() {
 									/>
 								)}
 								onClick={handleAgregarDesignacion}
+								enableSearch
+								searchFields={['docente.usuario.first_name', 'docente.usuario.last_name']}
 							/>
 						)}
 					</div>

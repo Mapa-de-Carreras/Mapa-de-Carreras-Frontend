@@ -88,6 +88,9 @@ export default function PaginaPlanesAsignatura() {
                 />
               )}
               onClick={isAdmin ? handleAgregarPlan : undefined}
+              enableSearch
+              searchFields={["anio"]}
+              searchPlaceholder="Buscar por año"
             />
           </div>
         </div>
