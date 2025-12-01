@@ -7,9 +7,9 @@ import { Tabla } from '@components/Tabla/Tabla'
 import Listado from '@components/Lista/Listado'
 import FeedCard from '@components/Tarjetas/FeedCard'
 import BotonDetalle from '@components/Botones/BotonDetalle'
-import { IDesignacion } from '../../../src/shared/types/designaciones'
 import ComponenteCarga from '@components/ComponenteCarga/Componentecarga'
 import useRol from '@hooks/useRol'
+import { Designacion } from '@globalTypes/designaciones'
 
 export default function PaginaDesignaciones() {
 	const { data: designaciones, isLoading, isError } = useGetDesignaciones()
@@ -22,11 +22,11 @@ export default function PaginaDesignaciones() {
 		navigate(`/designaciones/agregar/`)
 	}
 
-	const handleVerDetalle = (row: IDesignacion) => {
+	const handleVerDetalle = (row: Designacion) => {
 		navigate(`/designaciones/detalle/${row.id}`)
 	}
 
-	const columnas: ColumnDef<IDesignacion>[] = [
+	const columnas: ColumnDef<Designacion>[] = [
 		{
 			accessorFn: (row) =>
 				`${row.docente.usuario.first_name} ${row.docente.usuario.last_name}`,

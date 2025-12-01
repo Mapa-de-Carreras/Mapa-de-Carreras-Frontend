@@ -9,7 +9,7 @@ import Listado from '@components/Lista/Listado';
 import FeedCard from '@components/Tarjetas/FeedCard';
 import BotonDetalle from '@components/Botones/BotonDetalle';
 import { useGetComisiones } from "@apis/comisiones";
-import { IComision } from "@globalTypes/comisiones";
+import { Comision } from "@globalTypes/comisiones";
 
 export default function PaginaComisiones() {
   const { data: comisiones, isLoading, isError } = useGetComisiones();
@@ -27,7 +27,7 @@ export default function PaginaComisiones() {
   };
 
 
-  const columnas: ColumnDef<IComision>[] = [
+  const columnas: ColumnDef<Comision>[] = [
     {
       accessorKey: "nombre",
       header: "Nombre",

@@ -1,4 +1,4 @@
-import { IDesignacion, POST_TYPE_DESIGNACION } from "@globalTypes/designaciones";
+import { Designacion, POST_TYPE_DESIGNACION } from "@globalTypes/designaciones";
 import { URL_API } from "./constantes";
 import  useGet  from "./hooks/useGet";
 import usePost from "./hooks/usePost";
@@ -6,7 +6,7 @@ import useDelete from "./hooks/useDelete";
 
 const DESIGNACIONES_KEY = "useGetDesignaciones";
 export function useGetDesignaciones() {
-  return useGet<IDesignacion[]>({
+  return useGet<Designacion[]>({
     key: `${DESIGNACIONES_KEY }`, 
     urlApi: `${URL_API}designaciones-docentes/`,
 
@@ -16,7 +16,7 @@ export function useGetDesignaciones() {
 
 const DESIGNACIONES_DETALLE_KEY = "useGetDesignacionesDetalle";
 export function useGetDesignacionesDetalle(id: number) {
-  return useGet<IDesignacion>({
+  return useGet<Designacion>({
     key: `${DESIGNACIONES_DETALLE_KEY}`, 
     urlApi: `${URL_API}designaciones-docentes/${id}/`,
 

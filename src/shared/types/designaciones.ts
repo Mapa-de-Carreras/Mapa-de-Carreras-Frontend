@@ -1,7 +1,7 @@
 import { ICargo } from "./cargos";
 import { Modalidad } from "./modalidades";
 import { Dedicacion } from "./dedicaciones";
-import { IComision } from "./comisiones";
+import { Comision } from "./comisiones";
 import { Caracter } from "./caracter";
 
 //No queria modificar el Idocente del archivo docentes
@@ -29,13 +29,13 @@ export interface IDocente {
   }[];
 }
 
-export interface IDesignacion {
+export interface Designacion {
   id: number;
   fecha_inicio: string;
   fecha_fin: string | null;
   tipo_designacion: string;
   docente: IDocente;
-  comision: IComision | null;
+  comision: Comision | null;
   cargo: ICargo;
   observacion: string | null;
   documento: number | null;

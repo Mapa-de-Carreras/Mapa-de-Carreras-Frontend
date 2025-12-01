@@ -22,11 +22,11 @@ export default function DesignacionesAgregar() {
 
   const { mutate: agregarDesignacion, isPending, isSuccess, isError, error } = usePostDesignacion();
 
- 
   const { data: docentes, isLoading: isLoadingDocentes, error: errorGetDocente } = useGetDocentes();
   const { data: cargos, isLoading: isLoadingCargos, error: errorGetCargo } = useGetCargos();
   const { data: comisiones, isLoading: isLoadingComision, error: errorGetComision } = useGetComisiones();
   const { data: dedicaciones, isLoading: isLoadingDedicaciones, error: errorGetDedicaciones } = useGetDedicaciones();
+  
 
   useEffect(() => {
     if (isSuccess) {

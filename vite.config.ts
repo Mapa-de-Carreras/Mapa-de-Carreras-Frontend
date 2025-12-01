@@ -28,8 +28,9 @@ export default defineConfig({
       // Modules
       "@academic": path.resolve(__dirname, "./src/modules/academic"),
       "@academica": path.resolve(__dirname, "./src/modules/academica"),
-      "@designations": path.resolve(__dirname, "./src/modules/designations"),
-      "@statistics": path.resolve(__dirname, "./src/modules/statistics"),
+      "@documentos": path.resolve(__dirname, "./src/modules/documentos"),
+      "@designaciones": path.resolve(__dirname, "./src/modules/designaciones"),
+      "@estadisticas": path.resolve(__dirname, "./src/modules/estadisticas"),
       "@docentes": path.resolve(__dirname, "./src/modules/docentes"),
       "@users": path.resolve(__dirname, "./src/modules/users"),
       "@usuarios": path.resolve(__dirname, "./src/modules/usuarios"),

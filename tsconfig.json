@@ -36,8 +36,9 @@
       // Modules
       "@academic/*":["./src/modules/academic/*"],
       "@academica/*":["./src/modules/academica/*"],
-      "@designations/*":["./src/modules/designations/*"],
-      "@statistics/*":["./src/modules/statistics/*"],
+      "@designaciones/*":["./src/modules/designaciones/*"],
+      "@estadisticas/*":["./src/modules/estadisticas/*"],
+      "@documentos/*":["./src/modules/documentos/*"],
       "@docentes/*":["./src/modules/docentes/*"],
       "@users/*":["./src/modules/users/*"],
       "@usuarios/*":["./src/modules/usuarios/*"],
