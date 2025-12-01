@@ -6,7 +6,6 @@ import { SubmitHandler } from 'react-hook-form'
 import { UsuarioEditForm } from '@globalTypes/usuario'
 import { Rol } from '@globalTypes/rol'
 import CampoCheckboxGroup from '@components/Formularios/CampoCheckBoxGroup'
-import { CampoSelect } from '@components/Formularios/CampoSelect'
 import { GET_TYPE_CARRERAS_LIST } from '@globalTypes/carrera'
 
 type FormularioEditarUsuarioProps = {
@@ -24,7 +23,6 @@ export default function FormularioEditarUsuario({
     isLoading = false,
     valoresIniciales = null,
     roles = [],
-    carreras = [],
 }: FormularioEditarUsuarioProps) {
 
     const valoresInicialesEdit: UsuarioEditForm = {
@@ -96,14 +94,6 @@ export default function FormularioEditarUsuario({
                     />
                 </div>
             </div>
-            <CampoSelect
-                className='w-full'
-                label='Carrera a Coordinar'
-                nombre='carreras'
-                placeholder='Seleccione alguna Carrera'
-                options={carreras.map(carrera => ({ value: carrera.id, label: carrera.nombre })
-                )}
-            />
 
             <div className="flex flex-wrap gap-5">
                 {roles &&

@@ -1,23 +1,15 @@
 import { useGetRoles } from "@apis/roles";
-import { useGetUsuario, usePatchUsuario, usePutUsuario } from "@apis/usuarios";
+import { useGetUsuario, usePatchUsuario } from "@apis/usuarios";
 import ComponenteCarga from "@components/ComponenteCarga/Componentecarga";
 import MensajeError from "@components/Mensajes/MensajeError";
 import PageBase from "@components/PageBase/PageBase";
 import { useVentana } from "@components/Providers/VentanaProvider";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
-import { UsuarioEditForm, UsuarioPatchPayload, UsuarioPutPayload } from "@globalTypes/usuario";
+import { UsuarioEditForm, UsuarioPatchPayload } from "@globalTypes/usuario";
 import { extraerMensajeDeError } from "@lib/errores";
 import { useNavigate, useParams } from "react-router";
 import FormularioEditarUsuario from "./componentes/FormularioEditarUsuario";
 import { formatDate } from "@lib/fechas";
-import useGetCarreras from "@apis/carreras";
-import { useGetCoordinador, usePatchCoordinador } from "@apis/coordinadores";
-
-
-interface Option {
-    value: string | number;
-    label: string;
-}
 
 export default function PaginaEditarUsuario() {
     // Ventana y Navegación
@@ -47,15 +39,6 @@ export default function PaginaEditarUsuario() {
 
     // Obtiene los roles
     const { data: roles, isLoading: isLoadingRoles, isError: isErrorRoles } = useGetRoles();
-
-    // Obtiene las carreras
-    const { data: carreras, isLoading: isLoadingCarreras, isError: isErrorCarreras } = useGetCarreras();
-
-    // Obtiene el los datos del coordinador
-    const { data: coordinador, isPending: isLoadingGetCoordinador, isError: isErrorGetCoordinador } = useGetCoordinador({
-        id: id,
-        habilitado:  !!id,
-    });
 
     // Configuación para editar un usuario
     const { mutate: modificarUsuario, isPending: isLoadingPut, isError: isErrorPut, error: errorPut } = usePatchUsuario({});
@@ -110,17 +93,13 @@ export default function PaginaEditarUsuario() {
         navigate(-1);
     };
 
-    // Configuación para editar las carreras controladas por el usuario
-   
-    const { mutate: modificarCoordinador, isPending: isLoadingPatch, isError: isErrorPacth, error: errorPacth } = usePatchCoordinador();
-
     return (
         <PageBase
             volver
         >
-            {(isLoadingUsuario) ? (
+            {(isLoadingUsuario || isLoadingRoles) ? (
 				<ComponenteCarga mensaje='Obteniendo los datos del servidor...' />
-			) : (isErrorUsuario) ? (
+			) : (isErrorUsuario || isErrorRoles) ? (
 				<MensajeError
 					titulo="Error del servidor"
 					descripcion="No se pudo obtener los datos para editar el usuario"
@@ -141,7 +120,6 @@ export default function PaginaEditarUsuario() {
                             handleCancelar={handleCancelar}
                             isLoading={isLoadingPut}
                             valoresIniciales={valoresIniciales}
-                            carreras={carreras}
                         />
 					</CardContent>
 				</Card>
