@@ -1,7 +1,10 @@
 import { URL_API } from "./constantes";
 import useDelete from "./hooks/useDelete";
 import  useGet  from "./hooks/useGet";
-import { Comision } from "@globalTypes/comisiones";
+import { Comision, ComisionPatchPayload, ComisionPostPayload } from "@globalTypes/comisiones";
+import usePost from "./hooks/usePost";
+import { ParamsBase } from "./hooks/types";
+import usePatch from "./hooks/usePatch";
 
 export function useGetComisiones() {
 	return useGet<Comision[]>({
@@ -10,12 +13,29 @@ export function useGetComisiones() {
 	});
 }
 
-export function useGetComisionesDetalle(id: number | string) {
+export function useGetComisionesDetalle(id: number | string, habilitado?: boolean) {
 	return useGet<Comision>({
 		key: `useGetComisionesDetalle`, 
 		urlApi: `${URL_API}comisiones/{id}/`,
-		params: { id }
+		params: { id },
+		isEnabled: habilitado === undefined ? true : habilitado,
 	});
+}
+
+export function usePostComision() {
+	return usePost<Comision, Error, ParamsBase, ComisionPostPayload>({
+		key: 'usePostComision',
+		urlApi: `${URL_API}comisiones/`,
+		queriesToInvalidate: ["useGetComisiones"]
+	})
+}
+
+export function usePatchComision() {
+	return usePatch<Comision, Error, { id: string | number }, ComisionPatchPayload>({
+		key: 'usePatchComision',
+		urlApi: `${URL_API}comisiones/{id}/`,
+		queriesToInvalidate: ["useGetComisiones"]
+	})
 }
 
 export function useDeleteComision(id: number | string) {

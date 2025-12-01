@@ -1,13 +1,13 @@
+import { Checkbox } from "@components/ui/checkbox";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form"
-import { Checkbox } from "@radix-ui/react-checkbox"
 import { useFormContext } from "react-hook-form";
 
 type CampoCheckboxSimpleProps = {
     nombre: string,
     label: string,
-    descripcion: string,
-    obligatorio: boolean,
-    mensajeObligatorio: string, 
+    descripcion?: string,
+    obligatorio?: boolean,
+    mensajeObligatorio?: string, 
 };
 
 export default function CampoCheckboxSimple({
