@@ -16,10 +16,7 @@ import PlanEstudioAgregar from '@academica/PaginaPlanesEstudio/PlanEstudioAgrega
 import PaginaPlanEstudio from '@academica/PaginaPlanesEstudio/PaginaPlanEstudio'
 import PlanEstudioEditar from '@academica/PaginaPlanesEstudio/PlanEstudioEditar'
 import AgregarAsignaturaAPlan from '@academica/PaginaPlanesEstudio/AgregarAsignaturaAPlan'
-import PaginaComisiones from '@academica/Comisiones/PaginaComisiones'
-import ComisionesDetalle from '@academica/Comisiones/ComisionesDetalle'
-import ComisionEditar from '@academica/Comisiones/ComisionesEditar'
-import ComisionesAgregar from '@academica/Comisiones/ComisionesAgregar'
+import ComisionesDetalle from '@designaciones/comisiones/PaginaDetalleComision'
 import PaginaPlanAsignatura from '@academica/PlanAsignatura/PaginaPlanAsignatura'
 import PlanAsignaturaDetalle from '@academica/PlanAsignatura/PlanAsignaturaDetalle'
 import PlanAsignaturaAgregar from '@academica/PlanAsignatura/PlanAsignaturaAgregar'
@@ -44,6 +41,7 @@ import PaginaDesignaciones from '@designaciones/designaciones/PaginaDesignacione
 import DesignacionDetalle from '@designaciones/designaciones/DesignacionesDetalle'
 import DesignacionesAgregar from '@designaciones/designaciones/DesignacionesAgregar'
 import DesignacionesEditar from '@designaciones/designaciones/DesignacionesEditar'
+import PaginaComisiones from '@designaciones/comisiones/PaginaComisiones'
 
 import RecoverUsername from '@users/RecoverUserName/RecoverUsername'
 import RecoverPassword1 from '@users/RecoverPassword/RecoverPassword1'
@@ -73,6 +71,9 @@ import { Route } from '@globalTypes/route'
 import useRol from '@hooks/useRol'
 import NotFoundPage from './NotFoundPage'
 import Home from './Home'
+import PaginaCrearComision from '@designaciones/comisiones/PaginaCrearComision'
+import PaginaDetalleComision from '@designaciones/comisiones/PaginaDetalleComision'
+import PaginaEditarComision from '@designaciones/comisiones/PaginaEditarComision'
 
 export default function Router() {
 	const esAdmin = useRol('Administrador');
@@ -137,10 +138,6 @@ export default function Router() {
 								{ path: 'planes/editar/:id', label: 'Editar Plan', headerkey: 'planes/editar', Component: PlanEstudioEditar, menu: false },
 								{ path: 'planes/agregar', label: 'Agregar Plan', headerkey: 'planes/agregar', Component: PlanEstudioAgregar, menu: false },
 								{ path: 'planes/:planId/agregar-asignatura', headerkey: 'planes/agregar-asignatura', Component: AgregarAsignaturaAPlan, menu: false },
-								{ path: 'comisiones', label: 'Comisiones', headerkey: 'comisiones', icon: 'icon-[mdi--bookshelf]', Component: PaginaComisiones, menu: true, },
-								{ path: 'comisiones/agregar/', label: 'Agregar Comisión', headerkey: 'comisiones/agregar/', Component: ComisionesAgregar, menu: false },
-								{ path: 'comisiones/detalle/:id', label: 'Comisión', headerkey: 'comisiones/detalle', Component: ComisionesDetalle, menu: false },
-								{ path: 'comisiones/editar/:id', label: 'Editar Comisión', headerkey: 'comisiones/editar', Component: ComisionEditar, menu: false },
 								{ path: 'planes-asignatura', label: 'Planes de Asignatura', headerkey: 'planes-asignatura', Component: PaginaPlanAsignatura, icon: 'icon-[basil--book-outline]', menu: true, },
 								{ path: 'planes-asignatura/agregar', label: 'Planes de Asignatura', headerkey: 'planes-asignatura/agregar', Component: PlanAsignaturaAgregar, menu: false },
 								{ path: 'planes-asignatura/detalle/:id', label: 'Planes de Asignatura', headerkey: 'planes-asignatura/detalle', Component: PlanAsignaturaDetalle, menu: false },
@@ -188,6 +185,12 @@ export default function Router() {
 								{ path: 'detalle/:id', Component: DesignacionDetalle, menu: false },
 								{ path: 'agregar', Component: DesignacionesAgregar, menu: false },
 								{ path: 'editar/:id', Component: DesignacionesEditar, menu: false },
+								{ path: 'comisiones', label: 'Comisiones', Component: PaginaComisiones, icon: 'icon-[material-symbols--class]', menu: true, },
+								{ path: 'comisiones/detalle/:id', label: 'Comisiones', Component: PaginaDetalleComision, icon: 'icon-[material-symbols--class]', menu: true, },
+								...(esAdmin || esCoordinador ? [
+									{ path: 'comisiones/agregar/', label: 'Agregar Comisión', headerkey: 'comisiones/agregar/', Component: PaginaCrearComision, menu: false },
+									{ path: 'comisiones/editar/:id', label: 'Editar Comisión', headerkey: 'comisiones/editar', Component: PaginaEditarComision, menu: false },
+								] : [])
 							],
 							menu: true,
 						},

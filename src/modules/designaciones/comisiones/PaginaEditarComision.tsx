@@ -12,9 +12,10 @@ import ModalGenerico from "@components/Modal/ModalGenerico";
 import BotonGenerico from "@components/Botones/BotonGenerico";
 import { URL_API } from "@apis/constantes";
 import { useGetComisionesDetalle } from "@apis/comisiones";
+import ComponenteCarga from "@components/ComponenteCarga/Componentecarga";
 
 
-export default function ComisionEditar() {
+export default function PaginaEditarComision() {
   const navigate = useNavigate();
   const id = Number(useParams<{ id: string }>().id);
   const { data: comision, isLoading } = useGetComisionesDetalle(id);
@@ -25,7 +26,7 @@ export default function ComisionEditar() {
 
   const handleCerrarModal = () => {
     setMostrarModal(false);
-    navigate("/academica/comisiones/");
+    navigate("/designaciones/comisiones/");
   };
 
   // Cargar datos iniciales
@@ -88,7 +89,7 @@ export default function ComisionEditar() {
 
   return (
     <PageBase titulo="Editar Comisión">
-      {isLoading && <PantallaCarga mensaje="Cargando..." />}
+      {isLoading && <ComponenteCarga mensaje="Cargando..." />}
 
       {error && (
         <MensajeError titulo="Error del servidor" descripcion={error} />

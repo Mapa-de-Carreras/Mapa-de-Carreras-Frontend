@@ -2,6 +2,7 @@ export interface IPlanAsignatura {
   id: number;                   
   plan_de_estudio_id: number;    
   asignatura_id: number;         
+  asignatura_nombre: string;
   anio: number | null;            
   horas_teoria: number | null;    
   horas_practica: number | null; 

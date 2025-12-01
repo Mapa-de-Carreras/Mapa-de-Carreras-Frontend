@@ -3,13 +3,14 @@ import { useModal } from "@components/Providers/ModalProvider";
 import { useNavigate, useParams } from "react-router";
 import ComponenteCarga from "@components/ComponenteCarga/Componentecarga";
 import BotonBase from "@components/Botones/BotonBase";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@components/ui/card";
 import Icon from "@components/const/icons";
 import { DetailField } from "@components/CardDetalles/DetailField";
 import useRol from "@hooks/useRol";
 import { useGetComisionesDetalle } from "@apis/comisiones";
 import { useDeleteComision } from "@apis/comisiones";
-export default function ComisionesDetalle() {
+
+export default function PaginaDetalleComision() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { showModal } = useModal();
@@ -25,7 +26,7 @@ export default function ComisionesDetalle() {
   const deleteComision = useDeleteComision(Number(id));
 
   const handleClickEditar = () => {
-    navigate(`/academica/comisiones/editar/${id}`);
+    navigate(`/designaciones/comisiones/editar/${id}`);
   };
 
   const handleClickModalEliminar = () => {
