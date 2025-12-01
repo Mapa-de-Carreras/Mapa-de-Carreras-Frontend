@@ -2,8 +2,7 @@ import PageBase from "@components/PageBase/PageBase";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
-import BotonGenerico from "@components/Botones/BotonGenerico";
-import { useDeletePlanEstudio, useGetPlanDetalle } from "@apis/planestudio";
+import { useDeletePlanEstudio, useGetPlanDetalle, useDeletePlanAsignatura, usePatchPlanVigencia } from "@apis/planestudio";
 import BotonBase from "@components/Botones/BotonBase";
 import useAuth from "@hooks/useAuth";
 import TablaAsignaturas from "./TablaAsignaturas";
@@ -24,6 +23,8 @@ export default function PlanEstudioDetalle() {
   const esAdmin = usuario?.roles?.some((r) => ROLES_PERMITIDOS.includes(r.nombre)) ?? false;
   const { showModal } = useModal();
   const deletePlanEstudio = useDeletePlanEstudio(Number(id));
+  const deletePlanAsignatura = useDeletePlanAsignatura();
+  const patchPlanVigencia = usePatchPlanVigencia();
   const { data: documento } = useGetDocumento(id);
 
 
@@ -100,6 +101,46 @@ export default function PlanEstudioDetalle() {
     );
   };
 
+  const handleCambiarVigencia = () => {
+    const nuevaVigencia = !plan?.esta_vigente;
+    const accion = nuevaVigencia ? "activar" : "desactivar";
+
+    showModal({
+      title: `Confirmar ${accion} vigencia`,
+      description: `¿Está seguro que desea ${accion} la vigencia de este plan de estudio?`,
+      buttons: [
+        {
+          variant: nuevaVigencia ? "aceptar" : "eliminar",
+          children: nuevaVigencia ? "Activar" : "Desactivar",
+          autoClose: false,
+          onClick: () => {
+            showModal({ isLoading: true, msg: 'Actualizando vigencia...' });
+            patchPlanVigencia.mutate({
+              params: { id: id },
+              data: { esta_vigente: nuevaVigencia }
+            }, {
+              onSuccess: () => {
+                showModal({
+                  title: 'Éxito',
+                  description: `El plan se ha ${nuevaVigencia ? 'activado' : 'desactivado'} correctamente.`,
+                  buttons: [{ variant: 'aceptar', autoClose: true, onClick: () => navigate('/academica/planes') }]
+                });
+              },
+              onError: (err) => {
+                showModal({
+                  title: 'Error',
+                  description: err.message || 'No se pudo actualizar la vigencia.',
+                  buttons: [{ variant: 'error', autoClose: true }]
+                });
+              }
+            });
+          }
+        },
+        { variant: "cancelar", onClick: () => { } }
+      ]
+    });
+  };
+
   return (
     <PageBase titulo='Detalle' volver>
 
@@ -144,7 +185,7 @@ export default function PlanEstudioDetalle() {
               </div>
 
               {esAdmin && (
-                <div className="flex flex-wrap justify-center gap-4 mt-6 mb-4">
+                <div className="flex flex-wrap justify-center gap-2 mt-4">
                   <BotonBase
                     variant="editar"
                     onClick={handleEditar}
@@ -153,19 +194,28 @@ export default function PlanEstudioDetalle() {
                     variant="eliminar"
                     onClick={handleClickModalEliminar}
                   />
-                  <BotonGenerico
-                    texto="Agregar Asignatura"
-                    icono={<span className="icon-[mdi--plus-box] text-xl" />}
-                    color="#10B981"
+                  <BotonBase
+                    variant={plan.esta_vigente ? "eliminar" : "aceptar"}
+                    icono={`icon-[mdi--${plan.esta_vigente ? 'close-circle' : 'check-circle'}]`}
+                    onClick={handleCambiarVigencia}
+                  >
+                    {plan.esta_vigente ? "Desactivar Vigencia" : "Activar Vigencia"}
+                  </BotonBase>
+                  <BotonBase
+                    variant="exportar"
+                    icono="icon-[mdi--plus-box]"
                     onClick={handleAgregarAsignatura}
-                  />
+                  >
+                    Agregar Asignatura
+                  </BotonBase>
                   {documento?.archivo_url && (
-                    <BotonGenerico
-                      texto="Ver Documento"
-                      icono={<span className="icon-[mdi--eye] text-xl" />}
-                      color="#3B82F6"
+                    <BotonBase
+                      variant="exportar"
+                      icono="icon-[mdi--eye]"
                       onClick={() => window.open(documento.archivo_url, "_blank")}
-                    />
+                    >
+                      Ver Documento
+                    </BotonBase>
                   )}
                 </div>
               )}
@@ -183,7 +233,7 @@ export default function PlanEstudioDetalle() {
                 <TablaAsignaturas
                   asignaturas={plan.asignaturas}
                   onVerAsignatura={handleVerAsignatura}
-                  onEditarCorrelativas={esAdmin ? handleEditarCorrelativas : undefined} // CHANGE: paso la nueva prop solo si es admin
+                  onEditarCorrelativas={esAdmin ? handleEditarCorrelativas : undefined}
                 />
               </div>
             </CardContent>
@@ -191,7 +241,8 @@ export default function PlanEstudioDetalle() {
 
           </Card>
         </div>
-      )}
-    </PageBase>
+      )
+      }
+    </PageBase >
   );
 }
