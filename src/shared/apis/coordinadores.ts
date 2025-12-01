@@ -32,6 +32,6 @@ export const useGetCoordinadoresDetalle = (
 export function usePatchCoordinador() {
 	return usePatch<CoordinadorPatchPayload, Error>({
 		key: 'usePatchCoordinador',
-		urlApi: `${URL_API}coordinadores/{id}`,
+		urlApi: `${URL_API}coordinadores/{id}/`,
 	})
 }
