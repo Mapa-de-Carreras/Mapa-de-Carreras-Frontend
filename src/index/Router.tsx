@@ -186,7 +186,7 @@ export default function Router() {
 								{ path: 'agregar', Component: DesignacionesAgregar, menu: false },
 								{ path: 'editar/:id', Component: DesignacionesEditar, menu: false },
 								{ path: 'comisiones', label: 'Comisiones', Component: PaginaComisiones, icon: 'icon-[material-symbols--class]', menu: true, },
-								{ path: 'comisiones/detalle/:id', label: 'Comisiones', Component: PaginaDetalleComision, icon: 'icon-[material-symbols--class]', menu: true, },
+								{ path: 'comisiones/detalle/:id', label: 'Comisiones', Component: PaginaDetalleComision, icon: 'icon-[material-symbols--class]', menu: false, },
 								...(esAdmin || esCoordinador ? [
 									{ path: 'comisiones/agregar/', label: 'Agregar Comisión', headerkey: 'comisiones/agregar/', Component: PaginaCrearComision, menu: false },
 									{ path: 'comisiones/editar/:id', label: 'Editar Comisión', headerkey: 'comisiones/editar', Component: PaginaEditarComision, menu: false },
