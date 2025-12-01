@@ -56,13 +56,12 @@ export default function PaginaAsignaturas() {
 			{loading && <ComponenteCarga />}
 
 			{error && <p className="text-center text-red-500">{error.message}</p>}
-
-			{asignaturas && asignaturas.length > 0 && (   
+ 
 				<div>       
 					<div className="hidden sm:block">
 						<Tabla
 							columnas={columns}
-							data={asignaturas}
+							data={asignaturas || []}
 							habilitarBuscador={true}
 							habilitarPaginado={true}
 							funcionAgregado={
@@ -73,9 +72,8 @@ export default function PaginaAsignaturas() {
 					<div className="block sm:hidden">
 						{asignaturas && (
 							<Listado
-								data={asignaturas}
+								data={asignaturas || []}
 								orderData={asignaturas}
-								orderKey={(asignaturas) => asignaturas.codigo}
 								dataRender={(asignaturas) => (
 									<FeedCard 
 									key={asignaturas.id}
@@ -90,15 +88,11 @@ export default function PaginaAsignaturas() {
 								enableSearch={true}
               					searchFields={["nombre", "codigo"]}
               					searchPlaceholder="Buscar asignatura por nombre o codigo"
+								mensajeSinDatos="No se encontraron asignaturas"
 							/>
 						)}
 					</div>
-				</div>     
-			)}
-
-			{asignaturas && asignaturas.length === 0 &&
-				<p className="text-center">No hay asignaturas</p>
-			}				
+				</div>     		
 		</PageBase>
 	)
 }

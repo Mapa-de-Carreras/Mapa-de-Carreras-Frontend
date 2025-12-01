@@ -162,7 +162,7 @@ export default function Listado<TOrden, TData>({
 
     return (
         <div className="flex flex-col gap-2 items-start w-full">
-            <div className="sticky -top-2 z-20 bg-background py-2 flex w-full justify-between items-center gap-2 flex-wrap sm:flex-nowrap">
+            <div className="sticky top-0 z-2 bg-background py-2 flex w-full justify-between items-center gap-2 flex-wrap sm:flex-nowrap">
                 <div className="flex gap-2 items-center shrink-0">
                     {onClick && <BotonBase variant="agregar" onClick={onClick} />}
                     
