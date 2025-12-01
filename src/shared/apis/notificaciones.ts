@@ -4,37 +4,26 @@ import usePatch from './hooks/usePatch';
 import { NotificacionesResponse } from '@globalTypes/notificaciones'; 
 
 type UseGetNotificacionesProps = {
-    leida?: boolean | null;
-    page?: number;
-    pageSize?: number;
+    params: {
+        leida?: boolean | null;
+        page?: number;
+        pageSize?: number;
+    }
     enabled?: boolean;
     refetch?: number | false;
 };
 
-export function useGetNotificaciones({ 
-    leida = null, 
-    page = 1, 
-    pageSize = 10, 
+export function useGetNotificaciones({
+    params,
     enabled = true,
     refetch = false
-}: UseGetNotificacionesProps = {}) {
-    
-    let queryString = `?page=${page}&page_size=${pageSize}`;
-    if (leida !== null) {
-        queryString += `&leida=${leida}`;
-    }
-
-    const cacheParams = {
-        page,
-        pageSize,
-        leida
-    };
+}: UseGetNotificacionesProps) {
 
     return useGet<NotificacionesResponse>({
         key: 'NOTIFICACIONES_CACHE',
-        urlApi: `${URL_API}mis-notificaciones/${queryString}`,
+        urlApi: `${URL_API}mis-notificaciones/?page={page}&page_size={pageSize}&leida={leida}`,
         isEnabled: enabled,
-        params: cacheParams,
+        params,
         refetchInterval: refetch
     });
 }

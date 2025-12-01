@@ -42,33 +42,27 @@ export default function PageBase({
 					: {}
 			}
 		>
-			{(titulo || subtitulo || volver) && (
-				<div className="flex items-start gap-10">
-					{volver && (
-						<button
-							type="button"
-							onClick={onClick}
-							className="bg-accent item-center flex cursor-pointer justify-center rounded-full p-2"
-						>
-							<span className="icon-[material-symbols--arrow-back-rounded] text-2xl" />
-						</button>
-					)}
-					<div>
+			<div className='flex items-center gap-2'>
+				{volver && (
+					<button
+						type="button"
+						onClick={onClick}
+						className="bg-accent item-center flex cursor-pointer justify-center rounded-full p-2"
+					>
+						<span className="icon-[material-symbols--arrow-back-rounded] text-2xl" />
+					</button>
+				)}
+				{(titulo) && (
+					<div className="hidden sm:flex items-start gap-10">
 						{titulo && (
 							<>
 								<TituloDePagina>{titulo}</TituloDePagina>
 								<br />
 							</>
 						)}
-						{subtitulo && (
-							<>
-								<DescripcionDePagina>{subtitulo}</DescripcionDePagina>
-								<br />
-							</>
-						)}
 					</div>
-				</div>
-			)}
+				)}
+			</div>
 			{children}
 		</div>
 	)

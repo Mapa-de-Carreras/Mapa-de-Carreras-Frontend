@@ -56,7 +56,7 @@ export function Tabla<TData, TValue>({
 	})
 
 	return (
-		<div className="tabla bg-table-background text-table-foreground overflow-hidden rounded-md p-2 text-xl border">
+		<div className="tabla bg-table-background text-table-foreground overflow-hidden rounded-md mt-4 p-2 text-xl border">
 			<EncabezadoTabla
 				tabla={tabla}
 				funcionAgregado={funcionAgregado}

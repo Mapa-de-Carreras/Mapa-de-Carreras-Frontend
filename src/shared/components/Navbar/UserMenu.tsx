@@ -52,7 +52,14 @@ export function UserMenu({ collapsed, side, align, className }: UserMenuProps) {
 	const { theme, toggleTheme } = useTheme();
 	const { user: usuario } = useAuth();
 
-	const { data: notificaciones} = useGetNotificaciones({leida: false, pageSize: 1, refetch: 30000 });
+	const { data: notificaciones} = useGetNotificaciones({
+		params: {
+			leida: false,
+			pageSize: 1,
+			page: 1,
+		},
+		refetch: 30000,
+	});
 
 	const handleIrPerfil = () => {
 		const id = usuario?.id;

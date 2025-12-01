@@ -162,10 +162,12 @@ export default function NotificacionesPage() {
     isLoading: cargandoNotificaciones,
     error: errorNotificaciones,
   } = useGetNotificaciones({
-    pageSize: pageSize,
-    page: page,
-    refetch: 60000
-  });
+		params: {
+      page,
+			pageSize,
+		},
+		refetch: 30000,
+	});
 
 
   return (
