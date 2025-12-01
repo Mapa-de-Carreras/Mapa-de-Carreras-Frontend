@@ -156,7 +156,7 @@ export default function Router() {
 								{ path: 'gestion/detalle/:id', label: 'Docente', headerkey: 'gestion/detalle', Component: DocenteDetalle, menu: false },
 								...(esAdmin || esCoordinador ? [
 									{ path: 'gestion/agregar', label: 'Agregar Docente', headerkey: 'gestion/agregar', Component: CrearDocente, menu: false },
-									{ path: 'gestion/editar:id', label: 'Editar Docente', headerkey: 'gestion/editar', Component: EditarDocente, menu: false },
+									{ path: 'gestion/editar/:id', label: 'Editar Docente', headerkey: 'gestion/editar', Component: EditarDocente, menu: false },
 								] : []),
 								{ path: 'parametros', label: 'Regímenes', headerkey: 'parametros', Component: PaginaRegimenes, icon: 'icon-[material-symbols--rule]', menu: true, },
 								{ path: 'parametros/detalle/:id', label: 'Regímenes', headerkey: 'parametros/detalle', Component: PaginaDetalleRegimen, icon: 'icon-[material-symbols--rule]', menu: false, },

@@ -86,8 +86,8 @@ export default function PaginaModalidades() {
             header: 'Acciones',
             cell: ({ row }) => (
                 <div className="flex flex-row gap-2">
-                    <BotonBase variant="eliminar" onClick={() => handleEliminar(row.original)} />
-                    <BotonBase variant="editar" onClick={() => handleEditar(row.original.id)} />
+                    <BotonBase variant="eliminar" type="onlyIcon" onClick={() => handleEliminar(row.original)} />
+                    <BotonBase variant="editar" type="onlyIcon" onClick={() => handleEditar(row.original.id)} />
                 </div>
             ),
             size: 2,
@@ -123,15 +123,16 @@ export default function PaginaModalidades() {
 							data={modalidades || []}
 							dataRender={(modalidad) => {
 								return (
-									<Card key={modalidad.id} className="justify-between px-2">
+									<Card key={modalidad.id} className="flex-row justify-between px-2">
 										<Titulo>{modalidad.nombre}</Titulo>
                                         {esAdmin && (
                                             <div className="flex flex-row gap-2">
                                                 <BotonBase
                                                     variant="eliminar"
+                                                    type="onlyIcon"
                                                     onClick={() => handleEliminar(modalidad)}
                                                 />
-                                                <BotonBase variant="editar" onClick={() => handleEditar(modalidad.id)} />
+                                                <BotonBase variant="editar" type="onlyIcon" onClick={() => handleEditar(modalidad.id)} />
                                             </div>
                                         )}
 									</Card>

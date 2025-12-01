@@ -22,7 +22,7 @@ export default function PaginaUsuarios() {
 			size: 2
 		},
 		{
-			accessorFn: (row) =>  row.roles.map((rol) => rol.nombre).join(','),
+			accessorFn: (row) =>  row.roles.map((rol) => rol.nombre).join(', '),
 			id: 'roles',
 			header: 'Roles',
 			cell: ({ row }) => <div className="flex flex-wrap">{row.getValue('roles')}</div>,

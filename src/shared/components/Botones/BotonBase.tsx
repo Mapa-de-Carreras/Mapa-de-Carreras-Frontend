@@ -5,7 +5,7 @@
 		children?: ReactNode
 		onClick?: () => void
 		className?: string
-		type?: "button" | "submit" | "reset"
+		type?: "button" | "submit" | "reset" | "onlyIcon"
 		variant?:
 			'agregar' | 'guardar' | 'cancelar' |
 			'eliminar' | 'editar' | 'filtro' |
@@ -70,11 +70,11 @@
 			<Button
 				className={`cursor-pointer text-white ${colorVariants[variant]} ${className}`}
 				onClick={onClick}
-				type={type}
+				type={type === "onlyIcon" ? "button" : type}
 				disabled={isLoading}
 			>
 				{variant !== 'default' && <span className={`text-2xl ${ isLoading ? "icon-[line-md--loading-twotone-loop]" : icono || iconsVariants[variant]} `} />}
-				{children || textVariants[variant]}
+				{type !== "onlyIcon" && (children || textVariants[variant])}
 			</Button>
 		)
 	}

@@ -86,8 +86,8 @@ export default function PaginaCaracteres() {
 			header: 'Acciones',
 			cell: ({ row }) => (
 				<div className="flex flex-row gap-2">
-					<BotonBase variant="eliminar" onClick={() => handleEliminar(row.original)} />
-					<BotonBase variant="editar" onClick={() => handleEditar(row.original.id)} />
+					<BotonBase variant="eliminar" type='onlyIcon' onClick={() => handleEliminar(row.original)} />
+					<BotonBase variant="editar" type='onlyIcon' onClick={() => handleEditar(row.original.id)} />
 				</div>
 			),
 			size: 2,
@@ -121,15 +121,16 @@ export default function PaginaCaracteres() {
 							data={caracteres || []}
 							dataRender={(caracter) => {
 								return (
-									<Card key={caracter.id} className="justify-between p-2">
+									<Card key={caracter.id} className="flex-row justify-between p-2">
 										<Titulo>{caracter.nombre}</Titulo>
 										{esAdmin && (
 											<div className="flex flex-row gap-2">
 												<BotonBase
 													variant="eliminar"
+													type='onlyIcon'
 													onClick={() => handleEliminar(caracter)}
 												/>
-												<BotonBase variant="editar" onClick={() => handleEditar(caracter.id)} />
+												<BotonBase variant="editar" type='onlyIcon' onClick={() => handleEditar(caracter.id)} />
 											</div>
 										)}
 									</Card>
