@@ -176,8 +176,8 @@ export default function Listado<TOrden, TData>({
     }, [data, searchTerm, enableSearch, searchFields, appliedFilterIndices, filterOptions, enableFilters]);
 
     return (
-        <div className="flex flex-col gap-2 items-start w-full px-2">
-            <div className="sticky top-0 z-2 bg-background flex w-full justify-between items-center gap-2 flex-wrap sm:flex-nowrap py-2">
+        <div className="flex flex-col gap-2 items-start w-full px-2 ">
+            <div className="sticky top-0 z-2 bg-background flex w-full justify-between items-center gap-2 flex-wrap sm:flex-nowrap rounded-b-sm">
 
                 <div className="flex gap-2 items-center shrink-0">
                     {onClick && <BotonBase variant="agregar" onClick={onClick} />}
@@ -194,7 +194,7 @@ export default function Listado<TOrden, TData>({
 
                 {/* Buscador a la derecha */}
                 {enableSearch && (
-                    <div className="w-full sm:max-w-xs relative">
+                    <div className="w-full sm:max-w-xs relative pb-2 ">
                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 opacity-50 pointer-events-none">
                             <span className="icon-[lucide--search] text-lg" />
                         </span>
